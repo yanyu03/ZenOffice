@@ -127,12 +127,15 @@ fn changed_error_or_error_to_number_cache_remains_rejected() {
             let cell = doc.descendants().find(|n| n.is_element() && n.attribute("r") == Some("B12")).unwrap();
             let f = cell.children().find(|n| n.tag_name().name() == "f").unwrap();
             assert_eq!(f.text(), Some("1/0"));
-            f.range()
+            f.children().find(|n| n.is_text()).unwrap().range()
         };
-        xml.replace_range(formula_range, &format!("<f>{formula}</f>"));
+        // Keep the original namespace-qualified f element; change only its text.
+        xml.replace_range(formula_range, formula);
         package.put_text(part, xml).unwrap();
         let bytes = package.to_bytes().unwrap();
         let read = ReadWorkbook::read(&bytes, &WorkbookReadLimits::default()).unwrap();
+        assert_eq!(read.workbook().sheets()[0].cell(CellAddress::new(11, 1).unwrap()).unwrap()
+            .formula.as_ref().unwrap().text, formula.replace("&quot;", "\""));
         assert!(read.write_number_edit("Budget", CellAddress::new(3, 2).unwrap(), 9800.0).is_err());
     }
 }
