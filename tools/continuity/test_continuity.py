@@ -14,7 +14,9 @@ spec.loader.exec_module(c)
 class ContinuityTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
-        self.root = Path(self.temp.name)
+        # CI can return an 8.3 Windows TEMP path; production ROOT is resolved.
+        # Match that canonical root rather than misclassifying owned files as external.
+        self.root = Path(self.temp.name).resolve()
         (self.root / 'docs/taskbooks').mkdir(parents=True)
         (self.root / 'docs/taskbooks/ZEN-ENGINE-v1.0.md').write_text('fixed baseline')
         self.data = self.root / 'target/continuity'
