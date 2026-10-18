@@ -8,7 +8,7 @@ python tools/office_research/verify_excel_cases.py RCD/engine-acceptance/res-002
 
 核验包含ZIP完整性、业务标识/输入、公式文本、初始缓存、唯一故意设置的#DIV/0!、Excel1900日期体系及3份×3阶段的独立有理数预期；不是Excel或Zen执行。所有选定数字和结果都是整数或二进制精确半数，数值容差预设为0；公式、错误、标识精确比较。当前版本只测试基础数字编辑，文本、日期体系更改和错误写入不在编辑序列内。
 
-宿主协议已在plan.json预先声明：每次先验哈希与当前EXCEL.EXE身份，每个输入从原始副本独立跑3次；使用可确认归属的新实例及隔离副本，不能附着用户实例。每一步重算并记录Value2、Formula、Text、错误及Date1904；另存新目标、关闭重开，读取OOXML公式/缓存。需另外固定PID、创建时间/路径、应用版本、计算模式/区域配置及逐步原始结果，输入前后哈希相同。只关闭自有工作簿和实例，不结束用户Office进程。当前尚未实现/执行宿主驱动，运行数为0。
+宿主协议已在plan.json预先声明：每次先验哈希与当前EXCEL.EXE身份，每个输入从原始副本独立跑3次；使用可确认归属的新实例及隔离副本，不能附着用户实例。每一步重算并记录Value2、Formula、Text、错误及Date1904；另存新目标、关闭重开，读取OOXML公式/缓存。需另外固定PID、创建时间/路径、应用版本、计算模式/区域配置及逐步原始结果，输入前后哈希相同。只关闭自有工作簿和实例，不结束用户Office进程。2026-10-19已完成observe_excel.ps1驱动的9次独立实例运行，逐阶段与缓存由verify_excel_observations.py核验，独立摘要见docs/research/RES-002-EXCEL-2026-10-19.json。冻结manifest中的host_runs=0是输入封存时的历史状态，不是实时进度字段，不能回改。每次运行目录必须是新目录；已有目录先读receipt和核对实际进程，禁止自动重放。
 
 Excel的Application.Undo只撤销上次界面动作，不能撤销VB命令，[微软官方说明](https://learn.microsoft.com/en-us/office/vba/api/excel.application.undo)。COM数字编辑不以该方法测试撤销；若对照中按逆序恢复旧数值，须标明这是显式逆向赋值，不是原生Undo。Zen撤销/重做由其独立会话验收负责，不把宿主自动化当作其替代。
 

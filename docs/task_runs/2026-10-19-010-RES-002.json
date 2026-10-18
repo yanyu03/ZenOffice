@@ -1,0 +1,114 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "RES-002",
+  "started_at": "2026-10-18T21:01:01.333963+00:00",
+  "ended_at": "2026-10-18T21:05:55.650964+00:00",
+  "status": "DONE",
+  "actual_commit": "97806b8c7f2f61cb8b0e07a654489983fbdbe187",
+  "actual_scope": "RES-002 Excel host comparison: 3 frozen independent business inputs x 3 fresh owned Excel instances, 9 runs/36 stages including reopened outputs. Real Value2/Formula/Text/errors/Date1904, independent saved OOXML cache verification, original/copy identity and cleanup verified. No unexpected scoped discrepancy; no justified native-function target, algorithm explicitly NOT_LOCATED. This is not Zen-vs-Excel acceptance or E1 completion.",
+  "commands": [
+    "official get_usage_limits",
+    "python tools/quota_guard/guard.py --check before each run",
+    "python tools/taskbook/calibrate.py",
+    "python tools/continuity/continuity.py inspect/begin/checkpoint",
+    "python tools/office_research/verify_excel_cases.py RCD/engine-acceptance/res-002-v1",
+    "powershell.exe -NoProfile -NonInteractive -Sta -File tools/office_research/observe_excel.ps1 -Fixtures RCD/engine-acceptance/res-002-v1 -Case <budget/orders/attendance> -NewRunDirectory target/office_research/RES-002-host/<case>-<01/02/03>",
+    "python tools/office_research/verify_excel_observations.py RCD/engine-acceptance/res-002-v1 target/office_research/RES-002-host --output target/office_research/RES-002-host/verified-summary.json",
+    "negative comparison on isolated tampered receipt copy",
+    "python tools/check_baseline.py",
+    "git diff --check"
+  ],
+  "deviations": [
+    "C4 is conditional triage: no unexpected host-vs-predeclared discrepancy in 9 runs, so no EXCEL native-function import is justified. Explicit NOT_LOCATED algorithm evidence retained; no claim of function/algorithm observation. Reopen this research if ENG-004 produces a real Zen/Excel discrepancy.",
+    "budget-01 observed application version/build/separators but did not read back Calculation/country after assignment; subsequent eight runs recorded -4105/86/86. Original evidence retained, not replayed to hide the metadata gap.",
+    "No-workbook Calculation returned null, recorded as null rather than fabricated numeric configuration.",
+    "Only synthetic Office observations/tools/docs changed; no unrelated Rust suite rerun."
+  ],
+  "untested": [
+    "Zen-vs-Excel business-task comparison (ENG-004 next)",
+    "Actual UI/native Undo and visual/layout equivalence",
+    "Native functions/algorithm not located; no actual mismatch to select a target",
+    "Broader formulas/types/date/locale matrix, macros/external links",
+    "Power loss or arbitrary concurrent Office interaction"
+  ],
+  "next_step": "Start ENG-004 with the three frozen inputs: use verified Zen session/CLI for equivalent multi-step edits/undo/redo/save/reopen and compare against these exact native observations, source/old output/unknown-part checks. On actual differences preserve evidence and resume targeted RES-002 investigation.",
+  "criteria": {
+    "RES-002-C1": {
+      "requirement": "建立预算、订单、考勤3份独立自制工作簿，记录输入哈希、Office版本和逐步预期，不借旧通过数。",
+      "result": "PASS",
+      "observation": "Three independent frozen budget/orders/attendance inputs and literal predeclared stages reused byte-exact; executable hash/file version and actual Application.Version=16.0/Build=17932 observed for each fresh instance; no old test count substituted.",
+      "sample_count": 3,
+      "evidence": [
+        "docs/research/RES-002-EXCEL-2026-10-19.json",
+        "tools/office_research/observe_excel.ps1",
+        "tools/office_research/verify_excel_observations.py",
+        "RCD/engine-acceptance/res-002-v1/plan.json",
+        "RCD/engine-acceptance/res-002-v1/manifest.json",
+        "target/office_research/RES-002-host/verified-summary.json",
+        "target/office_research/RES-002-host-verification-negative/negative-result.json"
+      ]
+    },
+    "RES-002-C2": {
+      "requirement": "仅在隔离工作副本中用本机Excel做同等输入、重算、另存和重开；每份3次运行，记录值、公式、缓存、错误和日期体系。",
+      "result": "PASS",
+      "observation": "Nine actual runs (3 per sample), 36 recorded stages initial/edit1/edit2/reopened; exact values/formulas/date serials and Date1904=false match. Intentional error Text=#DIV/0!, Value2=-2146826281. Saved OOXML formula/error caches independently verified; all source/input-copy hashes unchanged. Nine unique PID/creation identities admitted, quit and exit confirmed, no remaining EXCEL in final inventory.",
+      "sample_count": 3,
+      "evidence": [
+        "docs/research/RES-002-EXCEL-2026-10-19.json",
+        "tools/office_research/observe_excel.ps1",
+        "tools/office_research/verify_excel_observations.py",
+        "RCD/engine-acceptance/res-002-v1/plan.json",
+        "RCD/engine-acceptance/res-002-v1/manifest.json",
+        "target/office_research/RES-002-host/verified-summary.json",
+        "target/office_research/RES-002-host-verification-negative/negative-result.json"
+      ]
+    },
+    "RES-002-C3": {
+      "requirement": "明确自动化Undo的适用边界；数值相等/容差按每个用例预先规定，不能看到差异后改预期。",
+      "result": "PASS",
+      "observation": "Predeclared tolerance=0 unchanged; values chosen as exact integers/halves, formulas/IDs/errors/date systems compared exactly. Application.Undo not invoked for COM numeric assignments; no native Undo or visual claim. Negative altered observed value 399 vs expected400 refused without touching raw receipts.",
+      "sample_count": 3,
+      "evidence": [
+        "docs/research/RES-002-EXCEL-2026-10-19.json",
+        "tools/office_research/observe_excel.ps1",
+        "tools/office_research/verify_excel_observations.py",
+        "RCD/engine-acceptance/res-002-v1/plan.json",
+        "RCD/engine-acceptance/res-002-v1/manifest.json",
+        "target/office_research/RES-002-host/verified-summary.json",
+        "target/office_research/RES-002-host-verification-negative/negative-result.json"
+      ]
+    },
+    "RES-002-C4": {
+      "requirement": "对真实差异再选择EXCEL.EXE内函数专项；函数/引用、间接调用限制或未定位结果落证据，不以字符串冒充算法。",
+      "result": "PASS",
+      "observation": "Conditional difference triage PASS: no unexpected numeric/formula/error/date-system discrepancy in the nine host-vs-predeclared runs; consequently no justified EXCEL.EXE function target was selected. Public summary explicitly records target identity, 0 function sessions and algorithm NOT_LOCATED, with limits. No strings/static declarations counted as algorithms. A future Zen/Excel mismatch requires new targeted evidence.",
+      "sample_count": 3,
+      "evidence": [
+        "docs/research/RES-002-EXCEL-2026-10-19.json",
+        "tools/office_research/observe_excel.ps1",
+        "tools/office_research/verify_excel_observations.py",
+        "RCD/engine-acceptance/res-002-v1/plan.json",
+        "RCD/engine-acceptance/res-002-v1/manifest.json",
+        "target/office_research/RES-002-host/verified-summary.json",
+        "target/office_research/RES-002-host-verification-negative/negative-result.json"
+      ]
+    }
+  },
+  "host_observations": {
+    "samples": 3,
+    "runs_per_sample": 3,
+    "completed_runs": 9,
+    "phase_count": 36,
+    "unique_owned_instances": 9,
+    "unexpected_scoped_differences": 0,
+    "native_function_sessions": 0,
+    "algorithm": "NOT_LOCATED"
+  },
+  "dependency_review": {
+    "RES-001": "DONE static baseline reviewed; current binary identity separately observed rather than replacing old baseline"
+  }
+}
