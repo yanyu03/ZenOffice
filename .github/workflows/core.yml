@@ -36,3 +36,11 @@ jobs:
           path: |
             Cargo.lock
             core-tests.log
+      - name: Compare Zen business tasks with native Excel observations
+        run: python tools/office_research/accept_zen_cases.py --binary target/debug/zen-session.exe --fixtures RCD/engine-acceptance/res-002-v1 --native docs/research/RES-002-EXCEL-2026-10-19.json --new-output target/eng004
+      - name: Save business acceptance evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: business-acceptance-evidence
+          path: target/eng004
