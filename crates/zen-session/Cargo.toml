@@ -1,0 +1,13 @@
+[package]
+name = "zen-session"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+zen-formats = { path = "../zen-formats" }
+zen-engine = { path = "../zen-engine" }
+thiserror = "2"
+
+[dev-dependencies]
+zen-opc = { path = "../zen-opc" }

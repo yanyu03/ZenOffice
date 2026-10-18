@@ -8,6 +8,7 @@ members = [
     "crates/zen-formats",
     "crates/zen-ffi",
     "crates/zen-harness",
+    "crates/zen-session",
 ]
 resolver = "2"
 

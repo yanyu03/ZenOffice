@@ -149,8 +149,8 @@
   ],
   "fresh_build": "NOT RUN: Rust toolchain unavailable on audit host",
   "public_imported_sha256": {
-    "Cargo.lock": "f2aabab57c4af75611034838a57d19d40f03f8a3c85cd53c91537d438ab482ff",
-    "Cargo.toml": "7ba127d923cce9f1cc081fcafc536da5134017b915254dc91cc4a53c76bed802",
+    "Cargo.lock": "2245c42dcb324a1e2058c28b5a94894476f48a55e27540467de952426b3e5300",
+    "Cargo.toml": "8ebce798e02e92b6c0890412a18777e5370a2a00eadb21414569d996156f50f2",
     "RCD/red-team-corpus/academic-word-2026-10/manifest.json": "8ccf363854c8f5e128ff1b1e85ac01fbfe24d956f6c477351a6f292340ba03fa",
     "RCD/red-team-corpus/academic-word-2026-10/zen_academic_multiscenario.docx": "4b841b58d991d79ab5069439d8bed5e743ab5ab866fec50e22527b22ece7a3bd",
     "RCD/red-team-corpus/office-targets-2026-10/create_targets.py": "13fd2082c3e8ba8accf7d1d7d9f93b764c80f91260ce12974d787c5ff60f0ac5",
@@ -256,5 +256,23 @@
     "tools/finalize_academic_word_target.py": "8fc8336e49c818d2844f49a1ca2979824d411a358f34aecac9065f26d249b815",
     "crates/zen-formats/examples/support/fixture.rs": "75a00420a59a1ed0d5d5e8d6259db59bb27dcbd77f1f2793731b41c5f07a7620"
   },
-  "hash_policy": "Original import hashes are byte-exact; public hashes normalize CRLF to LF for text, matching .gitattributes."
+  "hash_policy": "Original import hashes are byte-exact; public hashes normalize CRLF to LF for text, matching .gitattributes.",
+  "post_import_changes": [
+    {
+      "date": "2026-10-18",
+      "task": "ENG-002",
+      "reason": "Add zen-session workspace crate and its lockfile package entry; reuse existing locked dependencies, no imported product source rewritten.",
+      "validation": "Core Windows CI validates locked release build and workspace tests on the submitted code; result recorded separately in docs/task_runs/2026-10-18-004-ENG-002.json.",
+      "changes": {
+        "Cargo.toml": {
+          "previous_current_sha256": "7ba127d923cce9f1cc081fcafc536da5134017b915254dc91cc4a53c76bed802",
+          "new_current_sha256": "8ebce798e02e92b6c0890412a18777e5370a2a00eadb21414569d996156f50f2"
+        },
+        "Cargo.lock": {
+          "previous_current_sha256": "f2aabab57c4af75611034838a57d19d40f03f8a3c85cd53c91537d438ab482ff",
+          "new_current_sha256": "2245c42dcb324a1e2058c28b5a94894476f48a55e27540467de952426b3e5300"
+        }
+      }
+    }
+  ]
 }

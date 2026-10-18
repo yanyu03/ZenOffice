@@ -526,6 +526,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "zen-session"
+version = "0.1.0"
+dependencies = [
+ "thiserror",
+ "zen-engine",
+ "zen-formats",
+ "zen-opc",
+]
+
+[[package]]
 name = "zen-slide"
 version = "0.1.0"
 dependencies = [
