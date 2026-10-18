@@ -31,10 +31,10 @@ Publication uses a flushed same-directory `NamedTempFile::persist_noclobber`, so
 Run `cargo run --locked -p zen-session --bin zen-session -- source.xlsx` on Windows. One process retains one `WorkbookSession`; commands on standard input use literal tabs between fields, with no quoting or escape expansion. Paths and sheet names may contain spaces, but not tabs/newlines. Rows and columns are one-based numeric indices. Commands are UTF-8, at most 16 KiB per line including its terminator:
 
 ```text
-set<TAB>Transactions<TAB>3<TAB>3<TAB>42
-set<TAB>Transactions<TAB>3<TAB>3<TAB>43
+set<TAB>Transactions<TAB>4<TAB>4<TAB>42
+set<TAB>Transactions<TAB>4<TAB>4<TAB>43
 undo
-get<TAB>Transactions<TAB>3<TAB>3
+get<TAB>Transactions<TAB>4<TAB>4
 redo
 save<TAB>new-output.xlsx
 reopen<TAB>new-output.xlsx

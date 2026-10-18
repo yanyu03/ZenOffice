@@ -7,7 +7,9 @@ use zen_session::{HistoryBudget, WorkbookSession};
 const MAX_LINE: u64 = 16 * 1024;
 
 fn address(row: &str, column: &str) -> Result<CellAddress, String> {
-    CellAddress::new(row.parse().map_err(|_| "invalid row")?, column.parse().map_err(|_| "invalid column")?)
+    let row = row.parse::<u32>().map_err(|_| "invalid row")?.checked_sub(1).ok_or("row starts at 1")?;
+    let column = column.parse::<u16>().map_err(|_| "invalid column")?.checked_sub(1).ok_or("column starts at 1")?;
+    CellAddress::new(row, column)
         .map_err(|e| e.to_string())
 }
 

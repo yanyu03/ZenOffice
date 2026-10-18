@@ -18,7 +18,7 @@ fn one_process_edits_undoes_redoes_saves_and_reopens() {
     let source = dir.path().join("source with spaces.xlsx");
     let output = dir.path().join("saved with spaces.xlsx");
     fs::write(&source, fixture()).unwrap();
-    let result = run(&source, &format!("set\tTransactions\t3\t3\t42\nset\tTransactions\t3\t3\t43\nundo\nget\tTransactions\t3\t3\nredo\nsave\t{}\nundo\nredo\nreopen\t{}\nget\tTransactions\t3\t3\nquit\n", output.display(), output.display()));
+    let result = run(&source, &format!("set\tTransactions\t4\t4\t42\nset\tTransactions\t4\t4\t43\nundo\nget\tTransactions\t4\t4\nredo\nsave\t{}\nundo\nredo\nreopen\t{}\nget\tTransactions\t4\t4\nquit\n", output.display(), output.display()));
     assert!(result.status.success(), "{}", String::from_utf8_lossy(&result.stderr));
     let text = String::from_utf8(result.stdout).unwrap();
     assert!(text.contains("VALUE Some(\"42\")"));
@@ -41,7 +41,7 @@ fn rejected_commands_preserve_work_and_errors_are_nonzero() {
     let output = dir.path().join("saved.xlsx");
     let old = dir.path().join("existing.xlsx");
     fs::write(&source, fixture()).unwrap(); fs::write(&old, b"old output").unwrap();
-    let result = run(&source, &format!("set\tTransactions\t3\t3\t42\nreopen\t{}\nset\tTransactions\t3\t3\tNaN\nset\tTransactions\t0\t3\t9\nsave\t{}\nstatus\nget\tTransactions\t3\t3\nsave\t{}\nreopen\t{}\nstatus\nquit\n", source.display(), old.display(), output.display(), dir.path().join("missing.xlsx").display()));
+    let result = run(&source, &format!("set\tTransactions\t4\t4\t42\nreopen\t{}\nset\tTransactions\t4\t4\tNaN\nset\tTransactions\t0\t3\t9\nsave\t{}\nstatus\nget\tTransactions\t4\t4\nsave\t{}\nreopen\t{}\nstatus\nquit\n", source.display(), old.display(), output.display(), dir.path().join("missing.xlsx").display()));
     assert_eq!(result.status.code(), Some(2));
     let text = String::from_utf8(result.stdout).unwrap();
     assert!(text.contains("OK status revision=1 dirty=true undo=true redo=false"));
@@ -55,7 +55,7 @@ fn rejected_commands_preserve_work_and_errors_are_nonzero() {
 fn dirty_eof_and_oversized_command_fail_without_writing_source() {
     let dir = tempfile::tempdir().unwrap(); let source = dir.path().join("source.xlsx");
     fs::write(&source, fixture()).unwrap();
-    assert_eq!(run(&source, "set\tTransactions\t3\t3\t42\n").status.code(), Some(2));
+    assert_eq!(run(&source, "set\tTransactions\t4\t4\t42\n").status.code(), Some(2));
     let oversized = run(&source, &"x".repeat(16 * 1024 + 1));
     assert_eq!(oversized.status.code(), Some(2));
     assert!(String::from_utf8_lossy(&oversized.stderr).contains("exceeds 16 KiB"));
