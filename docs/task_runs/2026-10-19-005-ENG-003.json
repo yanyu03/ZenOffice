@@ -1,0 +1,105 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-003",
+  "started_at": "2026-10-18T16:03:19.213330+00:00",
+  "ended_at": "2026-10-18T16:13:14.625257+00:00",
+  "status": "PARTIAL",
+  "actual_commit": "095fd4e2519bd719156c175d9026300f0815c1ce",
+  "actual_scope": "ENG-003第一段：有界文件读入、原源字节复查、Windows只向新文件发布、成功保存点/dirty及脱离历史的保存点预算。CLI/完整路径与故障注入尚未实现。",
+  "commands": [
+    "python tools/quota_guard/guard.py --check",
+    "python tools/taskbook/calibrate.py",
+    "python tools/continuity/continuity.py inspect",
+    "python tools/continuity/continuity.py begin --task ENG-003",
+    "python tools/check_baseline.py",
+    "Windows CI: cargo build --locked --release -p zen-harness --bin zen-deliver",
+    "Windows CI: cargo test --locked --workspace --all-targets"
+  ],
+  "deviations": [
+    "本轮限一个可验收切片，ENG-003跨周期继续，不缩减冻结验收标准。",
+    "未直接调用原zen_formats::save_atomic的覆盖路径；使用已锁定tempfile同目录刷新后persist_noclobber，避免存在性检查后覆盖的竞态。原保存器保持不变。",
+    "可信本地父目录是本阶段前提；没有声称父目录命名空间CAS、所有Windows文件系统/权限/重解析组合或断电持久性已通过。",
+    "本机无Rust工具链，执行证据以Windows CI实际完成结果为准。"
+  ],
+  "untested": [
+    "CLI多步会话（未实现）",
+    "逐写入/flush/发布边界的故障注入",
+    "重解析/目录链接、更多权限和并发命名空间组合",
+    "覆盖/同路径保存（本阶段明确拒绝）",
+    "Office宿主对照与视觉",
+    "非Windows发布（明确拒绝）"
+  ],
+  "next_step": "续做ENG-003：受控CLI多步编辑/undo/redo/另存/重开，补齐保存失败注入和Windows路径矩阵；保留create-new安全边界。",
+  "criteria": {
+    "ENG-003-C1": {
+      "requirement": "同一CLI会话连续编辑、撤销重做、另存、重开，复用应用服务，不复制编辑逻辑。",
+      "result": "NOT_RUN",
+      "observation": "CLI not implemented; full criterion not run.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-003-C2": {
+      "requirement": "源外部变化、已有目标、输出独占锁、写失败分别拒绝并保持旧输出和工作帧；记录Windows平台结果。",
+      "result": "NOT_RUN",
+      "observation": "Partial source/lock/existence checks passed; full failure-injection criterion not completed, see partial_criterion_observations.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-003-C3": {
+      "requirement": "成功保存后dirty=false，撤销偏离保存点为true，回到保存内容为false；失败不移动保存点。",
+      "result": "PASS",
+      "observation": "One fixed business XLSX, isolated per-test copies: successful save clears dirty without revision/history change; undo away from saved bytes is dirty, redo back clean; source/target/lock/path failures preserve prior state/save point. Detached saved bytes are budgeted.",
+      "sample_count": 1,
+      "evidence": [
+        "https://github.com/yanyu03/ZenOffice/actions/runs/39143684084",
+        "target/ci/ENG-003-095fd4e/core-tests.log"
+      ],
+      "test_names": [
+        "create_new_save_reopens_and_preserves_source_revision_and_history",
+        "changed_source_refuses_without_moving_save_point_or_creating_target",
+        "exclusive_source_and_destination_locks_preserve_work_and_old_output",
+        "existing_destination_same_path_and_hardlink_alias_are_never_overwritten",
+        "detached_saved_bytes_are_charged_before_branch_commit",
+        "saving_a_new_branch_releases_old_detached_save_point_bytes"
+      ]
+    },
+    "ENG-003-C4": {
+      "requirement": "同路径/别名/重解析路径的支持或明确拒绝有实测；并发检查不冒称原子compare-and-swap。",
+      "result": "NOT_RUN",
+      "observation": "Partial rejection checks passed; reparse matrix incomplete, so full criterion not run.",
+      "sample_count": 0,
+      "evidence": []
+    }
+  },
+  "pending_ci": null,
+  "evidence_run": {
+    "code_commit": "095fd4e2519bd719156c175d9026300f0815c1ce",
+    "url": "https://github.com/yanyu03/ZenOffice/actions/runs/39143684084",
+    "run_id": 39143684084,
+    "binaries": 34,
+    "passed": 263,
+    "failed": 0,
+    "ignored": 6,
+    "log_sha256": "b2c6b728528452af6f9d5722ff6de8f885722be184d1941e171cd7ac042f7799",
+    "local_locked_dependencies_match": true
+  },
+  "new_windows_save_tests": {
+    "passed": 8,
+    "failed": 0,
+    "independent_business_inputs": 1
+  },
+  "partial_criterion_observations": {
+    "ENG-003-C2": "Source replacement, existing target, source/target exclusive lock and missing-parent/admission failures measured; mid-write/flush/publication injection still missing.",
+    "ENG-003-C4": "Same path/hardlink aliases and invalid path spelling rejected; actual reparse/directory-link matrix not run."
+  },
+  "input_identity": {
+    "path": "RCD/red-team-corpus/office-targets-2026-10/xlsx/zen_spreadsheet_multiscenario.xlsx",
+    "sha256": "7e59b5503418378c03e2b2fdefeccace0919d80064a665644913271632ed1187",
+    "distinct_source_fixtures": 1,
+    "copies": "independent TempDir per I/O test; not independent business samples"
+  }
+}

@@ -10,6 +10,8 @@
 
 ENG-002已新增[zen-session](crates/zen-session/README.md)内存数字会话与撤销/重做。提交4dd773d的Windows CI通过zen-deliver Release构建及255项Rust测试、6项忽略；新增9项会话测试覆盖2份独立工作簿。文件保存、会话CLI和新的Office宿主对照尚未完成，E1仍在推进，见[本轮记录](docs/engine_cycles/2026-10-18-003.md)。
 
+ENG-003第一段在095fd4e加入文件来源核验及Windows仅向新文件保存，成功后更新保存点；CI共263项通过、6项忽略。CLI和完整保存故障/路径验收仍待补齐，任务状态为PARTIAL，见[最新循环](docs/engine_cycles/2026-10-19-004.md)。
+
 ## 构建与使用
 
 需要支持 Rust 2024 edition 的 Rust 工具链；本轮实测为 Rust/Cargo 1.99.1、Windows MSVC。静态检查需要 Python 3.11+。当前 Cargo.lock 已收敛并通过锁定构建。
