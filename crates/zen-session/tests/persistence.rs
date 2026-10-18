@@ -128,3 +128,105 @@ fn saving_a_new_branch_releases_old_detached_save_point_bytes() {
     assert_eq!(s.retained_archive_bytes(),fixture().len()+s.bytes().len()); assert!(!s.is_dirty());
     s.undo().unwrap(); assert!(s.is_dirty()); s.redo().unwrap(); assert!(!s.is_dirty());
 }
+
+// Junctions do not require the symbolic-link privilege. Failure to create one
+// fails acceptance rather than silently skipping the Windows reparse matrix.
+struct Junction(std::path::PathBuf);
+impl Junction {
+    fn create(link: &Path, target: &Path) -> Self {
+        use std::os::windows::fs::MetadataExt;
+        let result = std::process::Command::new("powershell.exe")
+            .args(["-NoProfile", "-NonInteractive", "-Command",
+                "$ErrorActionPreference='Stop'; New-Item -ItemType Junction -Path $env:ZEN_TEST_LINK -Target $env:ZEN_TEST_TARGET | Out-Null"])
+            .env("ZEN_TEST_LINK", link).env("ZEN_TEST_TARGET", target).output().unwrap();
+        assert!(result.status.success(), "junction creation failed: {}", String::from_utf8_lossy(&result.stderr));
+        let junction = Self(link.to_owned());
+        assert_ne!(fs::symlink_metadata(link).unwrap().file_attributes() & 0x400, 0);
+        assert_eq!(fs::canonicalize(link).unwrap(), fs::canonicalize(target).unwrap());
+        junction
+    }
+}
+impl Drop for Junction {
+    fn drop(&mut self) {
+        // Non-recursive removal of our exact link; never enumerate its target.
+        fs::remove_dir(&self.0).expect("remove owned junction itself");
+    }
+}
+
+#[test]
+fn source_junction_is_rejected_without_modifying_the_real_workbook() {
+    let directory = tempfile::tempdir().unwrap();
+    let real = directory.path().join("real source"); fs::create_dir(&real).unwrap();
+    let source = real.join("source.xlsx"); fs::write(&source, fixture()).unwrap();
+    let link = directory.path().join("linked source");
+    let junction = Junction::create(&link, &real);
+    assert!(matches!(WorkbookSession::open(&link.join("source.xlsx"), &WorkbookReadLimits::default(),
+        HistoryBudget::default()), Err(SaveError::UnsupportedPath)));
+    assert_eq!(fs::read(&source).unwrap(), fixture());
+    assert_eq!(fs::read_dir(&real).unwrap().count(), 1);
+    drop(junction);
+    assert_eq!(fs::read(&source).unwrap(), fixture());
+    assert!(!link.exists());
+}
+
+#[test]
+fn destination_junction_rejects_new_and_existing_outputs_and_keeps_save_point() {
+    let (directory, source, mut s) = prepare();
+    edit(&mut s, 42.0); s.save_as_new(&directory.path().join("saved.xlsx")).unwrap();
+    edit(&mut s, 43.0); edit(&mut s, 44.0); s.undo().unwrap();
+    let before = state(&s);
+    let real = directory.path().join("real outputs"); fs::create_dir(&real).unwrap();
+    let old = real.join("existing.xlsx"); fs::write(&old, b"old output").unwrap();
+    let link = directory.path().join("linked outputs"); let junction = Junction::create(&link, &real);
+    for filename in ["new.xlsx", "existing.xlsx"] {
+        assert!(matches!(s.save_as_new(&link.join(filename)), Err(SaveError::UnsupportedPath)));
+        assert_eq!(state(&s), before);
+    }
+    assert_eq!(fs::read(&source).unwrap(), fixture());
+    assert_eq!(fs::read(&old).unwrap(), b"old output");
+    assert_eq!(fs::read_dir(&real).unwrap().count(), 1);
+    // The previous save point still holds 42, and the redo frame still holds 44.
+    s.undo().unwrap(); assert!(!s.is_dirty());
+    s.redo().unwrap(); assert!(s.is_dirty()); s.redo().unwrap(); assert!(s.is_dirty());
+    drop(junction);
+    assert_eq!(fs::read(&old).unwrap(), b"old output");
+}
+
+#[test]
+fn source_parent_replaced_by_junction_after_open_is_rejected_and_can_recover() {
+    let directory = tempfile::tempdir().unwrap();
+    let original = directory.path().join("original"); fs::create_dir(&original).unwrap();
+    let source = original.join("source.xlsx"); fs::write(&source, fixture()).unwrap();
+    let mut s = WorkbookSession::open(&source, &WorkbookReadLimits::default(), HistoryBudget::default()).unwrap();
+    edit(&mut s, 42.0); let previous = directory.path().join("previous.xlsx");
+    s.save_as_new(&previous).unwrap(); let previous_bytes = fs::read(&previous).unwrap();
+    edit(&mut s, 43.0); edit(&mut s, 44.0); s.undo().unwrap(); let before = state(&s);
+    let moved = directory.path().join("moved"); fs::rename(&original, &moved).unwrap();
+    let junction = Junction::create(&original, &moved);
+    let output = directory.path().join("new.xlsx");
+    assert!(matches!(s.save_as_new(&output), Err(SaveError::UnsupportedPath)));
+    assert_eq!(state(&s), before); assert!(!output.exists());
+    assert_eq!(fs::read(moved.join("source.xlsx")).unwrap(), fixture());
+    assert_eq!(fs::read(&previous).unwrap(), previous_bytes);
+    assert_eq!(fs::read_dir(&moved).unwrap().count(), 1);
+    drop(junction); fs::rename(&moved, &original).unwrap();
+    s.save_as_new(&output).unwrap(); assert!(!s.is_dirty());
+    s.undo().unwrap(); assert!(s.is_dirty()); s.redo().unwrap(); assert!(!s.is_dirty());
+    assert_eq!(fs::read(&source).unwrap(), fixture());
+}
+
+#[test]
+fn case_and_dot_aliases_of_existing_source_are_rejected_without_history_change() {
+    let (directory, source, mut s) = prepare();
+    edit(&mut s, 42.0); s.save_as_new(&directory.path().join("saved.xlsx")).unwrap();
+    edit(&mut s, 43.0); s.undo().unwrap();
+    let before = state(&s);
+    for target in [directory.path().join("SOURCE.XLSX"), directory.path().join(".").join("source.xlsx")] {
+        // This acceptance case requires ordinary Windows case-insensitive semantics.
+        assert_eq!(fs::read(&target).unwrap(), fixture());
+        assert!(matches!(s.save_as_new(&target), Err(SaveError::DestinationExists)));
+        assert_eq!(state(&s), before);
+    }
+    assert_eq!(fs::read(source).unwrap(), fixture());
+    s.redo().unwrap(); assert!(s.is_dirty());
+}
