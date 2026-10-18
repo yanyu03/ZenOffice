@@ -1,0 +1,23 @@
+[package]
+name = "zen-ffi"
+description = "Zen Office Standard External C-ABI / FFI Interface (对标 XLCALL32 / Win32 通用接口)"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+zen-engine = { path = "../zen-engine" }
+zen-drawing = { path = "../zen-drawing" }
+zen-word = { path = "../zen-word" }
+zen-slide = { path = "../zen-slide" }
+zen-formats = { path = "../zen-formats" }
+zen-opc = { path = "../zen-opc" }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror.workspace = true
+
+[dev-dependencies]

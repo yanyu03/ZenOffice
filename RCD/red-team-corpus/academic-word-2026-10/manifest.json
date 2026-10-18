@@ -1,0 +1,37 @@
+{
+  "version": "2026-10-16-v1",
+  "frozen_at": "2026-10-16T13:54:49.330343+08:00",
+  "files": [
+    {
+      "file": "siu_thesis_template_original.docx",
+      "source": "https://siu.edu/admissions/graduate/_common/documents/thesis-dissertation-researchpaper/thesis-template.docx",
+      "bytes": 33434,
+      "sha256": "d47afcac2aa8e9c4d531fd5deb23ed33767d4fad64c8bf8649ec8c7b0b77d275",
+      "license_note": "Official publicly downloadable university template; no separate redistribution license observed; retained locally for interoperability checks."
+    },
+    {
+      "file": "zen_academic_multiscenario.docx",
+      "source": "Independent python-docx builder plus native Word field update; tools/create_academic_word_target.py",
+      "bytes": 50443,
+      "sha256": "4b841b58d991d79ab5069439d8bed5e743ab5ab866fec50e22527b22ece7a3bd",
+      "license_note": "Project-authored synthetic interoperability fixture"
+    }
+  ],
+  "academic_expected": {
+    "pages": 8,
+    "sections": 4,
+    "orientations": [
+      0,
+      0,
+      1,
+      0
+    ],
+    "tables": 3,
+    "footnotes": 1,
+    "inline_shapes": 1,
+    "equations": 1,
+    "toc": 1,
+    "visual_review": "all 8 pages inspected after native Word export"
+  },
+  "official_source_page": "https://siu.edu/admissions/graduate/academic-support/thesis-dissertation-research/etd/etd-templates.php"
+}

@@ -1,0 +1,33 @@
+name: Core baseline
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  windows-core:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Check baseline content
+        run: python tools/check_baseline.py
+      - uses: dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec
+        with:
+          toolchain: stable
+      - name: Record compiler
+        run: |
+          rustc -Vv
+          cargo -V
+      - name: Build delivery command
+        run: cargo build --release -p zen-harness --bin zen-deliver
+      - name: Run core tests
+        run: |
+          cargo test --workspace --all-targets 2>&1 | Tee-Object -FilePath core-tests.log
+          exit $LASTEXITCODE
+      - name: Save resolved lock and test evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: core-baseline-evidence
+          path: |
+            Cargo.lock
+            core-tests.log

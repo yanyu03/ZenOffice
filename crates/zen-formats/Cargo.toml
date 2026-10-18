@@ -1,0 +1,19 @@
+[package]
+name = "zen-formats"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+zen-opc = { path = "../zen-opc" }
+zen-engine = { path = "../zen-engine" }
+rust_xlsxwriter = "=0.99.1"
+image = { version = "0.25", default-features = false, features = ["png"] }
+tempfile = "3"
+thiserror = "2"
+zip = { version = "8.3", default-features = false, features = ["deflate"] }
+roxmltree = "0.19"
+
+[dev-dependencies]
+zen-word = { path = "../zen-word" }
+zen-slide = { path = "../zen-slide" }

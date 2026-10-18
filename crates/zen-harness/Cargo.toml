@@ -1,0 +1,19 @@
+[package]
+name = "zen-harness"
+description = "ZenOffice bounded package-preserving delivery command"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+autobins = false
+
+[dependencies]
+zen-opc.workspace = true
+zen-word.workspace = true
+zen-slide.workspace = true
+zen-formats.workspace = true
+zen-engine.workspace = true
+serde_json = "1.0"
+
+[[bin]]
+name = "zen-deliver"
+path = "src/bin/zen_deliver.rs"

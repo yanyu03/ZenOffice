@@ -1,0 +1,11 @@
+[package]
+name = "zen-opc"
+description = "ZenOffice OPC/OOXML 包层：ZIP 容器、CRC32、Content Types、Relationships (ECMA-376 Part 2)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+flate2.workspace = true
+roxmltree.workspace = true
+thiserror.workspace = true

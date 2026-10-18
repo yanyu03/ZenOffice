@@ -1,0 +1,12 @@
+[package]
+name = "zen-word"
+description = "ZenOffice WordprocessingML：文档模型 + DOCX 读写 (ECMA-376 Part 1 Chapter 17)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+zen-opc.workspace = true
+roxmltree.workspace = true
+thiserror.workspace = true
+ttf-parser = { version = "=0.25.1", default-features = false, features = ["std"] }

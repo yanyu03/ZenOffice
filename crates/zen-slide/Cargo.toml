@@ -1,0 +1,11 @@
+[package]
+name = "zen-slide"
+description = "Zen PresentationML: Slide model + PPTX read/write (ECMA-376 Part 1 Chapter 19)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+zen-opc.workspace = true
+roxmltree.workspace = true
+thiserror.workspace = true

@@ -1,0 +1,93 @@
+{
+  "corpus_id": "zen-office-red-team-targets-2026-10-v1",
+  "created_utc": "2026-10-14",
+  "office_source": "Locally installed Microsoft Office via COM; exact application versions are recorded below.",
+  "generated_by": "create_targets.py",
+  "items": [
+    {
+      "path": "docx/zen_word_multiscenario.docx",
+      "bytes": 22980,
+      "sha256": "a878a6cd4132909c8cd283d790f20bc372ee29e2105cefaac51877167472833c",
+      "source": "Microsoft Office COM-authored",
+      "title": "Quarterly Operations Review",
+      "scenarios": [
+        "multiple heading levels and mixed run formatting",
+        "Unicode and XML-sensitive text",
+        "merged table cells and table styling",
+        "landscape section after portrait section",
+        "headers, footers, and page-number field",
+        "two tables with distinct dimensions"
+      ]
+    },
+    {
+      "path": "xlsx/zen_spreadsheet_multiscenario.xlsx",
+      "bytes": 16050,
+      "sha256": "7e59b5503418378c03e2b2fdefeccace0919d80064a665644913271632ed1187",
+      "source": "Microsoft Office COM-authored",
+      "expected_gross_revenue": 3793.1,
+      "tax_rate": 0.13,
+      "sheets": [
+        "Dashboard",
+        "Transactions",
+        "Lookups"
+      ],
+      "scenarios": [
+        "three worksheets and cross-sheet formula references",
+        "named range and formulas",
+        "date, currency, percentage, and calculated cells",
+        "merged dashboard title",
+        "autofilter, frozen header, conditional formatting",
+        "native clustered-column chart"
+      ]
+    },
+    {
+      "path": "pptx/zen_presentation_multiscenario.pptx",
+      "bytes": 40591,
+      "sha256": "3855c278a2f2d6989f1940beb80b5a92ddd82d8dc961012518b07cfbf9fa9116",
+      "source": "Microsoft Office COM-authored",
+      "title": "Quarterly Operations Review",
+      "slides": 3,
+      "shape_counts": [
+        2,
+        5,
+        2
+      ],
+      "scenarios": [
+        "title and blank slide layouts",
+        "textbox text formatting and Unicode",
+        "rounded rectangle, ellipse, rectangle, and connector",
+        "native PowerPoint table with styled header",
+        "core title and author metadata"
+      ]
+    },
+    {
+      "path": "opc/zen_opc_multiscenario.zip",
+      "bytes": 2016,
+      "sha256": "cd35fb4b543b47b4c89004ad113e01bc447f4e28af7ba796ab225ff094e671af",
+      "source": "Synthetic OPC fixture authored by this script",
+      "entries": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "custom/_rels/main.xml.rels",
+        "custom/child.xml",
+        "custom/main.xml",
+        "data/payload.bin"
+      ],
+      "scenarios": [
+        "prefixed and default XML namespaces",
+        "comments and nontrivial attribute ordering",
+        "root and part-level relationships",
+        "relative target and fragment",
+        "external target with query escaping",
+        "content-type defaults and override",
+        "opaque binary payload preservation",
+        "Unicode and OOXML escape-like literal text"
+      ]
+    }
+  ],
+  "office_versions": {
+    "Word.Application": "16.0",
+    "Excel.Application": "16.0",
+    "PowerPoint.Application": "16.0"
+  }
+}
