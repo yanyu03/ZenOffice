@@ -24,6 +24,24 @@ The first ENG-003 slice adds `WorkbookSession::open(path, limits, budget)` and `
 
 Publication uses a flushed same-directory `NamedTempFile::persist_noclobber`, so an existing target (including a same-path or hardlink alias) is never replaced. This intentionally does not call the older overwrite-capable `zen_formats::save_atomic` after an existence check. Supported user paths are ordinary local paths; parent traversal, device/UNC/verbatim input, reserved filenames/alternate streams and observed reparse points are rejected. Canonical paths created internally are used only after admission. This is a trusted-parent path tier, not an atomic guarantee against hostile directory-namespace changes or power loss; Windows filesystem/permission and reparse variants still require explicit acceptance. Non-Windows publication is currently rejected.
 
-`is_dirty()` compares current bytes with the most recent successful save point (original input initially). Undo away from that content is dirty, redo back to it is clean. Failed saving changes neither the save point, revision nor history. Semantically similar but differently packaged/recalculated content is not silently treated as byte-identical. CLI session, overwrite/in-place save, broader path support, fault injection at every write/flush/publication boundary and Office host comparisons remain pending. ENG-003 as a whole is not complete.
+`is_dirty()` compares current bytes with the most recent successful save point (original input initially). Undo away from that content is dirty, redo back to it is clean. Failed saving changes neither the save point, revision nor history. Semantically similar but differently packaged/recalculated content is not silently treated as byte-identical. Overwrite/in-place save, broader path support, fault injection at every write/flush/publication boundary and Office host comparisons remain pending. ENG-003 as a whole is not complete.
+
+## Session command
+
+Run `cargo run --locked -p zen-session --bin zen-session -- source.xlsx` on Windows. One process retains one `WorkbookSession`; commands on standard input use literal tabs between fields, with no quoting or escape expansion. Paths and sheet names may contain spaces, but not tabs/newlines. Rows and columns are one-based numeric indices. Commands are UTF-8, at most 16 KiB per line including its terminator:
+
+```text
+set<TAB>Transactions<TAB>3<TAB>3<TAB>42
+set<TAB>Transactions<TAB>3<TAB>3<TAB>43
+undo
+get<TAB>Transactions<TAB>3<TAB>3
+redo
+save<TAB>new-output.xlsx
+reopen<TAB>new-output.xlsx
+status
+quit
+```
+
+Replace `<TAB>` with a literal tab. `get` reports the stored value text (formula caches included), not a formatted display or formula edit. Each accepted command emits revision/dirty/undo/redo status; rejections go to stderr and leave the service state unchanged. A refused command makes the final exit code 2 even if later commands succeed. Malformed UTF-8 or oversized lines stop the process; dirty EOF also returns 2. Reopen and quit refuse dirty work; successful reopen replaces the session only after parsing, resetting history to the new source. Save uses the same create-new API and never overwrites. EOF does not save automatically; clients must save before closing input. This is a bounded scripting interface, not a crash-recovery transcript or stable general-purpose wire protocol.
 
 The tests use an independent handwritten cross-sheet XLSX and the pinned business workbook. They cover two sequential inputs, independent expected caches, byte-exact history, branching, no-ops and explicit rejection. Internal fault tests exercise candidate parsing and revision exhaustion without exposing an unsafe candidate-commit API to callers. Office host comparison is a later task; Rust results do not establish Office compatibility.
