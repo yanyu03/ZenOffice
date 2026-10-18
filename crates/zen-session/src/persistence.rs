@@ -4,6 +4,27 @@ use crate::{HistoryBudget, SessionError, WorkbookSession};
 use std::{fs::{self, File, OpenOptions}, io::{Read, Write}, path::{Component, Path, PathBuf}, sync::Arc};
 use zen_formats::spreadsheet::WorkbookReadLimits;
 
+// Private I/O boundary: tests inject actual partial temporary writes or errors
+// at sync/publication. No environment flag or public bypass changes admission.
+trait SaveIo {
+    fn write(&mut self, temporary: &mut tempfile::NamedTempFile, bytes: &[u8]) -> std::io::Result<()>;
+    fn sync(&mut self, temporary: &tempfile::NamedTempFile) -> std::io::Result<()>;
+    fn publish(&mut self, temporary: tempfile::NamedTempFile, target: &Path) -> std::io::Result<()>;
+}
+
+struct FileSaveIo;
+impl SaveIo for FileSaveIo {
+    fn write(&mut self, temporary: &mut tempfile::NamedTempFile, bytes: &[u8]) -> std::io::Result<()> {
+        temporary.write_all(bytes)
+    }
+    fn sync(&mut self, temporary: &tempfile::NamedTempFile) -> std::io::Result<()> {
+        temporary.as_file().sync_all()
+    }
+    fn publish(&mut self, temporary: tempfile::NamedTempFile, target: &Path) -> std::io::Result<()> {
+        temporary.persist_noclobber(target).map(|_| ()).map_err(|e| e.error)
+    }
+}
+
 #[derive(Debug, thiserror::Error)]
 pub enum SaveError {
     #[error(transparent)]
@@ -102,6 +123,10 @@ impl WorkbookSession {
     /// Publish a complete current candidate only to a new filename. The source
     /// remains the original input; Save As does not silently retarget its identity.
     pub fn save_as_new(&mut self, target: &Path) -> Result<(), SaveError> {
+        self.save_as_new_with(target, &mut FileSaveIo)
+    }
+
+    fn save_as_new_with(&mut self, target: &Path, io: &mut impl SaveIo) -> Result<(), SaveError> {
         if !cfg!(windows) { return Err(SaveError::UnsupportedPlatform); }
         let source = self.source.as_ref().ok_or(SaveError::NoFileSource)?;
         let target = local_path(target)?;
@@ -119,12 +144,118 @@ impl WorkbookSession {
         if bytes.as_slice() != self.frames[0].as_ref() { return Err(SaveError::SourceChanged); }
         let saved = Arc::clone(&self.frames[self.cursor]);
         let mut temporary = tempfile::NamedTempFile::new_in(parent)?;
-        temporary.write_all(&saved)?;
-        temporary.as_file().sync_all()?;
+        io.write(&mut temporary, &saved)?;
+        io.sync(&temporary)?;
         // Noclobber is the publication condition, not a check followed by overwrite.
         // If another process creates target first, its bytes are left intact.
-        temporary.persist_noclobber(&target).map_err(|e| SaveError::Io(e.error))?;
+        io.publish(temporary, &target)?;
         self.save_point = saved;
         Ok(())
+    }
+}
+
+#[cfg(all(test, windows))]
+mod failure_tests {
+    use super::*;
+    use zen_engine::workbook::CellAddress;
+
+    #[derive(Clone, Copy, PartialEq, Eq)]
+    enum Fault { Write, Sync, Publish, Contender }
+    struct FailingIo { fault: Fault, reached: Vec<&'static str> }
+    impl SaveIo for FailingIo {
+        fn write(&mut self, temporary: &mut tempfile::NamedTempFile, bytes: &[u8]) -> std::io::Result<()> {
+            self.reached.push("write");
+            if self.fault == Fault::Write {
+                let prefix = bytes.len() / 2;
+                assert!(prefix > 0);
+                temporary.write_all(&bytes[..prefix])?;
+                assert_eq!(temporary.as_file().metadata()?.len(), prefix as u64);
+                return Err(std::io::Error::other("injected after partial write"));
+            }
+            FileSaveIo.write(temporary, bytes)
+        }
+        fn sync(&mut self, temporary: &tempfile::NamedTempFile) -> std::io::Result<()> {
+            self.reached.push("sync");
+            if self.fault == Fault::Sync {
+                assert!(temporary.as_file().metadata()?.len() > 0);
+                return Err(std::io::Error::other("injected sync failure"));
+            }
+            FileSaveIo.sync(temporary)
+        }
+        fn publish(&mut self, temporary: tempfile::NamedTempFile, target: &Path) -> std::io::Result<()> {
+            self.reached.push("publish");
+            if self.fault == Fault::Publish {
+                return Err(std::io::Error::other("injected publication failure"));
+            }
+            assert!(self.fault == Fault::Contender);
+            // Deterministic arrival after admission, before real noclobber.
+            let mut contender = OpenOptions::new().write(true).create_new(true).open(target)?;
+            contender.write_all(b"late competing output")?;
+            contender.sync_all()?;
+            drop(contender);
+            FileSaveIo.publish(temporary, target)
+        }
+    }
+
+    fn fixture() -> &'static [u8] {
+        include_bytes!("../../../RCD/red-team-corpus/office-targets-2026-10/xlsx/zen_spreadsheet_multiscenario.xlsx")
+    }
+    fn state(s: &WorkbookSession) -> (Vec<u8>, Vec<Vec<u8>>, Vec<u8>, usize, u64, bool, usize, bool, bool) {
+        (s.bytes().to_vec(), s.frames.iter().map(|f| f.to_vec()).collect(), s.save_point.to_vec(),
+         s.cursor, s.revision(), s.is_dirty(), s.retained_archive_bytes(), s.can_undo(), s.can_redo())
+    }
+    fn check_failure(fault: Fault, expected_stages: &[&str]) {
+        let directory = tempfile::tempdir().unwrap();
+        let source = directory.path().join("source.xlsx");
+        fs::write(&source, fixture()).unwrap();
+        let mut s = WorkbookSession::open(&source, &WorkbookReadLimits::default(), HistoryBudget::default()).unwrap();
+        let address = CellAddress::new(3, 3).unwrap();
+        s.set_number("Transactions", address, 42.0).unwrap();
+        let old_output = directory.path().join("previous-save.xlsx");
+        s.save_as_new(&old_output).unwrap();
+        let old_bytes = fs::read(&old_output).unwrap();
+        s.set_number("Transactions", address, 43.0).unwrap();
+        s.set_number("Transactions", address, 44.0).unwrap();
+        s.undo().unwrap();
+        let before = state(&s);
+        assert!(s.is_dirty() && s.can_redo());
+        let target = directory.path().join("attempt.xlsx");
+        let mut io = FailingIo { fault, reached: vec![] };
+        assert!(matches!(s.save_as_new_with(&target, &mut io), Err(SaveError::Io(_))));
+        assert_eq!(io.reached, expected_stages);
+        assert_eq!(state(&s), before);
+        assert_eq!(fs::read(&source).unwrap(), fixture());
+        assert_eq!(fs::read(&old_output).unwrap(), old_bytes);
+        if fault == Fault::Contender {
+            assert_eq!(fs::read(&target).unwrap(), b"late competing output");
+        } else { assert!(!target.exists()); }
+        // A dropped temporary must not leave a partial output or temp artifact.
+        assert_eq!(fs::read_dir(directory.path()).unwrap().count(), if fault == Fault::Contender { 3 } else { 2 });
+        s.redo().unwrap(); // Failed saving did not discard the future frame.
+        s.undo().unwrap();
+        let retry = directory.path().join("retry.xlsx");
+        s.save_as_new(&retry).unwrap();
+        assert!(!s.is_dirty());
+        assert_eq!(fs::read(retry).unwrap(), s.bytes());
+        s.undo().unwrap(); // Return to the prior 42 save content, now dirty.
+        assert!(s.is_dirty());
+        s.redo().unwrap(); assert!(!s.is_dirty());
+    }
+
+    #[test]
+    fn partial_write_failure_preserves_frame_history_save_point_and_outputs() {
+        check_failure(Fault::Write, &["write"]);
+    }
+    #[test]
+    fn sync_failure_preserves_frame_history_save_point_and_outputs() {
+        check_failure(Fault::Sync, &["write", "sync"]);
+    }
+    #[test]
+    fn publication_failure_preserves_frame_history_save_point_and_outputs() {
+        check_failure(Fault::Publish, &["write", "sync", "publish"]);
+    }
+    #[test]
+    fn late_existing_target_is_never_replaced_and_retry_still_succeeds() {
+        check_failure(Fault::Contender, &["write", "sync", "publish"]);
     }
 }
