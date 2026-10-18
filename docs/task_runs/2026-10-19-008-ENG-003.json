@@ -1,0 +1,112 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-003",
+  "started_at": "2026-10-18T19:06:58.499931+00:00",
+  "ended_at": "2026-10-18T19:12:28.886918+00:00",
+  "status": "DONE",
+  "actual_commit": "745545d0f1aac2d48364cc1d03b4407ca73e4790",
+  "actual_scope": "ENG-003 C4: real Windows directory junctions for source/target and source parent replaced after opening, plus case/dot aliases. Expected: explicit refusal, exact frame/revision/history/budget/dirty/undo/redo preservation, source and previous output intact, no target/temp leak; normal saving after restoring original parent succeeds. No product implementation change. Windows CI actual result: 274 passed, 0 failed, 6 ignored; every ENG-003 frozen condition has fixed-commit evidence. DONE is this task only, not E1 or arbitrary Windows path compatibility.",
+  "commands": [
+    "official get_usage_limits",
+    "python tools/quota_guard/guard.py --check",
+    "python tools/taskbook/calibrate.py",
+    "python tools/continuity/continuity.py inspect/begin/checkpoint",
+    "python tools/check_baseline.py",
+    "git diff --check",
+    "Windows tests: powershell.exe New-Item -ItemType Junction (owned TempDir only)",
+    "Windows CI: cargo build --locked --release -p zen-harness --bin zen-deliver",
+    "Windows CI: cargo test --locked --workspace --all-targets"
+  ],
+  "deviations": [
+    "No local Rust toolchain; actual Rust/Windows results must come from fixed-commit CI.",
+    "Directory junctions exercise a real reparse subset without requiring symbolic-link privilege; tests fail rather than skip if junction creation fails.",
+    "Namespace change is deterministic between API calls, not arbitrary concurrent compare-and-swap."
+  ],
+  "untested": [
+    "Other reparse providers/file symlinks/mount points and arbitrary file-system/permission combinations",
+    "Hostile concurrent namespace mutation or atomic compare-and-swap",
+    "Hardware disk-full/flush failures and power loss",
+    "Office host comparison",
+    "Non-Windows publication (rejected)"
+  ],
+  "next_step": "Start RES-002: freeze three independent budget/order/attendance workbook inputs and expected results, then Excel host observations three runs each on isolated copies. ENG-004 awaits RES-002; E1 remains open.",
+  "criteria": {
+    "ENG-003-C1": {
+      "requirement": "同一CLI会话连续编辑、撤销重做、另存、重开，复用应用服务，不复制编辑逻辑。",
+      "result": "PASS",
+      "observation": "Same-process CLI test passed at this fixed commit: two edits, undo/read42, redo, save-new, undo/redo around save point, reopen/read43; service reused and source byte-exact.",
+      "sample_count": 1,
+      "evidence": [
+        "https://github.com/yanyu03/ZenOffice/actions/runs/39157322914",
+        "target/ci/ENG-003-745545d/core-tests.log",
+        "crates/zen-session/tests/persistence.rs",
+        "crates/zen-session/src/persistence.rs",
+        "crates/zen-session/tests/cli.rs"
+      ]
+    },
+    "ENG-003-C2": {
+      "requirement": "源外部变化、已有目标、输出独占锁、写失败分别拒绝并保持旧输出和工作帧；记录Windows平台结果。",
+      "result": "PASS",
+      "observation": "Actual Windows source replacement, existing target, exclusive source/output locks and private partial-write/sync/publication failure tests passed. All failures retain state/source/previous outputs; late competing output is not replaced. Injected I/O failures are not real hardware faults.",
+      "sample_count": 1,
+      "evidence": [
+        "https://github.com/yanyu03/ZenOffice/actions/runs/39157322914",
+        "target/ci/ENG-003-745545d/core-tests.log",
+        "crates/zen-session/tests/persistence.rs",
+        "crates/zen-session/src/persistence.rs",
+        "crates/zen-session/tests/cli.rs"
+      ]
+    },
+    "ENG-003-C3": {
+      "requirement": "成功保存后dirty=false，撤销偏离保存点为true，回到保存内容为false；失败不移动保存点。",
+      "result": "PASS",
+      "observation": "Existing success save-point/dirty tests plus CLI observations passed; failures retain saved bytes/history/revision. New target-junction rejection retains previous 42 save point and redo, restored-source-parent retry saves successfully with dirty false/undo true/redo false.",
+      "sample_count": 1,
+      "evidence": [
+        "https://github.com/yanyu03/ZenOffice/actions/runs/39157322914",
+        "target/ci/ENG-003-745545d/core-tests.log",
+        "crates/zen-session/tests/persistence.rs",
+        "crates/zen-session/src/persistence.rs",
+        "crates/zen-session/tests/cli.rs"
+      ]
+    },
+    "ENG-003-C4": {
+      "requirement": "同路径/别名/重解析路径的支持或明确拒绝有实测；并发检查不冒称原子compare-and-swap。",
+      "result": "PASS",
+      "observation": "Same path/hardlink plus case and dot aliases measured and refused. Three real junction tests assert reparse attribute and canonical target identity, then refuse source-through-junction, new/existing output-through-junction, and a source parent replaced by junction between API calls. Source/old output/session remain intact; removing owned junction leaves target intact; restoring original source parent permits retry. Deterministic cases only: trusted-parent create-new tier, no namespace CAS or arbitrary concurrency claim.",
+      "sample_count": 1,
+      "evidence": [
+        "https://github.com/yanyu03/ZenOffice/actions/runs/39157322914",
+        "target/ci/ENG-003-745545d/core-tests.log",
+        "crates/zen-session/tests/persistence.rs",
+        "crates/zen-session/src/persistence.rs",
+        "crates/zen-session/tests/cli.rs"
+      ]
+    }
+  },
+  "pending_ci": null,
+  "evidence_run": {
+    "commit": "745545d0f1aac2d48364cc1d03b4407ca73e4790",
+    "run_id": 39157322914,
+    "binaries": 36,
+    "passed": 274,
+    "failed": 0,
+    "ignored": 6,
+    "log_sha256": "6b6e7c0049961cf460c6774d5f9d2c106d3e2b056b3707752cbadb372db8b3df",
+    "local_locked_dependencies_match": true,
+    "url": "https://github.com/yanyu03/ZenOffice/actions/runs/39157322914"
+  },
+  "input_identity": {
+    "path": "RCD/red-team-corpus/office-targets-2026-10/xlsx/zen_spreadsheet_multiscenario.xlsx",
+    "sha256": "7e59b5503418378c03e2b2fdefeccace0919d80064a665644913271632ed1187",
+    "distinct_source_fixtures": 1,
+    "copies": "Per-test isolated TempDir copies; path cases are not independent business samples."
+  },
+  "dependency_review": {
+    "ENG-002": "DONE; docs/task_runs/2026-10-18-004-ENG-002.json, all four criteria PASS; its existing session tests passed again in current CI."
+  }
+}
