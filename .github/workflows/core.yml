@@ -1,5 +1,10 @@
 name: Core baseline
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    paths: ['crates/**', 'Cargo.toml', 'Cargo.lock', 'tools/**', '.github/workflows/**', 'docs/BASELINE_IMPORT.json', 'RCD/**']
+  pull_request:
+    paths: ['crates/**', 'Cargo.toml', 'Cargo.lock', 'tools/**', '.github/workflows/**', 'docs/BASELINE_IMPORT.json', 'RCD/**']
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
@@ -18,10 +23,10 @@ jobs:
           rustc -Vv
           cargo -V
       - name: Build delivery command
-        run: cargo build --release -p zen-harness --bin zen-deliver
+        run: cargo build --locked --release -p zen-harness --bin zen-deliver
       - name: Run core tests
         run: |
-          cargo test --workspace --all-targets 2>&1 | Tee-Object -FilePath core-tests.log
+          cargo test --locked --workspace --all-targets 2>&1 | Tee-Object -FilePath core-tests.log
           exit $LASTEXITCODE
       - name: Save resolved lock and test evidence
         if: always()

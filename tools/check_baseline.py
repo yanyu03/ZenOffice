@@ -43,6 +43,14 @@ def main():
                 tomllib.loads(path.read_text(encoding='utf-8'))
             elif path.suffix == '.xml':
                 ET.parse(path)
+            elif path.suffix == '.rs':
+                source = path.read_text(encoding='utf-8')
+                references = re.findall(r'#\[path\s*=\s*"([^"]+)"\]', source)
+                references += re.findall(r'include_(?:str|bytes)!\(\s*"([^"]+)"\s*\)', source)
+                for reference in references:
+                    target = (path.parent / reference).resolve()
+                    if not target.is_relative_to(ROOT) or not target.is_file():
+                        problems.append(f'missing Rust source include: {relative.as_posix()}: {reference}')
             elif path.suffix in BINARY:
                 with zipfile.ZipFile(path) as archive:
                     if archive.testzip() is not None:
