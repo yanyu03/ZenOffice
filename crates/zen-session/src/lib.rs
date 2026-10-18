@@ -1,8 +1,10 @@
-//! In-memory, preserving numeric workbook transactions. No filesystem save API.
+//! Preserving numeric workbook transactions with bounded source checks.
 //!
 //! Only archive bytes are retained for history. Undo/redo re-read the selected
 //! immutable frame with the original limits before changing any session state.
 use std::sync::Arc;
+mod persistence;
+pub use persistence::SaveError;
 use zen_engine::workbook::{CellAddress, TypedValue, Workbook};
 use zen_formats::spreadsheet::{
     ReadDiagnostic, ReadError, ReadWorkbook, WorkbookReadLimits, edit::EditError,
@@ -52,6 +54,8 @@ pub struct WorkbookSession {
     limits: WorkbookReadLimits,
     budget: HistoryBudget,
     revision: u64,
+    source: Option<std::path::PathBuf>,
+    save_point: Arc<[u8]>,
 }
 
 impl WorkbookSession {
@@ -62,8 +66,9 @@ impl WorkbookSession {
             return Err(SessionError::HistoryBudget);
         }
         let projection = ReadWorkbook::read(bytes, limits)?;
-        Ok(Self { frames: vec![Arc::from(bytes)], cursor: 0, projection,
-                  limits: limits.clone(), budget, revision: 0 })
+        let initial: Arc<[u8]> = Arc::from(bytes);
+        Ok(Self { frames: vec![Arc::clone(&initial)], cursor: 0, projection,
+                  limits: limits.clone(), budget, revision: 0, source: None, save_point: initial })
     }
 
     pub fn workbook(&self) -> &Workbook { self.projection.workbook() }
@@ -73,12 +78,15 @@ impl WorkbookSession {
     pub fn revision(&self) -> u64 { self.revision }
     pub fn can_undo(&self) -> bool { self.cursor > 0 }
     pub fn can_redo(&self) -> bool { self.cursor + 1 < self.frames.len() }
-    /// Until filesystem saving is added, the clean point is the original input.
-    pub fn is_dirty(&self) -> bool { self.bytes() != self.frames[0].as_ref() }
+    /// Byte equality with the most recent successful save (initial input at open).
+    pub fn is_dirty(&self) -> bool { self.bytes() != self.save_point.as_ref() }
     pub fn history_frames(&self) -> usize { self.frames.len() }
     pub fn retained_archive_bytes(&self) -> usize {
         // Every addition was checked against usize and the configured budget.
-        self.frames.iter().map(|f| f.len()).sum()
+        let history: usize = self.frames.iter().map(|f| f.len()).sum();
+        history + if self.frames.iter().any(|f| Arc::ptr_eq(f, &self.save_point)) {
+            0
+        } else { self.save_point.len() }
     }
 
     pub fn set_number(
@@ -103,14 +111,17 @@ impl WorkbookSession {
     fn commit_candidate(&mut self, bytes: Vec<u8>) -> Result<EditOutcome, SessionError> {
         if bytes == self.bytes() { return Ok(EditOutcome::Unchanged); }
         let prefix = &self.frames[..=self.cursor];
-        let retained = prefix.iter().try_fold(bytes.len(), |n, f| n.checked_add(f.len()));
+        let reuses_saved = bytes.as_slice() == self.save_point.as_ref();
+        let detached_saved = !reuses_saved && !prefix.iter().any(|f| Arc::ptr_eq(f, &self.save_point));
+        let retained = prefix.iter().try_fold(bytes.len(), |n, f| n.checked_add(f.len()))
+            .and_then(|n| n.checked_add(if detached_saved { self.save_point.len() } else { 0 }));
         if prefix.len() >= self.budget.max_frames
             || retained.is_none_or(|n| n > self.budget.max_retained_archive_bytes) {
             return Err(SessionError::HistoryBudget);
         }
         let projection = ReadWorkbook::read(&bytes, &self.limits)?;
         let revision = self.revision.checked_add(1).ok_or(SessionError::RevisionExhausted)?;
-        let frame: Arc<[u8]> = Arc::from(bytes);
+        let frame: Arc<[u8]> = if reuses_saved { Arc::clone(&self.save_point) } else { Arc::from(bytes) };
         self.frames.try_reserve(1)?;
         // All fallible preparation precedes the transaction commit.
         self.frames.truncate(self.cursor + 1);

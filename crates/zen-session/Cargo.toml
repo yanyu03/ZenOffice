@@ -8,6 +8,7 @@ license.workspace = true
 zen-formats = { path = "../zen-formats" }
 zen-engine = { path = "../zen-engine" }
 thiserror = "2"
+tempfile = "3"
 
 [dev-dependencies]
 zen-opc = { path = "../zen-opc" }

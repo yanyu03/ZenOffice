@@ -149,7 +149,7 @@
   ],
   "fresh_build": "NOT RUN: Rust toolchain unavailable on audit host",
   "public_imported_sha256": {
-    "Cargo.lock": "2245c42dcb324a1e2058c28b5a94894476f48a55e27540467de952426b3e5300",
+    "Cargo.lock": "3fd739660d7244bd711eda209e72172e062138afba5821aa258897087587c1ab",
     "Cargo.toml": "8ebce798e02e92b6c0890412a18777e5370a2a00eadb21414569d996156f50f2",
     "RCD/red-team-corpus/academic-word-2026-10/manifest.json": "8ccf363854c8f5e128ff1b1e85ac01fbfe24d956f6c477351a6f292340ba03fa",
     "RCD/red-team-corpus/academic-word-2026-10/zen_academic_multiscenario.docx": "4b841b58d991d79ab5069439d8bed5e743ab5ab866fec50e22527b22ece7a3bd",
@@ -273,6 +273,18 @@
           "new_current_sha256": "2245c42dcb324a1e2058c28b5a94894476f48a55e27540467de952426b3e5300"
         }
       }
+    },
+    {
+      "date": "2026-10-19",
+      "task": "ENG-003",
+      "reason": "zen-session now directly uses already-locked tempfile for create-new publication; no registry package upgraded. Original import hashes unchanged.",
+      "changes": {
+        "Cargo.lock": {
+          "previous_current_sha256": "2245c42dcb324a1e2058c28b5a94894476f48a55e27540467de952426b3e5300",
+          "new_current_sha256": "3fd739660d7244bd711eda209e72172e062138afba5821aa258897087587c1ab"
+        }
+      },
+      "validation": "Windows core CI for the submitted commit; outcome recorded in the ENG-003 partial actual record."
     }
   ]
 }
