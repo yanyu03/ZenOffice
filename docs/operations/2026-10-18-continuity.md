@@ -18,11 +18,13 @@
 - 本机Windows电源API一次请求成功并释放（单次调用观测，不是实际自动睡眠验收）。恢复计划任务实际执行返回LastTaskResult=0，随后23:22:58（Asia/Shanghai）的自然5分钟触发亦返回0（单次周期观测）；重复启动监督器成功，app_action=not_relaunched_same_boot，未重开已经运行的应用，监测器复用既有PID身份。
 - 已实际创建begin及多次checkpoint，补丁和源码副本只在被Git忽略的target/continuity。cycle COMPLETE仅代表本轮运维收尾，不表示任何产品阶段完成。
 
-本地保存target/continuity/installed-task.xml、supervisor.json、recovery-inspection.json、startup.json、cycle.json、checkpoints、receipts及旧自动化提示备份；本机路径/标识/运行数据不上传公开仓库。远端专项CI结果在后续验收补充中记录，当前不冒称远端已通过。
+本地保存target/continuity/installed-task.xml、supervisor.json、recovery-inspection.json、startup.json、cycle.json、checkpoints、receipts及旧自动化提示备份；本机路径/标识/运行数据不上传公开仓库。远端Windows验收：恢复专项[39140441096](https://github.com/yanyu03/ZenOffice/actions/runs/39140441096)在91e47870a057aec018fce044f54741e043b3d012通过，含12项Python恢复、3项PowerShell及23项额度回归；独立额度CI[39140346610](https://github.com/yanyu03/ZenOffice/actions/runs/39140346610)在c79fb08通过。原Rust产品未变，不重跑255项。
 
 ## 发现并修复的问题
 
 重复启动时，PowerShell把File.Replace的null备份路径转成空串，覆盖状态失败；改用当前pwsh/.NET的同目录File.Move覆盖。随后发现ISO启动时间经ConvertFrom-Json转换成DateTime造成身份比较不稳定，改为不透明boot键。两项均添加PowerShell回归，并在真实监督器重复启动/计划任务中复核。失败状态保留在本地旧supervisor-error记录中，按时间区分于后续成功状态。
+
+首次远端恢复CI[39140346631](https://github.com/yanyu03/ZenOffice/actions/runs/39140346631)保留：Windows测试临时路径含8.3短名称，测试夹具ROOT未像生产代码规范化，路径边界将模拟源码误判为外部而未复制。修正夹具root.resolve，与生产ROOT一致；没有放松边界或删除断言。后续完整专项通过。
 
 ## 限制与复现/撤回
 
