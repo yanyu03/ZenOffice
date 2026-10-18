@@ -1,0 +1,19 @@
+name: Quota guard
+on:
+  push:
+    paths: ['tools/quota_guard/**', '.github/workflows/quota-guard.yml']
+  pull_request:
+    paths: ['tools/quota_guard/**', '.github/workflows/quota-guard.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  windows-quota:
+    runs-on: windows-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Check public baseline and Python syntax
+        run: python tools/check_baseline.py
+      - name: Test quota gates and isolated owned process
+        run: python -m unittest discover -s tools/quota_guard -p test_guard.py -v

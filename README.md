@@ -4,7 +4,7 @@
 
 **阶段：实验性引擎基线，尚未发布桌面 Sheets Alpha。** 2026-10-18 的 GitHub Windows 干净环境验收已通过：Release 构建成功，246 项 Rust 测试通过、0 失败、6 项显式忽略。实测提交为 `dffb11a`，范围见[本轮验收记录](docs/BASELINE_ACCEPTANCE_2026-10-18.md)。历史 Office 宿主验收仍只适用于各自冻结版本。
 
-下一产品目标：打开支持的 XLSX → 修改已有数字 → 重算 → 撤销/重做 → 另存 → 重开核对。Word、Slides 暂保留受控命令行能力。完整论文排版与任意 Office 文件兼容不属于当前承诺。
+当前按[引擎优先计划](docs/ENGINE_DEVELOPMENT_PLAN_2026-10-18.md)推进：共用会话与安全保存 → 表格基本输入和计算 → Word基础编辑 → Slides基础编辑 → 引擎可用版，再接UI。首个闭环为打开XLSX、修改、重算、撤销/重做、另存并重开核对。完整论文排版与任意Office文件兼容不属于当前承诺。
 
 ## 构建与使用
 
@@ -29,6 +29,9 @@ cargo test --locked --workspace --all-targets
 - 旧 Qt/egui 前端、WPS 提取资源和逆向输出没有迁入。公开基线不需要安装 WPS 或 Qt。
 
 ## 项目记录
+
+- [引擎优先开发计划](docs/ENGINE_DEVELOPMENT_PLAN_2026-10-18.md)与[当前待办](docs/ENGINE_BACKLOG.md)
+- [额度报警与任务停止规则](tools/quota_guard/README.md)
 
 - [开发完成度审核](docs/DEVELOPMENT_AUDIT_2026-10-18.md)
 - [开发方向与阶段验收](docs/DEVELOPMENT_DIRECTION_2026-10-18.md)
