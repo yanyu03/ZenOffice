@@ -1,0 +1,100 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-003",
+  "started_at": "2026-10-18T17:03:29.246696+00:00",
+  "ended_at": "2026-10-18T17:09:12.194288+00:00",
+  "status": "PARTIAL",
+  "actual_commit": "93f451185939cec48dc693b4f1cd130f44aa8f6d",
+  "actual_scope": "ENG-003 CLI slice: bounded UTF-8 tab-delimited single-process commands delegate to WorkbookSession; one-based rows/columns; create-new save and reopen, dirty-work protection and nonzero error exit. Windows CI passed: 266 passed, 0 failed, 6 ignored; 3 new CLI process tests.",
+  "commands": [
+    "official get_usage_limits",
+    "python tools/quota_guard/guard.py --check",
+    "python tools/taskbook/calibrate.py",
+    "python tools/continuity/continuity.py inspect/begin/checkpoint",
+    "python tools/check_baseline.py",
+    "git diff --check",
+    "Windows CI: cargo build --locked --release -p zen-harness --bin zen-deliver",
+    "Windows CI: cargo test --locked --workspace --all-targets"
+  ],
+  "deviations": [
+    "No local Rust toolchain: actual execution evidence must come from Windows CI.",
+    "CLI uses tabs and numeric one-based row/column fields; does not introduce a JSON dependency or duplicate XML/edit/calculation code.",
+    "Initial branch 8181c1c used engine coordinates directly; source review identified the zero-based API and 93f4511 explicitly translates CLI one-based input. Both CI outcomes retained separately."
+  ],
+  "untested": [
+    "Complete write/flush/publication failure injection",
+    "Actual reparse/directory-link acceptance matrix",
+    "Office host comparison",
+    "Power loss/CLI crash recovery and persistence of command transcripts",
+    "Non-Windows publication (explicitly unsupported)"
+  ],
+  "next_step": "Continue ENG-003: write/flush/publication failure injection and actual Windows reparse path matrix. RES-002 Excel comparison remains a dependency before ENG-004; do not advance E1 milestone.",
+  "criteria": {
+    "ENG-003-C1": {
+      "requirement": "同一CLI会话连续编辑、撤销重做、另存、重开，复用应用服务，不复制编辑逻辑。",
+      "result": "PASS",
+      "observation": "One process edits D4 to 42 then 43, undo reads 42, redo, save-new, undo/redo relative to saved content, reopen output reads 43; source byte-exact. CLI delegates all mutations and persistence to WorkbookSession. One business fixture, isolated copies.",
+      "sample_count": 1,
+      "evidence": [
+        "https://github.com/yanyu03/ZenOffice/actions/runs/39147963549",
+        "target/ci/ENG-003-93f4511/core-tests.log",
+        "crates/zen-session/tests/cli.rs",
+        "crates/zen-session/tests/persistence.rs"
+      ]
+    },
+    "ENG-003-C2": {
+      "requirement": "源外部变化、已有目标、输出独占锁、写失败分别拒绝并保持旧输出和工作帧；记录Windows平台结果。",
+      "result": "NOT_RUN",
+      "observation": "Existing source-change/existing-target/exclusive-lock rejection tests passed again; CLI rejects existing target without losing current edits. Full write/flush/publication injection still missing, so whole criterion remains NOT_RUN.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-003-C3": {
+      "requirement": "成功保存后dirty=false，撤销偏离保存点为true，回到保存内容为false；失败不移动保存点。",
+      "result": "PASS",
+      "observation": "CLI observes save revision=4 dirty=false, undo revision=5 dirty=true, redo revision=6 dirty=false; failed save and reopen retain revision/history/current frame. Existing eight Windows save tests also passed, including save-point failure invariance.",
+      "sample_count": 1,
+      "evidence": [
+        "https://github.com/yanyu03/ZenOffice/actions/runs/39147963549",
+        "target/ci/ENG-003-93f4511/core-tests.log",
+        "crates/zen-session/tests/cli.rs",
+        "crates/zen-session/tests/persistence.rs"
+      ]
+    },
+    "ENG-003-C4": {
+      "requirement": "同路径/别名/重解析路径的支持或明确拒绝有实测；并发检查不冒称原子compare-and-swap。",
+      "result": "NOT_RUN",
+      "observation": "Existing same-path/hardlink/invalid-spelling rejections passed again; actual reparse/directory-link matrix still missing, so whole criterion remains NOT_RUN. No namespace compare-and-swap claim.",
+      "sample_count": 0,
+      "evidence": []
+    }
+  },
+  "pending_ci": null,
+  "evidence_run": {
+    "commit": "93f451185939cec48dc693b4f1cd130f44aa8f6d",
+    "run_id": 39147963549,
+    "binaries": 36,
+    "passed": 266,
+    "failed": 0,
+    "ignored": 6,
+    "log_sha256": "e5ebfdd38563da994604dafe5b403a09502e01749859e06093a809766528ef85",
+    "local_locked_dependencies_match": true,
+    "url": "https://github.com/yanyu03/ZenOffice/actions/runs/39147963549"
+  },
+  "superseded_ci": {
+    "run_id": 39147928972,
+    "commit": "8181c1ce7c4ef645a5b7cd000c1adae186234512",
+    "conclusion": "success",
+    "note": "Source review corrected CLI coordinate convention before final acceptance; this run is not final CLI evidence."
+  },
+  "input_identity": {
+    "path": "RCD/red-team-corpus/office-targets-2026-10/xlsx/zen_spreadsheet_multiscenario.xlsx",
+    "sha256": "7e59b5503418378c03e2b2fdefeccace0919d80064a665644913271632ed1187",
+    "distinct_source_fixtures": 1,
+    "copies": "Per-test TempDir copies, not independent business samples."
+  }
+}
