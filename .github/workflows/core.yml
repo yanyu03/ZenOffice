@@ -1,9 +1,9 @@
 name: Core baseline
 on:
   push:
-    paths: ['crates/**', 'Cargo.toml', 'Cargo.lock', 'tools/**', '.github/workflows/**', 'docs/BASELINE_IMPORT.json', 'RCD/**']
+    paths: ['crates/**', 'Cargo.toml', 'Cargo.lock', 'tools/check_baseline.py', '.github/workflows/core.yml', 'docs/BASELINE_IMPORT.json', 'RCD/**']
   pull_request:
-    paths: ['crates/**', 'Cargo.toml', 'Cargo.lock', 'tools/**', '.github/workflows/**', 'docs/BASELINE_IMPORT.json', 'RCD/**']
+    paths: ['crates/**', 'Cargo.toml', 'Cargo.lock', 'tools/check_baseline.py', '.github/workflows/core.yml', 'docs/BASELINE_IMPORT.json', 'RCD/**']
   workflow_dispatch:
 permissions:
   contents: read
