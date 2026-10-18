@@ -14,6 +14,9 @@
 python tools/quota_guard/guard.py --check
 # 0=允许新工作；75=已锁定；76=未知/过期。
 
+# 只停止这个本地监测器；不会结束Codex或用户任务。
+python tools/quota_guard/guard.py --stop
+
 # 非推理即时刷新；路径替换为本机已安装官方codex.exe。
 python tools/quota_guard/guard.py --once --codex C:/path/to/codex.exe
 
