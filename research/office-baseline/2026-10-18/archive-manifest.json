@@ -1,0 +1,22 @@
+{
+  "archive_id": "ZEN-OFFICE-EVIDENCE-2026-10-18-v1",
+  "source_snapshot_commit": "39b2dce7296b5811bf88780532600a7516a22cd5",
+  "created_at": "2026-10-18T14:50:50.063403+00:00",
+  "content_policy": "factual metadata and independent summaries; no vendor payloads or raw decompilation",
+  "files": {
+    "research/office-baseline/2026-10-18/input-identities.json": "1e3c4b045d1af18350ce96efdccf64c0fefe2880dede9331c73a40f5b3cc713d",
+    "research/office-baseline/2026-10-18/interface-observations.json": "dfd5596b2bad5064afe88d80ebd6a402604d75c38136f6c54556a3f36451b2cb",
+    "research/office-baseline/2026-10-18/native-observations.json": "b102d9b4498e9696293628f12b427f68bd04e461bd0770bfd5a12eb1a99e9126",
+    "research/office-baseline/2026-10-18/raw-evidence-index.json": "46cc5eff2c8140b1062a36ec78f0232b09dea272b669433d8293428978c059ef",
+    "research/office-baseline/2026-10-18/README.md": "f4c32eeddfa0ae556a9907935fc797117ddf8656940cbab8a7dbcb0a5a4fbae9",
+    "research/office-baseline/2026-10-18/residual-unknowns.json": "2ad57713051beb2c39b664dc44c7a1a5c5643e63d919efc2f40bc0f1553f186c",
+    "research/office-baseline/2026-10-18/resource-observations.json": "f34238625ddac3890d5a23f99cf5e0a5340895373cf3168e8b4490a5d2dd4b9d",
+    "research/office-baseline/2026-10-18/verify_archive.py": "3389784b2f8c6ff3aff2bbe3a8576059e195d1ae0e79a52db2e579671f972d6d",
+    "docs/taskbooks/ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "docs/taskbooks/ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28",
+    "docs/taskbooks/ZEN-ENGINE-v1.0.lock.json": "9a3a3baee3e2cb19dfcb11c237a0c3fc05ab0bfcb06ee6bdc4a8e7d263f048f6",
+    "docs/OFFICE_RESEARCH_BASELINE_2026-10-18.md": "eb632d591ac2ffeb4e978873c39d7a9e3e51f67be299bec366d32b2baa0f8dc6",
+    "tools/office_research/inspect_native.py": "eda5783aadb6f1acc37f78b64c3fe11f2ad2f6013a6d100aed7b2aed2e88779b",
+    "tools/office_research/inspect_typelibs.ps1": "f55ece87ec119c5f1f5d5a53679a1009d4769cc4bd153510fb51143636698523"
+  }
+}

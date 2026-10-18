@@ -1,0 +1,178 @@
+{
+  "authority": "shipped-artifact",
+  "confidence": "observed",
+  "independent_modules": 8,
+  "observations_per_module": 1,
+  "observations": [
+    {
+      "file": "WINWORD.EXE",
+      "input_sha256": "bdb93fddb7267ad3c8e8cea01739c4888554f52f1bd6d2f92fc92782e90f4b73",
+      "evidence_id": "ev_4066b891a7d4d28b7a0dfa60a588a1c9f004c6505afc4fddf19602cbeabf2d34",
+      "format": "pe32-plus",
+      "machine": 34404,
+      "coverage": {
+        "status": "complete",
+        "examined_entries": 490,
+        "resources": 242
+      },
+      "typelib_payload_identity": [],
+      "limitations": [
+        "Resource identity/count only; payload bytes and icons are not included."
+      ]
+    },
+    {
+      "file": "EXCEL.EXE",
+      "input_sha256": "c689d889d65140b5d3fe549f2d6bfae22f7084202f749418f1739b5cb6e31ba5",
+      "evidence_id": "ev_5f1faa3762b660fae432e5fe17610bee2f1a602e6ab86d91cb154b7319206372",
+      "format": "pe32-plus",
+      "machine": 34404,
+      "coverage": {
+        "status": "complete",
+        "examined_entries": 2470,
+        "resources": 1227
+      },
+      "typelib_payload_identity": [
+        {
+          "resource_id": {
+            "kind": "id",
+            "id": 1
+          },
+          "language": {
+            "kind": "id",
+            "id": 1033
+          },
+          "offset": 63651512,
+          "bytes": 1039424,
+          "sha256": "1688b3c36c3e7456c4996ebf00f4a33232fe2194d23732ab1256e4425ae36be9"
+        }
+      ],
+      "limitations": [
+        "Resource identity/count only; payload bytes and icons are not included."
+      ]
+    },
+    {
+      "file": "POWERPNT.EXE",
+      "input_sha256": "de81916302381d2f6b44dd0569426a5b1d1142508ac859c6d20ebb659767105c",
+      "evidence_id": "ev_ae98b603fe94cda6a52f5d5d6737a7d41570f271dfca5791b263d5beef2e4645",
+      "format": "pe32-plus",
+      "machine": 34404,
+      "coverage": {
+        "status": "complete",
+        "examined_entries": 522,
+        "resources": 258
+      },
+      "typelib_payload_identity": [],
+      "limitations": [
+        "Resource identity/count only; payload bytes and icons are not included."
+      ]
+    },
+    {
+      "file": "MSWORD.OLB",
+      "input_sha256": "b4f5393bf3f1b3cbbaa00d322a901c042f8572eb668511275ac32e75c5f53bb3",
+      "evidence_id": "ev_700d26b79d825a21379d9fe7b89007a8287a5e27c5670886cc8bc6b0afcf3b94",
+      "format": "pe32-plus",
+      "machine": 34404,
+      "coverage": {
+        "status": "complete",
+        "examined_entries": 6,
+        "resources": 2
+      },
+      "typelib_payload_identity": [
+        {
+          "resource_id": {
+            "kind": "id",
+            "id": 1
+          },
+          "language": {
+            "kind": "id",
+            "id": 1033
+          },
+          "offset": 2736,
+          "bytes": 931804,
+          "sha256": "ea6c51101541e6e70ff54fde153e7975831dcddc8d010e026b5a93c7d96f5e14"
+        }
+      ],
+      "limitations": [
+        "Resource identity/count only; payload bytes and icons are not included."
+      ]
+    },
+    {
+      "file": "MSPPT.OLB",
+      "input_sha256": "1e4fc5cf02e18753d242406b1546a9ef55c11e9bf3f008fbf0bd3868a11a3ad7",
+      "evidence_id": "ev_5883212b9312523abeb7323b05947c4a8ead5e840fb8a6ea1f14743216ec1107",
+      "format": "pe32-plus",
+      "machine": 34404,
+      "coverage": {
+        "status": "complete",
+        "examined_entries": 6,
+        "resources": 2
+      },
+      "typelib_payload_identity": [
+        {
+          "resource_id": {
+            "kind": "id",
+            "id": 1
+          },
+          "language": {
+            "kind": "id",
+            "id": 1033
+          },
+          "offset": 2776,
+          "bytes": 421632,
+          "sha256": "284bc8e74ed0ede7c7c3592c8a6d024835a113637a8ed59c4dfeb4421897dfc8"
+        }
+      ],
+      "limitations": [
+        "Resource identity/count only; payload bytes and icons are not included."
+      ]
+    },
+    {
+      "file": "WWLIB.DLL",
+      "input_sha256": "92cd39b6d3e20a6ba3b72dd6c548197f9ddb61523d54cde6446193fbfe2a901e",
+      "evidence_id": "ev_e3c52b0deab79949ec6ec9ac2b23cdfa598b4fdbcfdc7e9f1af8138a1e54eb49",
+      "format": "pe32-plus",
+      "machine": 34404,
+      "coverage": {
+        "status": "complete",
+        "examined_entries": 2072,
+        "resources": 1029
+      },
+      "typelib_payload_identity": [],
+      "limitations": [
+        "Resource identity/count only; payload bytes and icons are not included."
+      ]
+    },
+    {
+      "file": "PPCORE.DLL",
+      "input_sha256": "ea57c6e1b3c4717a2cc210ce926e16fca324514984177ad9a00c83a34a77eedc",
+      "evidence_id": "ev_07de61cf294cac58a43d371818f30c1aa1810b990b2bcd3c119cd77d51ecaf58",
+      "format": "pe32-plus",
+      "machine": 34404,
+      "coverage": {
+        "status": "complete",
+        "examined_entries": 25,
+        "resources": 11
+      },
+      "typelib_payload_identity": [],
+      "limitations": [
+        "Resource identity/count only; payload bytes and icons are not included."
+      ]
+    },
+    {
+      "file": "XLCALL32.DLL",
+      "input_sha256": "46b393eaeff873ee88e714dbd67efca24445d50e79208ed104072bc95e28920d",
+      "evidence_id": "ev_8e7462dc5b64552fa88ecc0238d6345343f3e565ee021676eccf46b5420ec3c0",
+      "format": "pe32-plus",
+      "machine": 34404,
+      "coverage": {
+        "status": "complete",
+        "examined_entries": 3,
+        "resources": 1
+      },
+      "typelib_payload_identity": [],
+      "limitations": [
+        "Resource identity/count only; payload bytes and icons are not included."
+      ]
+    }
+  ]
+}

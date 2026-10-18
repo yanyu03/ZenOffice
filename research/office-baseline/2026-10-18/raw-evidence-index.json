@@ -1,0 +1,228 @@
+{
+  "included_raw_payloads": false,
+  "local_relative_root": "target/office_research/2026-10-18-01",
+  "raw_evidence_files": [
+    {
+      "relative_path": "installation.json",
+      "sha256": "d055bbc588e8cf2e2d4efde1bacf82497e8261396ab3d111a1e61acf8c385be4",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/delay-imports.json",
+      "sha256": "c7b62efaaa22d4d12c9f56d68c9fa0b9150d41a2f939053897f3ef94d9614061",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/evidence-bundle.json",
+      "sha256": "74c5b5a7562428a8fb112bd94a92fa9981a3d5d17769cdb3517a17c72a6f5063",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/EXCEL.EXE-resources.json",
+      "sha256": "acf2b3fd2d92a401179f5b864d71f80746fa4798b55a1a80a36353fba7e8b241",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/export.json",
+      "sha256": "f1b31b8e6f687617d277899e615682346071e2b9a956962a38012d631b6069e1",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/final-close.json",
+      "sha256": "5b71f15425a2ded97f7dca6f927ba1d7bb6fcd2fa187ec6aba4de105006cf849",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/mcp.stderr.log",
+      "sha256": "85d4c79178557bfa7e259c6bd645beaa12cfbffb5045cb10ca5114a2dfe99748",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/MSPPT.OLB-resources.json",
+      "sha256": "e8c52b65d9e837b85e2d83896144d0a1257e90b94e83d3dcd9e0938f4066d6bd",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/MSWORD.OLB-resources.json",
+      "sha256": "21a1f54e720834a2479fb71bc8337cd09a229158a821d2678a61f75bb9c233ee",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/pe-summary.json",
+      "sha256": "1d907667714025fe498efa916ef9ad78581a8c5f93bb568a920a1b3686519524",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/POWERPNT.EXE-close.json",
+      "sha256": "5b71f15425a2ded97f7dca6f927ba1d7bb6fcd2fa187ec6aba4de105006cf849",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/POWERPNT.EXE-entry-callees.json",
+      "sha256": "b8dbf58a42f3722dc28e72de4d7bc1cacb47b494efb596dbbc2bd8b100e1da46",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/POWERPNT.EXE-entry-pseudo.json",
+      "sha256": "86b316bad189bcef2cf0cd83e7daa3be1388042b2a24a046a3df2b817cf59481",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/POWERPNT.EXE-open.json",
+      "sha256": "321374f324384072d97f1a9912ae5deb3b3320ddaf585b59eb64097f3b50c644",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/POWERPNT.EXE-overview.json",
+      "sha256": "188494d4aa6d66f6ef59ecee635550cd685b2435942193698dcd9e9b74fcc75b",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/POWERPNT.EXE-resources.json",
+      "sha256": "bc24e8cd49d0ddd0ec7bc7587c2636893f459fe9aa6bc02593fe435d2a0a15c6",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/POWERPNT.EXE-session.json",
+      "sha256": "4c237c53f4d57fb0dbd952aea4407a4a967fac7bc04bbcb139a7411c6ec572d5",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/PPCORE.DLL-resources.json",
+      "sha256": "2244caacd5ac5f7865724a9e488e0c541235d03a410b360c108006d7b70beb14",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/result.json",
+      "sha256": "587883dd24b9ef36a916021c8f5008292d5d5be1e77a37a3fe71cab9c994e4ba",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/tool-catalog.json",
+      "sha256": "84da4422b1696e2443acd20395d3503a97ed68886eb56570e1a95caab807184e",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/unknown-0.json",
+      "sha256": "1973abc8cc413295a8d2a3e20b8845c0c3cf2b98a40e2d9450c72f957c10f296",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/unknown-1.json",
+      "sha256": "e48ea36c067f560656985d37924344bbdf57514a60920ac71c0c6b48caa9ea7c",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/unknown-2.json",
+      "sha256": "13d417ee2b17836ed3a1ca925bbbae8816918c841f6a5714a9be4de7a6539e24",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/unknown-3.json",
+      "sha256": "124c2ffb9b5df01cffa9c31f8409a7f9da96088576aaa1f1168ebb7d5d0af767",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/WINWORD.EXE-close.json",
+      "sha256": "5b71f15425a2ded97f7dca6f927ba1d7bb6fcd2fa187ec6aba4de105006cf849",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/WINWORD.EXE-entry-callees.json",
+      "sha256": "68a171761ae7bf7580aa02b966e6a4e00997108be2b55195d098fe586b52cdd8",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/WINWORD.EXE-entry-pseudo.json",
+      "sha256": "78fe3db45feeec8fd765b9d5ca48ae75481d0530cb49b83e56b6133afcee49b8",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/WINWORD.EXE-open.json",
+      "sha256": "a0fe6df5e2fe924e1866c585a7d967ce6599657611482b8f2ff543322b09e417",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/WINWORD.EXE-overview.json",
+      "sha256": "86497e404046f36fab43d8e1394b829c0feffd962ef05f90107938307181cc91",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/WINWORD.EXE-resources.json",
+      "sha256": "57fd7225f4e4b9dc141967ece6b7f49dcc1c6dccdf36860c01b8420eb4416f18",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/WINWORD.EXE-session.json",
+      "sha256": "9d2b9f85b1a49ca4ffcdbd77dfbabf6fdc78588b463864a087fe79516a196f40",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/WWLIB.DLL-resources.json",
+      "sha256": "9dea23bd3e3c8f9fcd122d15b154453608c79afd6ad8af9d675af335c37f2e4b",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/XLCALL32.DLL-close.json",
+      "sha256": "5b71f15425a2ded97f7dca6f927ba1d7bb6fcd2fa187ec6aba4de105006cf849",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/XLCALL32.DLL-Excel4v-callees.json",
+      "sha256": "3e9de63e08dd0e50c4e07aaff742d2464e6ff91f68e7d92b6d0d8cc8e972fb18",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/XLCALL32.DLL-Excel4v-pseudo.json",
+      "sha256": "e3e1d8f55dcd9899d340d4e6a23123a92615faf8f43d36807830040e13b1504c",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/XLCALL32.DLL-open.json",
+      "sha256": "36eba337a3e7df8d279c7d84f5128ad6c1591eaf0fb37a9daca9c3a693017d3f",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/XLCALL32.DLL-overview.json",
+      "sha256": "a6d18c935bbb3778647324cd78bba12f2aa660e6cbee500e1e95f6addec644fa",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/XLCALL32.DLL-resources.json",
+      "sha256": "76010ace1577f879e3abee69cd4f3dc44f42fb1e9330ca826c167505f1a0eb4b",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "native/XLCALL32.DLL-session.json",
+      "sha256": "27338bf347d524323e1e9353f550c8e6c703a23d882b0c9c5afd2194328ccef8",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "typelibs/EXCEL.EXE.typelib.json",
+      "sha256": "14fb9411fbda5632d58a0d4647db68c74541a8b9acc54b1ffa5780d7b9788bd4",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "typelibs/identity-after.json",
+      "sha256": "e23a2c8eb0a12a8c5e4bcc2e6e70bba844bf43de1e6851852ab6010e86ea77d9",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "typelibs/inventory.json",
+      "sha256": "97201ed78aefbbd34e47e6b47646160ec3111f18a00a70efea57f9ed38a2a84f",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "typelibs/MSPPT.OLB.typelib.json",
+      "sha256": "eef198fefcb03e21d4d5b9806d6e6fb86c72dbab5307351bcec6970b377d4503",
+      "storage": "local-only; not in this branch"
+    },
+    {
+      "relative_path": "typelibs/MSWORD.OLB.typelib.json",
+      "sha256": "995b0a60f00dac929242fb7f663f8a81c338dc4e3342d97b71707c239e066911",
+      "storage": "local-only; not in this branch"
+    }
+  ],
+  "raw_manifest_sha256": "a371ec8b1910e8c52201c05c871b61ca3169b00af2575e75e147e5728b988954",
+  "meaning": "Hashes locate and verify retained local raw evidence. They do not reconstruct excluded payloads or constitute an offsite backup of those payloads."
+}

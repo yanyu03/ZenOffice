@@ -1,0 +1,77 @@
+{
+  "status": "open; not evidence of completed engine functionality",
+  "unknowns": [
+    {
+      "unknown_id": "unk_f9fcbfb5242229cfbdc85955e48dd0f6112c3971a599f50aaece71e1be21e61e",
+      "question": "What are the actual Excel recalculation, dependency and numeric edge semantics on independent task fixtures?",
+      "status": "open",
+      "severity": "high",
+      "domain": "office-engine-compatibility",
+      "required_authority": "controlled-replay",
+      "required_confidence": "observed",
+      "recommended_probes": [
+        {
+          "operation": "independent-fixture-comparison",
+          "rationale": "Static declarations and launcher functions do not establish document editing behavior."
+        }
+      ],
+      "mutation_evidence_ids": [
+        "ev_d9d9c506224a1e1bc39ceeb279aeb2e4ec13e131a754071fae9578d8bf5b353e"
+      ]
+    },
+    {
+      "unknown_id": "unk_e48f41528a315559a258997458157afcafe0ed53ca6420a1e42eca8027f122e8",
+      "question": "How do Word range edits, save/reopen and layout behave on independent multi-run/table/image fixtures?",
+      "status": "open",
+      "severity": "high",
+      "domain": "office-engine-compatibility",
+      "required_authority": "controlled-replay",
+      "required_confidence": "observed",
+      "recommended_probes": [
+        {
+          "operation": "independent-fixture-comparison",
+          "rationale": "Static declarations and launcher functions do not establish document editing behavior."
+        }
+      ],
+      "mutation_evidence_ids": [
+        "ev_6c07b69324d0dd0066680e34362cf0537705b24a58ec7f6f293bf8bc16d9dc29"
+      ]
+    },
+    {
+      "unknown_id": "unk_22ae2439540c60fa43585c0b94c0e00bb2a57a8d78a0a62ee108a6c6bda82b43",
+      "question": "How do PowerPoint slide identity, relationships, shape edits and save/reopen behave on independent decks?",
+      "status": "open",
+      "severity": "high",
+      "domain": "office-engine-compatibility",
+      "required_authority": "controlled-replay",
+      "required_confidence": "observed",
+      "recommended_probes": [
+        {
+          "operation": "independent-fixture-comparison",
+          "rationale": "Static declarations and launcher functions do not establish document editing behavior."
+        }
+      ],
+      "mutation_evidence_ids": [
+        "ev_0768e0e3880a0ddbd9a6450684ca5a3beb72b8985e06ec0fc675c341c20dccf2"
+      ]
+    },
+    {
+      "unknown_id": "unk_2db00d9fe3636b1334f4d9b8cbd415155cbc503b7d1685b869ff3ab9e916c727",
+      "question": "Which core implementations in EXCEL.EXE, WWLIB.DLL and PPCORE.DLL explain observed behavior beyond declarations and launcher boundaries?",
+      "status": "open",
+      "severity": "high",
+      "domain": "office-engine-compatibility",
+      "required_authority": "shipped-artifact",
+      "required_confidence": "observed",
+      "recommended_probes": [
+        {
+          "operation": "focused-core-provider-session",
+          "rationale": "Static declarations and launcher functions do not establish document editing behavior."
+        }
+      ],
+      "mutation_evidence_ids": [
+        "ev_cf18020b3ba84c61a4b1f1bd24188bc27296ea469524006b9c890c7b63b281bc"
+      ]
+    }
+  ]
+}

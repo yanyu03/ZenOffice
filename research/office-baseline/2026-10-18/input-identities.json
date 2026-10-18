@@ -1,0 +1,71 @@
+{
+  "product": "Microsoft Office LTSC 2024 ProPlus2024Volume",
+  "installation_version": "16.0.17932.21056",
+  "installed_directory": "Microsoft Office/root/Office16",
+  "observations": [
+    {
+      "file": "WINWORD.EXE",
+      "bytes": 1639144,
+      "file_version": "16.0.17932.21056",
+      "sha256": "bdb93fddb7267ad3c8e8cea01739c4888554f52f1bd6d2f92fc92782e90f4b73",
+      "signature_status": "Valid",
+      "signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+    },
+    {
+      "file": "EXCEL.EXE",
+      "bytes": 69756656,
+      "file_version": "16.0.17932.21056",
+      "sha256": "c689d889d65140b5d3fe549f2d6bfae22f7084202f749418f1739b5cb6e31ba5",
+      "signature_status": "Valid",
+      "signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+    },
+    {
+      "file": "POWERPNT.EXE",
+      "bytes": 1879816,
+      "file_version": "16.0.17932.21056",
+      "sha256": "de81916302381d2f6b44dd0569426a5b1d1142508ac859c6d20ebb659767105c",
+      "signature_status": "Valid",
+      "signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+    },
+    {
+      "file": "MSWORD.OLB",
+      "bytes": 954792,
+      "file_version": "16.0.17425.20008",
+      "sha256": "b4f5393bf3f1b3cbbaa00d322a901c042f8572eb668511275ac32e75c5f53bb3",
+      "signature_status": "Valid",
+      "signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+    },
+    {
+      "file": "MSPPT.OLB",
+      "bytes": 444392,
+      "file_version": "16.0.17928.20018",
+      "sha256": "1e4fc5cf02e18753d242406b1546a9ef55c11e9bf3f008fbf0bd3868a11a3ad7",
+      "signature_status": "Valid",
+      "signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+    },
+    {
+      "file": "WWLIB.DLL",
+      "bytes": 54524648,
+      "file_version": "16.0.17932.21056",
+      "sha256": "92cd39b6d3e20a6ba3b72dd6c548197f9ddb61523d54cde6446193fbfe2a901e",
+      "signature_status": "Valid",
+      "signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+    },
+    {
+      "file": "PPCORE.DLL",
+      "bytes": 33790208,
+      "file_version": "16.0.17932.21056",
+      "sha256": "ea57c6e1b3c4717a2cc210ce926e16fca324514984177ad9a00c83a34a77eedc",
+      "signature_status": "Valid",
+      "signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+    },
+    {
+      "file": "XLCALL32.DLL",
+      "bytes": 33952,
+      "file_version": "16.0.17425.20008",
+      "sha256": "46b393eaeff873ee88e714dbd67efca24445d50e79208ed104072bc95e28920d",
+      "signature_status": "Valid",
+      "signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+    }
+  ]
+}

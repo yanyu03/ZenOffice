@@ -1,0 +1,75 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "RES-001",
+  "started_at": "2026-10-18T14:49:40.913460+00:00",
+  "ended_at": "2026-10-18T14:51:33.056620+00:00",
+  "status": "DONE",
+  "actual_commit": "39b2dce7296b5811bf88780532600a7516a22cd5",
+  "actual_scope": "RES-001依据归档延伸：将既有静态批次的事实元数据、独立摘要、未知和原始证据哈希索引保存到独立研究分支；没有重做原生分析或新增引擎功能。",
+  "commands": [
+    "python tools/taskbook/calibrate.py",
+    "git show HEAD:<frozen/reference path>",
+    "git hash-object -w --stdin; git read-tree <source_snapshot_commit>; git update-index --cacheinfo <archive file>",
+    "git commit-tree <archive tree> -p <source snapshot> -F <message file>",
+    "git archive <archive commit> <archive and reference paths>; python research/office-baseline/2026-10-18/verify_archive.py"
+  ],
+  "deviations": [
+    "本轮是原RES-001证据的归档延伸，条件沿用原调查实况；所有静态观察数量均复用原批次，不是新增样本或重跑。",
+    "分支只保存可公开事实/独立摘要和哈希；原始资源、完整类型库转储、反编译输出仍留本机，未做远程完整原始载荷备份。"
+  ],
+  "untested": [
+    "新Office运行/功能观测",
+    "核心计算/排版函数调查",
+    "原始证据异地完整恢复（原始载荷未上传）"
+  ],
+  "next_step": "保持main用于ENG-002开发；依据查阅使用research/office-baseline-2026-10-18分支，不回改冻结任务书。",
+  "criteria": {
+    "RES-001-C1": {
+      "requirement": "固定8个已安装Office模块的版本、签名状态、大小和SHA256，取证前后逐个比较。",
+      "result": "PASS",
+      "observation": "复用原8模块身份/签名/前后哈希观察；归档input-identities及native-observations，逐项原始证据哈希重核一致。",
+      "sample_count": 8,
+      "evidence": [
+        "research/office-baseline/2026-10-18/input-identities.json",
+        "research/office-baseline/2026-10-18/native-observations.json"
+      ]
+    },
+    "RES-001-C2": {
+      "requirement": "读取Excel、Word、PowerPoint各1份类型库，保存对象/成员/调用种类；不注册、不启动Office。",
+      "result": "PASS",
+      "observation": "复用原3份类型库单次观察，仅归档聚焦接口声明、GUID和原响应哈希；无新启动或注册。",
+      "sample_count": 3,
+      "evidence": [
+        "research/office-baseline/2026-10-18/interface-observations.json"
+      ]
+    },
+    "RES-001-C3": {
+      "requirement": "用REA保存8个模块资源证据；对XLCALL32、WINWORD、POWERPNT各1个原生会话保存概览、函数证据、关闭结果。",
+      "result": "PASS",
+      "observation": "复用8模块资源和其中3个小模块原生会话结果，归档证据ID、数量、关闭状态和分析限制；未增加观察样本。",
+      "sample_count": 8,
+      "evidence": [
+        "research/office-baseline/2026-10-18/resource-observations.json",
+        "research/office-baseline/2026-10-18/native-observations.json"
+      ]
+    },
+    "RES-001-C4": {
+      "requirement": "报告区分静态声明、函数观测、推断与未知；保存复现命令、4项REA未知和证据包；不将原始厂商输出加入Git。",
+      "result": "PASS",
+      "observation": "依据报告、复现工具与只读任务书随分支快照保存；归档4项未知及44份本地原始证据的哈希索引；未纳入厂商载荷或原始伪代码。",
+      "sample_count": 1,
+      "evidence": [
+        "research/office-baseline/2026-10-18/residual-unknowns.json",
+        "research/office-baseline/2026-10-18/raw-evidence-index.json",
+        "research/office-baseline/2026-10-18/archive-manifest.json"
+      ]
+    }
+  },
+  "source_actual_record": "docs/task_runs/2026-10-18-002-RES-001.json",
+  "measurement_reuse": true,
+  "archive_branch": "research/office-baseline-2026-10-18"
+}

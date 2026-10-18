@@ -1,0 +1,121 @@
+{
+  "scope": "3 small native modules, one static session each; no pseudocode/disassembly text included",
+  "application_started": false,
+  "observations": [
+    {
+      "file": "XLCALL32.DLL",
+      "input_sha256": "46b393eaeff873ee88e714dbd67efca24445d50e79208ed104072bc95e28920d",
+      "provider": {
+        "id": "rea-workflow",
+        "name": "REA composed investigation workflow",
+        "version": "1"
+      },
+      "overview_evidence_id": "ev_1febaf95c538905736f395c70ef5a26da7c5bc7ae6840d276f5939be13d5fbb3",
+      "procedure_count": 38,
+      "string_count": 48,
+      "analyst_observation": "Excel4v checks a callback slot; unset slot yields 0x20, otherwise an indirect call. Callback initialization, destination and result-code meaning remain unknown. This is not a calculation algorithm reconstruction.",
+      "function_evidence": [
+        {
+          "operation": "procedure_pseudo_code",
+          "evidence_id": "ev_5b8a4548b136eb8262989af75c9bc285db418c45621671dee40483d506c28b10"
+        },
+        {
+          "operation": "procedure_callees",
+          "evidence_id": "ev_3a48c3942ea1ef8caa4a0fd2de27829c2ea95c82492529fec514ba0de6eb406e"
+        }
+      ],
+      "session_close_operation_completed": true
+    },
+    {
+      "file": "WINWORD.EXE",
+      "input_sha256": "bdb93fddb7267ad3c8e8cea01739c4888554f52f1bd6d2f92fc92782e90f4b73",
+      "provider": {
+        "id": "rea-workflow",
+        "name": "REA composed investigation workflow",
+        "version": "1"
+      },
+      "overview_evidence_id": "ev_50f212fc94494da69a5f2c74cf42c3c9c7afea19efef5925f007bb68c5a78f55",
+      "procedure_count": 250,
+      "string_count": 186,
+      "analyst_observation": "Observed entry initializes a security cookie and calls another routine. No document layout implementation located.",
+      "function_evidence": [
+        {
+          "operation": "procedure_pseudo_code",
+          "evidence_id": "ev_3e541b8188dcc20afac79b1e693b72b4c84e9b3dab63a2fa06076d4aab8e1305"
+        },
+        {
+          "operation": "procedure_callees",
+          "evidence_id": "ev_5b9c031af36a883be0fbd3958d6798ba812441255ac371ebd72e98699e677bd2"
+        }
+      ],
+      "session_close_operation_completed": true
+    },
+    {
+      "file": "POWERPNT.EXE",
+      "input_sha256": "de81916302381d2f6b44dd0569426a5b1d1142508ac859c6d20ebb659767105c",
+      "provider": {
+        "id": "rea-workflow",
+        "name": "REA composed investigation workflow",
+        "version": "1"
+      },
+      "overview_evidence_id": "ev_381e4c0c6633a1dc07e80b8896714381499fa40dd82a93e8aff84fc59a3da04f",
+      "procedure_count": 147,
+      "string_count": 109,
+      "analyst_observation": "Observed entry initializes a security cookie and calls another routine. Static delay import names ppcore.dll!PPMain; no runtime call trace or object-editing implementation established.",
+      "function_evidence": [
+        {
+          "operation": "procedure_pseudo_code",
+          "evidence_id": "ev_4d797d34826f9e112cc5cd96398f173238bd7ba4c81a8689917db5c3857a5c54"
+        },
+        {
+          "operation": "procedure_callees",
+          "evidence_id": "ev_26f59312c2a61496a7eaf67b6f550eb06023f5a46ebc25ae9e7fb08802128c18"
+        }
+      ],
+      "session_close_operation_completed": true
+    }
+  ],
+  "target_identities_unchanged": [
+    {
+      "name": "WINWORD.EXE",
+      "sha256": "bdb93fddb7267ad3c8e8cea01739c4888554f52f1bd6d2f92fc92782e90f4b73",
+      "unchanged": true
+    },
+    {
+      "name": "EXCEL.EXE",
+      "sha256": "c689d889d65140b5d3fe549f2d6bfae22f7084202f749418f1739b5cb6e31ba5",
+      "unchanged": true
+    },
+    {
+      "name": "POWERPNT.EXE",
+      "sha256": "de81916302381d2f6b44dd0569426a5b1d1142508ac859c6d20ebb659767105c",
+      "unchanged": true
+    },
+    {
+      "name": "MSWORD.OLB",
+      "sha256": "b4f5393bf3f1b3cbbaa00d322a901c042f8572eb668511275ac32e75c5f53bb3",
+      "unchanged": true
+    },
+    {
+      "name": "MSPPT.OLB",
+      "sha256": "1e4fc5cf02e18753d242406b1546a9ef55c11e9bf3f008fbf0bd3868a11a3ad7",
+      "unchanged": true
+    },
+    {
+      "name": "WWLIB.DLL",
+      "sha256": "92cd39b6d3e20a6ba3b72dd6c548197f9ddb61523d54cde6446193fbfe2a901e",
+      "unchanged": true
+    },
+    {
+      "name": "PPCORE.DLL",
+      "sha256": "ea57c6e1b3c4717a2cc210ce926e16fca324514984177ad9a00c83a34a77eedc",
+      "unchanged": true
+    },
+    {
+      "name": "XLCALL32.DLL",
+      "sha256": "46b393eaeff873ee88e714dbd67efca24445d50e79208ed104072bc95e28920d",
+      "unchanged": true
+    }
+  ],
+  "raw_batch_seconds": 87.078
+}

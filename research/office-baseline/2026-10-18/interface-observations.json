@@ -1,0 +1,279 @@
+{
+  "level": "static declarations only; no runtime capability claim",
+  "source_libraries": 3,
+  "observations_per_library": 1,
+  "observations": [
+    {
+      "file": "EXCEL.EXE",
+      "source_response_sha256": "14fb9411fbda5632d58a0d4647db68c74541a8b9acc54b1ffa5780d7b9788bd4",
+      "guid": "00020813-0000-0000-c000-000000000046",
+      "major": 1,
+      "minor": 9,
+      "type_count": 1035,
+      "selected_type_count_in_original_observation": 12,
+      "registration": "REGKIND_NONE",
+      "application_started": false,
+      "types": [
+        {
+          "name": "_Application",
+          "kind": "TKIND_DISPATCH",
+          "selected_member_declarations": [
+            {
+              "name": "Undo",
+              "dispid": 303,
+              "invocation": "INVOKE_FUNC"
+            },
+            {
+              "name": "CalculateFullRebuild",
+              "dispid": 1945,
+              "invocation": "INVOKE_FUNC"
+            }
+          ]
+        },
+        {
+          "name": "_Workbook",
+          "kind": "TKIND_DISPATCH",
+          "selected_member_declarations": [
+            {
+              "name": "Saved",
+              "dispid": 298,
+              "invocation": "INVOKE_PROPERTYGET"
+            },
+            {
+              "name": "Saved",
+              "dispid": 298,
+              "invocation": "INVOKE_PROPERTYPUT"
+            },
+            {
+              "name": "Worksheets",
+              "dispid": 494,
+              "invocation": "INVOKE_PROPERTYGET"
+            },
+            {
+              "name": "SaveAs",
+              "dispid": 3174,
+              "invocation": "INVOKE_FUNC"
+            }
+          ]
+        },
+        {
+          "name": "Workbooks",
+          "kind": "TKIND_DISPATCH",
+          "selected_member_declarations": [
+            {
+              "name": "Add",
+              "dispid": 181,
+              "invocation": "INVOKE_FUNC"
+            },
+            {
+              "name": "Open",
+              "dispid": 1923,
+              "invocation": "INVOKE_FUNC"
+            }
+          ]
+        },
+        {
+          "name": "Range",
+          "kind": "TKIND_DISPATCH",
+          "selected_member_declarations": [
+            {
+              "name": "Formula",
+              "dispid": 261,
+              "invocation": "INVOKE_PROPERTYGET"
+            },
+            {
+              "name": "Formula",
+              "dispid": 261,
+              "invocation": "INVOKE_PROPERTYPUT"
+            },
+            {
+              "name": "Text",
+              "dispid": 138,
+              "invocation": "INVOKE_PROPERTYGET"
+            },
+            {
+              "name": "Value2",
+              "dispid": 1388,
+              "invocation": "INVOKE_PROPERTYGET"
+            },
+            {
+              "name": "Value2",
+              "dispid": 1388,
+              "invocation": "INVOKE_PROPERTYPUT"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "MSWORD.OLB",
+      "source_response_sha256": "995b0a60f00dac929242fb7f663f8a81c338dc4e3342d97b71707c239e066911",
+      "guid": "00020905-0000-0000-c000-000000000046",
+      "major": 8,
+      "minor": 7,
+      "type_count": 767,
+      "selected_type_count_in_original_observation": 14,
+      "registration": "REGKIND_NONE",
+      "application_started": false,
+      "types": [
+        {
+          "name": "Documents",
+          "kind": "TKIND_DISPATCH",
+          "selected_member_declarations": [
+            {
+              "name": "Add",
+              "dispid": 14,
+              "invocation": "INVOKE_FUNC"
+            },
+            {
+              "name": "Open",
+              "dispid": 19,
+              "invocation": "INVOKE_FUNC"
+            }
+          ]
+        },
+        {
+          "name": "_Document",
+          "kind": "TKIND_DISPATCH",
+          "selected_member_declarations": [
+            {
+              "name": "Range",
+              "dispid": 2000,
+              "invocation": "INVOKE_FUNC"
+            },
+            {
+              "name": "Undo",
+              "dispid": 116,
+              "invocation": "INVOKE_FUNC"
+            },
+            {
+              "name": "Redo",
+              "dispid": 117,
+              "invocation": "INVOKE_FUNC"
+            },
+            {
+              "name": "SaveAs2",
+              "dispid": 568,
+              "invocation": "INVOKE_FUNC"
+            }
+          ]
+        },
+        {
+          "name": "Range",
+          "kind": "TKIND_DISPATCH",
+          "selected_member_declarations": [
+            {
+              "name": "Text",
+              "dispid": 0,
+              "invocation": "INVOKE_PROPERTYGET"
+            },
+            {
+              "name": "Text",
+              "dispid": 0,
+              "invocation": "INVOKE_PROPERTYPUT"
+            },
+            {
+              "name": "InsertAfter",
+              "dispid": 104,
+              "invocation": "INVOKE_FUNC"
+            }
+          ]
+        },
+        {
+          "name": "UndoRecord",
+          "kind": "TKIND_DISPATCH",
+          "selected_member_declarations": [
+            {
+              "name": "StartCustomRecord",
+              "dispid": 1,
+              "invocation": "INVOKE_FUNC"
+            },
+            {
+              "name": "EndCustomRecord",
+              "dispid": 2,
+              "invocation": "INVOKE_FUNC"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "MSPPT.OLB",
+      "source_response_sha256": "eef198fefcb03e21d4d5b9806d6e6fb86c72dbab5307351bcec6970b377d4503",
+      "guid": "91493440-5a91-11cf-8700-00aa0060263b",
+      "major": 2,
+      "minor": 12,
+      "type_count": 348,
+      "selected_type_count_in_original_observation": 13,
+      "registration": "REGKIND_NONE",
+      "application_started": false,
+      "types": [
+        {
+          "name": "Slides",
+          "kind": "TKIND_DISPATCH",
+          "selected_member_declarations": [
+            {
+              "name": "Add",
+              "dispid": 2004,
+              "invocation": "INVOKE_FUNC"
+            }
+          ]
+        },
+        {
+          "name": "_Slide",
+          "kind": "TKIND_DISPATCH",
+          "selected_member_declarations": [
+            {
+              "name": "SlideID",
+              "dispid": 2009,
+              "invocation": "INVOKE_PROPERTYGET"
+            },
+            {
+              "name": "MoveTo",
+              "dispid": 2030,
+              "invocation": "INVOKE_FUNC"
+            }
+          ]
+        },
+        {
+          "name": "Shapes",
+          "kind": "TKIND_DISPATCH",
+          "selected_member_declarations": [
+            {
+              "name": "AddTextbox",
+              "dispid": 19,
+              "invocation": "INVOKE_FUNC"
+            }
+          ]
+        },
+        {
+          "name": "TextRange",
+          "kind": "TKIND_DISPATCH",
+          "selected_member_declarations": [
+            {
+              "name": "Text",
+              "dispid": 0,
+              "invocation": "INVOKE_PROPERTYGET"
+            },
+            {
+              "name": "Text",
+              "dispid": 0,
+              "invocation": "INVOKE_PROPERTYPUT"
+            }
+          ]
+        },
+        {
+          "name": "_Presentation",
+          "kind": "TKIND_DISPATCH",
+          "selected_member_declarations": [
+            {
+              "name": "SaveAs",
+              "dispid": 2036,
+              "invocation": "INVOKE_FUNC"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
