@@ -1,0 +1,22 @@
+{
+  "task": "ENG-005",
+  "kind": "mutable implementation design, not frozen taskbook or runtime evidence",
+  "contract": "docs/TYPED_EDIT_CONTRACT.md",
+  "reviewed_commit": "28f2db7b76ccf512a180e2419b79650717826fa1",
+  "read_model": "zen_engine::workbook::TypedValue and Option<TypedValue>; reuse DateSystem",
+  "current_writer": "finite existing numeric inputs only; unchanged error cache preservation is not error editing",
+  "intents": [
+    {"id":"blank","representation":"SetValue(None)","current_edit":"NOT_IMPLEMENTED","planned_encoding":"retain existing c position/style, remove f/v/is and stale type","must_distinguish":"blank versus empty text, zero, false","rejections":["missing explicit cell node in first slice","unprojected metadata","candidate budget failure"]},
+    {"id":"text","representation":"SetValue(Some(TypedValue::Text))","current_edit":"NOT_IMPLEMENTED","planned_encoding":"inlineStr/is/t; escape XML and preserve significant whitespace","must_distinguish":"literal text beginning with = versus formula","rejections":["invalid XML characters","text or archive limit","unsupported dependent cache"]},
+    {"id":"boolean","representation":"SetValue(Some(TypedValue::Boolean))","current_edit":"NOT_IMPLEMENTED","planned_encoding":"b/v with 0 or 1","must_distinguish":"false versus numeric zero versus text FALSE","rejections":["coercion used to bypass type policy","unsupported dependent cache"]},
+    {"id":"number","representation":"SetValue(Some(TypedValue::Number)); existing set_number remains compatible","current_edit":"E1_EXISTING_NUMERIC_ONLY","planned_encoding":"n/v, new lexical generated from finite value; no-op keeps source lexical","must_distinguish":"value versus caller-supplied lexical spelling","rejections":["NaN","positive or negative infinity","existing nonnumeric target until new writer is implemented"]},
+    {"id":"date_1900","representation":"SetDateSerial { serial, system: Excel1900 }","current_edit":"NO_DATE_INTENT_API","planned_encoding":"numeric serial plus explicitly validated date style; workbook date system unchanged","must_distinguish":"date serial versus absolute Gregorian date","boundary_plan":["59","60","61","half-day fraction","system mismatch","nonfinite"],"rejections":["system mismatch","unresolved date format","ISO-date text supplied without explicit policy"]},
+    {"id":"date_1904","representation":"SetDateSerial { serial, system: Excel1904 }","current_edit":"NO_DATE_INTENT_API","planned_encoding":"numeric serial plus explicitly validated date style; no implicit system conversion","must_distinguish":"1904 serial versus same number in 1900 system","boundary_plan":["0","1","half-day fraction","system mismatch"],"rejections":["system mismatch","unresolved date format","unvalidated conversion"]},
+    {"id":"formula","representation":"SetFormula(String)","current_edit":"NO_FORMULA_REPLACEMENT_API","planned_encoding":"qualified f plus typed recalculated cache; one optional leading = on request","must_distinguish":"formula definition versus typed input versus cache versus display","rejections":["unknown name","array/shared/data-table formula","external or dynamic reference","cycle","unsupported dependent result"]},
+    {"id":"error_input","representation":"TypedValue::Error is readable; direct edit initially refused","current_edit":"UNCHANGED_CALCULATED_CACHE_PRESERVATION_ONLY","planned_encoding":"error result type and e/v require a separate verified cache policy","must_distinguish":"direct error input, unchanged error, changed error, error-to-number and number-to-error","rejections":["direct error write in first slice","changed error or cache type before typed writer acceptance","unknown error tag","COM error HRESULT treated as ordinary number"]}
+  ],
+  "transaction_order": ["intent and limits", "package and target admission", "temporary calculator and dependencies", "all changed cache admission", "package patch plan", "candidate re-read", "history and revision commit", "existing create-new save API"],
+  "implementation_slices": ["shared admission and blank/text/boolean existing-cell input with typed caches", "normal formula replacement and cross-sheet dynamic dependencies", "explicit date/style boundaries and three independent business host comparisons"],
+  "new_runtime_tests_in_this_cycle": 0,
+  "new_office_runs_in_this_cycle": 0
+}
