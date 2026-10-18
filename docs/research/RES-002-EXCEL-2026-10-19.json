@@ -1,0 +1,1506 @@
+{
+  "id": "RES-002-Excel-observations-2026-10-19",
+  "scope": "Excel vs predeclared values/formulas/errors/date system, not Zen comparison or native Undo",
+  "input_manifest": "RCD/engine-acceptance/res-002-v1/manifest.json",
+  "samples": 3,
+  "runs_per_sample": 3,
+  "completed_runs": 9,
+  "phase_observations": 36,
+  "unexpected_differences": [],
+  "algorithm_status": {
+    "target": "EXCEL.EXE",
+    "file_version": "16.0.17932.21000",
+    "sha256": "c71c7ca0faf896fd52e66924f7ec43ab8b7b110fa3b179097c1f0e3c6c036369",
+    "function_sessions": 0,
+    "status": "NOT_LOCATED",
+    "reason": "No unexpected value/formula/error/date-system discrepancy in these nine Excel-vs-predeclared runs; no justified native function target yet. No algorithm or general compatibility claim."
+  },
+  "limitations": [
+    "Not a Zen-vs-Excel comparison",
+    "No native Undo or UI/visual equivalence observation",
+    "budget-01 did not read back Calculation/country after assignment; subsequent eight runs did; original receipt retained",
+    "Initial no-workbook Calculation returned null; not treated as a numeric mode",
+    "No power loss, broad functions, external links, macros or locale matrix"
+  ],
+  "runs": [
+    {
+      "id": "budget-01",
+      "receipt_sha256": "36af519ea9cb245c5989a889698522e433a53461e97b906cc7f2cac327591adf",
+      "output_sha256": "ae8d8c99d0fe90c778651f38b1d66f5d4cd8807ef289d529e68da6e9339f1c34",
+      "process": {
+        "id": 3432,
+        "creation_utc": "2026-10-18T21:02:03.3274055Z",
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE"
+      },
+      "application": {
+        "version": "16.0",
+        "build": 17932,
+        "operating_system": "Windows (64-bit) NT 10.00",
+        "decimal_separator": ".",
+        "thousands_separator": ",",
+        "use_system_separators": true,
+        "calculation_before": null
+      },
+      "executable": {
+        "file_version": "16.0.17932.21000",
+        "sha256": "c71c7ca0faf896fd52e66924f7ec43ab8b7b110fa3b179097c1f0e3c6c036369"
+      },
+      "phase_count": 4,
+      "status": "PASS",
+      "source_sha256": "dded0be3d458ec04df9789aeeefc2c4103db368ed96f2a93b1b817a8b5b2db26",
+      "copy_sha256": "dded0be3d458ec04df9789aeeefc2c4103db368ed96f2a93b1b817a8b5b2db26",
+      "cleanup": "QUIT_REQUESTED",
+      "process_remaining": false,
+      "observations": [
+        {
+          "name": "initial",
+          "date1904": false,
+          "values": {
+            "D4": 500,
+            "D5": 0,
+            "D6": 200,
+            "B8": 16000,
+            "C8": 15300,
+            "D8": 700,
+            "B12": -2146826281,
+            "B10": 46314,
+            "A4": "Payroll",
+            "B4": 10000,
+            "C4": 9500,
+            "A5": "Rent",
+            "B5": 5000,
+            "C5": 5000,
+            "A6": "Supplies",
+            "B6": 1000,
+            "C6": 800
+          },
+          "formulas": {
+            "D4": "=B4-C4",
+            "D5": "=B5-C5",
+            "D6": "=B6-C6",
+            "B8": "=SUM(B4:B6)",
+            "C8": "=SUM(C4:C6)",
+            "D8": "=B8-C8",
+            "B12": "=1/0"
+          },
+          "texts": {
+            "B8": "16000.",
+            "B12": "#DIV/0!",
+            "B10": "2026-10-19",
+            "B4": "10000.",
+            "B5": "5000.",
+            "B6": "1000."
+          }
+        },
+        {
+          "name": "edit-payroll",
+          "date1904": false,
+          "values": {
+            "D4": 200,
+            "D5": 0,
+            "D6": 200,
+            "B8": 16000,
+            "C8": 15600,
+            "D8": 400,
+            "B12": -2146826281,
+            "B10": 46314,
+            "A4": "Payroll",
+            "B4": 10000,
+            "C4": 9800,
+            "A5": "Rent",
+            "B5": 5000,
+            "C5": 5000,
+            "A6": "Supplies",
+            "B6": 1000,
+            "C6": 800
+          },
+          "formulas": {
+            "D4": "=B4-C4",
+            "D5": "=B5-C5",
+            "D6": "=B6-C6",
+            "B8": "=SUM(B4:B6)",
+            "C8": "=SUM(C4:C6)",
+            "D8": "=B8-C8",
+            "B12": "=1/0"
+          },
+          "texts": {
+            "B8": "16000.",
+            "B12": "#DIV/0!",
+            "B10": "2026-10-19",
+            "B4": "10000.",
+            "B5": "5000.",
+            "B6": "1000."
+          }
+        },
+        {
+          "name": "edit-supplies",
+          "date1904": false,
+          "values": {
+            "D4": 200,
+            "D5": 0,
+            "D6": 400,
+            "B8": 16200,
+            "C8": 15600,
+            "D8": 600,
+            "B12": -2146826281,
+            "B10": 46314,
+            "A4": "Payroll",
+            "B4": 10000,
+            "C4": 9800,
+            "A5": "Rent",
+            "B5": 5000,
+            "C5": 5000,
+            "A6": "Supplies",
+            "B6": 1200,
+            "C6": 800
+          },
+          "formulas": {
+            "D4": "=B4-C4",
+            "D5": "=B5-C5",
+            "D6": "=B6-C6",
+            "B8": "=SUM(B4:B6)",
+            "C8": "=SUM(C4:C6)",
+            "D8": "=B8-C8",
+            "B12": "=1/0"
+          },
+          "texts": {
+            "B8": "16200.",
+            "B12": "#DIV/0!",
+            "B10": "2026-10-19",
+            "B4": "10000.",
+            "B5": "5000.",
+            "B6": "1200."
+          }
+        },
+        {
+          "name": "reopened",
+          "date1904": false,
+          "values": {
+            "D4": 200,
+            "D5": 0,
+            "D6": 400,
+            "B8": 16200,
+            "C8": 15600,
+            "D8": 600,
+            "B12": -2146826281,
+            "B10": 46314,
+            "A4": "Payroll",
+            "B4": 10000,
+            "C4": 9800,
+            "A5": "Rent",
+            "B5": 5000,
+            "C5": 5000,
+            "A6": "Supplies",
+            "B6": 1200,
+            "C6": 800
+          },
+          "formulas": {
+            "D4": "=B4-C4",
+            "D5": "=B5-C5",
+            "D6": "=B6-C6",
+            "B8": "=SUM(B4:B6)",
+            "C8": "=SUM(C4:C6)",
+            "D8": "=B8-C8",
+            "B12": "=1/0"
+          },
+          "texts": {
+            "B8": "16200.",
+            "B12": "#DIV/0!",
+            "B10": "2026-10-19",
+            "B4": "10000.",
+            "B5": "5000.",
+            "B6": "1200."
+          }
+        }
+      ]
+    },
+    {
+      "id": "budget-02",
+      "receipt_sha256": "2c56b08065c13ac71f4857488e273a85f774c4f67cb0d155d56f6e323cc9e1dd",
+      "output_sha256": "1a79792156185c3b529d83e981f50c9d69bcebc18b83e8dcf5f1cad4aeb64472",
+      "process": {
+        "id": 27824,
+        "creation_utc": "2026-10-18T21:02:39.7199513Z",
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE"
+      },
+      "application": {
+        "version": "16.0",
+        "build": 17932,
+        "operating_system": "Windows (64-bit) NT 10.00",
+        "decimal_separator": ".",
+        "thousands_separator": ",",
+        "use_system_separators": true,
+        "calculation_before": null,
+        "calculation_after": -4105,
+        "country_code": 86,
+        "country_setting": 86
+      },
+      "executable": {
+        "file_version": "16.0.17932.21000",
+        "sha256": "c71c7ca0faf896fd52e66924f7ec43ab8b7b110fa3b179097c1f0e3c6c036369"
+      },
+      "phase_count": 4,
+      "status": "PASS",
+      "source_sha256": "dded0be3d458ec04df9789aeeefc2c4103db368ed96f2a93b1b817a8b5b2db26",
+      "copy_sha256": "dded0be3d458ec04df9789aeeefc2c4103db368ed96f2a93b1b817a8b5b2db26",
+      "cleanup": "QUIT_REQUESTED",
+      "process_remaining": false,
+      "observations": [
+        {
+          "name": "initial",
+          "date1904": false,
+          "values": {
+            "D4": 500,
+            "D5": 0,
+            "D6": 200,
+            "B8": 16000,
+            "C8": 15300,
+            "D8": 700,
+            "B12": -2146826281,
+            "B10": 46314,
+            "A4": "Payroll",
+            "B4": 10000,
+            "C4": 9500,
+            "A5": "Rent",
+            "B5": 5000,
+            "C5": 5000,
+            "A6": "Supplies",
+            "B6": 1000,
+            "C6": 800
+          },
+          "formulas": {
+            "D4": "=B4-C4",
+            "D5": "=B5-C5",
+            "D6": "=B6-C6",
+            "B8": "=SUM(B4:B6)",
+            "C8": "=SUM(C4:C6)",
+            "D8": "=B8-C8",
+            "B12": "=1/0"
+          },
+          "texts": {
+            "B8": "16000.",
+            "B12": "#DIV/0!",
+            "B10": "2026-10-19",
+            "B4": "10000.",
+            "B5": "5000.",
+            "B6": "1000."
+          }
+        },
+        {
+          "name": "edit-payroll",
+          "date1904": false,
+          "values": {
+            "D4": 200,
+            "D5": 0,
+            "D6": 200,
+            "B8": 16000,
+            "C8": 15600,
+            "D8": 400,
+            "B12": -2146826281,
+            "B10": 46314,
+            "A4": "Payroll",
+            "B4": 10000,
+            "C4": 9800,
+            "A5": "Rent",
+            "B5": 5000,
+            "C5": 5000,
+            "A6": "Supplies",
+            "B6": 1000,
+            "C6": 800
+          },
+          "formulas": {
+            "D4": "=B4-C4",
+            "D5": "=B5-C5",
+            "D6": "=B6-C6",
+            "B8": "=SUM(B4:B6)",
+            "C8": "=SUM(C4:C6)",
+            "D8": "=B8-C8",
+            "B12": "=1/0"
+          },
+          "texts": {
+            "B8": "16000.",
+            "B12": "#DIV/0!",
+            "B10": "2026-10-19",
+            "B4": "10000.",
+            "B5": "5000.",
+            "B6": "1000."
+          }
+        },
+        {
+          "name": "edit-supplies",
+          "date1904": false,
+          "values": {
+            "D4": 200,
+            "D5": 0,
+            "D6": 400,
+            "B8": 16200,
+            "C8": 15600,
+            "D8": 600,
+            "B12": -2146826281,
+            "B10": 46314,
+            "A4": "Payroll",
+            "B4": 10000,
+            "C4": 9800,
+            "A5": "Rent",
+            "B5": 5000,
+            "C5": 5000,
+            "A6": "Supplies",
+            "B6": 1200,
+            "C6": 800
+          },
+          "formulas": {
+            "D4": "=B4-C4",
+            "D5": "=B5-C5",
+            "D6": "=B6-C6",
+            "B8": "=SUM(B4:B6)",
+            "C8": "=SUM(C4:C6)",
+            "D8": "=B8-C8",
+            "B12": "=1/0"
+          },
+          "texts": {
+            "B8": "16200.",
+            "B12": "#DIV/0!",
+            "B10": "2026-10-19",
+            "B4": "10000.",
+            "B5": "5000.",
+            "B6": "1200."
+          }
+        },
+        {
+          "name": "reopened",
+          "date1904": false,
+          "values": {
+            "D4": 200,
+            "D5": 0,
+            "D6": 400,
+            "B8": 16200,
+            "C8": 15600,
+            "D8": 600,
+            "B12": -2146826281,
+            "B10": 46314,
+            "A4": "Payroll",
+            "B4": 10000,
+            "C4": 9800,
+            "A5": "Rent",
+            "B5": 5000,
+            "C5": 5000,
+            "A6": "Supplies",
+            "B6": 1200,
+            "C6": 800
+          },
+          "formulas": {
+            "D4": "=B4-C4",
+            "D5": "=B5-C5",
+            "D6": "=B6-C6",
+            "B8": "=SUM(B4:B6)",
+            "C8": "=SUM(C4:C6)",
+            "D8": "=B8-C8",
+            "B12": "=1/0"
+          },
+          "texts": {
+            "B8": "16200.",
+            "B12": "#DIV/0!",
+            "B10": "2026-10-19",
+            "B4": "10000.",
+            "B5": "5000.",
+            "B6": "1200."
+          }
+        }
+      ]
+    },
+    {
+      "id": "budget-03",
+      "receipt_sha256": "6483205b7e8df4a927dd463aa709aa9e6863d90136b4474e7c565dab79d65298",
+      "output_sha256": "d05afa3131de96ba6c50dab03c7e27fad19ca935afa56f65d099fc7dbdea444d",
+      "process": {
+        "id": 15796,
+        "creation_utc": "2026-10-18T21:02:45.4698923Z",
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE"
+      },
+      "application": {
+        "version": "16.0",
+        "build": 17932,
+        "operating_system": "Windows (64-bit) NT 10.00",
+        "decimal_separator": ".",
+        "thousands_separator": ",",
+        "use_system_separators": true,
+        "calculation_before": null,
+        "calculation_after": -4105,
+        "country_code": 86,
+        "country_setting": 86
+      },
+      "executable": {
+        "file_version": "16.0.17932.21000",
+        "sha256": "c71c7ca0faf896fd52e66924f7ec43ab8b7b110fa3b179097c1f0e3c6c036369"
+      },
+      "phase_count": 4,
+      "status": "PASS",
+      "source_sha256": "dded0be3d458ec04df9789aeeefc2c4103db368ed96f2a93b1b817a8b5b2db26",
+      "copy_sha256": "dded0be3d458ec04df9789aeeefc2c4103db368ed96f2a93b1b817a8b5b2db26",
+      "cleanup": "QUIT_REQUESTED",
+      "process_remaining": false,
+      "observations": [
+        {
+          "name": "initial",
+          "date1904": false,
+          "values": {
+            "D4": 500,
+            "D5": 0,
+            "D6": 200,
+            "B8": 16000,
+            "C8": 15300,
+            "D8": 700,
+            "B12": -2146826281,
+            "B10": 46314,
+            "A4": "Payroll",
+            "B4": 10000,
+            "C4": 9500,
+            "A5": "Rent",
+            "B5": 5000,
+            "C5": 5000,
+            "A6": "Supplies",
+            "B6": 1000,
+            "C6": 800
+          },
+          "formulas": {
+            "D4": "=B4-C4",
+            "D5": "=B5-C5",
+            "D6": "=B6-C6",
+            "B8": "=SUM(B4:B6)",
+            "C8": "=SUM(C4:C6)",
+            "D8": "=B8-C8",
+            "B12": "=1/0"
+          },
+          "texts": {
+            "B8": "16000.",
+            "B12": "#DIV/0!",
+            "B10": "2026-10-19",
+            "B4": "10000.",
+            "B5": "5000.",
+            "B6": "1000."
+          }
+        },
+        {
+          "name": "edit-payroll",
+          "date1904": false,
+          "values": {
+            "D4": 200,
+            "D5": 0,
+            "D6": 200,
+            "B8": 16000,
+            "C8": 15600,
+            "D8": 400,
+            "B12": -2146826281,
+            "B10": 46314,
+            "A4": "Payroll",
+            "B4": 10000,
+            "C4": 9800,
+            "A5": "Rent",
+            "B5": 5000,
+            "C5": 5000,
+            "A6": "Supplies",
+            "B6": 1000,
+            "C6": 800
+          },
+          "formulas": {
+            "D4": "=B4-C4",
+            "D5": "=B5-C5",
+            "D6": "=B6-C6",
+            "B8": "=SUM(B4:B6)",
+            "C8": "=SUM(C4:C6)",
+            "D8": "=B8-C8",
+            "B12": "=1/0"
+          },
+          "texts": {
+            "B8": "16000.",
+            "B12": "#DIV/0!",
+            "B10": "2026-10-19",
+            "B4": "10000.",
+            "B5": "5000.",
+            "B6": "1000."
+          }
+        },
+        {
+          "name": "edit-supplies",
+          "date1904": false,
+          "values": {
+            "D4": 200,
+            "D5": 0,
+            "D6": 400,
+            "B8": 16200,
+            "C8": 15600,
+            "D8": 600,
+            "B12": -2146826281,
+            "B10": 46314,
+            "A4": "Payroll",
+            "B4": 10000,
+            "C4": 9800,
+            "A5": "Rent",
+            "B5": 5000,
+            "C5": 5000,
+            "A6": "Supplies",
+            "B6": 1200,
+            "C6": 800
+          },
+          "formulas": {
+            "D4": "=B4-C4",
+            "D5": "=B5-C5",
+            "D6": "=B6-C6",
+            "B8": "=SUM(B4:B6)",
+            "C8": "=SUM(C4:C6)",
+            "D8": "=B8-C8",
+            "B12": "=1/0"
+          },
+          "texts": {
+            "B8": "16200.",
+            "B12": "#DIV/0!",
+            "B10": "2026-10-19",
+            "B4": "10000.",
+            "B5": "5000.",
+            "B6": "1200."
+          }
+        },
+        {
+          "name": "reopened",
+          "date1904": false,
+          "values": {
+            "D4": 200,
+            "D5": 0,
+            "D6": 400,
+            "B8": 16200,
+            "C8": 15600,
+            "D8": 600,
+            "B12": -2146826281,
+            "B10": 46314,
+            "A4": "Payroll",
+            "B4": 10000,
+            "C4": 9800,
+            "A5": "Rent",
+            "B5": 5000,
+            "C5": 5000,
+            "A6": "Supplies",
+            "B6": 1200,
+            "C6": 800
+          },
+          "formulas": {
+            "D4": "=B4-C4",
+            "D5": "=B5-C5",
+            "D6": "=B6-C6",
+            "B8": "=SUM(B4:B6)",
+            "C8": "=SUM(C4:C6)",
+            "D8": "=B8-C8",
+            "B12": "=1/0"
+          },
+          "texts": {
+            "B8": "16200.",
+            "B12": "#DIV/0!",
+            "B10": "2026-10-19",
+            "B4": "10000.",
+            "B5": "5000.",
+            "B6": "1200."
+          }
+        }
+      ]
+    },
+    {
+      "id": "orders-01",
+      "receipt_sha256": "1d5931655d7c964960e0b57270ffcabf066879a7b0b0d08cd983aba03bccd603",
+      "output_sha256": "f8f0d5a9d564964af52b9720d0dc6679515fceae91f3ec8d0518cdf2b8acd564",
+      "process": {
+        "id": 15240,
+        "creation_utc": "2026-10-18T21:02:51.4090006Z",
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE"
+      },
+      "application": {
+        "version": "16.0",
+        "build": 17932,
+        "operating_system": "Windows (64-bit) NT 10.00",
+        "decimal_separator": ".",
+        "thousands_separator": ",",
+        "use_system_separators": true,
+        "calculation_before": null,
+        "calculation_after": -4105,
+        "country_code": 86,
+        "country_setting": 86
+      },
+      "executable": {
+        "file_version": "16.0.17932.21000",
+        "sha256": "c71c7ca0faf896fd52e66924f7ec43ab8b7b110fa3b179097c1f0e3c6c036369"
+      },
+      "phase_count": 4,
+      "status": "PASS",
+      "source_sha256": "f96cb703551eccaf6c552990572ab3a7d5ca771676026f828230f9b54dc27261",
+      "copy_sha256": "f96cb703551eccaf6c552990572ab3a7d5ca771676026f828230f9b54dc27261",
+      "cleanup": "QUIT_REQUESTED",
+      "process_remaining": false,
+      "observations": [
+        {
+          "name": "initial",
+          "date1904": false,
+          "values": {
+            "D4": 375,
+            "D5": 160,
+            "D7": 535,
+            "B11": -2146826281,
+            "B9": 46314,
+            "A4": "O-101",
+            "B4": 3,
+            "C4": 125,
+            "A5": "O-102",
+            "B5": 2,
+            "C5": 80
+          },
+          "formulas": {
+            "D4": "=B4*C4",
+            "D5": "=B5*C5",
+            "D7": "=SUM(D4:D5)",
+            "B11": "=1/0"
+          },
+          "texts": {
+            "B11": "#DIV/0!",
+            "B9": "2026-10-19",
+            "B4": "3.",
+            "B5": "2."
+          }
+        },
+        {
+          "name": "edit-quantity",
+          "date1904": false,
+          "values": {
+            "D4": 500,
+            "D5": 160,
+            "D7": 660,
+            "B11": -2146826281,
+            "B9": 46314,
+            "A4": "O-101",
+            "B4": 4,
+            "C4": 125,
+            "A5": "O-102",
+            "B5": 2,
+            "C5": 80
+          },
+          "formulas": {
+            "D4": "=B4*C4",
+            "D5": "=B5*C5",
+            "D7": "=SUM(D4:D5)",
+            "B11": "=1/0"
+          },
+          "texts": {
+            "B11": "#DIV/0!",
+            "B9": "2026-10-19",
+            "B4": "4.",
+            "B5": "2."
+          }
+        },
+        {
+          "name": "edit-price",
+          "date1904": false,
+          "values": {
+            "D4": 500,
+            "D5": 180,
+            "D7": 680,
+            "B11": -2146826281,
+            "B9": 46314,
+            "A4": "O-101",
+            "B4": 4,
+            "C4": 125,
+            "A5": "O-102",
+            "B5": 2,
+            "C5": 90
+          },
+          "formulas": {
+            "D4": "=B4*C4",
+            "D5": "=B5*C5",
+            "D7": "=SUM(D4:D5)",
+            "B11": "=1/0"
+          },
+          "texts": {
+            "B11": "#DIV/0!",
+            "B9": "2026-10-19",
+            "B4": "4.",
+            "B5": "2."
+          }
+        },
+        {
+          "name": "reopened",
+          "date1904": false,
+          "values": {
+            "D4": 500,
+            "D5": 180,
+            "D7": 680,
+            "B11": -2146826281,
+            "B9": 46314,
+            "A4": "O-101",
+            "B4": 4,
+            "C4": 125,
+            "A5": "O-102",
+            "B5": 2,
+            "C5": 90
+          },
+          "formulas": {
+            "D4": "=B4*C4",
+            "D5": "=B5*C5",
+            "D7": "=SUM(D4:D5)",
+            "B11": "=1/0"
+          },
+          "texts": {
+            "B11": "#DIV/0!",
+            "B9": "2026-10-19",
+            "B4": "4.",
+            "B5": "2."
+          }
+        }
+      ]
+    },
+    {
+      "id": "orders-02",
+      "receipt_sha256": "a8cfb5fb8b3f7a9a31458ea0536c53ec34d31c6c955e783f052e32f77761c3ea",
+      "output_sha256": "b1b891c06decdc469013f329821b9306b541e4d14980de96b1b92d2a2fa3eb80",
+      "process": {
+        "id": 2472,
+        "creation_utc": "2026-10-18T21:02:57.2353753Z",
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE"
+      },
+      "application": {
+        "version": "16.0",
+        "build": 17932,
+        "operating_system": "Windows (64-bit) NT 10.00",
+        "decimal_separator": ".",
+        "thousands_separator": ",",
+        "use_system_separators": true,
+        "calculation_before": null,
+        "calculation_after": -4105,
+        "country_code": 86,
+        "country_setting": 86
+      },
+      "executable": {
+        "file_version": "16.0.17932.21000",
+        "sha256": "c71c7ca0faf896fd52e66924f7ec43ab8b7b110fa3b179097c1f0e3c6c036369"
+      },
+      "phase_count": 4,
+      "status": "PASS",
+      "source_sha256": "f96cb703551eccaf6c552990572ab3a7d5ca771676026f828230f9b54dc27261",
+      "copy_sha256": "f96cb703551eccaf6c552990572ab3a7d5ca771676026f828230f9b54dc27261",
+      "cleanup": "QUIT_REQUESTED",
+      "process_remaining": false,
+      "observations": [
+        {
+          "name": "initial",
+          "date1904": false,
+          "values": {
+            "D4": 375,
+            "D5": 160,
+            "D7": 535,
+            "B11": -2146826281,
+            "B9": 46314,
+            "A4": "O-101",
+            "B4": 3,
+            "C4": 125,
+            "A5": "O-102",
+            "B5": 2,
+            "C5": 80
+          },
+          "formulas": {
+            "D4": "=B4*C4",
+            "D5": "=B5*C5",
+            "D7": "=SUM(D4:D5)",
+            "B11": "=1/0"
+          },
+          "texts": {
+            "B11": "#DIV/0!",
+            "B9": "2026-10-19",
+            "B4": "3.",
+            "B5": "2."
+          }
+        },
+        {
+          "name": "edit-quantity",
+          "date1904": false,
+          "values": {
+            "D4": 500,
+            "D5": 160,
+            "D7": 660,
+            "B11": -2146826281,
+            "B9": 46314,
+            "A4": "O-101",
+            "B4": 4,
+            "C4": 125,
+            "A5": "O-102",
+            "B5": 2,
+            "C5": 80
+          },
+          "formulas": {
+            "D4": "=B4*C4",
+            "D5": "=B5*C5",
+            "D7": "=SUM(D4:D5)",
+            "B11": "=1/0"
+          },
+          "texts": {
+            "B11": "#DIV/0!",
+            "B9": "2026-10-19",
+            "B4": "4.",
+            "B5": "2."
+          }
+        },
+        {
+          "name": "edit-price",
+          "date1904": false,
+          "values": {
+            "D4": 500,
+            "D5": 180,
+            "D7": 680,
+            "B11": -2146826281,
+            "B9": 46314,
+            "A4": "O-101",
+            "B4": 4,
+            "C4": 125,
+            "A5": "O-102",
+            "B5": 2,
+            "C5": 90
+          },
+          "formulas": {
+            "D4": "=B4*C4",
+            "D5": "=B5*C5",
+            "D7": "=SUM(D4:D5)",
+            "B11": "=1/0"
+          },
+          "texts": {
+            "B11": "#DIV/0!",
+            "B9": "2026-10-19",
+            "B4": "4.",
+            "B5": "2."
+          }
+        },
+        {
+          "name": "reopened",
+          "date1904": false,
+          "values": {
+            "D4": 500,
+            "D5": 180,
+            "D7": 680,
+            "B11": -2146826281,
+            "B9": 46314,
+            "A4": "O-101",
+            "B4": 4,
+            "C4": 125,
+            "A5": "O-102",
+            "B5": 2,
+            "C5": 90
+          },
+          "formulas": {
+            "D4": "=B4*C4",
+            "D5": "=B5*C5",
+            "D7": "=SUM(D4:D5)",
+            "B11": "=1/0"
+          },
+          "texts": {
+            "B11": "#DIV/0!",
+            "B9": "2026-10-19",
+            "B4": "4.",
+            "B5": "2."
+          }
+        }
+      ]
+    },
+    {
+      "id": "orders-03",
+      "receipt_sha256": "b1cd85cd9d411cfd441e7ed2cb58c09ffa901771a32f17aac5b1ead287487425",
+      "output_sha256": "28fb0d54055eba74c5dbded14cee559a98b2163498eb4c3ddff347a51a469f07",
+      "process": {
+        "id": 24580,
+        "creation_utc": "2026-10-18T21:03:11.6412721Z",
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE"
+      },
+      "application": {
+        "version": "16.0",
+        "build": 17932,
+        "operating_system": "Windows (64-bit) NT 10.00",
+        "decimal_separator": ".",
+        "thousands_separator": ",",
+        "use_system_separators": true,
+        "calculation_before": null,
+        "calculation_after": -4105,
+        "country_code": 86,
+        "country_setting": 86
+      },
+      "executable": {
+        "file_version": "16.0.17932.21000",
+        "sha256": "c71c7ca0faf896fd52e66924f7ec43ab8b7b110fa3b179097c1f0e3c6c036369"
+      },
+      "phase_count": 4,
+      "status": "PASS",
+      "source_sha256": "f96cb703551eccaf6c552990572ab3a7d5ca771676026f828230f9b54dc27261",
+      "copy_sha256": "f96cb703551eccaf6c552990572ab3a7d5ca771676026f828230f9b54dc27261",
+      "cleanup": "QUIT_REQUESTED",
+      "process_remaining": false,
+      "observations": [
+        {
+          "name": "initial",
+          "date1904": false,
+          "values": {
+            "D4": 375,
+            "D5": 160,
+            "D7": 535,
+            "B11": -2146826281,
+            "B9": 46314,
+            "A4": "O-101",
+            "B4": 3,
+            "C4": 125,
+            "A5": "O-102",
+            "B5": 2,
+            "C5": 80
+          },
+          "formulas": {
+            "D4": "=B4*C4",
+            "D5": "=B5*C5",
+            "D7": "=SUM(D4:D5)",
+            "B11": "=1/0"
+          },
+          "texts": {
+            "B11": "#DIV/0!",
+            "B9": "2026-10-19",
+            "B4": "3.",
+            "B5": "2."
+          }
+        },
+        {
+          "name": "edit-quantity",
+          "date1904": false,
+          "values": {
+            "D4": 500,
+            "D5": 160,
+            "D7": 660,
+            "B11": -2146826281,
+            "B9": 46314,
+            "A4": "O-101",
+            "B4": 4,
+            "C4": 125,
+            "A5": "O-102",
+            "B5": 2,
+            "C5": 80
+          },
+          "formulas": {
+            "D4": "=B4*C4",
+            "D5": "=B5*C5",
+            "D7": "=SUM(D4:D5)",
+            "B11": "=1/0"
+          },
+          "texts": {
+            "B11": "#DIV/0!",
+            "B9": "2026-10-19",
+            "B4": "4.",
+            "B5": "2."
+          }
+        },
+        {
+          "name": "edit-price",
+          "date1904": false,
+          "values": {
+            "D4": 500,
+            "D5": 180,
+            "D7": 680,
+            "B11": -2146826281,
+            "B9": 46314,
+            "A4": "O-101",
+            "B4": 4,
+            "C4": 125,
+            "A5": "O-102",
+            "B5": 2,
+            "C5": 90
+          },
+          "formulas": {
+            "D4": "=B4*C4",
+            "D5": "=B5*C5",
+            "D7": "=SUM(D4:D5)",
+            "B11": "=1/0"
+          },
+          "texts": {
+            "B11": "#DIV/0!",
+            "B9": "2026-10-19",
+            "B4": "4.",
+            "B5": "2."
+          }
+        },
+        {
+          "name": "reopened",
+          "date1904": false,
+          "values": {
+            "D4": 500,
+            "D5": 180,
+            "D7": 680,
+            "B11": -2146826281,
+            "B9": 46314,
+            "A4": "O-101",
+            "B4": 4,
+            "C4": 125,
+            "A5": "O-102",
+            "B5": 2,
+            "C5": 90
+          },
+          "formulas": {
+            "D4": "=B4*C4",
+            "D5": "=B5*C5",
+            "D7": "=SUM(D4:D5)",
+            "B11": "=1/0"
+          },
+          "texts": {
+            "B11": "#DIV/0!",
+            "B9": "2026-10-19",
+            "B4": "4.",
+            "B5": "2."
+          }
+        }
+      ]
+    },
+    {
+      "id": "attendance-01",
+      "receipt_sha256": "75087f5f0c1cf8ede65ab2785ac824371ad662ba87e6480eee7da867b30f544b",
+      "output_sha256": "a5b2ac1db65cfab00be5bf8993fae0b6cfded1dfe55e93bcbb5bf3c7a44c12dd",
+      "process": {
+        "id": 17184,
+        "creation_utc": "2026-10-18T21:03:17.5042184Z",
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE"
+      },
+      "application": {
+        "version": "16.0",
+        "build": 17932,
+        "operating_system": "Windows (64-bit) NT 10.00",
+        "decimal_separator": ".",
+        "thousands_separator": ",",
+        "use_system_separators": true,
+        "calculation_before": null,
+        "calculation_after": -4105,
+        "country_code": 86,
+        "country_setting": 86
+      },
+      "executable": {
+        "file_version": "16.0.17932.21000",
+        "sha256": "c71c7ca0faf896fd52e66924f7ec43ab8b7b110fa3b179097c1f0e3c6c036369"
+      },
+      "phase_count": 4,
+      "status": "PASS",
+      "source_sha256": "95bede4f59704a5ac491961838cd11e89dffd9c5fefedb50f8e2545d73042e8d",
+      "copy_sha256": "95bede4f59704a5ac491961838cd11e89dffd9c5fefedb50f8e2545d73042e8d",
+      "cleanup": "QUIT_REQUESTED",
+      "process_remaining": false,
+      "observations": [
+        {
+          "name": "initial",
+          "date1904": false,
+          "values": {
+            "D4": 160,
+            "D5": 144,
+            "D7": 304,
+            "B11": -2146826281,
+            "B9": 46296,
+            "A4": "EMP-01",
+            "B4": 20,
+            "C4": 8,
+            "A5": "EMP-02",
+            "B5": 18,
+            "C5": 8
+          },
+          "formulas": {
+            "D4": "=B4*C4",
+            "D5": "=B5*C5",
+            "D7": "=SUM(D4:D5)",
+            "B11": "=1/0"
+          },
+          "texts": {
+            "B11": "#DIV/0!",
+            "B9": "2026-10-01",
+            "B4": "20.",
+            "B5": "18."
+          }
+        },
+        {
+          "name": "edit-days",
+          "date1904": false,
+          "values": {
+            "D4": 160,
+            "D5": 152,
+            "D7": 312,
+            "B11": -2146826281,
+            "B9": 46296,
+            "A4": "EMP-01",
+            "B4": 20,
+            "C4": 8,
+            "A5": "EMP-02",
+            "B5": 19,
+            "C5": 8
+          },
+          "formulas": {
+            "D4": "=B4*C4",
+            "D5": "=B5*C5",
+            "D7": "=SUM(D4:D5)",
+            "B11": "=1/0"
+          },
+          "texts": {
+            "B11": "#DIV/0!",
+            "B9": "2026-10-01",
+            "B4": "20.",
+            "B5": "19."
+          }
+        },
+        {
+          "name": "edit-hours",
+          "date1904": false,
+          "values": {
+            "D4": 150,
+            "D5": 152,
+            "D7": 302,
+            "B11": -2146826281,
+            "B9": 46296,
+            "A4": "EMP-01",
+            "B4": 20,
+            "C4": 7.5,
+            "A5": "EMP-02",
+            "B5": 19,
+            "C5": 8
+          },
+          "formulas": {
+            "D4": "=B4*C4",
+            "D5": "=B5*C5",
+            "D7": "=SUM(D4:D5)",
+            "B11": "=1/0"
+          },
+          "texts": {
+            "B11": "#DIV/0!",
+            "B9": "2026-10-01",
+            "B4": "20.",
+            "B5": "19."
+          }
+        },
+        {
+          "name": "reopened",
+          "date1904": false,
+          "values": {
+            "D4": 150,
+            "D5": 152,
+            "D7": 302,
+            "B11": -2146826281,
+            "B9": 46296,
+            "A4": "EMP-01",
+            "B4": 20,
+            "C4": 7.5,
+            "A5": "EMP-02",
+            "B5": 19,
+            "C5": 8
+          },
+          "formulas": {
+            "D4": "=B4*C4",
+            "D5": "=B5*C5",
+            "D7": "=SUM(D4:D5)",
+            "B11": "=1/0"
+          },
+          "texts": {
+            "B11": "#DIV/0!",
+            "B9": "2026-10-01",
+            "B4": "20.",
+            "B5": "19."
+          }
+        }
+      ]
+    },
+    {
+      "id": "attendance-02",
+      "receipt_sha256": "82797b087ce6f2bef825a0d1d0ba637b8821a3ad442b32e1f728a8d97fbf1f1e",
+      "output_sha256": "b74a1160ce0e3e64468fb6f7b4868c240a1f0c9a93cbbb354de2b9fe9827ccac",
+      "process": {
+        "id": 26280,
+        "creation_utc": "2026-10-18T21:03:23.2668311Z",
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE"
+      },
+      "application": {
+        "version": "16.0",
+        "build": 17932,
+        "operating_system": "Windows (64-bit) NT 10.00",
+        "decimal_separator": ".",
+        "thousands_separator": ",",
+        "use_system_separators": true,
+        "calculation_before": null,
+        "calculation_after": -4105,
+        "country_code": 86,
+        "country_setting": 86
+      },
+      "executable": {
+        "file_version": "16.0.17932.21000",
+        "sha256": "c71c7ca0faf896fd52e66924f7ec43ab8b7b110fa3b179097c1f0e3c6c036369"
+      },
+      "phase_count": 4,
+      "status": "PASS",
+      "source_sha256": "95bede4f59704a5ac491961838cd11e89dffd9c5fefedb50f8e2545d73042e8d",
+      "copy_sha256": "95bede4f59704a5ac491961838cd11e89dffd9c5fefedb50f8e2545d73042e8d",
+      "cleanup": "QUIT_REQUESTED",
+      "process_remaining": false,
+      "observations": [
+        {
+          "name": "initial",
+          "date1904": false,
+          "values": {
+            "D4": 160,
+            "D5": 144,
+            "D7": 304,
+            "B11": -2146826281,
+            "B9": 46296,
+            "A4": "EMP-01",
+            "B4": 20,
+            "C4": 8,
+            "A5": "EMP-02",
+            "B5": 18,
+            "C5": 8
+          },
+          "formulas": {
+            "D4": "=B4*C4",
+            "D5": "=B5*C5",
+            "D7": "=SUM(D4:D5)",
+            "B11": "=1/0"
+          },
+          "texts": {
+            "B11": "#DIV/0!",
+            "B9": "2026-10-01",
+            "B4": "20.",
+            "B5": "18."
+          }
+        },
+        {
+          "name": "edit-days",
+          "date1904": false,
+          "values": {
+            "D4": 160,
+            "D5": 152,
+            "D7": 312,
+            "B11": -2146826281,
+            "B9": 46296,
+            "A4": "EMP-01",
+            "B4": 20,
+            "C4": 8,
+            "A5": "EMP-02",
+            "B5": 19,
+            "C5": 8
+          },
+          "formulas": {
+            "D4": "=B4*C4",
+            "D5": "=B5*C5",
+            "D7": "=SUM(D4:D5)",
+            "B11": "=1/0"
+          },
+          "texts": {
+            "B11": "#DIV/0!",
+            "B9": "2026-10-01",
+            "B4": "20.",
+            "B5": "19."
+          }
+        },
+        {
+          "name": "edit-hours",
+          "date1904": false,
+          "values": {
+            "D4": 150,
+            "D5": 152,
+            "D7": 302,
+            "B11": -2146826281,
+            "B9": 46296,
+            "A4": "EMP-01",
+            "B4": 20,
+            "C4": 7.5,
+            "A5": "EMP-02",
+            "B5": 19,
+            "C5": 8
+          },
+          "formulas": {
+            "D4": "=B4*C4",
+            "D5": "=B5*C5",
+            "D7": "=SUM(D4:D5)",
+            "B11": "=1/0"
+          },
+          "texts": {
+            "B11": "#DIV/0!",
+            "B9": "2026-10-01",
+            "B4": "20.",
+            "B5": "19."
+          }
+        },
+        {
+          "name": "reopened",
+          "date1904": false,
+          "values": {
+            "D4": 150,
+            "D5": 152,
+            "D7": 302,
+            "B11": -2146826281,
+            "B9": 46296,
+            "A4": "EMP-01",
+            "B4": 20,
+            "C4": 7.5,
+            "A5": "EMP-02",
+            "B5": 19,
+            "C5": 8
+          },
+          "formulas": {
+            "D4": "=B4*C4",
+            "D5": "=B5*C5",
+            "D7": "=SUM(D4:D5)",
+            "B11": "=1/0"
+          },
+          "texts": {
+            "B11": "#DIV/0!",
+            "B9": "2026-10-01",
+            "B4": "20.",
+            "B5": "19."
+          }
+        }
+      ]
+    },
+    {
+      "id": "attendance-03",
+      "receipt_sha256": "8f5487e25155c0a6dfdbc7f263cd8c5f81224db749950826c522fc662a593ce8",
+      "output_sha256": "7af5790d546aef6501bd68624dc8208fe7235a106cdd2f6d9fa5d0da0bd906d8",
+      "process": {
+        "id": 28108,
+        "creation_utc": "2026-10-18T21:03:29.3300584Z",
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE"
+      },
+      "application": {
+        "version": "16.0",
+        "build": 17932,
+        "operating_system": "Windows (64-bit) NT 10.00",
+        "decimal_separator": ".",
+        "thousands_separator": ",",
+        "use_system_separators": true,
+        "calculation_before": null,
+        "calculation_after": -4105,
+        "country_code": 86,
+        "country_setting": 86
+      },
+      "executable": {
+        "file_version": "16.0.17932.21000",
+        "sha256": "c71c7ca0faf896fd52e66924f7ec43ab8b7b110fa3b179097c1f0e3c6c036369"
+      },
+      "phase_count": 4,
+      "status": "PASS",
+      "source_sha256": "95bede4f59704a5ac491961838cd11e89dffd9c5fefedb50f8e2545d73042e8d",
+      "copy_sha256": "95bede4f59704a5ac491961838cd11e89dffd9c5fefedb50f8e2545d73042e8d",
+      "cleanup": "QUIT_REQUESTED",
+      "process_remaining": false,
+      "observations": [
+        {
+          "name": "initial",
+          "date1904": false,
+          "values": {
+            "D4": 160,
+            "D5": 144,
+            "D7": 304,
+            "B11": -2146826281,
+            "B9": 46296,
+            "A4": "EMP-01",
+            "B4": 20,
+            "C4": 8,
+            "A5": "EMP-02",
+            "B5": 18,
+            "C5": 8
+          },
+          "formulas": {
+            "D4": "=B4*C4",
+            "D5": "=B5*C5",
+            "D7": "=SUM(D4:D5)",
+            "B11": "=1/0"
+          },
+          "texts": {
+            "B11": "#DIV/0!",
+            "B9": "2026-10-01",
+            "B4": "20.",
+            "B5": "18."
+          }
+        },
+        {
+          "name": "edit-days",
+          "date1904": false,
+          "values": {
+            "D4": 160,
+            "D5": 152,
+            "D7": 312,
+            "B11": -2146826281,
+            "B9": 46296,
+            "A4": "EMP-01",
+            "B4": 20,
+            "C4": 8,
+            "A5": "EMP-02",
+            "B5": 19,
+            "C5": 8
+          },
+          "formulas": {
+            "D4": "=B4*C4",
+            "D5": "=B5*C5",
+            "D7": "=SUM(D4:D5)",
+            "B11": "=1/0"
+          },
+          "texts": {
+            "B11": "#DIV/0!",
+            "B9": "2026-10-01",
+            "B4": "20.",
+            "B5": "19."
+          }
+        },
+        {
+          "name": "edit-hours",
+          "date1904": false,
+          "values": {
+            "D4": 150,
+            "D5": 152,
+            "D7": 302,
+            "B11": -2146826281,
+            "B9": 46296,
+            "A4": "EMP-01",
+            "B4": 20,
+            "C4": 7.5,
+            "A5": "EMP-02",
+            "B5": 19,
+            "C5": 8
+          },
+          "formulas": {
+            "D4": "=B4*C4",
+            "D5": "=B5*C5",
+            "D7": "=SUM(D4:D5)",
+            "B11": "=1/0"
+          },
+          "texts": {
+            "B11": "#DIV/0!",
+            "B9": "2026-10-01",
+            "B4": "20.",
+            "B5": "19."
+          }
+        },
+        {
+          "name": "reopened",
+          "date1904": false,
+          "values": {
+            "D4": 150,
+            "D5": 152,
+            "D7": 302,
+            "B11": -2146826281,
+            "B9": 46296,
+            "A4": "EMP-01",
+            "B4": 20,
+            "C4": 7.5,
+            "A5": "EMP-02",
+            "B5": 19,
+            "C5": 8
+          },
+          "formulas": {
+            "D4": "=B4*C4",
+            "D5": "=B5*C5",
+            "D7": "=SUM(D4:D5)",
+            "B11": "=1/0"
+          },
+          "texts": {
+            "B11": "#DIV/0!",
+            "B9": "2026-10-01",
+            "B4": "20.",
+            "B5": "19."
+          }
+        }
+      ]
+    }
+  ]
+}
