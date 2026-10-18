@@ -11,7 +11,7 @@
 | ENG-005 | TODO | 定义类型编辑、公式与依赖扩展的准入边界 |
 | W-001 | OPEN / 后续专项 | 横向字宽与兼容设置未修复，不阻塞表格会话主线 |
 | RES-001 | DONE / 静态范围 | OFFICE_RESEARCH_BASELINE_2026-10-18.md：8模块身份/资源、3类型库、3小模块Ghidra；未开展Office运行对照；定稿后的回溯校准见task_runs/2026-10-18-002-RES-001.json |
-| RES-002 | NEXT / M1对照依赖 | 3份独立工作簿、逐份3次Excel观测，先固定输入与预期；对真实差异再定位核心实现 |
+| RES-002 | PARTIAL / NEXT宿主运行 | b740835：预算/订单/考勤3份自制XLSX及逐步预期/哈希已冻结，C1/C3 PASS；Excel尚为0/9次，C2/C4 NOT_RUN。当前EXCEL文件身份与旧基线不同，须运行时重新记录；见2026-10-19-009-RES-002.json |
 | RES-003 / RES-004 | TODO / 后续研究 | Word范围/段落/撤销与PowerPoint身份/关系，分别按冻结任务书执行 |
 
 循环报告位置：docs/engine_cycles/。未保存的本机额度状态、告警、暂停交接与进程记录只放target/quota_guard，不上传账户或线程身份。

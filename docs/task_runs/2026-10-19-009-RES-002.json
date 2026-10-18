@@ -1,0 +1,110 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "RES-002",
+  "started_at": "2026-10-18T20:04:54.412567+00:00",
+  "ended_at": "2026-10-18T20:10:15.612081+00:00",
+  "status": "PARTIAL",
+  "actual_commit": "b7408358833475327f3f398742bc5a246863fbb3",
+  "actual_scope": "RES-002 preparation only: three independently instantiated synthetic budget/orders/attendance XLSX, frozen inputs and literal independent expected stages before any Office runs, current EXCEL.EXE file identity, predeclared zero tolerance and explicit automation Undo boundary. No Excel process launched; no native observations, no new Rust execution.",
+  "commands": [
+    "official get_usage_limits",
+    "python tools/quota_guard/guard.py --check",
+    "python tools/taskbook/calibrate.py",
+    "python tools/continuity/continuity.py inspect/begin/checkpoint",
+    "bundled Node 24.19.0: prepare_excel_cases.mjs with bundled @oai/artifact-tool",
+    "PowerShell Get-Item/Get-FileHash on declared EXCEL.EXE",
+    "python tools/office_research/verify_excel_cases.py <fixture-dir> --seal-identity <local-identity.json> (initial seal only)",
+    "python tools/office_research/verify_excel_cases.py RCD/engine-acceptance/res-002-v1",
+    "negative checks in target/office_research/RES-002-prep/negative-check.json",
+    "python tools/check_baseline.py",
+    "git diff --check"
+  ],
+  "deviations": [
+    "This cycle is a bounded input/protocol preparation slice; nine planned host runs have not started.",
+    "Current declared EXCEL.EXE file metadata differs from the old static baseline: 16.0.17932.21000/c71c7ca0..., not 21056/c689...; reason unknown, old evidence retained. Application.Version/Build must be collected at actual runtime.",
+    "Authoring initially lacked the output parent directory; fixed before creating inputs. Initial package validator assumed inline/shared text only; added valid OOXML t=str handling before initial manifest sealing. No expectation or frozen hash changed to accept a failure.",
+    "Only synthetic fixture/tool/docs changes; no repeat of unrelated Rust regression. Source artifacts are development fixtures on main, separate from preserved historical research baseline branch."
+  ],
+  "untested": [
+    "Excel host observations: 0 of 9 runs; host Application.Version/Build and runtime region/calculation mode not observed",
+    "Zen editing/recalculation on these three new files",
+    "SaveAs/reopen OOXML comparisons and unknown-part preservation",
+    "Real host differences and targeted EXCEL.EXE function investigations",
+    "Actual native UI Undo (not used to substitute Zen undo)"
+  ],
+  "next_step": "Continue RES-002 with an owned isolated Excel instance and fresh copies: verify frozen hashes, record current executable and Application.Version/Build, execute three runs for each original sample, preserve per-step values/formulas/errors/dates and saved caches. No auto-attach to user Office; record any mismatch before investigation.",
+  "criteria": {
+    "RES-002-C1": {
+      "requirement": "建立预算、订单、考勤3份独立自制工作簿，记录输入哈希、Office版本和逐步预期，不借旧通过数。",
+      "result": "PASS",
+      "observation": "Three separate synthetic workbooks with distinct business inputs and literal expected arithmetic stages are frozen by SHA256. Current EXCEL.EXE file version/hash recorded, separate from application runtime. Initial formula caches/error probes/date serials and all three sheet previews checked. Bounded rational-arithmetic cross-check covers nine stages, not nine host runs.",
+      "sample_count": 3,
+      "evidence": [
+        "RCD/engine-acceptance/res-002-v1/plan.json",
+        "RCD/engine-acceptance/res-002-v1/manifest.json",
+        "tools/office_research/EXCEL_CASES.md",
+        "tools/office_research/verify_excel_cases.py",
+        "target/office_research/RES-002-prep/negative-check.json"
+      ]
+    },
+    "RES-002-C2": {
+      "requirement": "仅在隔离工作副本中用本机Excel做同等输入、重算、另存和重开；每份3次运行，记录值、公式、缓存、错误和日期体系。",
+      "result": "NOT_RUN",
+      "observation": "Host driver not implemented/executed this cycle; 0/9 runs, no native-value/cache/reopen acceptance.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "RES-002-C3": {
+      "requirement": "明确自动化Undo的适用边界；数值相等/容差按每个用例预先规定，不能看到差异后改预期。",
+      "result": "PASS",
+      "observation": "Before host runs, all three cases require exact numbers (chosen integers/binary halves), exact identifiers/formula text/error tags, tolerance 0. Application.Undo documentation reviewed: only prior UI action, not VB commands. Explicit inverse numeric assignments are labelled content restoration, not native Undo; Zen undo remains separate acceptance.",
+      "sample_count": 3,
+      "evidence": [
+        "RCD/engine-acceptance/res-002-v1/plan.json",
+        "RCD/engine-acceptance/res-002-v1/manifest.json",
+        "tools/office_research/EXCEL_CASES.md",
+        "tools/office_research/verify_excel_cases.py",
+        "target/office_research/RES-002-prep/negative-check.json",
+        "https://learn.microsoft.com/en-us/office/vba/api/excel.application.undo"
+      ]
+    },
+    "RES-002-C4": {
+      "requirement": "对真实差异再选择EXCEL.EXE内函数专项；函数/引用、间接调用限制或未定位结果落证据，不以字符串冒充算法。",
+      "result": "NOT_RUN",
+      "observation": "No host comparison yet, so no observed discrepancy or justified EXCEL.EXE function investigation; no static string or old report substituted.",
+      "sample_count": 0,
+      "evidence": []
+    }
+  },
+  "input_manifest": {
+    "id": "RES-002-inputs-v1",
+    "sha256": {
+      "plan.json": "e7045c2184e08877f96a761cd247a1e58e67a5bdb9c27c320babaa83bfd245b8",
+      "budget.xlsx": "dded0be3d458ec04df9789aeeefc2c4103db368ed96f2a93b1b817a8b5b2db26",
+      "orders.xlsx": "f96cb703551eccaf6c552990572ab3a7d5ca771676026f828230f9b54dc27261",
+      "attendance.xlsx": "95bede4f59704a5ac491961838cd11e89dffd9c5fefedb50f8e2545d73042e8d"
+    },
+    "office_file_identity": {
+      "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE",
+      "file_version": "16.0.17932.21000",
+      "sha256": "c71c7ca0faf896fd52e66924f7ec43ab8b7b110fa3b179097c1f0e3c6c036369",
+      "observed_utc": "2026-10-18T20:07:20.9316449Z",
+      "scope": "File metadata only; Excel application version NOT_RUN"
+    },
+    "host_runs": 0,
+    "scope": "Synthetic input preparation only; host application version not yet measured"
+  },
+  "dependency_review": {
+    "RES-001": "DONE in docs/task_runs/2026-10-18-002-RES-001.json, static scope only"
+  },
+  "host_observations": {
+    "samples": 3,
+    "planned_runs_per_sample": 3,
+    "completed_runs": 0,
+    "native_results": "NOT_RUN"
+  }
+}
