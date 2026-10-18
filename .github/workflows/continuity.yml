@@ -1,0 +1,30 @@
+name: Continuity recovery
+on:
+  push:
+    paths: ['tools/continuity/**', 'tools/quota_guard/guard.py', '.github/workflows/continuity.yml']
+  pull_request:
+    paths: ['tools/continuity/**', 'tools/quota_guard/guard.py', '.github/workflows/continuity.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  windows-continuity:
+    runs-on: windows-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Check public baseline
+        run: python tools/check_baseline.py
+      - name: Validate PowerShell source without registering system tasks
+        run: |
+          foreach ($path in @('tools/continuity/install.ps1','tools/continuity/recover.ps1')) {
+            $tokens=$null; $issues=$null
+            [Management.Automation.Language.Parser]::ParseFile((Join-Path $PWD $path),[ref]$tokens,[ref]$issues) | Out-Null
+            if ($issues.Count) { throw "Invalid PowerShell source: $path" }
+          }
+      - name: Test durable journal and scoped sleep requests
+        run: python tools/continuity/test_continuity.py
+      - name: Test isolated PowerShell state replacement and boot identity
+        run: pwsh -NoProfile -File tools/continuity/test_recovery.ps1
+      - name: Retain quota gate regression
+        run: python -m unittest discover -s tools/quota_guard -p test_guard.py

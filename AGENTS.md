@@ -3,6 +3,7 @@
 先读README、docs/taskbooks/ZEN-ENGINE-v1.0.md、docs/ENGINE_BACKLOG.md与最新基线/循环/实况记录。2026-10-18用户最新要求为引擎与基本功能优先，UI后置；冻结任务书是当前验收标准，旧ENGINE_DEVELOPMENT_PLAN_2026-10-18.md保留为历史方向。
 
 - 每次任务及heartbeat先检查额度，再运行python tools/taskbook/calibrate.py；任务书、tasks.json及lock.json只读，哈希或只读属性异常时停止并记录，不解除只读、不按新内容刷新哈希。依赖和未完成句柄核实后，用--init <任务ID> --output docs/task_runs/<唯一轮次>.json开独立实况；结束逐条记录PASS/FAIL/NOT_RUN、样本数、命令、证据、偏差、未测及下一步，运行--report <实况.json>并再次核验基准。未完成填PARTIAL/BLOCKED/FAILED，不能降低条件后标DONE。标准变更只提案并经用户明确要求新建版本，v1.0不回改。详见tools/taskbook/README.md。
+- 关机/睡眠恢复：额度及只读基准核验后先执行python tools/continuity/continuity.py inspect；ACTIVE周期或RUNNING/INTERRUPTED命令先核对最近检查点、实际进程创建时间/路径、Git和CI，不凭超时认定成功/失败，不自动重放。新周期begin --task <ID>，编辑/长命令/CI前后checkpoint --cycle <ID> --step <实况> --handle <句柄>，校准及收尾后finish。最近补丁和源码副本只保存在target/continuity；不自动覆盖工作区。详见tools/continuity/README.md。用户明确提出的运维事项在docs/operations单独记实况，引用冻结基准，不挪作产品任务完成、不回改任务书。
 
 - 当前仓库是公开Rust核心基线。按E1共用会话、E2/E3表格、E4基础Word、E5基础Slides、E6引擎可用版推进；UI排到E7。每阶段交付可保存重开的真实任务，不同时启动多套前端。
 - 开发只在本仓库进行；相邻zen-office-v2为历史来源，不覆盖其证据和冻结输入。旧自动化未迁移，不能假设其正在推进本仓库。

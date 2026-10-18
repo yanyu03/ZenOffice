@@ -27,9 +27,11 @@ python tools/quota_guard/guard.py --run python my_bounded_job.py
 python tools/quota_guard/guard.py --resume --codex C:/path/to/codex.exe
 ```
 
-start.ps1默认查找Codex桌面内置Python及已安装Codex路径；其他环境使用-PythonPath和-CodexPath。没有设置开机自动启动；本聊天heartbeat会在必要时恢复监测器。
+start.ps1默认查找Codex桌面内置Python及已安装Codex路径；其他环境使用-PythonPath和-CodexPath。当前已安装[Windows恢复监督任务](../continuity/README.md)，在登录、恢复及每5分钟检查后幂等恢复监测器；它不会解除低额度锁或重放业务命令。
 
 运行数据在target/quota_guard，均被Git忽略：state.json（权威门禁）、STATUS.md（人读状态）、ALERT.json（低额度锁定记录）、daemon.json（PID与创建时间）、command-*.json/log（自有命令的结果）。旧状态过期150秒或查询失败时拒绝新工作；旧有效值可展示，但不构成允许执行的依据。低额度锁定跨重启保留，恢复额度本身不会自动解锁。
+
+guard.py --run现会申请仅限自身线程/命令生命周期的Windows防自动睡眠请求，结束或异常后释放；不强制亮屏，不改电源计划，也不能阻止用户主动睡眠/关机。JSON状态先flush/fsync再原子替换，正常可捕获中断记录INTERRUPTED；突然断电可能保留RUNNING，恢复时必须核实而不能盲目重启。
 
 ## 停止与通知
 

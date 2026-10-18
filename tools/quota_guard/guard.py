@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import argparse
 import contextlib
+import ctypes
 from datetime import datetime, timezone
 import json
 import math
@@ -30,7 +31,10 @@ def atomic_json(path, value):
     path.parent.mkdir(parents=True, exist_ok=True)
     temp = path.with_name(path.name + '.' + uuid.uuid4().hex + '.tmp')
     try:
-        temp.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+        with temp.open('w', encoding='utf-8', newline='\n') as stream:
+            stream.write(json.dumps(value, ensure_ascii=False, indent=2) + '\n')
+            stream.flush()
+            os.fsync(stream.fileno())
         os.replace(temp, path)
     finally:
         temp.unlink(missing_ok=True)
@@ -263,7 +267,32 @@ def file_lock(path, blocking=True):
         handle.close()
 
 
+def set_execution_state(flags):
+    if os.name != 'nt':
+        return None
+    function = ctypes.windll.kernel32.SetThreadExecutionState
+    function.argtypes = [ctypes.c_uint32]
+    function.restype = ctypes.c_uint32
+    return function(flags)
+
+
+@contextlib.contextmanager
+def inhibit_idle_sleep():
+    """Scoped to this thread; respects manual sleep/shutdown, never keeps display on."""
+    previous = set_execution_state(0x80000001)  # CONTINUOUS | SYSTEM_REQUIRED
+    try:
+        yield bool(previous)
+    finally:
+        if previous:
+            set_execution_state(previous | 0x80000000)
+
+
 def run_guarded(command, directory, poll=1):
+    with inhibit_idle_sleep() as inhibited:
+        return _run_guarded(command, directory, poll, inhibited)
+
+
+def _run_guarded(command, directory, poll, inhibited):
     """Terminate only the direct child owned by this invocation if the gate closes."""
     if not snapshot(load_state(directory))['allow_new_work']:
         return 75
@@ -273,7 +302,8 @@ def run_guarded(command, directory, poll=1):
         child = subprocess.Popen(command, stdout=log, stderr=subprocess.STDOUT,
                                  creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
         record = {'pid': child.pid, 'started_unix': time.time(), 'executable': Path(command[0]).name,
-                  'status': 'RUNNING', 'descendant_stop_verified': False}
+                  'status': 'RUNNING', 'descendant_stop_verified': False,
+                  'idle_sleep_inhibited': inhibited}
         atomic_json(record_path, record)
         try:
             while child.poll() is None:
@@ -292,6 +322,10 @@ def run_guarded(command, directory, poll=1):
             record.update(status='COMPLETED' if child.returncode == 0 else 'FAILED', returncode=child.returncode)
             atomic_json(record_path, record)
             return child.returncode
+        except BaseException:
+            record.update(status='INTERRUPTED', interrupted_unix=time.time())
+            atomic_json(record_path, record)
+            raise
         finally:
             if child.poll() is None:
                 child.terminate()
