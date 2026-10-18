@@ -1,0 +1,252 @@
+{
+  "id": "RES-002-inputs-v1",
+  "businessSamples": 3,
+  "hostRunsPerSample": 3,
+  "authoring": "bundled @oai/artifact-tool; synthetic inputs, not Excel outputs",
+  "dateSystem": "Excel1900; numeric serial plus yyyy-mm-dd style; verify date1904 flag in package and host",
+  "comparison": {
+    "numeric": "exact; chosen inputs/results are integers or binary-exact halves",
+    "formulas": "exact invariant formula text, retain any host normalization separately",
+    "errors": "exact #DIV/0! in designated probe only",
+    "identifiers": "exact",
+    "tolerance": 0
+  },
+  "undo": "Do not call Application.Undo for COM edits. Reproduce content states on isolated copies with explicit inverse numeric assignments; those assignments are NOT a test of native Undo. Zen undo/redo acceptance is separate.",
+  "hostProtocol": [
+    "Verify input SHA256 and current Office binary/application identity before each run.",
+    "Create a fresh owned Excel instance and an isolated file copy; never attach to user workbooks.",
+    "Observe initial stage then both numeric edits, CalculateFullRebuild after each, capture Value2/Formula/Text/errors/Date1904.",
+    "SaveAs to a new output, close and reopen; compare reopened values and formulas and OOXML caches independently.",
+    "Repeat from original input three times per sample; count three files and nine runs separately.",
+    "Preserve mismatches before any change proposal. Choose REA targets only for a specific observed discrepancy."
+  ],
+  "cases": [
+    {
+      "id": "budget",
+      "sheet": "Budget",
+      "title": "Monthly budget (CNY)",
+      "headers": [
+        "Category",
+        "Planned (CNY)",
+        "Actual (CNY)",
+        "Variance (CNY)"
+      ],
+      "rows": [
+        [
+          "Payroll",
+          10000,
+          9500
+        ],
+        [
+          "Rent",
+          5000,
+          5000
+        ],
+        [
+          "Supplies",
+          1000,
+          800
+        ]
+      ],
+      "formulas": {
+        "D4": "=B4-C4",
+        "D5": "=B5-C5",
+        "D6": "=B6-C6",
+        "B8": "=SUM(B4:B6)",
+        "C8": "=SUM(C4:C6)",
+        "D8": "=B8-C8",
+        "B12": "=1/0"
+      },
+      "date": {
+        "cell": "B10",
+        "serial": 46314,
+        "iso": "2026-10-19"
+      },
+      "error": "B12",
+      "stages": [
+        {
+          "id": "initial",
+          "edit": null,
+          "expected": {
+            "D4": 500,
+            "D5": 0,
+            "D6": 200,
+            "B8": 16000,
+            "C8": 15300,
+            "D8": 700
+          }
+        },
+        {
+          "id": "edit-payroll",
+          "edit": {
+            "cell": "C4",
+            "value": 9800
+          },
+          "expected": {
+            "D4": 200,
+            "D5": 0,
+            "D6": 200,
+            "B8": 16000,
+            "C8": 15600,
+            "D8": 400
+          }
+        },
+        {
+          "id": "edit-supplies",
+          "edit": {
+            "cell": "B6",
+            "value": 1200
+          },
+          "expected": {
+            "D4": 200,
+            "D5": 0,
+            "D6": 400,
+            "B8": 16200,
+            "C8": 15600,
+            "D8": 600
+          }
+        }
+      ]
+    },
+    {
+      "id": "orders",
+      "sheet": "Orders",
+      "title": "Order totals (CNY)",
+      "headers": [
+        "Order ID",
+        "Quantity",
+        "Unit price (CNY)",
+        "Line total (CNY)"
+      ],
+      "rows": [
+        [
+          "O-101",
+          3,
+          125
+        ],
+        [
+          "O-102",
+          2,
+          80
+        ]
+      ],
+      "formulas": {
+        "D4": "=B4*C4",
+        "D5": "=B5*C5",
+        "D7": "=SUM(D4:D5)",
+        "B11": "=1/0"
+      },
+      "date": {
+        "cell": "B9",
+        "serial": 46314,
+        "iso": "2026-10-19"
+      },
+      "error": "B11",
+      "stages": [
+        {
+          "id": "initial",
+          "edit": null,
+          "expected": {
+            "D4": 375,
+            "D5": 160,
+            "D7": 535
+          }
+        },
+        {
+          "id": "edit-quantity",
+          "edit": {
+            "cell": "B4",
+            "value": 4
+          },
+          "expected": {
+            "D4": 500,
+            "D5": 160,
+            "D7": 660
+          }
+        },
+        {
+          "id": "edit-price",
+          "edit": {
+            "cell": "C5",
+            "value": 90
+          },
+          "expected": {
+            "D4": 500,
+            "D5": 180,
+            "D7": 680
+          }
+        }
+      ]
+    },
+    {
+      "id": "attendance",
+      "sheet": "Attendance",
+      "title": "Monthly attendance (hours)",
+      "headers": [
+        "Employee ID",
+        "Days",
+        "Hours per day",
+        "Total hours"
+      ],
+      "rows": [
+        [
+          "EMP-01",
+          20,
+          8
+        ],
+        [
+          "EMP-02",
+          18,
+          8
+        ]
+      ],
+      "formulas": {
+        "D4": "=B4*C4",
+        "D5": "=B5*C5",
+        "D7": "=SUM(D4:D5)",
+        "B11": "=1/0"
+      },
+      "date": {
+        "cell": "B9",
+        "serial": 46296,
+        "iso": "2026-10-01"
+      },
+      "error": "B11",
+      "stages": [
+        {
+          "id": "initial",
+          "edit": null,
+          "expected": {
+            "D4": 160,
+            "D5": 144,
+            "D7": 304
+          }
+        },
+        {
+          "id": "edit-days",
+          "edit": {
+            "cell": "B5",
+            "value": 19
+          },
+          "expected": {
+            "D4": 160,
+            "D5": 152,
+            "D7": 312
+          }
+        },
+        {
+          "id": "edit-hours",
+          "edit": {
+            "cell": "C4",
+            "value": 7.5
+          },
+          "expected": {
+            "D4": 150,
+            "D5": 152,
+            "D7": 302
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "RES-002-inputs-v1",
+  "sha256": {
+    "plan.json": "e7045c2184e08877f96a761cd247a1e58e67a5bdb9c27c320babaa83bfd245b8",
+    "budget.xlsx": "dded0be3d458ec04df9789aeeefc2c4103db368ed96f2a93b1b817a8b5b2db26",
+    "orders.xlsx": "f96cb703551eccaf6c552990572ab3a7d5ca771676026f828230f9b54dc27261",
+    "attendance.xlsx": "95bede4f59704a5ac491961838cd11e89dffd9c5fefedb50f8e2545d73042e8d"
+  },
+  "office_file_identity": {
+    "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE",
+    "file_version": "16.0.17932.21000",
+    "sha256": "c71c7ca0faf896fd52e66924f7ec43ab8b7b110fa3b179097c1f0e3c6c036369",
+    "observed_utc": "2026-10-18T20:07:20.9316449Z",
+    "scope": "File metadata only; Excel application version NOT_RUN"
+  },
+  "host_runs": 0,
+  "scope": "Synthetic input preparation only; host application version not yet measured"
+}
