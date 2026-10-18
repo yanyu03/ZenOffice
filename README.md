@@ -8,6 +8,8 @@
 
 当前验收标准已定稿为[只读开发计划暨任务书 v1.0](docs/taskbooks/ZEN-ENGINE-v1.0.md)，配套[Office首轮研究依据](docs/OFFICE_RESEARCH_BASELINE_2026-10-18.md)及[逐任务实况校准](tools/taskbook/README.md)。进度单独记录，冻结任务书不回改；本次静态研究未增加引擎运行功能。
 
+ENG-002已新增[zen-session](crates/zen-session/README.md)内存数字会话与撤销/重做。提交4dd773d的Windows CI通过zen-deliver Release构建及255项Rust测试、6项忽略；新增9项会话测试覆盖2份独立工作簿。文件保存、会话CLI和新的Office宿主对照尚未完成，E1仍在推进，见[本轮记录](docs/engine_cycles/2026-10-18-003.md)。
+
 ## 构建与使用
 
 需要支持 Rust 2024 edition 的 Rust 工具链；本轮实测为 Rust/Cargo 1.99.1、Windows MSVC。静态检查需要 Python 3.11+。当前 Cargo.lock 已收敛并通过锁定构建。

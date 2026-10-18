@@ -1,12 +1,12 @@
 # 引擎待办与交接
 
-当前阶段：E1。最新产品基线：dffb11a，Windows Release与246项Rust测试通过（历史固定提交，本轮未重跑）。当前冻结任务书：taskbooks/ZEN-ENGINE-v1.0.md；15个任务、57条条件，逐任务实况另存task_runs，不能回改任务书。
+当前阶段：E1。最新产品实测：4dd773d，Windows CI的zen-deliver Release构建与255项Rust测试通过、6项忽略；其中zen-session为新增内存会话，未做Office宿主对照。当前冻结任务书：taskbooks/ZEN-ENGINE-v1.0.md；15个任务、57条条件，逐任务实况另存task_runs，不能回改任务书。
 
 | ID | 状态 | 下一步或证据 |
 | --- | --- | --- |
 | ENG-001 | DESIGN DONE / 未实现 | WORKBOOK_SESSION_CONTRACT.md：已核查现有接口、确定复用边界、状态转换与失败原子性；无新运行能力主张 |
-| ENG-002 | NEXT | 先实现内存工作帧、首个数字会话与撤销/重做；按契约验收，不加入UI |
-| ENG-003 | TODO | 等待ENG-002；源变化检查、原子保存与CLI接入 |
+| ENG-002 | DONE / 内存范围 | 4dd773d：zen-session数字编辑、不可变字节帧、undo/redo、分支/无变化与失败不变；9项新测试，2份独立工作簿；实况2026-10-18-004-ENG-002.json |
+| ENG-003 | NEXT | 源变化检查、原子保存与CLI接入；保存点与dirty成功/失败语义，Windows路径/锁定/别名边界 |
 | ENG-004 | TODO | 内部端到端后，独立业务样本与同等修改的Excel对照 |
 | ENG-005 | TODO | 定义类型编辑、公式与依赖扩展的准入边界 |
 | W-001 | OPEN / 后续专项 | 横向字宽与兼容设置未修复，不阻塞表格会话主线 |

@@ -1,0 +1,148 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-002",
+  "started_at": "2026-10-18T14:58:55.772165+00:00",
+  "ended_at": "2026-10-18T15:09:15.265955+00:00",
+  "status": "DONE",
+  "actual_commit": "4dd773d4b2b1fcb63d1f3d82554b9475956b6789",
+  "actual_scope": "ENG-002内存数字会话：zen-session复用格式读入/数字改写，增加不可变字节帧、undo/redo、无变化/分支、候选失败原子性及历史预算。无磁盘保存、CLI、UI或宿主兼容性主张。",
+  "commands": [
+    "python tools/quota_guard/guard.py --check",
+    "python tools/taskbook/calibrate.py",
+    "python tools/taskbook/calibrate.py --init ENG-002 --output docs/task_runs/2026-10-18-004-ENG-002.json",
+    "python tools/check_baseline.py",
+    "git push origin HEAD:refs/heads/dev/eng-002-workbook-session",
+    "Windows CI 39138774850: cargo build --locked --release -p zen-harness --bin zen-deliver",
+    "Windows CI 39138774850: cargo test --locked --workspace --all-targets",
+    "gh run download 39138774850 --repo yanyu03/ZenOffice --name core-baseline-evidence --dir target/ci/ENG-002-4dd773d",
+    "python tools/taskbook/calibrate.py --report docs/task_runs/2026-10-18-004-ENG-002.json"
+  ],
+  "deviations": [
+    "本机没有Rust工具链；本次运行验收使用GitHub Windows干净环境，未声称本地cargo执行。",
+    "历史预算明确计保留的压缩档案字节和帧数，不声称精确限制整个进程堆；仅保留当前解析投影，候选和撤销重读仍受原读取限制。",
+    "ENG-002只提供from_bytes与候选bytes；文件打开/安全保存/保存点更新/CLI依ENG-003，不提前用无检查写盘接口替代。",
+    "既有heartbeat提示旧段存在编码替换字符，已通过应用工具恢复并读回确认无U+FFFD；身份/ACTIVE/60分钟间隔及门禁保留。"
+  ],
+  "untested": [
+    "本机Rust构建（无工具链）",
+    "本机Office文档运行/兼容/视觉对照",
+    "源文件变化、目标锁、磁盘错误、别名/同路径保存与保存点更新（ENG-003）",
+    "大型历史性能、精确堆内存计量与真实进程OOM"
+  ],
+  "next_step": "ENG-003：源身份/安全保存/保存点与dirty/受控CLI；RES-002独立Excel对照样本仍待开展。",
+  "criteria": {
+    "ENG-002-C1": {
+      "requirement": "新增zen-session或说明等价放置；复用ReadWorkbook/write_number_edit；同一会话对2个独立输入连续编辑，下游公式每步符合独立预期。",
+      "result": "PASS",
+      "observation": "两个独立工作簿各连续编辑2个独立输入；每步直接及跨表缓存符合预先独立预期，复用原write_number_edit，无另一套计算器。",
+      "sample_count": 2,
+      "evidence": [
+        "https://github.com/yanyu03/ZenOffice/actions/runs/39138774850",
+        "target/ci/ENG-002-4dd773d/core-tests.log"
+      ],
+      "test_names": [
+        "independent_small_workbook_two_edits_history_and_cross_sheet_caches",
+        "independent_business_workbook_two_edits_and_byte_exact_history"
+      ]
+    },
+    "ENG-002-C2": {
+      "requirement": "覆盖两步undo/redo、撤销后分支清除redo、相同值无变化；保存候选重读值和缓存一致。",
+      "result": "PASS",
+      "observation": "两份输入均覆盖两步undo/redo、byte-exact原帧/候选还原、相同值无变化保留redo和撤销后分支清除redo；候选缓存重读核对。",
+      "sample_count": 2,
+      "evidence": [
+        "https://github.com/yanyu03/ZenOffice/actions/runs/39138774850",
+        "target/ci/ENG-002-4dd773d/core-tests.log"
+      ],
+      "test_names": [
+        "independent_small_workbook_two_edits_history_and_cross_sheet_caches",
+        "independent_business_workbook_two_edits_and_byte_exact_history",
+        "no_op_preserves_redo_and_new_edit_discards_it_on_both_inputs"
+      ]
+    },
+    "ENG-002-C3": {
+      "requirement": "非有限值、无权编辑格、预算耗尽及候选解析失败均保持当前帧、revision、历史、dirty和源字节；逐项故障记录。",
+      "result": "PASS",
+      "observation": "逐项拒绝后状态不变：非有限、公式/不存在目标（两输入），保护/未知依赖3变体、帧/字节预算（小输入），候选解析/修订号耗尽（业务输入内部故障）；保留有效redo与源数组，范围见failure_coverage。",
+      "sample_count": 2,
+      "evidence": [
+        "https://github.com/yanyu03/ZenOffice/actions/runs/39138774850",
+        "target/ci/ENG-002-4dd773d/core-tests.log"
+      ],
+      "test_names": [
+        "rejected_inputs_preserve_state_with_live_redo_on_both_workbooks",
+        "protected_and_unknown_dependencies_refuse_without_state_change",
+        "frame_and_byte_budgets_refuse_without_evicting_history",
+        "fault_tests::invalid_candidate_parse_preserves_every_state_component",
+        "fault_tests::revision_exhaustion_is_atomic_for_edit_and_restore"
+      ]
+    },
+    "ENG-002-C4": {
+      "requirement": "至少2份独立自制XLSX运行上述适用用例；按提交运行相关Rust测试；无新UI。",
+      "result": "PASS",
+      "observation": "至少2份独立自制XLSX完成适用会话用例；实测代码提交4dd773d Windows工作区255 passed/0 failed/6 ignored，其中新增9测试；无UI或Office宿主对照主张。",
+      "sample_count": 2,
+      "evidence": [
+        "https://github.com/yanyu03/ZenOffice/actions/runs/39138774850",
+        "target/ci/ENG-002-4dd773d/core-tests.log"
+      ],
+      "test_names": [
+        "independent_small_workbook_two_edits_history_and_cross_sheet_caches",
+        "independent_business_workbook_two_edits_and_byte_exact_history"
+      ]
+    }
+  },
+  "evidence_run": {
+    "code_commit": "4dd773d4b2b1fcb63d1f3d82554b9475956b6789",
+    "run_id": 39138774850,
+    "url": "https://github.com/yanyu03/ZenOffice/actions/runs/39138774850",
+    "binaries": 33,
+    "passed": 255,
+    "failed": 0,
+    "ignored": 6,
+    "log_sha256": "309b5a0b1a7da75763bc97c95e131938d63fbc521f9e3d6544d17ef3bb5d833a",
+    "lock_sha256_lf": "2245c42dcb324a1e2058c28b5a94894476f48a55e27540467de952426b3e5300",
+    "local_lock_matches": true
+  },
+  "new_session_tests": {
+    "unit_faults": 2,
+    "integration": 7,
+    "passed": 9,
+    "failed": 0
+  },
+  "independent_inputs": [
+    {
+      "identity": "crates/zen-session/tests/workbook_session.rs@4dd773d4b2b1fcb63d1f3d82554b9475956b6789:small_fixture(extra=\"\")",
+      "kind": "independent handwritten two-sheet XLSX generated by pinned zen-opc ZipWriter",
+      "input_contract": "Inputs A1=3,B1=7,A2=A1+B1,B2=A2*2; Report A1=Inputs!B2",
+      "expected_report_caches": [
+        20,
+        36,
+        32
+      ],
+      "numeric_tolerance": 1e-08
+    },
+    {
+      "identity": "RCD/red-team-corpus/office-targets-2026-10/xlsx/zen_spreadsheet_multiscenario.xlsx",
+      "sha256": "7e59b5503418378c03e2b2fdefeccace0919d80064a665644913271632ed1187",
+      "expected_transactions_F4": [
+        199.5,
+        200
+      ],
+      "expected_dashboard_B4": [
+        3753.2,
+        3753.7
+      ],
+      "numeric_tolerance": 1e-08
+    }
+  ],
+  "failure_coverage": "Non-finite/formula/absent sheet or cell with live redo: both inputs. Protection and 3 unknown variants plus frame/byte budgets: handwritten input. Invalid candidate and revision exhaustion: internal injection on business input. Not a Cartesian product of every fault and workbook.",
+  "toolchain": {
+    "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13) (from rustc 1.99.0 (b940084d7 2026-09-28))",
+    "cargo": "cargo 1.99.1 (5f94df478 2026-08-27)"
+  }
+}
