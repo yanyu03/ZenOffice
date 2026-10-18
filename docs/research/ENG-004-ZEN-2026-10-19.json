@@ -1,0 +1,70 @@
+{
+  "commit": "08bc5664ca4501c5663941723e9e48fd3d1ac1e4",
+  "run_id": 39171459444,
+  "binaries": 36,
+  "passed": 276,
+  "failed": 0,
+  "ignored": 6,
+  "core_log_sha256": "a03e5a0639f5dfdd4969b53dc4fee1ddaeb28eb02ca73cd1eabe449ec378a0b3",
+  "lock_matches": true,
+  "business": {
+    "scope": "ENG-004 real Zen CLI vs recorded native Excel",
+    "binary_sha256": "4147137df97e37902190c9a9b69a18ca598dd4df9c1c54cd2bacfafd88c2ae04",
+    "native_summary_sha256": "78bb9b1b58fab36e7612ef237964f638857a0748609936f1a1dc86c2e03795c1",
+    "cases": [
+      {
+        "id": "budget",
+        "status": "PASS",
+        "cli_exit": 0,
+        "observed_values": 170,
+        "native_runs_compared": 3,
+        "source_sha256": "dded0be3d458ec04df9789aeeefc2c4103db368ed96f2a93b1b817a8b5b2db26",
+        "output_sha256": "aee383737eb7ab2c4412e9876533475cb07ea633f88155c525498cc0656831a6",
+        "preserved_parts": [
+          "[Content_Types].xml",
+          "_rels/.rels",
+          "xl/_rels/workbook.xml.rels",
+          "xl/sharedStrings.xml",
+          "xl/styles.xml",
+          "xl/theme/theme1.xml"
+        ]
+      },
+      {
+        "id": "orders",
+        "status": "PASS",
+        "cli_exit": 0,
+        "observed_values": 110,
+        "native_runs_compared": 3,
+        "source_sha256": "f96cb703551eccaf6c552990572ab3a7d5ca771676026f828230f9b54dc27261",
+        "output_sha256": "f432a5f86a65b221b1b561a2c4f7a7c9977f19e7adfac8917dfb6b7dcf63857c",
+        "preserved_parts": [
+          "[Content_Types].xml",
+          "_rels/.rels",
+          "xl/_rels/workbook.xml.rels",
+          "xl/sharedStrings.xml",
+          "xl/styles.xml",
+          "xl/theme/theme1.xml"
+        ]
+      },
+      {
+        "id": "attendance",
+        "status": "PASS",
+        "cli_exit": 0,
+        "observed_values": 110,
+        "native_runs_compared": 3,
+        "source_sha256": "95bede4f59704a5ac491961838cd11e89dffd9c5fefedb50f8e2545d73042e8d",
+        "output_sha256": "a20f17338f820d26849a81fc88b624c04584472f8c463dcb06469221a8b42ccb",
+        "preserved_parts": [
+          "[Content_Types].xml",
+          "_rels/.rels",
+          "xl/_rels/workbook.xml.rels",
+          "xl/sharedStrings.xml",
+          "xl/styles.xml",
+          "xl/theme/theme1.xml"
+        ]
+      }
+    ],
+    "status": "PASS"
+  },
+  "additional_checks": "All three workbook.xml byte-exact, Excel1900 preserved, downloaded output hashes match"
+}

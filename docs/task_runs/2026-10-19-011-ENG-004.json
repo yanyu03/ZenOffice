@@ -1,0 +1,184 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-004",
+  "started_at": "2026-10-18T22:02:35.325536+00:00",
+  "ended_at": "2026-10-18T22:20:32.816699+00:00",
+  "status": "DONE",
+  "actual_commit": "08bc5664ca4501c5663941723e9e48fd3d1ac1e4",
+  "actual_scope": "Three frozen business cases through real Zen CLI, ten content states, 390 values compared to actual Excel observations, independent saved formula caches, original/untouched-part hashes and lock/refusal/retry checks. Narrow unchanged-error preservation fix; 276 Rust PASS, 0 FAIL, 6 ignored, three business cases PASS.",
+  "commands": [
+    "official get_usage_limits",
+    "python tools/quota_guard/guard.py --check",
+    "python tools/taskbook/calibrate.py",
+    "python tools/continuity/continuity.py inspect/begin/checkpoint",
+    "python tools/check_baseline.py",
+    "Windows CI: cargo build --locked --release -p zen-harness --bin zen-deliver",
+    "Windows CI: cargo test --locked --workspace --all-targets",
+    "Windows CI: python tools/office_research/accept_zen_cases.py --binary target/debug/zen-session.exe --fixtures RCD/engine-acceptance/res-002-v1 --native docs/research/RES-002-EXCEL-2026-10-19.json --new-output target/eng004"
+  ],
+  "deviations": [
+    "No local Rust toolchain; execute actual Zen CLI on Windows CI.",
+    "No new Office process: compare against the previous fixed-identity native observation records, not a recreated expected output.",
+    "Actual acceptance exposed an overly restrictive numeric-edit cache gate. Narrowly admit only independently recalculated identical error strings, preserving original error-cell bytes; changed error/type transitions still refuse. Current import fingerprints updated with reason, original imported hashes not changed.",
+    "Two derived-test XML construction errors were retained and corrected; final test checks projected formula identity before rejection. No frozen input or expectation changed."
+  ],
+  "untested": [
+    "Types, formula and structural edits beyond declared numeric scope",
+    "Excel opening actual Zen outputs and visual equivalence",
+    "Native UI Undo, macros/external links, general Office compatibility",
+    "Power loss and arbitrary namespace concurrency"
+  ],
+  "next_step": "E1/M1 numeric session loop complete in the declared Windows/trusted-parent/create-new subset. Start ENG-005 type/formula admission and implementation; no UI yet.",
+  "criteria": {
+    "ENG-004-C1": {
+      "requirement": "预算、订单、考勤3份XLSX完成Zen多步数字编辑、撤销重做、另存和重开。",
+      "result": "PASS",
+      "observation": "Three independent budget/orders/attendance files pass real CLI two edits, two-step undo/redo, save, saved-content undo/redo and reopen. 170/110/110 actual values over ten states.",
+      "sample_count": 3,
+      "evidence": [
+        "https://github.com/yanyu03/ZenOffice/actions/runs/39171459444",
+        "docs/research/ENG-004-ZEN-2026-10-19.json",
+        "docs/research/RES-002-EXCEL-2026-10-19.json",
+        "target/ci/ENG-004-08bc566/verified-summary.json",
+        "tools/office_research/accept_zen_cases.py"
+      ]
+    },
+    "ENG-004-C2": {
+      "requirement": "与同等修改的Excel结果逐格比较支持范围内值、公式和缓存；不支持部分明确列出。",
+      "result": "PASS",
+      "observation": "Every observed supported value matches all three corresponding native Excel runs per sample. Final formula texts/error tags/caches independently read from ZIP; workbook.xml byte-exact and Excel1900 retained. Changed error/type transitions still refuse; no visual claim.",
+      "sample_count": 3,
+      "evidence": [
+        "https://github.com/yanyu03/ZenOffice/actions/runs/39171459444",
+        "docs/research/ENG-004-ZEN-2026-10-19.json",
+        "docs/research/RES-002-EXCEL-2026-10-19.json",
+        "target/ci/ENG-004-08bc566/verified-summary.json",
+        "tools/office_research/accept_zen_cases.py"
+      ]
+    },
+    "ENG-004-C3": {
+      "requirement": "核对修改范围外部件及源文件保持；拒绝和锁定路径有独立样本；完整失败记录保留。",
+      "result": "PASS",
+      "observation": "Frozen source hashes, six named metadata/styles/theme/relationship parts plus workbook.xml preserved. Exclusive source and existing-output locks refuse; old output unchanged, failed save retains revision/history/dirty, retry new output succeeds. All three failed CI attempts retained.",
+      "sample_count": 3,
+      "evidence": [
+        "https://github.com/yanyu03/ZenOffice/actions/runs/39171459444",
+        "docs/research/ENG-004-ZEN-2026-10-19.json",
+        "docs/research/RES-002-EXCEL-2026-10-19.json",
+        "target/ci/ENG-004-08bc566/verified-summary.json",
+        "tools/office_research/accept_zen_cases.py"
+      ]
+    },
+    "ENG-004-C4": {
+      "requirement": "固定提交的相关Rust与Office宿主结果均可追溯；外部宿主未运行时只能标PARTIAL。",
+      "result": "PASS",
+      "observation": "Fixed 08bc566 Windows CI 39171459444: 276/0/6 and three business cases PASS. Native observations pinned to 97806b8 summary and nine owned Excel runs; native-summary byte hash and locked dependencies match local evidence.",
+      "sample_count": 3,
+      "evidence": [
+        "https://github.com/yanyu03/ZenOffice/actions/runs/39171459444",
+        "docs/research/ENG-004-ZEN-2026-10-19.json",
+        "docs/research/RES-002-EXCEL-2026-10-19.json",
+        "target/ci/ENG-004-08bc566/verified-summary.json",
+        "tools/office_research/accept_zen_cases.py"
+      ]
+    }
+  },
+  "pending_ci": null,
+  "initial_failure": {
+    "commit": "d3d88a55e7c402aa520039d121219359113bf0a8",
+    "run_id": 39170569842,
+    "url": "https://github.com/yanyu03/ZenOffice/actions/runs/39170569842",
+    "samples_failed": 3,
+    "reason": "Unchanged formula error cache always refused; exact error retained in CI artifact",
+    "evidence": "target/ci/ENG-004-d3d88a5/business/summary.json"
+  },
+  "intermediate_test_failure": {
+    "commit": "249c6cb7597c5869a7020e913bb633ebf448ccf6",
+    "run_id": 39170904309,
+    "reason": "Unchanged-error positive regression passed; negative test fixture builder wrongly assumed an exact <f> tag spelling, failed before edit assertion. Fixed structural XML location, no semantics/expected change."
+  },
+  "second_test_failure": {
+    "commit": "aaaf243ddd3eaa069224eb9d66ed3e1288636a68",
+    "run_id": 39171132193,
+    "reason": "Derived fixture replaced qualified x:f with unqualified f; parser did not see a formula. Fixed by replacing text only and explicitly checking projected formula identity."
+  },
+  "evidence_run": {
+    "commit": "08bc5664ca4501c5663941723e9e48fd3d1ac1e4",
+    "run_id": 39171459444,
+    "binaries": 36,
+    "passed": 276,
+    "failed": 0,
+    "ignored": 6,
+    "core_log_sha256": "a03e5a0639f5dfdd4969b53dc4fee1ddaeb28eb02ca73cd1eabe449ec378a0b3",
+    "lock_matches": true,
+    "business": {
+      "scope": "ENG-004 real Zen CLI vs recorded native Excel",
+      "binary_sha256": "4147137df97e37902190c9a9b69a18ca598dd4df9c1c54cd2bacfafd88c2ae04",
+      "native_summary_sha256": "78bb9b1b58fab36e7612ef237964f638857a0748609936f1a1dc86c2e03795c1",
+      "cases": [
+        {
+          "id": "budget",
+          "status": "PASS",
+          "cli_exit": 0,
+          "observed_values": 170,
+          "native_runs_compared": 3,
+          "source_sha256": "dded0be3d458ec04df9789aeeefc2c4103db368ed96f2a93b1b817a8b5b2db26",
+          "output_sha256": "aee383737eb7ab2c4412e9876533475cb07ea633f88155c525498cc0656831a6",
+          "preserved_parts": [
+            "[Content_Types].xml",
+            "_rels/.rels",
+            "xl/_rels/workbook.xml.rels",
+            "xl/sharedStrings.xml",
+            "xl/styles.xml",
+            "xl/theme/theme1.xml"
+          ]
+        },
+        {
+          "id": "orders",
+          "status": "PASS",
+          "cli_exit": 0,
+          "observed_values": 110,
+          "native_runs_compared": 3,
+          "source_sha256": "f96cb703551eccaf6c552990572ab3a7d5ca771676026f828230f9b54dc27261",
+          "output_sha256": "f432a5f86a65b221b1b561a2c4f7a7c9977f19e7adfac8917dfb6b7dcf63857c",
+          "preserved_parts": [
+            "[Content_Types].xml",
+            "_rels/.rels",
+            "xl/_rels/workbook.xml.rels",
+            "xl/sharedStrings.xml",
+            "xl/styles.xml",
+            "xl/theme/theme1.xml"
+          ]
+        },
+        {
+          "id": "attendance",
+          "status": "PASS",
+          "cli_exit": 0,
+          "observed_values": 110,
+          "native_runs_compared": 3,
+          "source_sha256": "95bede4f59704a5ac491961838cd11e89dffd9c5fefedb50f8e2545d73042e8d",
+          "output_sha256": "a20f17338f820d26849a81fc88b624c04584472f8c463dcb06469221a8b42ccb",
+          "preserved_parts": [
+            "[Content_Types].xml",
+            "_rels/.rels",
+            "xl/_rels/workbook.xml.rels",
+            "xl/sharedStrings.xml",
+            "xl/styles.xml",
+            "xl/theme/theme1.xml"
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    "additional_checks": "All three workbook.xml byte-exact, Excel1900 preserved, downloaded output hashes match",
+    "url": "https://github.com/yanyu03/ZenOffice/actions/runs/39171459444"
+  },
+  "dependency_review": {
+    "ENG-003": "DONE; actual 2026-10-19-008, all criteria PASS",
+    "RES-002": "DONE; actual 2026-10-19-010 and raw native results reviewed; conditional C4/no algorithm claim retained"
+  }
+}
