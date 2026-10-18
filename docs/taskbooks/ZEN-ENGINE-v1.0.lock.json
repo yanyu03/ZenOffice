@@ -1,0 +1,10 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "frozen_at": "2026-10-18",
+  "task_definitions": "ZEN-ENGINE-v1.0.tasks.json",
+  "change_policy": "Do not modify in place; record deviations separately. A new version requires explicit user direction.",
+  "files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  }
+}

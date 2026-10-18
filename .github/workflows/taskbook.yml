@@ -1,0 +1,41 @@
+name: Frozen taskbook calibration
+on:
+  push:
+    paths: ['tools/taskbook/**', 'docs/taskbooks/**', 'docs/task_runs/**', '.github/workflows/taskbook.yml']
+  pull_request:
+    paths: ['tools/taskbook/**', 'docs/taskbooks/**', 'docs/task_runs/**', '.github/workflows/taskbook.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  windows-taskbook:
+    runs-on: windows-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Check source baseline and calibration regression cases
+        run: |
+          python tools/check_baseline.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python tools/taskbook/test_calibrate.py
+          exit $LASTEXITCODE
+      - name: Verify frozen bytes before restoring checkout read-only attributes
+        run: |
+          $folder = Join-Path $PWD 'docs/taskbooks'
+          $manifestPath = Join-Path $folder 'ZEN-ENGINE-v1.0.lock.json'
+          $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
+          foreach ($entry in $manifest.files.PSObject.Properties) {
+            $path = Join-Path $folder $entry.Name
+            if ([IO.Path]::GetFullPath($path) -ne (Join-Path $folder ([IO.Path]::GetFileName($entry.Name)))) { throw 'Invalid frozen path' }
+            if ((Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash.ToLowerInvariant() -ne $entry.Value) { throw 'Frozen bytes changed; do not reseal' }
+            (Get-Item -LiteralPath $path).IsReadOnly = $true
+          }
+          (Get-Item -LiteralPath $manifestPath).IsReadOnly = $true
+          python tools/taskbook/calibrate.py
+          exit $LASTEXITCODE
+      - name: Check each closed task execution record
+        run: |
+          Get-ChildItem -LiteralPath docs/task_runs -Filter '*.json' | ForEach-Object {
+            python tools/taskbook/calibrate.py --report $_.FullName
+            if ($LASTEXITCODE -ne 0) { throw "Invalid execution record: $($_.Name)" }
+          }

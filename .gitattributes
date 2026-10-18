@@ -3,3 +3,5 @@
 *.xlsx -text
 *.pptx -text
 *.zip -text
+# Frozen taskbook hashes refer to exact bytes, including line endings.
+/docs/taskbooks/* -text

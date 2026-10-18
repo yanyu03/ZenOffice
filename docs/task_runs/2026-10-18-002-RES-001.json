@@ -1,0 +1,105 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "RES-001",
+  "started_at": "2026-10-18T14:32:37.186852+00:00",
+  "ended_at": "2026-10-18T14:44:53.158117+00:00",
+  "status": "DONE",
+  "actual_commit": "2bb32c1f6af01e8dc659ab5b918bc2c8acbf78bb",
+  "actual_scope": "RES-001静态任务：8个模块身份/资源、3份类型库、3个小型模块函数证据；本轮额外建立只读计划与校准工具，未新增Rust功能。",
+  "commands": [
+    "pwsh -NoProfile -File tools/office_research/inspect_typelibs.ps1 -OutputDirectory target/office_research/2026-10-18-01/typelibs",
+    "DSHA_PY tools/quota_guard/guard.py --run DSHA_PY tools/office_research/inspect_native.py --inventory target/office_research/2026-10-18-01/typelibs/inventory.json --output target/office_research/2026-10-18-01/native --dsha-scripts C:/Users/admin/.codex/skills/dsha/scripts",
+    "DSHA_PY tools/taskbook/test_calibrate.py",
+    "DSHA_PY tools/check_baseline.py",
+    "DSHA_PY C:/Users/admin/.codex/skills/dsha/scripts/dsha.py englock check docs/OFFICE_RESEARCH_BASELINE_2026-10-18.md",
+    "DSHA_PY tools/taskbook/calibrate.py --report docs/task_runs/2026-10-18-002-RES-001.json"
+  ],
+  "deviations": [
+    "首次调查先于任务书形成；本记录为定稿后的回溯校准，后续任务先过门禁。",
+    "大核心模块EXCEL.EXE/WWLIB.DLL/PPCORE.DLL本轮仅做身份和资源，函数研究针对3个小型模块；不属于私有核心算法还原。",
+    "最初pe-summary未列延迟导入，后以delay-imports.json补充读取并改进复现脚本，未重复导入已完成会话。"
+  ],
+  "untested": [
+    "Office文档运行/保存重开对照与视觉",
+    "Excel重算核心、Word排版核心、PowerPoint对象编辑核心",
+    "新Rust会话实现、引擎功能增长",
+    "更新后的heartbeat未来实际唤醒及其新校准路径"
+  ],
+  "next_step": "ENG-002：按冻结条件实现数字会话及undo/redo；RES-002准备独立Excel任务样本和固定预期。",
+  "criteria": {
+    "RES-001-C1": {
+      "requirement": "固定8个已安装Office模块的版本、签名状态、大小和SHA256，取证前后逐个比较。",
+      "result": "PASS",
+      "observation": "8/8模块签名Valid；版本、大小、SHA256落盘，取证前后哈希8/8相同。",
+      "sample_count": 8,
+      "evidence": [
+        "target/office_research/2026-10-18-01/typelibs/inventory.json",
+        "target/office_research/2026-10-18-01/typelibs/identity-after.json",
+        "target/office_research/2026-10-18-01/native/result.json"
+      ]
+    },
+    "RES-001-C2": {
+      "requirement": "读取Excel、Word、PowerPoint各1份类型库，保存对象/成员/调用种类；不注册、不启动Office。",
+      "result": "PASS",
+      "observation": "3/3类型库LoadTypeLibEx(REGKIND_NONE)读取，Excel1035/Word767/PPT348类型，选读12/14/13类型；未注册或启动Office。",
+      "sample_count": 3,
+      "evidence": [
+        "target/office_research/2026-10-18-01/typelibs/EXCEL.EXE.typelib.json",
+        "target/office_research/2026-10-18-01/typelibs/MSWORD.OLB.typelib.json",
+        "target/office_research/2026-10-18-01/typelibs/MSPPT.OLB.typelib.json"
+      ]
+    },
+    "RES-001-C3": {
+      "requirement": "用REA保存8个模块资源证据；对XLCALL32、WINWORD、POWERPNT各1个原生会话保存概览、函数证据、关闭结果。",
+      "result": "PASS",
+      "observation": "8/8模块资源coverage complete（仅资源）；其中3个小模块各1个Ghidra会话获得概览、函数与callee证据并关闭；未执行应用。",
+      "sample_count": 8,
+      "evidence": [
+        "target/office_research/2026-10-18-01/native/result.json",
+        "target/office_research/2026-10-18-01/native/evidence-bundle.json"
+      ]
+    },
+    "RES-001-C4": {
+      "requirement": "报告区分静态声明、函数观测、推断与未知；保存复现命令、4项REA未知和证据包；不将原始厂商输出加入Git。",
+      "result": "PASS",
+      "observation": "1份独立报告含证据/范围/命令/回滚与3个易受后续证据改变点；4个REA未知已记录；原始输出留target，Git公开范围核查。",
+      "sample_count": 1,
+      "evidence": [
+        "docs/OFFICE_RESEARCH_BASELINE_2026-10-18.md",
+        "target/office_research/2026-10-18-01/native/evidence-bundle.json"
+      ]
+    }
+  },
+  "execution_basis": "Pre-existing source HEAD plus uncommitted research/docs/tool changes; taskbook did not exist at first observation.",
+  "unknown_ids": [
+    "unk_f9fcbfb5242229cfbdc85955e48dd0f6112c3971a599f50aaece71e1be21e61e",
+    "unk_e48f41528a315559a258997458157afcafe0ed53ca6420a1e42eca8027f122e8",
+    "unk_22ae2439540c60fa43585c0b94c0e00bb2a57a8d78a0a62ee108a6c6bda82b43",
+    "unk_2db00d9fe3636b1334f4d9b8cbd415155cbc503b7d1685b869ff3ab9e916c727"
+  ],
+  "tool_validation": {
+    "taskbook_tests": {
+      "passed": 10,
+      "failed": 0
+    },
+    "baseline_static_identities": 106,
+    "englock_research_findings": 0,
+    "englock_taskbook_findings": 0,
+    "rust_tests_this_run": "NOT_RUN; product Rust unchanged"
+  },
+  "cadence_update": {
+    "automation_id": "zenoffice",
+    "status": "ACTIVE",
+    "interval_minutes": 60,
+    "updated_via_app_tool": true,
+    "new_rules": "per-task frozen book check and separate actual record; notification policy preserved"
+  },
+  "evidence_scope": "Raw derived vendor evidence remains in ignored target/office_research; public files contain independent summaries and reproduction tools only.",
+  "runtime_aliases": {
+    "DSHA_PY": "C:/Users/admin/.codex/tools/dsha/python-env/Scripts/python.exe"
+  }
+}

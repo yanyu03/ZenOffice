@@ -6,6 +6,8 @@
 
 当前按[引擎优先计划](docs/ENGINE_DEVELOPMENT_PLAN_2026-10-18.md)推进：共用会话与安全保存 → 表格基本输入和计算 → Word基础编辑 → Slides基础编辑 → 引擎可用版，再接UI。首个闭环为打开XLSX、修改、重算、撤销/重做、另存并重开核对。完整论文排版与任意Office文件兼容不属于当前承诺。
 
+当前验收标准已定稿为[只读开发计划暨任务书 v1.0](docs/taskbooks/ZEN-ENGINE-v1.0.md)，配套[Office首轮研究依据](docs/OFFICE_RESEARCH_BASELINE_2026-10-18.md)及[逐任务实况校准](tools/taskbook/README.md)。进度单独记录，冻结任务书不回改；本次静态研究未增加引擎运行功能。
+
 ## 构建与使用
 
 需要支持 Rust 2024 edition 的 Rust 工具链；本轮实测为 Rust/Cargo 1.99.1、Windows MSVC。静态检查需要 Python 3.11+。当前 Cargo.lock 已收敛并通过锁定构建。

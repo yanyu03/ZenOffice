@@ -1,6 +1,6 @@
 # 引擎待办与交接
 
-当前阶段：E1。最新基线：dffb11a，Windows Release与246项Rust测试通过。新计划：ENGINE_DEVELOPMENT_PLAN_2026-10-18.md。
+当前阶段：E1。最新产品基线：dffb11a，Windows Release与246项Rust测试通过（历史固定提交，本轮未重跑）。当前冻结任务书：taskbooks/ZEN-ENGINE-v1.0.md；15个任务、57条条件，逐任务实况另存task_runs，不能回改任务书。
 
 | ID | 状态 | 下一步或证据 |
 | --- | --- | --- |
@@ -10,6 +10,9 @@
 | ENG-004 | TODO | 内部端到端后，独立业务样本与同等修改的Excel对照 |
 | ENG-005 | TODO | 定义类型编辑、公式与依赖扩展的准入边界 |
 | W-001 | OPEN / 后续专项 | 横向字宽与兼容设置未修复，不阻塞表格会话主线 |
+| RES-001 | DONE / 静态范围 | OFFICE_RESEARCH_BASELINE_2026-10-18.md：8模块身份/资源、3类型库、3小模块Ghidra；未开展Office运行对照；定稿后的回溯校准见task_runs/2026-10-18-002-RES-001.json |
+| RES-002 | TODO / M1对照依赖 | 3份独立工作簿、逐份3次Excel观测，先固定输入与预期；对真实差异再定位核心实现 |
+| RES-003 / RES-004 | TODO / 后续研究 | Word范围/段落/撤销与PowerPoint身份/关系，分别按冻结任务书执行 |
 
 循环报告位置：docs/engine_cycles/。未保存的本机额度状态、告警、暂停交接与进程记录只放target/quota_guard，不上传账户或线程身份。
 
