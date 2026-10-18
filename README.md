@@ -2,17 +2,17 @@
 
 本地优先的 Rust 办公文件引擎。当前公开基线包含受限 DOCX/PPTX 文字修改、XLSX 数字修改与重算，以及包保持和原子保存接口。
 
-**阶段：实验性引擎基线，尚未发布桌面 Sheets Alpha。** 首次导入于 2026-10-18；本机缺少 Rust 工具链，尚未对该仓库重新构建或运行 Rust 测试。历史宿主验收只适用于各自冻结版本，不能当作本仓库已经通过的结果。
+**阶段：实验性引擎基线，尚未发布桌面 Sheets Alpha。** 2026-10-18 的 GitHub Windows 干净环境验收已通过：Release 构建成功，246 项 Rust 测试通过、0 失败、6 项显式忽略。实测提交为 `dffb11a`，范围见[本轮验收记录](docs/BASELINE_ACCEPTANCE_2026-10-18.md)。历史 Office 宿主验收仍只适用于各自冻结版本。
 
 下一产品目标：打开支持的 XLSX → 修改已有数字 → 重算 → 撤销/重做 → 另存 → 重开核对。Word、Slides 暂保留受控命令行能力。完整论文排版与任意 Office 文件兼容不属于当前承诺。
 
 ## 构建与使用
 
-需要支持 Rust 2024 edition 的 Rust 工具链；当前交付验收目标为 Windows。首次构建会依据 Cargo.lock 解析并裁剪旧工作区遗留依赖，生成的新锁文件应随首次构建验证一并提交。
+需要支持 Rust 2024 edition 的 Rust 工具链；本轮实测为 Rust/Cargo 1.99.1、Windows MSVC。静态检查需要 Python 3.11+。当前 Cargo.lock 已收敛并通过锁定构建。
 
 ```powershell
-cargo build --release -p zen-harness --bin zen-deliver
-cargo test --workspace
+cargo build --locked --release -p zen-harness --bin zen-deliver
+cargo test --locked --workspace --all-targets
 
 # 修改项目自制样本中的一个已有数字，并安全另存
 .\target\release\zen-deliver.exe sheet-number --input .\RCD\red-team-corpus\office-targets-2026-10\xlsx\zen_spreadsheet_multiscenario.xlsx --output .\target\edited.xlsx --sheet Transactions --cell D4 --value 42
@@ -25,7 +25,7 @@ cargo test --workspace
 - Word：保留原包的运行内文字替换；横向预览仍估宽，已知存在与原生 Word 不同的断行。
 - Sheets：受支持普通公式的依赖重算、已有数字修改及支持的数值/图表缓存更新；不能推广为任意文本、公式与结构编辑。
 - Slides：受控已有文字替换，保留未投影部件；完整对象编辑尚未完成。
-- 默认测试使用项目自制样本；3 个依赖外部模板的测试显式忽略，另有历史输入测试显式忽略。外部准备方式见测试说明。
+- 默认测试使用项目自制样本；6 个外部模板、本机字体或历史观察测试显式忽略。外部准备方式见测试说明。
 - 旧 Qt/egui 前端、WPS 提取资源和逆向输出没有迁入。公开基线不需要安装 WPS 或 Qt。
 
 ## 项目记录

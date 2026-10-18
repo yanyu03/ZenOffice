@@ -1,16 +1,16 @@
 # 测试与证据
 
-2026-10-18 首次导入：没有重新构建或执行 Rust 测试，不能引用原工程的162项通过数作为该仓库结论。
+2026-10-18 首次静态审核时本机没有Rust工具链；随后GitHub Windows干净环境已在提交dffb11a上完成锁定Release构建及核心测试，246通过、0失败、6忽略。见BASELINE_ACCEPTANCE_2026-10-18.md。原工程的162项通过数不用于本仓库结论。
 
 ## 默认检查
 
 ```powershell
 python tools/check_baseline.py
-cargo build --release -p zen-harness --bin zen-deliver
-cargo test --workspace
+cargo build --locked --release -p zen-harness --bin zen-deliver
+cargo test --locked --workspace --all-targets
 ```
 
-Python检查仅验证迁入内容和公开范围，不证明产品功能。Rust测试首次成功后记录提交号、rustc -Vv、cargo -V、Cargo.lock、实际通过/忽略数量和原始日志。若构建更新Cargo.lock，提交新锁文件后再记录对应身份。
+Python检查仅验证迁入内容和公开范围，不证明产品功能。每轮Rust验收记录提交号、rustc -Vv、cargo -V、Cargo.lock、实际通过/忽略数量和原始日志；有意更新依赖时提交新锁文件再验收。
 
 项目自制DOCX/XLSX/PPTX/OPC与中文论文样本位于RCD/red-team-corpus，原文件哈希写在manifest中。MCE测试已改为相对CARGO_MANIFEST_DIR定位固定XLSX，缺样本明确失败。
 
@@ -25,6 +25,8 @@ cargo test -p zen-word pinned_documents_export_effective_formats_for_native_audi
 ```
 
 这三个测试在默认测试输出中明确标为ignored，不代表通过。上游模板改变或链接失效时准备脚本失败，不能悄悄替换冻结基线。历史cycle23输入测试仍忽略；未迁入它依赖的本机Word观察文件，不使用--ignored一次运行所有外部测试。
+
+另外两个忽略项依赖本机字体：installed_times_variants要求ZEN_AUDIT_FONT_DIR与ZEN_AUDIT_FONT_IDENTITIES（逐行file=已外部核验SHA256）；frozen_page_bottom_replay要求ZEN_FIT_FONT、ZEN_FIT_FONT_ID、ZEN_FIT_EXPECTATIONS与ZEN_FIT_OUTPUT。前者没有内置重新计算字体SHA的门禁，身份应由外部准备过程核验；后者需要历史30样本及冻结页码输入。两者未在本次CI运行，不分发字体，不将它们算入通过数量。
 
 ## 宿主验收
 
