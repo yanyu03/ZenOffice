@@ -4,4 +4,4 @@
 *.pptx -text
 *.zip -text
 # Frozen taskbook hashes refer to exact bytes, including line endings.
-/docs/taskbooks/* -text
+/docs/taskbooks/* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
