@@ -121,9 +121,15 @@ fn changed_error_or_error_to_number_cache_remains_rejected() {
         let archive = zen_opc::ZipArchive::read(budget_fixture()).unwrap();
         let mut package = zen_opc::Package::from_archive(&archive).unwrap();
         let part = "/xl/worksheets/sheet1.xml";
-        let xml = package.get_text(part).unwrap();
-        assert!(xml.contains("<f>1/0</f>"));
-        let xml = xml.replace("<f>1/0</f>", &format!("<f>{formula}</f>"));
+        let mut xml = package.get_text(part).unwrap().to_owned();
+        let formula_range = {
+            let doc = roxmltree::Document::parse(&xml).unwrap();
+            let cell = doc.descendants().find(|n| n.is_element() && n.attribute("r") == Some("B12")).unwrap();
+            let f = cell.children().find(|n| n.tag_name().name() == "f").unwrap();
+            assert_eq!(f.text(), Some("1/0"));
+            f.range()
+        };
+        xml.replace_range(formula_range, &format!("<f>{formula}</f>"));
         package.put_text(part, xml).unwrap();
         let bytes = package.to_bytes().unwrap();
         let read = ReadWorkbook::read(&bytes, &WorkbookReadLimits::default()).unwrap();

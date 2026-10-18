@@ -206,7 +206,7 @@
     "crates/zen-formats/tests/named_workbook.rs": "0ca40aa43abfc305a2a086b0e52c948e7dfc7e0d9ec37d346be56f017619e611",
     "crates/zen-formats/tests/ooxml.rs": "8f42bfeda9cdb2d69413fe5ae13f2370b13c8437d228fde952b3cb02e3957865",
     "crates/zen-formats/tests/opc_reader.rs": "bcb9c5b6a7fd488fd293f9093487dce920d2be13515d6c0be677af703ade8cef",
-    "crates/zen-formats/tests/preserving_edit.rs": "63149017042f6f4e7e63ac4c36192a6bee7f0904e96363e7d6da3c1253d509e3",
+    "crates/zen-formats/tests/preserving_edit.rs": "0d671e9e7c6614728704012b91f2ac766dceefcfbf933174b0e75e3f5111d1e9",
     "crates/zen-formats/tests/trinity_ooxml.rs": "0c82b914ee16855aa825210565ce0978714d76440f421596273bb6dc80da9249",
     "crates/zen-harness/Cargo.toml": "f6f4a89f892a7f64a53681942d7f77d3b7fdf619bf89e10500952a5ddeb3d36c",
     "crates/zen-harness/src/bin/zen_deliver.rs": "2fb2677c58636869f977558e5db2975888954bc4d34535db655ba9fc5ea42810",
@@ -298,6 +298,17 @@
         "crates/zen-formats/tests/preserving_edit.rs": {
           "before": "ebadaa67d48d50747206d698d475c09a12f28e524167d99eb829ebbe990d5132",
           "after": "63149017042f6f4e7e63ac4c36192a6bee7f0904e96363e7d6da3c1253d509e3"
+        }
+      }
+    },
+    {
+      "date": "2026-10-19",
+      "task": "ENG-004",
+      "reason": "CI 39170904309 unchanged-error positive test passed; negative fixture builder had a literal XML tag assumption. Locate the formula structurally before mutating derived test copy; no expected error semantics or frozen input changed.",
+      "files": {
+        "crates/zen-formats/tests/preserving_edit.rs": {
+          "before": "63149017042f6f4e7e63ac4c36192a6bee7f0904e96363e7d6da3c1253d509e3",
+          "after": "0d671e9e7c6614728704012b91f2ac766dceefcfbf933174b0e75e3f5111d1e9"
         }
       }
     }
