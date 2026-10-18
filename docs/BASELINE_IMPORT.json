@@ -197,7 +197,7 @@
     "crates/zen-formats/src/opc/xml.rs": "2717606e0a0834814ea83e53ea9895569551857def92f84d2d42f305ac4d98f8",
     "crates/zen-formats/src/opc/zip_layout.rs": "b41a44ba80a58288dcde5389a9c65390d92c210e2a45165bb4eb4191cbd5cd9a",
     "crates/zen-formats/src/spreadsheet/cells.rs": "968e307e02391afafe8995f429fa39115593cc78d62bd1ae914e642dfe70dff6",
-    "crates/zen-formats/src/spreadsheet/edit.rs": "46b4b6a70000c7fa36cde7b3f6cca84a2e903a3c6c3ff992004163aaf0142551",
+    "crates/zen-formats/src/spreadsheet/edit.rs": "dacc40ff589b0b0881e453c87322893e0a21890ed0779a0b119f8e7ac70c25a7",
     "crates/zen-formats/src/spreadsheet/mod.rs": "31939c6091f558b2c3fa151bb286f83a69c8b0a9d7b85315dd82f9116fa2faa7",
     "crates/zen-formats/src/spreadsheet/xml.rs": "2dd43733e5a32bd739117e825ab53d7d0eeb2c93ae28c7d9d4e051cd7e3d4430",
     "crates/zen-formats/src/xlsx.rs": "ca760f13f2ebe3a1c58c89983e397d64a61051967725914c470d6d78e30e78f1",
@@ -206,7 +206,7 @@
     "crates/zen-formats/tests/named_workbook.rs": "0ca40aa43abfc305a2a086b0e52c948e7dfc7e0d9ec37d346be56f017619e611",
     "crates/zen-formats/tests/ooxml.rs": "8f42bfeda9cdb2d69413fe5ae13f2370b13c8437d228fde952b3cb02e3957865",
     "crates/zen-formats/tests/opc_reader.rs": "bcb9c5b6a7fd488fd293f9093487dce920d2be13515d6c0be677af703ade8cef",
-    "crates/zen-formats/tests/preserving_edit.rs": "ebadaa67d48d50747206d698d475c09a12f28e524167d99eb829ebbe990d5132",
+    "crates/zen-formats/tests/preserving_edit.rs": "63149017042f6f4e7e63ac4c36192a6bee7f0904e96363e7d6da3c1253d509e3",
     "crates/zen-formats/tests/trinity_ooxml.rs": "0c82b914ee16855aa825210565ce0978714d76440f421596273bb6dc80da9249",
     "crates/zen-harness/Cargo.toml": "f6f4a89f892a7f64a53681942d7f77d3b7fdf619bf89e10500952a5ddeb3d36c",
     "crates/zen-harness/src/bin/zen_deliver.rs": "2fb2677c58636869f977558e5db2975888954bc4d34535db655ba9fc5ea42810",
@@ -285,6 +285,21 @@
         }
       },
       "validation": "Windows core CI for the submitted commit; outcome recorded in the ENG-003 partial actual record."
+    },
+    {
+      "date": "2026-10-19",
+      "task": "ENG-004",
+      "reason": "CI 39170569842 reproduced all three frozen business inputs rejected by unchanged error formula cache. Permit only recalculated error == original error, retaining original cell bytes; changed errors/type transitions still refused. Two independent Rust regressions and real business CLI acceptance; input/expected/taskbook hashes unchanged.",
+      "files": {
+        "crates/zen-formats/src/spreadsheet/edit.rs": {
+          "before": "46b4b6a70000c7fa36cde7b3f6cca84a2e903a3c6c3ff992004163aaf0142551",
+          "after": "dacc40ff589b0b0881e453c87322893e0a21890ed0779a0b119f8e7ac70c25a7"
+        },
+        "crates/zen-formats/tests/preserving_edit.rs": {
+          "before": "ebadaa67d48d50747206d698d475c09a12f28e524167d99eb829ebbe990d5132",
+          "after": "63149017042f6f4e7e63ac4c36192a6bee7f0904e96363e7d6da3c1253d509e3"
+        }
+      }
     }
   ]
 }

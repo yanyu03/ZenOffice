@@ -392,6 +392,12 @@ impl ReadWorkbook {
                         Some(CalculationValue::Boolean(b)) if matches!(&model.value,Some(TypedValue::Boolean(old)) if old==b) => {
                             ()
                         }
+                        Some(CalculationValue::Error(e)) if matches!(&model.value,Some(TypedValue::Error(old)) if old==e) => {
+                            // Recalculated and unchanged: preserve the original error
+                            // cell bytes, just as for unchanged text/boolean caches.
+                            // A changed error or type transition still fails closed.
+                            ()
+                        }
                         _ => {
                             return Err(unsupported(
                                 "changed nonnumeric/error formula caches are not supported in this save subset",

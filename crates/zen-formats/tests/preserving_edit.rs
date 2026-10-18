@@ -84,3 +84,49 @@ fn large_tier_remains_bounded() {
     assert_eq!(large.max_cells, 500_000);
     assert!(large.max_xml_bytes <= large.package.max_part_bytes);
 }
+
+fn budget_fixture() -> &'static [u8] {
+    include_bytes!("../../../RCD/engine-acceptance/res-002-v1/budget.xlsx")
+}
+
+#[test]
+fn unrelated_unchanged_error_cache_does_not_block_numeric_edit() {
+    let bytes = budget_fixture();
+    let read = ReadWorkbook::read(bytes, &WorkbookReadLimits::default()).unwrap();
+    let out = read.write_number_edit("Budget", CellAddress::new(3, 2).unwrap(), 9800.0).unwrap();
+    let before = zen_opc::ZipArchive::read(bytes).unwrap();
+    let after = zen_opc::ZipArchive::read(&out).unwrap();
+    for entry in &before.entries {
+        if entry.name != "xl/worksheets/sheet1.xml" {
+            assert_eq!(after.get(&entry.name), Some(entry.data.as_slice()), "{}", entry.name);
+        }
+    }
+    fn error_cell(xml: &[u8]) -> String {
+        let xml = std::str::from_utf8(xml).unwrap();
+        let document = roxmltree::Document::parse(xml).unwrap();
+        let cell = document.descendants().find(|n| n.is_element() && n.attribute("r") == Some("B12")).unwrap();
+        xml[cell.range()].to_owned()
+    }
+    assert_eq!(error_cell(before.get("xl/worksheets/sheet1.xml").unwrap()),
+               error_cell(after.get("xl/worksheets/sheet1.xml").unwrap()));
+    let reopened = ReadWorkbook::read(&out, &WorkbookReadLimits::default()).unwrap();
+    let sheet = &reopened.workbook().sheets()[0];
+    assert_eq!(sheet.cell(CellAddress::new(7, 3).unwrap()).unwrap().value.as_ref().unwrap().text(), "400");
+    assert_eq!(sheet.cell(CellAddress::new(11, 1).unwrap()).unwrap().value.as_ref().unwrap().text(), "#DIV/0!");
+}
+
+#[test]
+fn changed_error_or_error_to_number_cache_remains_rejected() {
+    for formula in ["B4/C4", "1+&quot;x&quot;"] {
+        let archive = zen_opc::ZipArchive::read(budget_fixture()).unwrap();
+        let mut package = zen_opc::Package::from_archive(&archive).unwrap();
+        let part = "/xl/worksheets/sheet1.xml";
+        let xml = package.get_text(part).unwrap();
+        assert!(xml.contains("<f>1/0</f>"));
+        let xml = xml.replace("<f>1/0</f>", &format!("<f>{formula}</f>"));
+        package.put_text(part, xml).unwrap();
+        let bytes = package.to_bytes().unwrap();
+        let read = ReadWorkbook::read(&bytes, &WorkbookReadLimits::default()).unwrap();
+        assert!(read.write_number_edit("Budget", CellAddress::new(3, 2).unwrap(), 9800.0).is_err());
+    }
+}
