@@ -1,0 +1,75 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-005",
+  "started_at": "2026-10-19T04:10:19.620375+00:00",
+  "ended_at": "2026-10-19T04:13:39.927960+00:00",
+  "status": "PARTIAL",
+  "actual_commit": "e0e30312586976ce64b870cb2b4dc70e78ba0aa3",
+  "actual_scope": "User-requested development reference expansion: pinned ONLYOFFICE source reading and integration of existing Office LTSC evidence for ENG-005 date/type design. No product code changes.",
+  "commands": [
+    "official get_usage_limits; quota guard --check; frozen calibrate; continuity inspect/begin/checkpoint",
+    "GitHub authenticated REST commit/tree and raw exact-commit source downloads; SHA256 and Git blob SHA1 comparison of 9 files",
+    "Read existing Office baseline and RES-002 host summary; compare 44 retained raw evidence files against original manifest",
+    "Read only Office ClickToRun ProductReleaseIds/Platform/VersionToReport; hash and version EXCEL.EXE",
+    "python tools/check_baseline.py; git diff --check; calibrate --report and final frozen check",
+    "Commit and push documentation; compare HEAD with git ls-remote main and inspect status"
+  ],
+  "deviations": [
+    "User directed reference expansion takes precedence over next product implementation slice. No frozen standard or input modifications.",
+    "Unauthenticated GitHub API hit rate limit; incomplete tree responses were discarded and replaced by authenticated successful reads; all selected blobs verified. No token saved.",
+    "Source reading is not ONLYOFFICE execution, native algorithm recovery, Rust regression, or new Office host comparison.",
+    "Historical Office static version 21056 differs from current/runtime 21000; both identities retained, change cause not investigated."
+  ],
+  "untested": [
+    "ONLYOFFICE installation/build/runtime and whole-source semantics",
+    "New date/type business inputs, Rust date implementation and native same-operation comparisons",
+    "Word/Slides source investigation and native host tasks",
+    "Root cause of Office version drift and suspicious upstream calcChain s/t field mapping"
+  ],
+  "next_step": "Follow docs/research/DEVELOPMENT-REFERENCES.md: freeze explicit date/style admission and new edge samples; implement one bounded ENG-005 slice, then three new typed-business Excel comparisons. Do not alter v1 taskbook or res-002-v1 inputs.",
+  "criteria": {
+    "ENG-005-C1": {
+      "requirement": "建立TypedValue和编辑准入表，覆盖空白、文本、布尔、数字、日期及普通公式；日期体系和错误值单列。",
+      "result": "PASS",
+      "observation": "Design-only review: existing typed admission plus new pinned date-system/source evidence and explicit date edge/refusal planning. No implementation acceptance implied.",
+      "sample_count": 1,
+      "evidence": [
+        "docs/TYPED_EDIT_CONTRACT.md",
+        "docs/research/DEVELOPMENT-REFERENCES.md",
+        "docs/research/REFERENCE-SOURCES-2026-10-19.json"
+      ]
+    },
+    "ENG-005-C2": {
+      "requirement": "实现支持的类型/公式写回和跨表动态依赖更新；缓存与calc配置有独立预期；未知名称、数组、外链明确拒绝或只读。",
+      "result": "NOT_RUN",
+      "observation": "No new product implementation or acceptance execution in this reference-only cycle.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C3": {
+      "requirement": "3份业务XLSX分别包含类型切换、清空和公式替换；保存重开并与Excel同等修改对照。",
+      "result": "NOT_RUN",
+      "observation": "No new product implementation or acceptance execution in this reference-only cycle.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C4": {
+      "requirement": "失败不改变会话/原包/旧输出，撤销恢复数据和计算状态；相关Rust回归按提交记录。",
+      "result": "NOT_RUN",
+      "observation": "No new product implementation or acceptance execution in this reference-only cycle.",
+      "sample_count": 0,
+      "evidence": []
+    }
+  },
+  "reference_slice": {
+    "upstream_files_git_blob_verified": 9,
+    "historical_office_manifest_files_verified": 44,
+    "new_native_runs": 0,
+    "new_rust_runs": 0,
+    "source_manifest_sha256": "65e05681c15f2c82f724a6198601b6a5ef1d5d0a81db28872dcfe6eb3f83c718"
+  }
+}
