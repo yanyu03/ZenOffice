@@ -265,6 +265,17 @@ impl ReadWorkbook {
         self.write_input_edit(sheet_name, address, value, true, None, false)
     }
 
+    /// Persist an explicit date serial in an existing verified date style.
+    /// No style/date-system edits or Gregorian calendar conversion are performed.
+    pub fn write_date_serial_edit(
+        &self, sheet_name: &str, address: CellAddress, serial: f64, system: DateSystem,
+    ) -> EditResult<Vec<u8>> {
+        self.validate_date_serial(sheet_name, address, serial, system)?;
+        self.write_value_edit(sheet_name, address, Some(TypedValue::Number {
+            value: serial, lexical: serial.to_string(),
+        }))
+    }
+
     /// Set a normal formula in an existing cell, without retaining a stale chain.
     /// A supported optional calcChain is invalidated; unknown chains/errors refuse.
     pub fn write_formula_edit(

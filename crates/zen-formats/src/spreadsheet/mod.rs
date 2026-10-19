@@ -1,6 +1,7 @@
 //! Bounded, read-only SpreadsheetML projection above the existing OPC layer.
 //! Original parts stay owned here. This API provides no editable round-trip save.
 mod cells;
+mod dates;
 mod xml;
 pub mod edit;
 

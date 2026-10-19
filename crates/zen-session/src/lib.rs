@@ -5,7 +5,7 @@
 use std::sync::Arc;
 mod persistence;
 pub use persistence::SaveError;
-use zen_engine::workbook::{CellAddress, TypedValue, Workbook};
+use zen_engine::workbook::{CellAddress, DateSystem, TypedValue, Workbook};
 use zen_formats::spreadsheet::{
     ReadDiagnostic, ReadError, ReadWorkbook, WorkbookReadLimits, edit::EditError,
 };
@@ -133,6 +133,23 @@ impl WorkbookSession {
             }
         }
         let candidate = self.projection.write_value_edit(sheet, address, value)?;
+        self.commit_candidate(candidate)
+    }
+
+    /// Set an explicit numeric date serial in an already applied supported date
+    /// style. System/style admission also applies to no-ops. No conversion or
+    /// rendering is implied; serial 60 in 1900 stays compatibility serial data.
+    pub fn set_date_serial(
+        &mut self, sheet: &str, address: CellAddress, serial: f64, system: DateSystem,
+    ) -> Result<EditOutcome, SessionError> {
+        self.projection.validate_date_serial(sheet, address, serial, system)?;
+        if self.workbook().sheets().iter().find(|s| s.name().eq_ignore_ascii_case(sheet))
+            .and_then(|s| s.cell(address)).is_some_and(|c| {
+                matches!(&c.value, Some(TypedValue::Number { value, .. }) if *value == serial)
+            }) {
+            return Ok(EditOutcome::Unchanged);
+        }
+        let candidate = self.projection.write_date_serial_edit(sheet, address, serial, system)?;
         self.commit_candidate(candidate)
     }
 

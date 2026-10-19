@@ -1,0 +1,33 @@
+{
+  "kind": "predeclared finite implementation slice; not a replacement taskbook",
+  "task": "ENG-005",
+  "baseline_source": "9e051902082ab6d8c702324499244ca114397a02",
+  "intent": "set_date_serial(sheet, existing cell, serial, explicit DateSystem)",
+  "semantics": "Persist numeric serial with existing unambiguous date style; no calendar conversion or rendering. Serial 60 in 1900 system is preserved as a compatibility serial, never normalized to a Gregorian date.",
+  "accepted": {
+    "Excel1900": [0, 1, 59, 60, 61, 61.5, 2958465.5],
+    "Excel1904": [0, 1, 59, 60, 61, 61.5, 2957003.5],
+    "builtin_numFmtId": [14, 15, 16, 17, 22],
+    "exact_custom_formatCode": ["yyyy-mm-dd", "yyyy-mm-dd hh:mm:ss"],
+    "style": "explicit cell s index; unique styles part/owning workbook relationship; selected cellXf with explicit true applyNumberFormat, supported attributes, no children and xfId absent/0; no conditionalFormatting or tableParts on target sheet",
+    "numeric_dependents": "A1 serial; B1=A1+1 and Report!A1=Dates!B1; exact expected serial+1"
+  },
+  "refused": [
+    "mismatched system even when numeric value equals current value",
+    "negative or nonfinite serial",
+    "Excel1900 serial >=2958466; Excel1904 serial >=2957004",
+    "missing/out-of-range style index, wrong/duplicate style owner, wrong content type",
+    "applyNumberFormat missing/false; general or time-only format; arbitrary custom format; builtin override or duplicate custom format id",
+    "selected xf inheritance outside absent/0, children, foreign attributes or extension semantics",
+    "formula/error target, merged target, conditionalFormatting/tableParts, or existing preserving-edit refusal",
+    "history/read/resource budget failure"
+  ],
+  "state_contract": "Validate date system/style before no-op; equal numeric intent preserves raw bytes/lexical spelling, revision, redo and save point. Failed request preserves every session state component. Changes use existing candidate/recalc/history/save logic.",
+  "evidence_plan": [
+    "two independent hand-authored system-specific XLSX packages; builtin/custom date styles; optional XML prefix",
+    "values and dependent caches after each serial input, undo/redo, source/unrelated parts/date1904/style byte preservation",
+    "Windows create-new save and reopen with numeric/style/system assertions",
+    "explicit rejection variants and redo-preserving no-op, history budget refusal",
+    "Rust CI at exact source commit; native Excel/ONLYOFFICE date-operation comparison NOT_RUN"
+  ]
+}

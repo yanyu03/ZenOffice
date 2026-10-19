@@ -1,12 +1,12 @@
 # ENG-005类型与公式编辑实施契约
 
-日期：2026-10-19。性质：可变实现设计，落实ZEN-ENGINE-v1.0的ENG-005-C1，不取代或修改冻结验收标准。首份设计依据28f2db7（E1实测08bc566）；类型首切片实测a83fe4d，普通公式替换切片实测d991431。C2/C3/C4整体仍未验收。日期仍待实现；普通公式清除及可选链失效的最新有界能力见末节。
+日期：2026-10-19。性质：可变实现设计，落实ZEN-ENGINE-v1.0的ENG-005-C1，不取代或修改冻结验收标准。首份设计依据28f2db7（E1实测08bc566）；类型首切片实测a83fe4d，普通公式替换切片实测d991431。C2/C3/C4整体仍未验收。日期序号新切片见末节；本机定向6项通过，固定提交Windows CI待核实。
 
 ## 数据模型和调用意图
 
 复用zen_engine::workbook::TypedValue::{Number,Text,Boolean,Error}及DateSystem::{Excel1900,Excel1904}。空白使用Option<TypedValue>::None，不新增与现有模型冲突的Blank读取变体；空字符串是Some(Text(""))，不等同于None、0或false。原数值lexical用于保真；新数字应按value生成合法词法，不信任调用者提供的矛盾lexical。新请求不能直接修改共享Workbook，也不能暴露候选ZIP的无验证提交接口。
 
-已实现WorkbookSession::set_value、受限set_formula及clear_formula；SetDateSerial{serial,system}仍未实现。公式替换/清除限已有格及受支持的可选链失效规则，详见末节；下述各切片按提交保留历史，当前能力以准入表和最后一节为准。SetValue(Text("=A1"))是字面文本，永不自动转为公式；SetFormula才进入公式解析。读取模型继续把带日期格式的n单元格投影为Number，日期编辑意图必须另外携带体系，不能由样式索引猜测已经完成日期语义。
+已实现WorkbookSession::set_value、受限set_formula及clear_formula；已新增set_date_serial(sheet,address,serial,system)，限定既有显式日期样式；本机定向测试通过，固定提交CI和新宿主对照仍待核实。公式替换/清除限已有格及受支持的可选链失效规则，详见末节；下述各切片按提交保留历史，当前能力以准入表和最后一节为准。SetValue(Text("=A1"))是字面文本，永不自动转为公式；SetFormula才进入公式解析。读取模型继续把带日期格式的n单元格投影为Number，日期编辑意图必须另外携带体系，不能由样式索引猜测已经完成日期语义。
 
 | 意图 | 表示与区别 | 当前运行能力 | ENG-005目标准入及写回规则 |
 | --- | --- | --- | --- |
@@ -14,8 +14,8 @@
 | 文本 | Some(Text)，含空字符串及以=开头文本 | 已有输入格可写，Rust合成样本通过；尚无新宿主对照 | 新文本使用inlineStr/is/t并做XML转义及必要空白保持，不重排sharedStrings；空字符串仍是文本 |
 | 布尔 | Some(Boolean)，不是数字0/1或文本TRUE | 已有输入格可写，Rust合成样本通过；尚无新宿主对照 | 输入和缓存分别写合法b/0或1；计算准入不得通过把布尔伪装成数字来通过 |
 | 数字 | Some(Number)，仅有限f64 | set_value可切换已有输入类型；set_number保持E1入口限制 | 两入口复用候选提交；NaN/无穷拒绝；相同数字保持原词法和字节 |
-| 日期1900 | 显式serial+Excel1900 | 数字序列可读/保持，无专用日期写入契约 | 体系必须与目标Workbook一致，拒绝隐式转换；先核对/解析目标日期格式，再写序列；边界及序列60单列宿主样本 |
-| 日期1904 | 显式serial+Excel1904 | 体系可读/保持，未做1904业务写入验收 | 同上；体系不符拒绝，不因当前机器区域或默认体系重写workbookPr；1904样本必须独立冻结 |
+| 日期1900 | 显式serial+Excel1900 | set_date_serial已有有界实现；本机合成通过，新宿主待办 | 体系必须与目标Workbook一致，拒绝隐式转换；先核对/解析目标日期格式，再写序列；边界及序列60单列宿主样本 |
+| 日期1904 | 显式serial+Excel1904 | set_date_serial已有有界实现；本机合成通过，1904业务宿主未验收 | 同上；体系不符拒绝，不因当前机器区域或默认体系重写workbookPr；1904样本必须独立冻结 |
 | 普通公式 | SetFormula，区别于输入/缓存/显示 | 已有格可替换普通公式并失效受支持可选链；合成Rust样本通过，新宿主对照待办 | 复用WorkbookCalculator解析/名称解析/循环检测，替换后重建动态依赖并重算；输入允许一个前导=，保存f不含前导=；仅严格相同公式意图可判无变化，不自行改内部空白 |
 | 错误值 | Some(Error)与计算产生Error分开 | 未变错误缓存可保持；直接写错误和变化错误缓存仍拒绝 | 第一切片直接错误输入明确拒绝；在类型化缓存写回及宿主对照通过前，不放宽错误变化/类型转换门禁 |
 
@@ -75,3 +75,16 @@ C1设计范围完成；C2/C3/C4要求完整类型/公式、三份业务与宿主
 普通公式结构变更后，候选一起移除链、其关系和类型Override；原calcPr逐字节保留，支持的值与缓存全量重算。不请求宿主强制重算，不声称还原或生成Excel内部链。文字输入改动保留原链；无变化请求保持归档/redo。未知扩展、节点文字、复数归属/引用及预算/保存失败都不提交。
 
 n=4新Rust测试函数，1份双表链夹具及7种负向变体；验证替换/清除、无悬挂关系、无关部件保持、manual calcPr不变、预算/旧输出/原源、undo还原原链、redo移除和保存重开。3份旧数字业务仅回归，新增Office运行0次；原生宿主链重建、日期和完整业务对照仍待验收。证据docs/research/ENG-005-CHAIN-2026-10-19.json，ENG-005仍PARTIAL。
+
+
+## 显式日期序号切片（2026-10-19）
+
+预期先记于engine_specs/ENG-005-date-serial-v1.json。格式层validate_date_serial核对显式体系、有限非负范围与既有日期样式；write_date_serial_edit复用已验收类型候选写回；会话set_date_serial先校验再判无变化，其余复用重算、原子候选、预算、历史与安全保存。读取仍投影Number，不新增与现有模型冲突的日期值变体；CLI仍为数字命令，本轮未增加日期CLI。
+
+1900准入[0,2958466)，1904准入[0,2957004)，含末日小数；范围作为本切片明示策略。序号60原样作为兼容数据保持，不解释成真实公历日期。无时区、区域字符串解析或体系转换；不自动分配、改变样式或workbookPr。算术依赖仍按数字重算，计算结果不会自动获得日期意图或受输入日期界限约束。
+
+样式准入：唯一标准styles媒体类型/拥有关系、显式单元格s、唯一cellXfs、选中xf的applyNumberFormat明确true，xfId限无/0，属性限numFmtId/fontId/fillId/borderId/xfId/applyNumberFormat且无子节点。builtin仅14/15/16/17/22，自定义只接受精确yyyy-mm-dd或yyyy-mm-dd hh:mm:ss、ID>=164且不重复；拒绝builtin覆盖、未知格式、未知根/扩展/命名空间及目标表条件格式/tableParts。此为保守准入，不是完整样式解析或渲染。字体、边框等其他样式语义未新增，原部件字节保持。
+
+新的样式与目标表元数据读取另限2MiB/16384节点；超出拒绝，不扩张会话原资源预算。无变化也必须通过日期体系/样式准入，之后保持原词法、ZIP、revision与redo；修改仍受完整保包门禁、合并目标拒绝和候选重读约束。原数值/通用类型入口保持原意图边界，不从数字猜日期。
+
+实现依据：[微软numFmt列表](https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.spreadsheet.numberingformat)、[xf/applyNumberFormat](https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.spreadsheet.cellformat)与research/DEVELOPMENT-REFERENCES.md固定ONLYOFFICE源码线索；来源不能替代本机Excel同操作观测。两个手写体系样本及拒绝变体，已本机6项回归通过；新日期Excel和ONLYOFFICE运行0次。ENG-005整体仍PARTIAL。

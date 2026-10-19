@@ -4,7 +4,7 @@
   "contract": "docs/TYPED_EDIT_CONTRACT.md",
   "reviewed_commit": "d81da828fe93493e36c2f22e6432d83580f4d060",
   "read_model": "zen_engine::workbook::TypedValue and Option<TypedValue>; reuse DateSystem",
-  "current_writer": "set_number retains E1 numeric admission; set_value supports existing literal blank/text/bool/finite-number inputs; set_formula/clear_formula support existing normal formula structure changes and bounded optional-chain invalidation; no date or direct error intent",
+  "current_writer": "Existing typed/formula/clear/chain boundaries plus explicit date-serial intent with existing verified date style; six local synthetic regressions PASS, exact-commit Windows CI pending; no new native typed/date comparison",
   "intents": [
     {
       "id": "blank",
@@ -63,8 +63,8 @@
     },
     {
       "id": "date_1900",
-      "representation": "SetDateSerial { serial, system: Excel1900 }",
-      "current_edit": "NO_DATE_INTENT_API",
+      "representation": "set_date_serial(sheet,address,serial,DateSystem)",
+      "current_edit": "LOCAL_SYNTHETIC_PASS_PENDING_EXACT_COMMIT_CI_AND_NATIVE_DATE_HOST",
       "planned_encoding": "numeric serial plus explicitly validated date style; workbook date system unchanged",
       "must_distinguish": "date serial versus absolute Gregorian date",
       "boundary_plan": [
@@ -79,12 +79,13 @@
         "system mismatch",
         "unresolved date format",
         "ISO-date text supplied without explicit policy"
-      ]
+      ],
+      "slice_contract": "docs/engine_specs/ENG-005-date-serial-v1.json"
     },
     {
       "id": "date_1904",
-      "representation": "SetDateSerial { serial, system: Excel1904 }",
-      "current_edit": "NO_DATE_INTENT_API",
+      "representation": "set_date_serial(sheet,address,serial,DateSystem)",
+      "current_edit": "LOCAL_SYNTHETIC_PASS_PENDING_EXACT_COMMIT_CI_AND_NATIVE_DATE_HOST",
       "planned_encoding": "numeric serial plus explicitly validated date style; no implicit system conversion",
       "must_distinguish": "1904 serial versus same number in 1900 system",
       "boundary_plan": [
@@ -97,7 +98,8 @@
         "system mismatch",
         "unresolved date format",
         "unvalidated conversion"
-      ]
+      ],
+      "slice_contract": "docs/engine_specs/ENG-005-date-serial-v1.json"
     },
     {
       "id": "formula",
