@@ -1,0 +1,101 @@
+{
+  "id": "ENG-005-business-v2",
+  "kind": "Predeclared operations and independent literal expectations; not generated files or runtime evidence",
+  "task": "ENG-005",
+  "source_commit": "32e63cb0abd18c82bb5567a244ff7586ff4355b5",
+  "comparison": {
+    "numbers": "exact; all selected inputs and results are integers or binary-exact quarters/halves",
+    "types": "distinguish blank, number, text, boolean, formula and error; date intent is a styled numeric serial, not a calendar string",
+    "formula": "exact invariant formula text without leading equals; preserve host normalization separately",
+    "date": "compare numeric Value2, date1904 and styles separately; Text is an observation, not an equality oracle",
+    "caches": "compare every tracked formula after each successful operation and after save/reopen; numeric/error/blank cache kind must match",
+    "tolerance": 0
+  },
+  "construction": {
+    "destination": "RCD/engine-acceptance/eng-005-business-v2 (not created by this plan)",
+    "authoring": "Three separately specified synthetic business layouts; two sheets per workbook to exercise cross-sheet propagation. Do not derive expectations from Zen or host output.",
+    "date_style": "Explicit s index and cellXf with applyNumberFormat=1, xfId=0, no child metadata, builtin numFmtId=14; no conditional formatting/tableParts. Record actual exporter metadata; do not silently rewrite unsupported metadata to pass.",
+    "calculation": "manual, fullCalcOnLoad=0, forceFullCalc=0 initially. Zen preserves workbook.xml/calcPr bytes at every step and save; it must write numeric caches for every changed tracked formula rather than relying on a later Excel recalculation. clear_formula removes f/v/is and cell type while retaining c/r/s; SUM ignores the resulting blank. Existing unchanged formula caches remain numerically exact. Any unexpected nonnumeric dependent cache blocks acceptance.",
+    "preservation_probe": "Include a separate synthetic customXml text part and owning relationship; assert all unedited parts, styles and workbook metadata byte-for-byte on Zen saves. Native Excel may normalize packages; record that separately.",
+    "sealing": "Before host or Zen runs, inspect packages/render authored inputs, verify literal initial values/formulas/styles/system, then create a new manifest with SHA256 of plan and all three XLSX. Refuse overwrites. No old res-002-v1 files are modified."
+  },
+  "cases": [
+    {
+      "id": "budget", "sheet": "Budget", "date_system": "Excel1900",
+      "business": "Budget variance: planned less actual across payroll, rent and supplies",
+      "numbers": {"B4":12000,"C4":11000,"B5":4500,"C5":4500,"B6":1800,"C6":1500,"B10":46314,"B12":7},
+      "labels": {"A1":"Budget variance (CNY)","A3":"Category","B3":"Planned","C3":"Actual","D3":"Variance","A4":"Payroll","A5":"Rent","A6":"Supplies","A8":"Total variance","A10":"Report date serial (1900)","A12":"Review state"},
+      "formulas": {"D4":"B4-C4","D5":"B5-C5","D6":"B6-C6","D8":"SUM(D4:D6)"},
+      "summary_formulas": {"B2":"Budget!D8","B3":"Budget!B10+1"},
+      "date_cell": "B10", "type_cell": "B12", "type_initial": 7,
+      "initial_expected": {"D4":1000,"D5":0,"D6":300,"D8":1300,"Summary!B2":1300,"Summary!B3":46315},
+      "operations": [
+        {"id":"review-text","kind":"text","cell":"B12","value":"Reviewed","expected":{}},
+        {"id":"review-boolean","kind":"boolean","cell":"B12","value":true,"expected":{}},
+        {"id":"review-clear","kind":"blank","cell":"B12","expected":{}},
+        {"id":"report-date","kind":"date_serial","cell":"B10","value":61.5,"expected":{"Summary!B3":62.5}},
+        {"id":"replace-variance","kind":"formula","cell":"D4","value":"B5-C5","expected":{"D4":0,"D8":300,"Summary!B2":300}},
+        {"id":"old-reference-edit","kind":"number","cell":"C4","value":11500,"expected":{}},
+        {"id":"new-reference-edit","kind":"number","cell":"C5","value":4300,"expected":{"D4":200,"D5":200,"D8":700,"Summary!B2":700}},
+        {"id":"clear-variance-formula","kind":"clear_formula","cell":"D4","expected":{"D4":null,"D8":500,"Summary!B2":500}}
+      ]
+    },
+    {
+      "id": "orders", "sheet": "Orders", "date_system": "Excel1904",
+      "business": "Two order lines: quantity times unit price and aggregate value",
+      "numbers": {"B4":3,"C4":125,"B5":2,"C5":80,"B9":59.25,"C9":0},
+      "labels": {"A1":"Order value (CNY)","A3":"Order","B3":"Quantity","C3":"Unit price","D3":"Line value","A4":"O-201","A5":"O-202","A7":"Total value","A9":"Delivery serial (1904)"},
+      "formulas": {"D4":"B4*C4","D5":"B5*C5","D7":"SUM(D4:D5)"},
+      "summary_formulas": {"B2":"Orders!D7","B3":"Orders!B9+1"},
+      "date_cell": "B9", "type_cell": "C9", "type_initial": 0,
+      "initial_expected": {"D4":375,"D5":160,"D7":535,"Summary!B2":535,"Summary!B3":60.25},
+      "operations": [
+        {"id":"status-text","kind":"text","cell":"C9","value":"Packed","expected":{}},
+        {"id":"status-boolean","kind":"boolean","cell":"C9","value":false,"expected":{}},
+        {"id":"status-clear","kind":"blank","cell":"C9","expected":{}},
+        {"id":"delivery-date","kind":"date_serial","cell":"B9","value":60,"expected":{"Summary!B3":61}},
+        {"id":"replace-line-formula","kind":"formula","cell":"D4","value":"B5*C5","expected":{"D4":160,"D7":320,"Summary!B2":320}},
+        {"id":"old-reference-edit","kind":"number","cell":"B4","value":4,"expected":{}},
+        {"id":"new-reference-edit","kind":"number","cell":"C5","value":90,"expected":{"D4":180,"D5":180,"D7":360,"Summary!B2":360}},
+        {"id":"clear-line-formula","kind":"clear_formula","cell":"D4","expected":{"D4":null,"D7":180,"Summary!B2":180}}
+      ]
+    },
+    {
+      "id": "attendance", "sheet": "Attendance", "date_system": "Excel1900",
+      "business": "Regular days times daily hours plus overtime; aggregate two employees",
+      "numbers": {"B4":20,"C4":8,"D4":4,"B5":18,"C5":7.5,"D5":0,"B9":59,"C9":1},
+      "labels": {"A1":"Attendance (hours)","A3":"Employee","B3":"Days","C3":"Hours per day","D3":"Overtime","F3":"Total hours","A4":"EMP-A","A5":"EMP-B","A7":"Total hours","A9":"Period serial (1900)"},
+      "formulas": {"F4":"B4*C4+D4","F5":"B5*C5+D5","F7":"SUM(F4:F5)"},
+      "summary_formulas": {"B2":"Attendance!F7","B3":"Attendance!B9+1"},
+      "date_cell": "B9", "type_cell": "C9", "type_initial": 1,
+      "initial_expected": {"F4":164,"F5":135,"F7":299,"Summary!B2":299,"Summary!B3":60},
+      "operations": [
+        {"id":"approval-text","kind":"text","cell":"C9","value":"Approved","expected":{}},
+        {"id":"approval-boolean","kind":"boolean","cell":"C9","value":true,"expected":{}},
+        {"id":"approval-clear","kind":"blank","cell":"C9","expected":{}},
+        {"id":"period-date","kind":"date_serial","cell":"B9","value":60.5,"expected":{"Summary!B3":61.5}},
+        {"id":"replace-hours-formula","kind":"formula","cell":"F4","value":"B5*C5+D5","expected":{"F4":135,"F7":270,"Summary!B2":270}},
+        {"id":"old-reference-edit","kind":"number","cell":"D4","value":8,"expected":{}},
+        {"id":"new-reference-edit","kind":"number","cell":"D5","value":2,"expected":{"F4":137,"F5":137,"F7":274,"Summary!B2":274}},
+        {"id":"clear-hours-formula","kind":"clear_formula","cell":"F4","expected":{"F4":null,"F7":137,"Summary!B2":137}}
+      ]
+    }
+  ],
+  "execution_protocol": [
+    "Verify sealed input and plan hashes before each run. Publish source commit, tool/Office versions and input hashes; keep paths/process records/raw host output under target.",
+    "For each file run all eight forward operations in one Zen API session. Assert full expected snapshots: expected objects are deltas, absent keys retain previous values. Also assert edited cell value/type/formula, date style/system, dependent caches and calcPr using a separately declared cache policy before acceptance.",
+    "After every successful Zen edit, undo to exact prior archive bytes, then redo to exact resulting archive bytes; check revision, dirty, retained memory and history under the existing session contract, without expecting revision to move backwards. Count this separately from native host operations. Save/reopen final state and selected date/formula intermediate states to fresh targets.",
+    "After each formula replacement, editing the old reference must not change its removed dependent; editing the new reference must update local and cross-sheet dependents. Clearing formula means remove formula and cached value; it is not retaining the last result as a literal.",
+    "For each original input, use three independent owned Excel instances and isolated copies; 3 files times 3 runs, not 27 independent files. Apply equivalent forward operations using Value2/ClearContents/Formula, CalculateFullRebuild per step, record all tracked cells Value2/Formula/Text/errors/date1904 and workbook/application identity.",
+    "Excel COM assignments are not native Undo; never use Application.Undo as a substitute for Zen history validation. Close only the owned workbook/instance after checking PID creation time/path.",
+    "SaveAs to new targets, close/reopen and inspect formulas/caches/types/system. Input hashes must stay unchanged. Compare Zen and native normalized semantic snapshots against literal expectations as well as each other; preserve every mismatch.",
+    "Only select an explicit Office/ONLYOFFICE target for REA when a concrete discrepancy requires investigation; static or downloaded source evidence is not a native run."
+  ],
+  "remaining_prerequisites": [
+    "Generate and render three XLSX packages; establish independent valid package identity and manifest before any execution",
+    "Verify generated package calcPr/cache serialization against the predeclared construction policy before sealing; do not lower policy after observed failures",
+    "Separate executable refusal/history suite: wrong date system, unsupported date style, unknown name, array/external formula, nonfinite input, budget exhaustion, pre-existing output and output lock; retain source/session/old-output bytes on every rejection",
+    "Create Zen API runner and native typed operation observer; existing numeric-only CLI/observer do not support this plan as-is"
+  ],
+  "runtime_status": {"xlsx_generated":0,"zen_business_runs":0,"excel_runs":0,"onlyoffice_runs":0,"full_task_done":false}
+}
