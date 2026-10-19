@@ -485,6 +485,11 @@ impl ReadWorkbook {
         if (formula.is_none() && input.formula.is_some()) || matches!(&input.value, Some(TypedValue::Error(_))) {
             return Err(unsupported("formula/error input replacement is not supported"));
         }
+        if formula.is_some() && input.formula.as_ref().is_some_and(|f| {
+            f.attributes.iter().any(|(key, value)| key != "t" || value != "normal")
+        }) {
+            return Err(unsupported("formula metadata replacement is not supported"));
+        }
         let bytes = self.admitted_source()?;
         if formula.is_some() && (
             self.package.parts().any(|p| p.content_type().contains("calcChain")) ||

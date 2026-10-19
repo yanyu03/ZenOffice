@@ -120,6 +120,12 @@ fn formula_rejections_and_budget_preserve_state_with_live_redo() {
     package.put_text("/xl/worksheets/s1.xml", xml).unwrap();
     let mut s = open(&package.to_bytes().unwrap()); let before = state(&s);
     assert!(s.set_formula("Inputs", a(1, 0), "B1").is_err()); assert_eq!(before, state(&s));
+    let mut package = zen_opc::Package::from_archive(&zen_opc::ZipArchive::read(&source).unwrap()).unwrap();
+    let xml = package.get_text("/xl/worksheets/s1.xml").unwrap().replace("<x:f>A1</x:f>", "<x:f ca=\"1\">A1</x:f>");
+    package.put_text("/xl/worksheets/s1.xml", xml).unwrap();
+    let mut s = open(&package.to_bytes().unwrap()); let before = state(&s);
+    let error = s.set_formula("Inputs", a(1, 0), "B1").unwrap_err();
+    assert!(error.to_string().contains("formula metadata"), "{error}"); assert_eq!(before, state(&s));
 }
 
 #[test]
