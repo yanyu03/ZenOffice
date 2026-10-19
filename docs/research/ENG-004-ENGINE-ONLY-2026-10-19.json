@@ -1,0 +1,94 @@
+{
+  "scope": "Fresh local engine-only execution; comparisons use recorded native reference, no new host execution",
+  "binary_sha256": "adc52e01a268983e73da493324a92252bbd42c2f30fd6f826b6c563383696bea",
+  "native_summary_sha256": "78bb9b1b58fab36e7612ef237964f638857a0748609936f1a1dc86c2e03795c1",
+  "cases": [
+    {
+      "id": "budget",
+      "status": "PASS",
+      "cli_exit": 0,
+      "observed_values": 170,
+      "native_runs_compared": 3,
+      "source_sha256": "dded0be3d458ec04df9789aeeefc2c4103db368ed96f2a93b1b817a8b5b2db26",
+      "output_sha256": "aee383737eb7ab2c4412e9876533475cb07ea633f88155c525498cc0656831a6",
+      "preserved_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "xl/_rels/workbook.xml.rels",
+        "xl/sharedStrings.xml",
+        "xl/styles.xml",
+        "xl/theme/theme1.xml"
+      ]
+    },
+    {
+      "id": "orders",
+      "status": "PASS",
+      "cli_exit": 0,
+      "observed_values": 110,
+      "native_runs_compared": 3,
+      "source_sha256": "f96cb703551eccaf6c552990572ab3a7d5ca771676026f828230f9b54dc27261",
+      "output_sha256": "f432a5f86a65b221b1b561a2c4f7a7c9977f19e7adfac8917dfb6b7dcf63857c",
+      "preserved_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "xl/_rels/workbook.xml.rels",
+        "xl/sharedStrings.xml",
+        "xl/styles.xml",
+        "xl/theme/theme1.xml"
+      ]
+    },
+    {
+      "id": "attendance",
+      "status": "PASS",
+      "cli_exit": 0,
+      "observed_values": 110,
+      "native_runs_compared": 3,
+      "source_sha256": "95bede4f59704a5ac491961838cd11e89dffd9c5fefedb50f8e2545d73042e8d",
+      "output_sha256": "a20f17338f820d26849a81fc88b624c04584472f8c463dcb06469221a8b42ccb",
+      "preserved_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "xl/_rels/workbook.xml.rels",
+        "xl/sharedStrings.xml",
+        "xl/styles.xml",
+        "xl/theme/theme1.xml"
+      ]
+    }
+  ],
+  "status": "PASS",
+  "source_commit": "003990cf6032f93dea80eba4731cf59a5558942f",
+  "build": "cargo build --locked --offline -p zen-session --bin zen-session; Rust/Cargo1.99.1, DSHA2.5.2",
+  "new_office_runs": 0,
+  "new_onlyoffice_runs": 0,
+  "new_numeric_values_checked": 390,
+  "engine_invocations": 9,
+  "log_sha256": {
+    "attendance/business.commands.txt": "f6da07cb458d712175ed9103fef2eead78d645cb241240a006f89668a166e9a4",
+    "attendance/business.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "attendance/business.stdout.txt": "c27b1e843ab5789b3f42e56ecd43469550af15a926ad5e71a25af6f54a89f2ac",
+    "attendance/locked-existing-output.commands.txt": "5aaeea4bd17fe31e5d4b8257dd05d3d3896cfc36fb428a00e9492f824d22799a",
+    "attendance/locked-existing-output.stderr.txt": "8fe20c87427be5597182d8982ea4cb1ae97bb1f67801413893cf98fcd976d0c1",
+    "attendance/locked-existing-output.stdout.txt": "e23dca203c73da4fe0afd96a502c25c1afe031aa86bf241974dc21fcd67fb7bf",
+    "attendance/locked-source.commands.txt": "298ad5d655626e3fae06cf0a287a414508767b16b05c84c66308f9d02c63dfc7",
+    "attendance/locked-source.stderr.txt": "65d4ba11a4723567d3bb22c847c452e4b79e4556abc61eb5ebd102f061ae2a34",
+    "attendance/locked-source.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "budget/business.commands.txt": "240826be497f75761c0f85bb6c3e8ba2b55582c9d26e09f5f5a169ca809f9e42",
+    "budget/business.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "budget/business.stdout.txt": "46dd00f5af9c4b3d6cf5fcaff8bd1e1c21f02e77ce93f5de7c84498deb17969b",
+    "budget/locked-existing-output.commands.txt": "eaee9db8182880698aeb640edbc5a0a7404fb15bde39ccdea8aee99288d3ed79",
+    "budget/locked-existing-output.stderr.txt": "8fe20c87427be5597182d8982ea4cb1ae97bb1f67801413893cf98fcd976d0c1",
+    "budget/locked-existing-output.stdout.txt": "e23dca203c73da4fe0afd96a502c25c1afe031aa86bf241974dc21fcd67fb7bf",
+    "budget/locked-source.commands.txt": "298ad5d655626e3fae06cf0a287a414508767b16b05c84c66308f9d02c63dfc7",
+    "budget/locked-source.stderr.txt": "65d4ba11a4723567d3bb22c847c452e4b79e4556abc61eb5ebd102f061ae2a34",
+    "budget/locked-source.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "orders/business.commands.txt": "2cc2380862d3def8f03cfdcd477b9aa31f80ecbee7b818892cbdec9fad45d5e9",
+    "orders/business.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "orders/business.stdout.txt": "18cd41c70db8039e7064d0551d6909b6d1a70300d91dd2c373db0d2f05bdd8c1",
+    "orders/locked-existing-output.commands.txt": "060fc6ae61d561efd16ef6ce15e5cb336823c108c959608246755b631aa5510e",
+    "orders/locked-existing-output.stderr.txt": "8fe20c87427be5597182d8982ea4cb1ae97bb1f67801413893cf98fcd976d0c1",
+    "orders/locked-existing-output.stdout.txt": "e23dca203c73da4fe0afd96a502c25c1afe031aa86bf241974dc21fcd67fb7bf",
+    "orders/locked-source.commands.txt": "298ad5d655626e3fae06cf0a287a414508767b16b05c84c66308f9d02c63dfc7",
+    "orders/locked-source.stderr.txt": "65d4ba11a4723567d3bb22c847c452e4b79e4556abc61eb5ebd102f061ae2a34",
+    "orders/locked-source.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

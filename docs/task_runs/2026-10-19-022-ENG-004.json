@@ -1,0 +1,70 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-004",
+  "started_at": "2026-10-19T10:51:07.674158+00:00",
+  "ended_at": "2026-10-19T10:52:31.927355+00:00",
+  "status": "PARTIAL",
+  "actual_commit": "003990cf6032f93dea80eba4731cf59a5558942f",
+  "actual_scope": "Explicit user requested engine-only editing smoke: rebuild current CLI, three admitted frozen numeric cases, 390 values, save/reopen, undo/redo, package/source preservation and isolated refusal cases. No Office started; no product source changed.",
+  "commands": [
+    "Official quota29%, local guard READY; frozen calibrate PASS; continuity inspect COMPLETE then begin36543b9d",
+    "DSHA2.5.2 EnvFeel Cargo/rustc/MSVC SDK activation PASS; actual locked offline zen-session CLI build at HEAD003990c PASS, dev profile",
+    "accept_zen_cases.py --binary target/debug/zen-session.exe --fixtures RCD/engine-acceptance/res-002-v1 --native docs/research/RES-002-EXCEL-2026-10-19.json --new-output target/engine-only-20261019-1852: three PASS,390 values,9 CLI invocations",
+    "Read actual build transcript, all business stdout/stderr and negative outcomes; independent archive/formula/cache and source-hash checks in harness PASS",
+    "Baseline, report and frozen rechecks before evidence-only commit; CI follows that receipt commit"
+  ],
+  "deviations": [
+    "This is a new local engine-only regression, not a fresh Office acceptance. Historical recorded Excel reference used only as comparison data.",
+    "ENG-004 prior bounded DONE is retained; this separate requested run is PARTIAL under C4 because new external host execution was intentionally excluded.",
+    "Only numeric CLI, not the library-only typed/formula/date editing interfaces. Existing ENG-005 v2 authoring blocker is unchanged; no rejected v2 candidates used.",
+    "Old output specimen is both existing and locked; actual refusal says destination exists. It establishes existing-output protection, not isolated destination-lock causality. Source exclusive-lock test independently returns os error32."
+  ],
+  "untested": [
+    "Fresh Excel/ONLYOFFICE execution",
+    "New typed/date business files; text/boolean/formula/date API smoke",
+    "Word/Slides, UI, release optimization, power-loss/hostile namespace races",
+    "Full Rust suite not repeated: no Rust source changed; only current dev CLI rebuilt and exercised"
+  ],
+  "next_step": "Keep ENG-005 blocker separate. Review generated saved.xlsx files locally; typed/date acceptance still requires actual metadata authoring and qualified samples. No automatic Office run or v2 retry.",
+  "criteria": {
+    "ENG-004-C1": {
+      "requirement": "预算、订单、考勤3份XLSX完成Zen多步数字编辑、撤销重做、另存和重开。",
+      "result": "PASS",
+      "observation": "Three numeric cases completed multi-step edits, undo/redo, save and reopen using real Zen CLI.",
+      "sample_count": 3,
+      "evidence": [
+        "docs/research/ENG-004-ENGINE-ONLY-2026-10-19.json"
+      ]
+    },
+    "ENG-004-C2": {
+      "requirement": "与同等修改的Excel结果逐格比较支持范围内值、公式和缓存；不支持部分明确列出。",
+      "result": "PASS",
+      "observation": "390 values and saved formula/cache expectations match the recorded fixed-identity Excel observations; fresh host runs0.",
+      "sample_count": 3,
+      "evidence": [
+        "docs/research/ENG-004-ENGINE-ONLY-2026-10-19.json"
+      ]
+    },
+    "ENG-004-C3": {
+      "requirement": "核对修改范围外部件及源文件保持；拒绝和锁定路径有独立样本；完整失败记录保留。",
+      "result": "PASS",
+      "observation": "Three original/copy source hashes and six unchanged package parts per case retained; nine invocations include source-lock and old-output refusal specimens, logs retained.",
+      "sample_count": 3,
+      "evidence": [
+        "docs/research/ENG-004-ENGINE-ONLY-2026-10-19.json"
+      ]
+    },
+    "ENG-004-C4": {
+      "requirement": "固定提交的相关Rust与Office宿主结果均可追溯；外部宿主未运行时只能标PARTIAL。",
+      "result": "NOT_RUN",
+      "observation": "This cycle did not execute an external host, per user engine-only scope. Build is pinned to current commit; cannot mark whole task DONE from this run.",
+      "sample_count": 0,
+      "evidence": []
+    }
+  },
+  "slice_evidence": "docs/research/ENG-004-ENGINE-ONLY-2026-10-19.json"
+}
