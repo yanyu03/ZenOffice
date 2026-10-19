@@ -105,7 +105,7 @@ fn string_xml(text: &str) -> EditResult<String> {
 }
 
 fn typed_edit(
-    xml: &str, cell: roxmltree::Node<'_, '_>, value: Option<&TypedValue>, formula_cache: bool,
+    xml: &str, cell: roxmltree::Node<'_, '_>, value: Option<&TypedValue>, formula_cache: bool, replacement_formula: Option<&str>,
 ) -> EditResult<(std::ops::Range<usize>, String)> {
     if cell.children().any(|n| n.is_element() && !["f", "v", "is"].iter().any(|t| n.has_tag_name((NS, *t)))) {
         return Err(unsupported("unprojected cell children"));
@@ -150,9 +150,17 @@ fn typed_edit(
     if !kind.is_empty() { opening.push_str(&format!(" t=\"{kind}\"")); }
     opening.push('>');
     if formula_cache {
-        let f = cell.children().find(|n| n.has_tag_name((NS, "f")))
-            .ok_or_else(|| unsupported("formula cache without formula"))?;
-        opening.push_str(&xml[f.range()]);
+        if let Some(formula) = replacement_formula {
+            // Formula definitions are XML text, not ST_Xstring values.
+            string_xml(formula)?; // Validate XML characters without using its escaped output.
+            let encoded = formula.replace('&', "&amp;").replace('<', "&lt;")
+                .replace('>', "&gt;").replace('\r', "&#13;");
+            opening.push_str(&format!("<{prefix}f>{encoded}</{prefix}f>"));
+        } else {
+            let f = cell.children().find(|n| n.has_tag_name((NS, "f")))
+                .ok_or_else(|| unsupported("formula cache without formula"))?;
+            opening.push_str(&xml[f.range()]);
+        }
     }
     opening.push_str(&body);
     opening.push_str(&format!("</{tag}>"));
@@ -245,7 +253,7 @@ impl ReadWorkbook {
         }
         self.write_input_edit(sheet_name, address, Some(TypedValue::Number {
             value, lexical: value.to_string(),
-        }), false)
+        }), false, None)
     }
 
     /// Replace an existing non-formula, non-error input with blank, text, bool
@@ -254,7 +262,20 @@ impl ReadWorkbook {
     pub fn write_value_edit(
         &self, sheet_name: &str, address: CellAddress, value: Option<TypedValue>,
     ) -> EditResult<Vec<u8>> {
-        self.write_input_edit(sheet_name, address, value, true)
+        self.write_input_edit(sheet_name, address, value, true, None)
+    }
+
+    /// Set a normal formula in an existing cell, without retaining a stale chain.
+    /// This first slice refuses workbooks with calcChain and direct error targets.
+    pub fn write_formula_edit(
+        &self, sheet_name: &str, address: CellAddress, formula: &str,
+    ) -> EditResult<Vec<u8>> {
+        let formula = formula.strip_prefix('=').unwrap_or(formula);
+        if formula.trim().is_empty() || formula.trim_start().starts_with('=') {
+            return Err(unsupported("one nonempty normal formula required"));
+        }
+        string_xml(formula)?;
+        self.write_input_edit(sheet_name, address, None, true, Some(formula))
     }
 
     fn admitted_source(&self) -> EditResult<Vec<u8>> {
@@ -449,7 +470,7 @@ impl ReadWorkbook {
     }
 
     fn write_input_edit(
-        &self, sheet_name: &str, address: CellAddress, value: Option<TypedValue>, typed: bool,
+        &self, sheet_name: &str, address: CellAddress, value: Option<TypedValue>, typed: bool, formula: Option<&str>,
     ) -> EditResult<Vec<u8>> {
         if matches!(&value, Some(TypedValue::Number { value, .. }) if !value.is_finite()) {
             return Err(unsupported("input number must be finite"));
@@ -461,12 +482,19 @@ impl ReadWorkbook {
             .find(|s| s.name().eq_ignore_ascii_case(sheet_name))
             .ok_or_else(|| unsupported("sheet not found"))?;
         let input = sheet.cell(address).ok_or_else(|| unsupported("existing explicit input required"))?;
-        if input.formula.is_some() || matches!(&input.value, Some(TypedValue::Error(_))) {
+        if (formula.is_none() && input.formula.is_some()) || matches!(&input.value, Some(TypedValue::Error(_))) {
             return Err(unsupported("formula/error input replacement is not supported"));
         }
         let bytes = self.admitted_source()?;
+        if formula.is_some() && (
+            self.package.parts().any(|p| p.content_type().contains("calcChain")) ||
+            self.package.relationships_from(Some(&self.workbook_part)).any(|r| r.relationship_type.ends_with("/calcChain"))
+        ) {
+            return Err(unsupported("formula replacement with calcChain is not supported"));
+        }
         let mut calc = WorkbookCalculator::new(&self.workbook)?;
-        calc.set_input(sheet.name(), address, value.clone())?;
+        if let Some(formula) = formula { calc.set_formula(sheet.name(), address, formula)?; }
+        else { calc.set_input(sheet.name(), address, value.clone())?; }
         calc.recalculate()?;
         let mut replacements = BTreeMap::new();
         for ws in self.workbook.sheets() {
@@ -503,7 +531,15 @@ impl ReadWorkbook {
                 };
                 if ws.id() == sheet.id() && coord == address {
                     edits.push(if typed {
-                        typed_edit(xml, cell, value.as_ref(), false)?
+                        if let Some(formula) = formula {
+                            let result = match calc.value(ws.name(), coord) {
+                                Some(CalculationValue::Number(n)) => TypedValue::Number { value: *n, lexical: n.to_string() },
+                                Some(CalculationValue::Text(t)) => TypedValue::Text(t.clone()),
+                                Some(CalculationValue::Boolean(b)) => TypedValue::Boolean(*b),
+                                _ => return Err(unsupported("new formula error/empty result is not supported")),
+                            };
+                            typed_edit(xml, cell, Some(&result), true, Some(formula))?
+                        } else { typed_edit(xml, cell, value.as_ref(), false, None)? }
                     } else {
                         let Some(TypedValue::Number { value, .. }) = &value else { unreachable!() };
                         value_edit(xml, cell, *value)?
@@ -523,7 +559,7 @@ impl ReadWorkbook {
                             return Err(unsupported("error cache type transition is not supported"));
                         }
                         if !same_value(model.value.as_ref(), next.as_ref()) {
-                            edits.push(typed_edit(xml, cell, next.as_ref(), true)?);
+                            edits.push(typed_edit(xml, cell, next.as_ref(), true, None)?);
                         }
                     } else {
                     match calc.value(ws.name(), coord) {
@@ -605,8 +641,9 @@ impl ReadWorkbook {
                 );
             }
         }
-        // Formula definitions and their dependency structure have not changed:
-        // calcChain remains valid. Every formula cache was recalculated above.
+        // Input changes retain formula definitions. Formula replacement is
+        // admitted only without calcChain; all supported caches are recalculated.
+        // Workbook calcPr and all unrelated payloads remain byte-exact.
         Ok(rewrite_parts(&bytes, &replacements)?)
     }
 }

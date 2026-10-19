@@ -136,6 +136,27 @@ impl WorkbookSession {
         self.commit_candidate(candidate)
     }
 
+    /// Replace/create a normal formula in an existing cell. Formula removal,
+    /// calcChain workbooks and error/empty results are deferred and rejected.
+    pub fn set_formula(
+        &mut self, sheet: &str, address: CellAddress, formula: &str,
+    ) -> Result<EditOutcome, SessionError> {
+        if formula.len() > self.limits.max_text_bytes {
+            return Err(SessionError::Read(ReadError::Limit("formula text bytes")));
+        }
+        let normalized = formula.strip_prefix('=').unwrap_or(formula);
+        if !normalized.trim().is_empty() && !normalized.trim_start().starts_with('=') {
+            if let Some(input) = self.workbook().sheets().iter()
+                .find(|s| s.name().eq_ignore_ascii_case(sheet)).and_then(|s| s.cell(address)) {
+                if input.formula.as_ref().is_some_and(|f| f.kind == zen_engine::workbook::FormulaKind::Normal && f.text == normalized) {
+                    return Ok(EditOutcome::Unchanged);
+                }
+            }
+        }
+        let candidate = self.projection.write_formula_edit(sheet, address, formula)?;
+        self.commit_candidate(candidate)
+    }
+
     fn commit_candidate(&mut self, bytes: Vec<u8>) -> Result<EditOutcome, SessionError> {
         if bytes == self.bytes() { return Ok(EditOutcome::Unchanged); }
         let prefix = &self.frames[..=self.cursor];

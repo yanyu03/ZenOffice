@@ -47,6 +47,113 @@ fn typed(s: &WorkbookSession, sheet: &str, at: CellAddress) -> Option<TypedValue
 }
 
 #[test]
+fn formula_replacement_rebuilds_cross_sheet_dependencies_and_exact_history() {
+    let mut s = open(&typed_fixture(""));
+    let original = s.bytes().to_vec();
+    s.set_formula("Report", a(0, 0), "=Inputs!B1*2").unwrap();
+    assert_eq!(typed(&s, "Report", a(0, 0)).unwrap().text(), "14");
+    let changed = s.bytes().to_vec();
+    s.undo().unwrap(); assert_eq!(s.bytes(), original);
+    let before = state(&s);
+    assert_eq!(s.set_formula("Report", a(0, 0), "=Inputs!A2").unwrap(), EditOutcome::Unchanged);
+    assert_eq!(before, state(&s)); assert!(s.can_redo());
+    s.redo().unwrap(); assert_eq!(s.bytes(), changed);
+    s.set_value("Inputs", a(0, 0), Some(TypedValue::Number { value: 9.0, lexical: "9".into() })).unwrap();
+    assert_eq!(typed(&s, "Inputs", a(1, 0)).unwrap().text(), "9");
+    assert_eq!(typed(&s, "Report", a(0, 0)).unwrap().text(), "14", "old dependency released");
+    s.set_value("Inputs", a(0, 1), Some(TypedValue::Number { value: 4.0, lexical: "4".into() })).unwrap();
+    assert_eq!(typed(&s, "Report", a(0, 0)).unwrap().text(), "8", "new dependency active");
+    s.set_formula("Report", a(0, 0), "Inputs!A2+1").unwrap();
+    assert_eq!(typed(&s, "Report", a(0, 0)).unwrap().text(), "10");
+    let reopened = open(s.bytes());
+    assert_eq!(typed(&reopened, "Report", a(0, 0)).unwrap().text(), "10");
+}
+
+#[test]
+fn formula_xml_text_is_distinct_from_string_cache_and_calc_configuration_is_preserved() {
+    let raw = typed_fixture("");
+    let mut package = zen_opc::Package::from_archive(&zen_opc::ZipArchive::read(&raw).unwrap()).unwrap();
+    let workbook = package.get_text("/xl/workbook.xml").unwrap().replace("</workbook>",
+        "<calcPr calcMode=\"manual\" fullCalcOnLoad=\"0\" forceFullCalc=\"0\"/></workbook>");
+    package.put_text("/xl/workbook.xml", workbook).unwrap();
+    let source = package.to_bytes().unwrap();
+    let mut s = open(&source);
+    let formula = "IF(Inputs!A1=3,\"_x0041_ & <\",\"bad\")";
+    s.set_formula("Inputs", a(0, 2), formula).unwrap();
+    assert_eq!(typed(&s, "Inputs", a(0, 2)), Some(TypedValue::Text("_x0041_ & <".into())));
+    assert_eq!(s.workbook().sheets()[0].cell(a(0, 2)).unwrap().formula.as_ref().unwrap().text, formula);
+    assert_eq!(s.workbook().sheets()[0].cell(a(0, 2)).unwrap().style_index, Some(2));
+    let zip = zen_opc::ZipArchive::read(s.bytes()).unwrap();
+    let xml = std::str::from_utf8(zip.get("xl/worksheets/s1.xml").unwrap()).unwrap();
+    assert!(xml.contains("<x:f>IF(Inputs!A1=3,\"_x0041_ &amp; &lt;\",\"bad\")</x:f>"));
+    assert!(xml.contains("<x:v>_x005F_x0041_ &amp; &lt;</x:v>"));
+    s.set_formula("Inputs", a(0, 2), "Inputs!B1>3").unwrap();
+    assert_eq!(typed(&s, "Inputs", a(0, 2)), Some(TypedValue::Boolean(true)));
+    let original = zen_opc::ZipArchive::read(&source).unwrap();
+    let after = zen_opc::ZipArchive::read(s.bytes()).unwrap();
+    for entry in &original.entries {
+        if entry.name != "xl/worksheets/s1.xml" { assert_eq!(after.get(&entry.name), Some(entry.data.as_slice()), "{}", entry.name); }
+    }
+}
+
+#[test]
+fn formula_rejections_and_budget_preserve_state_with_live_redo() {
+    let mut s = open(&typed_fixture(""));
+    s.set_formula("Report", a(0, 0), "Inputs!B1*2").unwrap();
+    s.undo().unwrap();
+    for formula in ["", "=", "==1", "MISSING+1", "[other.xlsx]Sheet!A1", "Report!A1+1", "1/0", "1\0+2", "INDIRECT(\"A1\")"] {
+        let before = state(&s);
+        assert!(s.set_formula("Report", a(0, 0), formula).is_err(), "{formula}");
+        assert_eq!(before, state(&s));
+    }
+    let before = state(&s);
+    assert!(s.set_formula("Report", a(9, 9), "1+2").is_err());
+    assert_eq!(before, state(&s));
+    s.redo().unwrap();
+    let source = typed_fixture("");
+    let mut s = WorkbookSession::from_bytes(&source, &WorkbookReadLimits::default(), HistoryBudget { max_frames: 1, ..HistoryBudget::default() }).unwrap();
+    let before = state(&s);
+    assert!(matches!(s.set_formula("Report", a(0, 0), "Inputs!B1*2"), Err(SessionError::HistoryBudget)));
+    assert_eq!(before, state(&s));
+    let mut package = zen_opc::Package::from_archive(&zen_opc::ZipArchive::read(&source).unwrap()).unwrap();
+    let xml = package.get_text("/xl/worksheets/s1.xml").unwrap().replace("<x:f>A1</x:f>", "<x:f t=\"array\" ref=\"A2:A2\">A1</x:f>");
+    package.put_text("/xl/worksheets/s1.xml", xml).unwrap();
+    let mut s = open(&package.to_bytes().unwrap()); let before = state(&s);
+    assert!(s.set_formula("Inputs", a(1, 0), "B1").is_err()); assert_eq!(before, state(&s));
+}
+
+#[test]
+fn formula_calc_chain_rejection_and_new_file_save_are_explicit() {
+    let source = typed_fixture("");
+    let original = zen_opc::ZipArchive::read(&source).unwrap();
+    let mut z = zen_opc::ZipWriter::new();
+    for entry in &original.entries {
+        let bytes = if entry.name == "[Content_Types].xml" {
+            std::str::from_utf8(&entry.data).unwrap().replace("</Types>", "<Override PartName=\"/xl/calcChain.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.spreadsheetml.calcChain+xml\"/></Types>").into_bytes()
+        } else if entry.name == "xl/_rels/workbook.xml.rels" {
+            std::str::from_utf8(&entry.data).unwrap().replace("</Relationships>", "<Relationship Id=\"chain\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/calcChain\" Target=\"calcChain.xml\"/></Relationships>").into_bytes()
+        } else { entry.data.clone() };
+        z.add(&entry.name, bytes);
+    }
+    z.add("xl/calcChain.xml", br#"<calcChain xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><c r="A2" i="3"/><c r="B2"/><c r="C2"/><c r="A1" i="9"/></calcChain>"#.to_vec());
+    let mut s = open(&z.finish().unwrap()); let before = state(&s);
+    let error = s.set_formula("Report", a(0, 0), "Inputs!B1*2").unwrap_err();
+    assert!(error.to_string().contains("calcChain"), "{error}"); assert_eq!(before, state(&s));
+    let dir = tempfile::tempdir().unwrap(); let input = dir.path().join("input.xlsx");
+    let output = dir.path().join("formula.xlsx"); let old = dir.path().join("old.xlsx");
+    std::fs::write(&input, &source).unwrap(); std::fs::write(&old, b"old output").unwrap();
+    let mut s = WorkbookSession::open(&input, &WorkbookReadLimits::default(), HistoryBudget::default()).unwrap();
+    s.set_formula("Report", a(0, 0), "Inputs!B1*2").unwrap(); let before = state(&s);
+    assert!(s.save_as_new(&old).is_err()); assert_eq!(before, state(&s));
+    assert_eq!(std::fs::read(&old).unwrap(), b"old output");
+    s.save_as_new(&output).unwrap(); assert!(!s.is_dirty());
+    let reopened = WorkbookSession::open(&output, &WorkbookReadLimits::default(), HistoryBudget::default()).unwrap();
+    assert_eq!(typed(&reopened, "Report", a(0, 0)).unwrap().text(), "14");
+    assert_eq!(std::fs::read(&input).unwrap(), source);
+    s.undo().unwrap(); assert!(s.is_dirty()); s.redo().unwrap(); assert!(!s.is_dirty());
+}
+
+#[test]
 fn typed_literals_distinguish_blank_empty_false_zero_and_escape_round_trip() {
     let raw = typed_fixture("");
     let mut package = zen_opc::Package::from_archive(&zen_opc::ZipArchive::read(&raw).unwrap()).unwrap();
