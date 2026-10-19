@@ -532,7 +532,7 @@ impl ReadWorkbook {
         let doc = roxmltree::Document::parse(xml)?;
         let nodes: Vec<_> = doc.root_element().children().filter(|n| n.has_tag_name((R, "Relationship")) && n.attribute("Id") == Some(link.id.as_str())).collect();
         if nodes.len() != 1 || nodes[0].attributes().any(|a| a.namespace().is_some() || !["Id", "Type", "Target"].contains(&a.name()))
-            || nodes[0].children().any(|n| n.is_element()) {
+            || nodes[0].children().any(|n| n.is_element() || (n.is_text() && !n.text().unwrap_or("").trim().is_empty())) {
             return Err(unsupported("calcChain relationship metadata unsupported"));
         }
         replacements.insert(rels.name().as_str().into(), patch_xml(xml, vec![(nodes[0].range(), String::new())])?.into_bytes());
@@ -542,7 +542,7 @@ impl ReadWorkbook {
             && n.attribute("PartName").is_some_and(|n| n.eq_ignore_ascii_case(chain.name().as_str()))).collect();
         if nodes.len() != 1 || nodes[0].attribute("ContentType") != Some(TYPE)
             || nodes[0].attributes().any(|a| a.namespace().is_some() || !["PartName", "ContentType"].contains(&a.name()))
-            || nodes[0].children().any(|n| n.is_element()) {
+            || nodes[0].children().any(|n| n.is_element() || (n.is_text() && !n.text().unwrap_or("").trim().is_empty())) {
             return Err(unsupported("calcChain explicit content type override required"));
         }
         replacements.insert("/[Content_Types].xml".into(), patch_xml(xml, vec![(nodes[0].range(), String::new())])?.into_bytes());

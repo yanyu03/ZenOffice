@@ -208,6 +208,7 @@ fn chain_unknown_metadata_shared_ownership_and_duplicate_links_refuse_with_redo(
         ("/xl/calcChain.xml", "r=\"A2\" i=\"3\"", "r=\"A2\" i=\"3\" s=\"1\""),
         ("/xl/calcChain.xml", "i=\"3\"", "i=\"999\""),
         ("/xl/calcChain.xml", "r=\"A2\"", "r=\"B1\""),
+        ("/xl/_rels/workbook.xml.rels", "Target=\"calcChain.xml\"/>", "Target=\"calcChain.xml\">opaque</Relationship>"),
         ("/xl/_rels/workbook.xml.rels", "</Relationships>", "<Relationship Id=\"extra-chain\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/calcChain\" Target=\"calcChain.xml\"/></Relationships>"),
         ("/xl/_rels/workbook.xml.rels", "</Relationships>", "<Relationship Id=\"shared\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink\" Target=\"calcChain.xml\"/></Relationships>"),
     ] {
