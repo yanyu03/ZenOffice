@@ -1,0 +1,94 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-005",
+  "started_at": "2026-10-19T07:21:00.970224+00:00",
+  "ended_at": "2026-10-19T07:27:16.552669+00:00",
+  "status": "PARTIAL",
+  "actual_commit": "686c4313653e24cb602767884eb45ee44f3d4ca8",
+  "actual_scope": "Three independently specified business layouts, 24 forward operations / 27 states, preregistered literal arithmetic only; no XLSX or new engine/native execution",
+  "commands": [
+    "Official quota43% then42%; guard READY; frozen calibrate PASS; continuity inspect no active journal then begin/checkpoints",
+    "python tools/office_research/check_typed_plan.py docs/engine_specs/ENG-005-business-v2.json: 54+45+45=144 exact rational assertions",
+    "Deepcopy negative audit: wrong literal, missing oracle, undeclared reference, cycle, unsupported expression each refused",
+    "python tools/check_baseline.py PASS 106 imported identities; git diff --check PASS",
+    "Initial record update failed with default GBK decoding before writes; explicit UTF-8 correction; report and frozen recheck before push",
+    "CI39215941039 success at686c431; downloaded exact Windows job log and parsed 54/45/45 counts",
+    "Final local --report, frozen hashes/read-only and check_baseline before documentation commit/push; HEAD/ls-remote/worktree checked; final CI tracked in continuity checkpoint"
+  ],
+  "deviations": [
+    "Prerequisite preparation only: three specifications, not three XLSX. Earlier progress wording about building samples is explicitly narrowed to preregistration.",
+    "No Rust or Office code/runtime change; no repeated historical tests. Type probes are independent of formulas; coercion remains untested.",
+    "Initial local record-update helper failed with UnicodeDecodeError before mutation; calibrate correctly rejected IN_PROGRESS. Corrected explicit UTF-8 and reran; frozen files untouched."
+  ],
+  "untested": [
+    "XLSX authoring/rendering/sealing and actual exporter style compatibility",
+    "Zen typed business runs, dependency/cache/history/refusal/save/reopen acceptance",
+    "Three business inputs times three fresh Excel runs; ONLYOFFICE runtime"
+  ],
+  "next_step": "Generate/render/check three new v2 XLSX against the preregistered plan and seal actual hashes before execution. Create typed API runner and native observer. Do not alter old input versions or frozen taskbook.",
+  "criteria": {
+    "ENG-005-C1": {
+      "requirement": "建立TypedValue和编辑准入表，覆盖空白、文本、布尔、数字、日期及普通公式；日期体系和错误值单列。",
+      "result": "PASS",
+      "observation": "Existing typed/date admission design retained. New plan distinguishes type transitions, formula/caches and styled numeric date systems; errors retain explicit refusal policy. Design evidence only.",
+      "sample_count": 1,
+      "evidence": [
+        "docs/TYPED_EDIT_CONTRACT.md",
+        "docs/engine_specs/ENG-005-admission.json",
+        "docs/engine_specs/ENG-005-business-v2.json"
+      ]
+    },
+    "ENG-005-C2": {
+      "requirement": "实现支持的类型/公式写回和跨表动态依赖更新；缓存与calc配置有独立预期；未知名称、数组、外链明确拒绝或只读。",
+      "result": "NOT_RUN",
+      "observation": "Whole original runtime condition not accepted on new typed/date business files; zero new runtime samples.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C3": {
+      "requirement": "3份业务XLSX分别包含类型切换、清空和公式替换；保存重开并与Excel同等修改对照。",
+      "result": "NOT_RUN",
+      "observation": "Whole original runtime condition not accepted on new typed/date business files; zero new runtime samples.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C4": {
+      "requirement": "失败不改变会话/原包/旧输出，撤销恢复数据和计算状态；相关Rust回归按提交记录。",
+      "result": "NOT_RUN",
+      "observation": "Whole original runtime condition not accepted on new typed/date business files; zero new runtime samples.",
+      "sample_count": 0,
+      "evidence": []
+    }
+  },
+  "dependency_review": {
+    "ENG-004": "DONE bounded E1; original evidence retained",
+    "previous_cycle": "COMPLETE, no unfinished owned command; initial HEAD=remote main32e63cb"
+  },
+  "plan_audit": {
+    "status": "PASS",
+    "business_specifications": 3,
+    "forward_operations": 24,
+    "states": 27,
+    "literal_assertions": 144,
+    "corrupted_plans_refused": 5,
+    "xlsx_generated": 0,
+    "zen_business_runs": 0,
+    "excel_runs": 0,
+    "onlyoffice_runs": 0,
+    "rust_tests_this_cycle": 0,
+    "plan_sha256": "ebd6c6dd390a4a1890eb2b1ec78f54d18d828ab8a1201d65676849bded820dba"
+  },
+  "ci": {
+    "status": "success",
+    "run_id": 39215941039,
+    "source_commit": "686c4313653e24cb602767884eb45ee44f3d4ca8",
+    "url": "https://github.com/yanyu03/ZenOffice/actions/runs/39215941039",
+    "log_sha256": "d1d5b9ce36968738681371c316229c26472c13d2a60495e7005932eada4f314c",
+    "local_log": "target/eng005-plan-ci/39215941039.log",
+    "scope": "Actual Windows log shows 27 states/144 literal assertions; frozen baseline/calibration regression/closed historical record steps succeeded. This source CI predates run019 documentation, which is locally calibrated and receives its own push-triggered check."
+  }
+}
