@@ -126,8 +126,14 @@ fn typed_edit(
     }).ok_or_else(|| unsupported("cell opening tag"))?;
     let mut opening = xml[start..open_end].to_string();
     if let Some(t) = cell.attribute_node("t") {
-        let r = t.range();
-        opening.replace_range(r.start - start..r.end - start, "");
+        // roxmltree 0.19 exposes attribute start positions, not full ranges.
+        // Parsed XML guarantees a quoted value; find its matching source quote.
+        let bytes = xml.as_bytes();
+        let first = (t.position()..open_end).find(|i| matches!(bytes[*i], b'\'' | b'"'))
+            .ok_or_else(|| unsupported("cell type attribute quote"))?;
+        let last = (first + 1..open_end).find(|i| bytes[*i] == bytes[first])
+            .ok_or_else(|| unsupported("cell type attribute end"))?;
+        opening.replace_range(t.position() - start..last + 1 - start, "");
     }
     opening = opening.trim_end().trim_end_matches('/').trim_end().to_string();
     let (kind, body) = match value {
