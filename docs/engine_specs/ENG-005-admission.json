@@ -2,14 +2,14 @@
   "task": "ENG-005",
   "kind": "mutable implementation design, not frozen taskbook or runtime evidence",
   "contract": "docs/TYPED_EDIT_CONTRACT.md",
-  "reviewed_commit": "053811dd7806de098cd714d616a5b3fdf53da7dc",
+  "reviewed_commit": "d81da828fe93493e36c2f22e6432d83580f4d060",
   "read_model": "zen_engine::workbook::TypedValue and Option<TypedValue>; reuse DateSystem",
-  "current_writer": "set_value: existing non-formula/non-error blank/text/bool/finite-number inputs and supported non-error cache transitions; set_number retains legacy numeric admission; set_formula: existing-cell ordinary replacement without calcChain, full dependency rebuild; no formula removal/date intent; clear_formula: clear existing normal formula/cache to blank without calcChain, supported dependent caches only",
+  "current_writer": "set_number retains E1 numeric admission; set_value supports existing literal blank/text/bool/finite-number inputs; set_formula/clear_formula support existing normal formula structure changes and bounded optional-chain invalidation; no date or direct error intent",
   "intents": [
     {
       "id": "blank",
       "representation": "set_value(None) for literal inputs; clear_formula for existing normal formula",
-      "current_edit": "SYNTHETIC_INPUT_AND_NORMAL_FORMULA_CLEAR_PASS_NO_CALCCHAIN",
+      "current_edit": "SYNTHETIC_INPUT_AND_NORMAL_FORMULA_CLEAR_PASS_WITH_BOUNDED_CHAIN_INVALIDATION",
       "planned_encoding": "retain existing c position/style, remove f/v/is and stale type",
       "must_distinguish": "blank versus empty text, zero, false",
       "rejections": [
@@ -19,7 +19,7 @@
         "merged targets",
         "empty dependent formula result cache",
         "chart string-reference caches present",
-        "calcChain and unprojected formula metadata"
+        "unsupported calcChain or unprojected formula metadata"
       ]
     },
     {
@@ -102,7 +102,7 @@
     {
       "id": "formula",
       "representation": "SetFormula(String)",
-      "current_edit": "SYNTHETIC_ORDINARY_REPLACEMENT_PASS_EXISTING_CELL_NO_CALCCHAIN",
+      "current_edit": "SYNTHETIC_ORDINARY_REPLACEMENT_PASS_EXISTING_CELL_WITH_BOUNDED_CHAIN_INVALIDATION",
       "planned_encoding": "qualified f plus typed recalculated cache; one optional leading = on request",
       "must_distinguish": "formula definition versus typed input versus cache versus display",
       "rejections": [
@@ -111,7 +111,7 @@
         "external or dynamic reference",
         "cycle",
         "unsupported dependent result",
-        "existing calcChain",
+        "unsupported calcChain metadata/ownership",
         "formula metadata except t=normal",
         "changed error or empty result"
       ]
@@ -147,8 +147,22 @@
   ],
   "new_runtime_tests_in_this_cycle": 4,
   "new_office_runs_in_this_cycle": 0,
-  "runtime_evidence": "docs/research/ENG-005-CLEAR-2026-10-19.json",
+  "runtime_evidence": "docs/research/ENG-005-CHAIN-2026-10-19.json",
   "formula_slice_evidence": "docs/research/ENG-005-FORMULA-2026-10-19.json",
   "typed_slice_evidence": "docs/research/ENG-005-TYPED-2026-10-19.json",
-  "formula_clear_slice_evidence": "docs/research/ENG-005-CLEAR-2026-10-19.json"
+  "formula_clear_slice_evidence": "docs/research/ENG-005-CLEAR-2026-10-19.json",
+  "chain_slice_evidence": "docs/research/ENG-005-CHAIN-2026-10-19.json",
+  "calc_chain_policy": {
+    "mode": "invalidate_optional_chain_not_rebuild",
+    "workbook": "/xl/workbook.xml",
+    "chain": "/xl/calcChain.xml",
+    "sole_owner": true,
+    "explicit_override_required": true,
+    "cell_attributes": [
+      "r",
+      "i"
+    ],
+    "calcPr": "byte-exact preserve",
+    "native_host_validation": "NOT_RUN"
+  }
 }

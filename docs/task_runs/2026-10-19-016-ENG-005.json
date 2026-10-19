@@ -1,0 +1,109 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-005",
+  "started_at": "2026-10-19T03:43:45.075157+00:00",
+  "ended_at": "2026-10-19T03:51:27.185001+00:00",
+  "status": "PARTIAL",
+  "actual_commit": "d81da828fe93493e36c2f22e6432d83580f4d060",
+  "actual_scope": "ENG-005 bounded optional calcChain invalidation: canonical workbook/chain, one standard owning relation and explicit type override, r/i-only references to distinct projected normal formulas; remove all three metadata records on successful normal formula structure changes, preserve calcPr and unrelated payloads.",
+  "commands": [
+    "official get_usage_limits",
+    "python tools/quota_guard/guard.py --check",
+    "python tools/taskbook/calibrate.py",
+    "python tools/continuity/continuity.py inspect/begin/checkpoint",
+    "review Microsoft primary calculation-chain specification and local OPC ownership/serialization source",
+    "python tools/check_baseline.py",
+    "git diff --check",
+    "dev source commits/push; query exact Windows core workflow and evidence via read-only GitHub API",
+    "Windows core CI 39196374265 at d81da828fe93493e36c2f22e6432d83580f4d060: release build, workspace all-targets tests and 3 numeric business regressions PASS",
+    "download/check exact new/retained test names, totals, Cargo.lock, business cases and hashes",
+    "python tools/taskbook/calibrate.py --report docs/task_runs/2026-10-19-016-ENG-005.json",
+    "python tools/taskbook/calibrate.py",
+    "git HEAD/ls-remote/status after synchronization"
+  ],
+  "deviations": [
+    "Invalidate an optional calculation-order cache; do not claim to rebuild an Excel calculation chain or recover its internal algorithm.",
+    "Narrow admission: /xl/workbook.xml and /xl/calcChain.xml, standard type/link, exactly one owner/incoming reference, no outgoing/own relationship part, explicit override, no root extensions, c only r/i with known sheet/formula and no duplicates. Valid but unimplemented flags such as s are refused.",
+    "Source review added refusal of non-whitespace relationship/content-type node text before deleting metadata; ordinary reader can retain relationship text that this edit cannot interpret.",
+    "calcPr is byte-preserved, including manual/disabled-force flags in a synthetic fixture; engine recalculates supported caches itself. Native Excel loading/recalculation behavior is not established by these tests.",
+    "Old generic chain-rejection tests now use an explicit unsupported extension fixture; new positive and negative tests independently cover the expanded admission. Frozen taskbook/business inputs unchanged.",
+    "Readable-source branch of DSHA; local machine has no Rust toolchain; real build/test execution is GitHub Windows CI. No new Office binary/host investigation."
+  ],
+  "untested": [
+    "Noncanonical chain paths, chain flags/extensions, incomplete/unknown ownership variants beyond explicit tested cases",
+    "Native Excel same-operation chain invalidation/rebuild",
+    "Date/style intent and both systems",
+    "Three new typed-business file/native comparisons",
+    "Empty/changed-error policies beyond current rejection, formula CLI and incremental performance"
+  ],
+  "next_step": "Next finite slice: explicit date/style admission and date-system/edge fixtures, then 3 newly frozen typed-business/native Excel same-operation comparisons including chain invalidation. Unsupported chain variants remain refused, not silently generalized.",
+  "criteria": {
+    "ENG-005-C1": {
+      "requirement": "建立TypedValue和编辑准入表，覆盖空白、文本、布尔、数字、日期及普通公式；日期体系和错误值单列。",
+      "result": "PASS",
+      "observation": "Eight-intent design updated with actual bounded chain invalidation admission and refusal matrix. Date/error boundaries remain separate; design PASS only.",
+      "sample_count": 1,
+      "evidence": [
+        "docs/TYPED_EDIT_CONTRACT.md",
+        "docs/engine_specs/ENG-005-admission.json",
+        "crates/zen-engine/src/workbook.rs",
+        "crates/zen-engine/src/recalc.rs",
+        "crates/zen-formats/src/spreadsheet/cells.rs",
+        "crates/zen-formats/src/spreadsheet/edit.rs",
+        "crates/zen-session/src/lib.rs",
+        "docs/research/ENG-005-TYPED-2026-10-19.json",
+        "docs/research/ENG-005-CLEAR-2026-10-19.json",
+        "docs/research/ENG-005-CHAIN-2026-10-19.json"
+      ]
+    },
+    "ENG-005-C2": {
+      "requirement": "实现支持的类型/公式写回和跨表动态依赖更新；缓存与calc配置有独立预期；未知名称、数组、外链明确拒绝或只读。",
+      "result": "NOT_RUN",
+      "observation": "Partial runtime evidence: normal formula replacement/clear can invalidate a supported optional chain with coherent relationships/content type and independently expected unchanged calcPr. Date/full native/business condition remains incomplete: whole condition NOT_RUN.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C3": {
+      "requirement": "3份业务XLSX分别包含类型切换、清空和公式替换；保存重开并与Excel同等修改对照。",
+      "result": "NOT_RUN",
+      "observation": "Whole original condition remains incomplete; bounded optional-chain implementation evidence is separate from dates/three-business/native host acceptance.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C4": {
+      "requirement": "失败不改变会话/原包/旧输出，撤销恢复数据和计算状态；相关Rust回归按提交记录。",
+      "result": "NOT_RUN",
+      "observation": "Partial runtime evidence: chain payload preservation on refusal/budget/save failure, exact history restore, clear/replacement and saved reopen PASS. Remaining date/native host matrix not run: whole condition NOT_RUN.",
+      "sample_count": 0,
+      "evidence": []
+    }
+  },
+  "dependency_review": {
+    "ENG-004": "DONE; frozen E1 evidence retained",
+    "previous_ENG005": "df1eb40 main clean/synced, exact 053811d CI39191763684 PASS; continuity COMPLETE and no unfinished owned command records"
+  },
+  "slice_acceptance": {
+    "status": "PASS",
+    "rust": {
+      "passed": 294,
+      "failed": 0,
+      "ignored": 6,
+      "test_binaries": 36
+    },
+    "new_rust_test_functions": [
+      "chain_formula_replacement_invalidates_part_relationship_type_and_exact_history",
+      "chain_clear_and_manual_calc_policy_preserve_workbook_and_rebuild_from_formula_bytes",
+      "chain_unknown_metadata_shared_ownership_and_duplicate_links_refuse_with_redo",
+      "chain_candidate_budget_failure_and_create_new_save_preserve_source_old_output_and_chain"
+    ],
+    "evidence": [
+      "docs/research/ENG-005-CHAIN-2026-10-19.json",
+      "https://github.com/yanyu03/ZenOffice/actions/runs/39196374265"
+    ],
+    "full_task_done": false
+  }
+}

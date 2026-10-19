@@ -1,0 +1,73 @@
+{
+  "date": "2026-10-19",
+  "task": "ENG-005",
+  "scope": "ENG-005 bounded optional calcChain invalidation: canonical workbook/chain, one standard owning relation and explicit type override, r/i-only references to distinct projected normal formulas; remove all three metadata records on successful normal formula structure changes, preserve calcPr and unrelated payloads.",
+  "commit": "d81da828fe93493e36c2f22e6432d83580f4d060",
+  "ci": {
+    "id": 39196374265,
+    "url": "https://github.com/yanyu03/ZenOffice/actions/runs/39196374265",
+    "status": "PASS"
+  },
+  "rust": {
+    "passed": 294,
+    "failed": 0,
+    "ignored": 6,
+    "test_binaries": 36
+  },
+  "new_test_functions": [
+    "chain_formula_replacement_invalidates_part_relationship_type_and_exact_history",
+    "chain_clear_and_manual_calc_policy_preserve_workbook_and_rebuild_from_formula_bytes",
+    "chain_unknown_metadata_shared_ownership_and_duplicate_links_refuse_with_redo",
+    "chain_candidate_budget_failure_and_create_new_save_preserve_source_old_output_and_chain"
+  ],
+  "samples": "One independent handwritten two-sheet chain microfixture; positive manual-mode/clear/save variants and seven negative chain variants. Four test functions do not mean four business workbooks.",
+  "new_office_runs": 0,
+  "primary_format_reference": "https://learn.microsoft.com/en-us/office/open-xml/spreadsheet/working-with-the-calculation-chain",
+  "primary_reference_is_not_host_result": true,
+  "core_log_sha256": "4625b83ed4e27e349fcc6cf49ae6841b22c48907bb586414a17beea4481ec3ea",
+  "cargo_lock_sha256_normalized_lf": "3fd739660d7244bd711eda209e72172e062138afba5821aa258897087587c1ab",
+  "cli_binary_sha256": "a91e171fe6080e8cb8bca9df700d1e8221db5eb871773696661eb0e025965a31",
+  "native_reference_sha256": "78bb9b1b58fab36e7612ef237964f638857a0748609936f1a1dc86c2e03795c1",
+  "business_regression": [
+    {
+      "id": "budget",
+      "status": "PASS",
+      "observed_values": 170,
+      "native_runs_compared": 3,
+      "source_sha256": "dded0be3d458ec04df9789aeeefc2c4103db368ed96f2a93b1b817a8b5b2db26",
+      "output_sha256": "aee383737eb7ab2c4412e9876533475cb07ea633f88155c525498cc0656831a6"
+    },
+    {
+      "id": "orders",
+      "status": "PASS",
+      "observed_values": 110,
+      "native_runs_compared": 3,
+      "source_sha256": "f96cb703551eccaf6c552990572ab3a7d5ca771676026f828230f9b54dc27261",
+      "output_sha256": "f432a5f86a65b221b1b561a2c4f7a7c9977f19e7adfac8917dfb6b7dcf63857c"
+    },
+    {
+      "id": "attendance",
+      "status": "PASS",
+      "observed_values": 110,
+      "native_runs_compared": 3,
+      "source_sha256": "95bede4f59704a5ac491961838cd11e89dffd9c5fefedb50f8e2545d73042e8d",
+      "output_sha256": "a20f17338f820d26849a81fc88b624c04584472f8c463dcb06469221a8b42ccb"
+    }
+  ],
+  "calc_policy": "Full supported cache recalculation; atomically remove admitted optional chain + owning rel + explicit override; preserve workbook.xml/calcPr; unknown metadata refuses",
+  "remaining": [
+    "Noncanonical chain paths, chain flags/extensions, incomplete/unknown ownership variants beyond explicit tested cases",
+    "Native Excel same-operation chain invalidation/rebuild",
+    "Date/style intent and both systems",
+    "Three new typed-business file/native comparisons",
+    "Empty/changed-error policies beyond current rejection, formula CLI and incremental performance"
+  ],
+  "prior_ci": [
+    {
+      "id": 39196281955,
+      "commit": "ea90e3a1fae97864be6426d76c31b5e620cdd48a",
+      "result": "SUCCESS",
+      "use": "Intermediate status only; final evidence belongs to d81da82 after opaque-text refusal hardening."
+    }
+  ]
+}

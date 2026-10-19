@@ -420,12 +420,16 @@
     {
       "date": "2026-10-19",
       "task": "ENG-005",
-      "reason": "First typed-input slice: shared package admission and staged blank/text/bool/finite-number serialization; typed non-error cache updates retain formula definitions and original namespace context. Existing numeric entry remains restricted. Six independent session regression scenarios added; Windows CI required before main merge. Frozen taskbook and original import identity unchanged.",
+      "reason": "Follow-up calcChain review: refuse non-whitespace text before deleting owning relationship or type override; add opaque relationship text to negative variants. Unknown payload is retained on refusal, not discarded.",
       "files": {
         "crates/zen-formats/src/spreadsheet/edit.rs": {
           "before": "1bbfb0a8701e1b37a44d5470274ef8de1dde00fa1bcfcc7a1c6302a713b69672",
           "after": "bdf4e58f868e4e68baafdaab60be02848cd9975089d5fb70ee44fc089c2ff8e8"
         }
+      },
+      "validation": {
+        "commit": "d81da828fe93493e36c2f22e6432d83580f4d060",
+        "ci": 39196374265
       }
     }
   ]
