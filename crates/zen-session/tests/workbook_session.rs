@@ -33,6 +33,169 @@ fn business_fixture() -> &'static [u8] {
     include_bytes!("../../../RCD/red-team-corpus/office-targets-2026-10/xlsx/zen_spreadsheet_multiscenario.xlsx")
 }
 
+/// Independent expected types: A2 links A1, B2 is text, C2 is boolean;
+/// Report!A1 links A2 across sheets. C1 is an isolated styled blank input.
+fn typed_fixture(extra: &str) -> Vec<u8> {
+    let mut p = zen_opc::Package::from_archive(&zen_opc::ZipArchive::read(&small_fixture("")).unwrap()).unwrap();
+    p.put_text("/xl/worksheets/s1.xml", format!(r#"<x:worksheet xmlns:x="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><x:sheetData><x:row r="1"><x:c r="A1"><x:v>3</x:v></x:c><x:c r="B1"><x:v>7</x:v></x:c><x:c r="C1" s="2"/></x:row><x:row r="2"><x:c r="A2"><x:f>A1</x:f><x:v>3</x:v></x:c><x:c r="B2" t="str"><x:f>IF(A1=3,"yes","no")</x:f><x:v>yes</x:v></x:c><x:c r="C2" t="b"><x:f>A1=3</x:f><x:v>1</x:v></x:c></x:row></x:sheetData>{extra}</x:worksheet>"#)).unwrap();
+    p.put_text("/xl/worksheets/s2.xml", r#"<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData><row r="1"><c r="A1"><f>Inputs!A2</f><v>3</v></c></row></sheetData></worksheet>"#.into()).unwrap();
+    p.to_bytes().unwrap()
+}
+
+fn typed(s: &WorkbookSession, sheet: &str, at: CellAddress) -> Option<TypedValue> {
+    s.workbook().sheets().iter().find(|w| w.name() == sheet).unwrap().cell(at).unwrap().value.clone()
+}
+
+#[test]
+fn typed_literals_distinguish_blank_empty_false_zero_and_escape_round_trip() {
+    let source = typed_fixture("");
+    let original = zen_opc::ZipArchive::read(&source).unwrap();
+    let mut s = open(&source);
+    let at = a(0, 2);
+    for text in ["=A1", "  <&>\"' 中文😀\r\n\t  ", "_x0041_ _x005F_ _xD800_", ""] {
+        let before = s.bytes().to_vec();
+        s.set_value("Inputs", at, Some(TypedValue::Text(text.into()))).unwrap();
+        assert_eq!(typed(&s, "Inputs", at), Some(TypedValue::Text(text.into())));
+        let changed = s.bytes().to_vec();
+        s.undo().unwrap(); assert_eq!(s.bytes(), before);
+        let revision = s.revision();
+        s.redo().unwrap(); assert_eq!(s.bytes(), changed);
+        assert_eq!(s.revision(), revision + 1);
+        let before = state(&s);
+        assert_eq!(s.set_value("inputs", at, Some(TypedValue::Text(text.into()))).unwrap(), EditOutcome::Unchanged);
+        assert_eq!(state(&s), before);
+    }
+    for next in [Some(TypedValue::Boolean(false)), Some(TypedValue::Number { value: 0.0, lexical: "garbage".into() }), None] {
+        s.set_value("Inputs", at, next.clone()).unwrap();
+        let expected = next.map(|v| match v { TypedValue::Number { value, .. } => TypedValue::Number { value, lexical: "0".into() }, v => v });
+        assert_eq!(typed(&s, "Inputs", at), expected);
+        assert_eq!(s.workbook().sheets()[0].cell(at).unwrap().style_index, Some(2));
+    }
+    let final_zip = zen_opc::ZipArchive::read(s.bytes()).unwrap();
+    for entry in &original.entries {
+        if entry.name != "xl/worksheets/s1.xml" {
+            assert_eq!(final_zip.get(&entry.name), Some(entry.data.as_slice()), "{}", entry.name);
+        }
+    }
+    let before = state(&s);
+    assert_eq!(s.set_value("Inputs", at, None).unwrap(), EditOutcome::Unchanged);
+    assert_eq!(before, state(&s));
+}
+
+#[test]
+fn typed_input_updates_text_boolean_and_cross_sheet_cache_types_without_changing_formulas() {
+    let source = typed_fixture("");
+    let mut s = open(&source);
+    for next in [TypedValue::Text("done & _x0041_".into()), TypedValue::Text("".into()), TypedValue::Boolean(true),
+                 TypedValue::Number { value: 7.0, lexical: "not trusted".into() }] {
+        let before = s.bytes().to_vec();
+        s.set_value("Inputs", a(0, 0), Some(next.clone())).unwrap();
+        let expected = match next { TypedValue::Number { value, .. } => TypedValue::Number { value, lexical: "7".into() }, v => v };
+        for (sheet, at) in [("Inputs", a(0, 0)), ("Inputs", a(1, 0)), ("Report", a(0, 0))] {
+            assert_eq!(typed(&s, sheet, at), Some(expected.clone()), "{sheet} {at:?}");
+        }
+        assert_eq!(typed(&s, "Inputs", a(1, 1)), Some(TypedValue::Text("no".into())));
+        assert_eq!(typed(&s, "Inputs", a(1, 2)), Some(TypedValue::Boolean(false)));
+        for (sheet, at, formula) in [("Inputs", a(1, 0), "A1"), ("Inputs", a(1, 1), "IF(A1=3,\"yes\",\"no\")"),
+                                    ("Inputs", a(1, 2), "A1=3"), ("Report", a(0, 0), "Inputs!A2")] {
+            assert_eq!(s.workbook().sheets().iter().find(|w| w.name() == sheet).unwrap().cell(at).unwrap().formula.as_ref().unwrap().text, formula);
+        }
+        let after = s.bytes().to_vec();
+        s.undo().unwrap(); assert_eq!(s.bytes(), before);
+        s.redo().unwrap(); assert_eq!(s.bytes(), after);
+    }
+}
+
+#[test]
+fn typed_rejections_preserve_full_state_and_live_redo() {
+    let mut s = open(&typed_fixture(""));
+    s.set_value("Inputs", a(0, 2), Some(TypedValue::Text("branch".into()))).unwrap();
+    s.undo().unwrap();
+    for (at, next) in [(a(9, 9), None), (a(1, 0), None), (a(0, 2), Some(TypedValue::Error("#DIV/0!".into()))),
+                      (a(0, 2), Some(TypedValue::Text("invalid\0".into()))),
+                      (a(0, 2), Some(TypedValue::Number { value: f64::INFINITY, lexical: "0".into() }))] {
+        let before = state(&s);
+        assert!(s.set_value("Inputs", at, next).is_err());
+        assert_eq!(state(&s), before);
+    }
+    assert!(s.can_redo()); s.redo().unwrap();
+    let mut s = open(&small_fixture(""));
+    let before = state(&s);
+    // A1+B1 cannot become a text cache here: it becomes an unsupported error.
+    assert!(s.set_value("Inputs", a(0, 0), Some(TypedValue::Text("word".into()))).is_err());
+    assert_eq!(state(&s), before);
+}
+
+#[test]
+fn typed_budget_and_merged_protected_or_opaque_targets_fail_atomically() {
+    for extra in [r#"<x:mergeCells><x:mergeCell ref="B1:C1"/></x:mergeCells>"#,
+                  r#"<x:sheetProtection sheet="1"/>"#] {
+        let mut s = open(&typed_fixture(extra));
+        let before = state(&s);
+        assert!(s.set_value("Inputs", a(0, 2), Some(TypedValue::Boolean(false))).is_err());
+        assert_eq!(before, state(&s));
+    }
+    let mut p = zen_opc::Package::from_archive(&zen_opc::ZipArchive::read(&typed_fixture("")).unwrap()).unwrap();
+    let xml = p.get_text("/xl/worksheets/s1.xml").unwrap().replace("r=\"C1\" s=\"2\"/>", "r=\"C1\" s=\"2\"><x:extLst/></x:c>");
+    p.put_text("/xl/worksheets/s1.xml", xml).unwrap();
+    let mut s = open(&p.to_bytes().unwrap());
+    let before = state(&s);
+    assert!(s.set_value("Inputs", a(0, 2), Some(TypedValue::Boolean(false))).is_err());
+    assert_eq!(before, state(&s));
+    for budget in [HistoryBudget { max_frames: 1, ..HistoryBudget::default() },
+                   HistoryBudget { max_retained_archive_bytes: typed_fixture("").len(), ..HistoryBudget::default() }] {
+        let mut s = WorkbookSession::from_bytes(&typed_fixture(""), &WorkbookReadLimits::default(), budget).unwrap();
+        let before = state(&s);
+        assert!(matches!(s.set_value("Inputs", a(0, 2), Some(TypedValue::Boolean(false))), Err(SessionError::HistoryBudget)));
+        assert_eq!(before, state(&s));
+    }
+    let limits = WorkbookReadLimits { max_text_bytes: 1000, ..WorkbookReadLimits::default() };
+    let mut s = WorkbookSession::from_bytes(&typed_fixture(""), &limits, HistoryBudget::default()).unwrap();
+    for (at, text) in [(a(0, 2), "a".repeat(1001)), (a(0, 0), "b".repeat(500))] {
+        let before = state(&s);
+        assert!(matches!(s.set_value("Inputs", at, Some(TypedValue::Text(text))), Err(SessionError::Read(_))));
+        assert_eq!(before, state(&s));
+    }
+}
+
+#[test]
+fn typed_new_branch_clears_redo_only_after_success() {
+    let mut s = open(&typed_fixture(""));
+    s.set_value("Inputs", a(0, 2), Some(TypedValue::Text("one".into()))).unwrap();
+    s.set_value("Inputs", a(0, 2), Some(TypedValue::Boolean(false))).unwrap();
+    s.undo().unwrap();
+    let before = state(&s);
+    assert_eq!(s.set_value("Inputs", a(0, 2), Some(TypedValue::Text("one".into()))).unwrap(), EditOutcome::Unchanged);
+    assert_eq!(before, state(&s));
+    s.set_value("Inputs", a(0, 2), None).unwrap();
+    assert!(!s.can_redo()); assert_eq!(s.history_frames(), 3);
+    assert_eq!(typed(&s, "Inputs", a(0, 2)), None);
+}
+
+#[test]
+fn typed_save_as_new_and_failed_old_output_preserve_source_and_history() {
+    let dir = tempfile::tempdir().unwrap();
+    let source = dir.path().join("source.xlsx");
+    let output = dir.path().join("typed.xlsx");
+    let old = dir.path().join("old.xlsx");
+    let bytes = typed_fixture("");
+    std::fs::write(&source, &bytes).unwrap();
+    std::fs::write(&old, b"old bytes").unwrap();
+    let mut s = WorkbookSession::open(&source, &WorkbookReadLimits::default(), HistoryBudget::default()).unwrap();
+    s.set_value("Inputs", a(0, 0), Some(TypedValue::Text("literal =A1".into()))).unwrap();
+    s.set_value("Inputs", a(0, 2), Some(TypedValue::Boolean(false))).unwrap();
+    let before = state(&s);
+    assert!(s.save_as_new(&old).is_err()); assert_eq!(before, state(&s));
+    assert_eq!(std::fs::read(&old).unwrap(), b"old bytes");
+    s.save_as_new(&output).unwrap(); assert!(!s.is_dirty());
+    let reopened = WorkbookSession::open(&output, &WorkbookReadLimits::default(), HistoryBudget::default()).unwrap();
+    assert_eq!(reopened.bytes(), s.bytes());
+    assert_eq!(typed(&reopened, "Report", a(0, 0)), Some(TypedValue::Text("literal =A1".into())));
+    assert_eq!(typed(&reopened, "Inputs", a(0, 2)), Some(TypedValue::Boolean(false)));
+    s.undo().unwrap(); assert!(s.is_dirty()); s.redo().unwrap(); assert!(!s.is_dirty());
+    assert_eq!(std::fs::read(&source).unwrap(), bytes);
+}
+
 #[derive(Debug, PartialEq)]
 struct State {
     bytes: Vec<u8>, model: String, diagnostics: String, revision: u64,

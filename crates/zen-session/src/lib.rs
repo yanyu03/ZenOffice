@@ -108,6 +108,34 @@ impl WorkbookSession {
         self.commit_candidate(candidate)
     }
 
+    /// Change an existing input through the same bounded immutable-frame transaction.
+    /// None is blank; empty text and false remain distinct. Formulas/dates/errors
+    /// are not accepted as edit intents by this first typed-input slice.
+    pub fn set_value(
+        &mut self, sheet: &str, address: CellAddress, value: Option<TypedValue>,
+    ) -> Result<EditOutcome, SessionError> {
+        if matches!(&value, Some(TypedValue::Number { value, .. }) if !value.is_finite()) {
+            return Err(SessionError::NonFinite);
+        }
+        if let Some(TypedValue::Text(text)) = &value {
+            if text.len() > self.limits.max_text_bytes {
+                return Err(SessionError::Read(ReadError::Limit("text bytes")));
+            }
+        }
+        if !matches!(&value, Some(TypedValue::Error(_))) {
+            if let Some(input) = self.workbook().sheets().iter()
+                .find(|s| s.name().eq_ignore_ascii_case(sheet)).and_then(|s| s.cell(address)) {
+                let equal = match (&input.value, &value) {
+                    (Some(TypedValue::Number { value: a, .. }), Some(TypedValue::Number { value: b, .. })) => a == b,
+                    _ => input.value == value,
+                };
+                if input.formula.is_none() && equal { return Ok(EditOutcome::Unchanged); }
+            }
+        }
+        let candidate = self.projection.write_value_edit(sheet, address, value)?;
+        self.commit_candidate(candidate)
+    }
+
     fn commit_candidate(&mut self, bytes: Vec<u8>) -> Result<EditOutcome, SessionError> {
         if bytes == self.bytes() { return Ok(EditOutcome::Unchanged); }
         let prefix = &self.frames[..=self.cursor];

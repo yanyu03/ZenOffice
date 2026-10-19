@@ -1,4 +1,4 @@
-//! Restricted, package-preserving numeric input edits. The projected workbook
+//! Restricted, package-preserving input edits. The projected workbook
 //! itself remains read-only; saving is an explicit checked operation.
 use super::*;
 use std::collections::BTreeMap;
@@ -75,6 +75,75 @@ fn value_edit(
     let tag = qualified_tag(xml, v);
     Ok((v.range(), format!("<{tag}>{value}</{tag}>")))
 }
+fn same_value(a: Option<&TypedValue>, b: Option<&TypedValue>) -> bool {
+    match (a, b) {
+        (Some(TypedValue::Number { value: a, .. }), Some(TypedValue::Number { value: b, .. })) => a == b,
+        _ => a == b,
+    }
+}
+
+fn string_xml(text: &str) -> EditResult<String> {
+    let mut out = String::new();
+    for (i, c) in text.char_indices() {
+        if !matches!(c, '\t' | '\n' | '\r' | '\u{20}'..='\u{d7ff}' | '\u{e000}'..='\u{fffd}' | '\u{10000}'..='\u{10ffff}') {
+            return Err(unsupported("text contains an unsupported XML character"));
+        }
+        // Shield a literal ST_Xstring escape from the reader's one-pass decoder.
+        let tail = &text.as_bytes()[i..];
+        if c == '_' && tail.get(1) == Some(&b'x') && tail.get(6) == Some(&b'_')
+            && tail.get(2..6).is_some_and(|h| h.iter().all(u8::is_ascii_hexdigit)) {
+            out.push_str("_x005F_");
+            continue;
+        }
+        match c {
+            '&' => out.push_str("&amp;"), '<' => out.push_str("&lt;"),
+            '>' => out.push_str("&gt;"), '\r' => out.push_str("&#13;"),
+            _ => out.push(c),
+        }
+    }
+    Ok(out)
+}
+
+fn typed_edit(
+    xml: &str, cell: roxmltree::Node<'_, '_>, value: Option<&TypedValue>, formula_cache: bool,
+) -> EditResult<(std::ops::Range<usize>, String)> {
+    if cell.children().any(|n| n.is_element() && !["f", "v", "is"].iter().any(|t| n.has_tag_name((NS, *t)))) {
+        return Err(unsupported("unprojected cell children"));
+    }
+    let tag = qualified_tag(xml, cell);
+    let prefix = tag.strip_suffix('c').unwrap();
+    // Keep the source opening tag (including local namespace declarations).
+    let start = cell.range().start;
+    let open_end = xml[start..].find('>').ok_or_else(|| unsupported("cell opening tag"))? + start;
+    let mut opening = xml[start..open_end].to_string();
+    if let Some(t) = cell.attribute_node("t") {
+        let r = t.range();
+        opening.replace_range(r.start - start..r.end - start, "");
+    }
+    opening = opening.trim_end().trim_end_matches('/').trim_end().to_string();
+    let (kind, body) = match value {
+        None => ("", String::new()),
+        Some(TypedValue::Number { value, .. }) if value.is_finite() => ("n", format!("<{prefix}v>{value}</{prefix}v>")),
+        Some(TypedValue::Boolean(b)) => ("b", format!("<{prefix}v>{}</{prefix}v>", u8::from(*b))),
+        Some(TypedValue::Text(t)) => {
+            let t = string_xml(t)?;
+            if formula_cache { ("str", format!("<{prefix}v>{t}</{prefix}v>")) }
+            else { ("inlineStr", format!("<{prefix}is><{prefix}t xml:space=\"preserve\">{t}</{prefix}t></{prefix}is>")) }
+        }
+        _ => return Err(unsupported("unsupported typed value")),
+    };
+    if !kind.is_empty() { opening.push_str(&format!(" t=\"{kind}\"")); }
+    opening.push('>');
+    if formula_cache {
+        let f = cell.children().find(|n| n.has_tag_name((NS, "f")))
+            .ok_or_else(|| unsupported("formula cache without formula"))?;
+        opening.push_str(&xml[f.range()]);
+    }
+    opening.push_str(&body);
+    opening.push_str(&format!("</{tag}>"));
+    Ok((cell.range(), opening))
+}
+
 fn address(text: &str) -> EditResult<CellAddress> {
     let unprefixed = text.strip_prefix('$').unwrap_or(text);
     let letters = unprefixed
@@ -159,6 +228,21 @@ impl ReadWorkbook {
         if input.formula.is_some() || !matches!(input.value, Some(TypedValue::Number { .. })) {
             return Err(unsupported("target is not a numeric input"));
         }
+        self.write_input_edit(sheet_name, address, Some(TypedValue::Number {
+            value, lexical: value.to_string(),
+        }), false)
+    }
+
+    /// Replace an existing non-formula, non-error input with blank, text, bool
+    /// or a finite number. Formula removal, dates and direct errors are deferred.
+    /// The caller must re-read the candidate under its original resource limits.
+    pub fn write_value_edit(
+        &self, sheet_name: &str, address: CellAddress, value: Option<TypedValue>,
+    ) -> EditResult<Vec<u8>> {
+        self.write_input_edit(sheet_name, address, value, true)
+    }
+
+    fn admitted_source(&self) -> EditResult<Vec<u8>> {
         if self.package.diagnostics().iter().any(|d| {
             matches!(
                 d.code,
@@ -346,15 +430,28 @@ impl ReadWorkbook {
                 ));
             }
         }
+        Ok(bytes)
+    }
+
+    fn write_input_edit(
+        &self, sheet_name: &str, address: CellAddress, value: Option<TypedValue>, typed: bool,
+    ) -> EditResult<Vec<u8>> {
+        if matches!(&value, Some(TypedValue::Number { value, .. }) if !value.is_finite()) {
+            return Err(unsupported("input number must be finite"));
+        }
+        if matches!(&value, Some(TypedValue::Error(_))) {
+            return Err(unsupported("direct error input is not supported"));
+        }
+        let sheet = self.workbook.sheets().iter()
+            .find(|s| s.name().eq_ignore_ascii_case(sheet_name))
+            .ok_or_else(|| unsupported("sheet not found"))?;
+        let input = sheet.cell(address).ok_or_else(|| unsupported("existing explicit input required"))?;
+        if input.formula.is_some() || matches!(&input.value, Some(TypedValue::Error(_))) {
+            return Err(unsupported("formula/error input replacement is not supported"));
+        }
+        let bytes = self.admitted_source()?;
         let mut calc = WorkbookCalculator::new(&self.workbook)?;
-        calc.set_input(
-            sheet.name(),
-            address,
-            Some(TypedValue::Number {
-                value,
-                lexical: value.to_string(),
-            }),
-        )?;
+        calc.set_input(sheet.name(), address, value.clone())?;
         calc.recalculate()?;
         let mut replacements = BTreeMap::new();
         for ws in self.workbook.sheets() {
@@ -366,6 +463,19 @@ impl ReadWorkbook {
             let xml = utf8(original.bytes())?;
             let doc = roxmltree::Document::parse(xml)?;
             let mut edits = Vec::new();
+            if typed && ws.id() == sheet.id() {
+                for merge in doc.descendants().filter(|n| n.has_tag_name((NS, "mergeCell"))) {
+                    let range = merge.attribute("ref").ok_or_else(|| unsupported("merge range missing"))?;
+                    let (a, b) = range.split_once(':').unwrap_or((range, range));
+                    let (a, b) = (self::address(a)?, self::address(b)?);
+                    if a.row() > b.row() || a.col() > b.col() {
+                        return Err(unsupported("merge range order"));
+                    }
+                    if (a.row()..=b.row()).contains(&address.row()) && (a.col()..=b.col()).contains(&address.col()) {
+                        return Err(unsupported("merged input edits are not supported"));
+                    }
+                }
+            }
             for cell in doc.descendants().filter(|n| n.has_tag_name((NS, "c"))) {
                 let Some(a1) = cell.attribute("r") else {
                     return Err(unsupported(
@@ -377,8 +487,30 @@ impl ReadWorkbook {
                     return Err(unsupported("unprojected worksheet cell"));
                 };
                 if ws.id() == sheet.id() && coord == address {
-                    edits.push(value_edit(xml, cell, value)?);
+                    edits.push(if typed {
+                        typed_edit(xml, cell, value.as_ref(), false)?
+                    } else {
+                        let Some(TypedValue::Number { value, .. }) = &value else { unreachable!() };
+                        value_edit(xml, cell, *value)?
+                    });
                 } else if model.formula.is_some() {
+                    if typed {
+                        let calculated = calc.value(ws.name(), coord)
+                            .ok_or_else(|| unsupported("formula result missing"))?;
+                        let next = match calculated {
+                            CalculationValue::Number(n) => Some(TypedValue::Number { value: *n, lexical: n.to_string() }),
+                            CalculationValue::Text(t) => Some(TypedValue::Text(t.clone())),
+                            CalculationValue::Boolean(b) => Some(TypedValue::Boolean(*b)),
+                            CalculationValue::Error(e) if matches!(&model.value, Some(TypedValue::Error(old)) if old == e) => continue,
+                            _ => return Err(unsupported("changed error or empty formula cache is not supported")),
+                        };
+                        if matches!(&model.value, Some(TypedValue::Error(_))) {
+                            return Err(unsupported("error cache type transition is not supported"));
+                        }
+                        if !same_value(model.value.as_ref(), next.as_ref()) {
+                            edits.push(typed_edit(xml, cell, next.as_ref(), true)?);
+                        }
+                    } else {
                     match calc.value(ws.name(), coord) {
                         Some(CalculationValue::Number(n)) => {
                             if !matches!(&model.value,Some(TypedValue::Number{value:old,..}) if old==n)
@@ -403,6 +535,7 @@ impl ReadWorkbook {
                                 "changed nonnumeric/error formula caches are not supported in this save subset",
                             ));
                         }
+                    }
                     }
                 }
             }
