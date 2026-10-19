@@ -1,12 +1,12 @@
 //! Restricted, package-preserving input edits. The projected workbook
 //! itself remains read-only; saving is an explicit checked operation.
 use super::*;
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 use zen_engine::{
     recalc::{CalculationValue, WorkbookCalculator},
     workbook::{CellAddress, TypedValue},
 };
-use zen_opc::preserve::{patch_xml, rewrite_parts, validate_text_edit_package};
+use zen_opc::preserve::{patch_xml, rewrite_parts_with_removals, validate_text_edit_package};
 
 #[derive(Debug, thiserror::Error)]
 pub enum EditError {
@@ -266,7 +266,7 @@ impl ReadWorkbook {
     }
 
     /// Set a normal formula in an existing cell, without retaining a stale chain.
-    /// This first slice refuses workbooks with calcChain and direct error targets.
+    /// A supported optional calcChain is invalidated; unknown chains/errors refuse.
     pub fn write_formula_edit(
         &self, sheet_name: &str, address: CellAddress, formula: &str,
     ) -> EditResult<Vec<u8>> {
@@ -279,7 +279,7 @@ impl ReadWorkbook {
     }
 
     /// Remove a normal formula and its cached value, retaining the cell/style.
-    /// Existing calcChain, error caches and unsupported dependent results refuse.
+    /// Unsupported calcChain, error caches and dependent results refuse.
     pub fn write_clear_formula_edit(
         &self, sheet_name: &str, address: CellAddress,
     ) -> EditResult<Vec<u8>> {
@@ -477,6 +477,78 @@ impl ReadWorkbook {
         Ok(bytes)
     }
 
+    // calcChain is optional calculation-order metadata, not the dependency graph.
+    // Invalidate only a single, canonical, fully understood and solely owned part.
+    // Do not delete an unknown payload or leave its relationship/type declaration.
+    fn invalidate_calc_chain(
+        &self, replacements: &mut BTreeMap<String, Vec<u8>>,
+    ) -> EditResult<BTreeSet<String>> {
+        const TYPE: &str = "application/vnd.openxmlformats-officedocument.spreadsheetml.calcChain+xml";
+        const REL: &str = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/calcChain";
+        const R: &str = "http://schemas.openxmlformats.org/package/2006/relationships";
+        const CT: &str = "http://schemas.openxmlformats.org/package/2006/content-types";
+        let parts: Vec<_> = self.package.parts().filter(|p| p.content_type().contains("calcChain")).collect();
+        let links: Vec<_> = self.package.relationships().iter().filter(|r| r.relationship_type.ends_with("/calcChain")).collect();
+        if parts.is_empty() && links.is_empty() { return Ok(BTreeSet::new()); }
+        if parts.len() != 1 || links.len() != 1 {
+            return Err(unsupported("calcChain must have one part and one owning relationship"));
+        }
+        let (chain, link) = (parts[0], links[0]);
+        if self.workbook_part.as_str() != "/xl/workbook.xml" || chain.name().as_str() != "/xl/calcChain.xml"
+            || chain.content_type() != TYPE || link.relationship_type != REL || link.source.as_ref() != Some(&self.workbook_part)
+            || !matches!(&link.target, RelationshipTarget::Internal { part, fragment: None } if part == chain.name())
+            || self.package.incoming(chain.name()).count() != 1
+            || self.package.relationships_from(Some(chain.name())).next().is_some()
+            || self.package.parts().any(|p| p.name().as_str().eq_ignore_ascii_case("/xl/_rels/calcChain.xml.rels")) {
+            return Err(unsupported("unsupported calcChain ownership, location or dependencies"));
+        }
+        let doc = roxmltree::Document::parse(utf8(chain.bytes())?)?;
+        let root = doc.root_element();
+        if !root.has_tag_name((NS, "calcChain")) || root.attributes().len() != 0
+            || root.children().any(|n| n.is_text() && !n.text().unwrap_or("").trim().is_empty()) {
+            return Err(unsupported("unrecognized calcChain root payload"));
+        }
+        let mut current: Option<&zen_engine::workbook::Worksheet> = None;
+        let mut seen = BTreeSet::new();
+        for c in root.children().filter(|n| n.is_element()) {
+            if !c.has_tag_name((NS, "c")) || c.attributes().any(|a| a.namespace().is_some() || !["r", "i"].contains(&a.name()))
+                || c.children().any(|n| n.is_element() || (n.is_text() && !n.text().unwrap_or("").trim().is_empty())) {
+                return Err(unsupported("unrecognized calcChain cell/extension metadata"));
+            }
+            if let Some(i) = c.attribute("i") {
+                let id = i.parse::<u32>().map_err(|_| unsupported("calcChain sheet id"))?;
+                current = self.workbook.sheets().iter().find(|s| s.id().get() == id);
+            }
+            let sheet = current.ok_or_else(|| unsupported("calcChain sheet not identified"))?;
+            let at = address(c.attribute("r").ok_or_else(|| unsupported("calcChain cell address missing"))?)?;
+            if !sheet.cell(at).and_then(|c| c.formula.as_ref()).is_some_and(|f| f.kind == zen_engine::workbook::FormulaKind::Normal)
+                || !seen.insert((sheet.id().get(), at)) {
+                return Err(unsupported("calcChain must reference distinct projected normal formulas"));
+            }
+        }
+        let rels = self.package.parts().find(|p| p.name().as_str() == "/xl/_rels/workbook.xml.rels")
+            .ok_or_else(|| unsupported("calcChain owning relationships part missing"))?;
+        let xml = utf8(rels.bytes())?;
+        let doc = roxmltree::Document::parse(xml)?;
+        let nodes: Vec<_> = doc.root_element().children().filter(|n| n.has_tag_name((R, "Relationship")) && n.attribute("Id") == Some(link.id.as_str())).collect();
+        if nodes.len() != 1 || nodes[0].attributes().any(|a| a.namespace().is_some() || !["Id", "Type", "Target"].contains(&a.name()))
+            || nodes[0].children().any(|n| n.is_element()) {
+            return Err(unsupported("calcChain relationship metadata unsupported"));
+        }
+        replacements.insert(rels.name().as_str().into(), patch_xml(xml, vec![(nodes[0].range(), String::new())])?.into_bytes());
+        let xml = utf8(self.package.content_types_bytes())?;
+        let doc = roxmltree::Document::parse(xml)?;
+        let nodes: Vec<_> = doc.root_element().children().filter(|n| n.has_tag_name((CT, "Override"))
+            && n.attribute("PartName").is_some_and(|n| n.eq_ignore_ascii_case(chain.name().as_str()))).collect();
+        if nodes.len() != 1 || nodes[0].attribute("ContentType") != Some(TYPE)
+            || nodes[0].attributes().any(|a| a.namespace().is_some() || !["PartName", "ContentType"].contains(&a.name()))
+            || nodes[0].children().any(|n| n.is_element()) {
+            return Err(unsupported("calcChain explicit content type override required"));
+        }
+        replacements.insert("/[Content_Types].xml".into(), patch_xml(xml, vec![(nodes[0].range(), String::new())])?.into_bytes());
+        Ok(BTreeSet::from([chain.name().as_str().to_string()]))
+    }
+
     fn write_input_edit(
         &self, sheet_name: &str, address: CellAddress, value: Option<TypedValue>, typed: bool, formula: Option<&str>, clear_formula: bool,
     ) -> EditResult<Vec<u8>> {
@@ -502,17 +574,14 @@ impl ReadWorkbook {
             return Err(unsupported("formula metadata replacement is not supported"));
         }
         let bytes = self.admitted_source()?;
-        if (formula.is_some() || clear_formula) && (
-            self.package.parts().any(|p| p.content_type().contains("calcChain")) ||
-            self.package.relationships_from(Some(&self.workbook_part)).any(|r| r.relationship_type.ends_with("/calcChain"))
-        ) {
-            return Err(unsupported("formula structure edit with calcChain is not supported"));
-        }
+        let mut replacements = BTreeMap::new();
+        let removals = if formula.is_some() || clear_formula {
+            self.invalidate_calc_chain(&mut replacements)?
+        } else { BTreeSet::new() };
         let mut calc = WorkbookCalculator::new(&self.workbook)?;
         if let Some(formula) = formula { calc.set_formula(sheet.name(), address, formula)?; }
         else { calc.set_input(sheet.name(), address, value.clone())?; }
         calc.recalculate()?;
-        let mut replacements = BTreeMap::new();
         for ws in self.workbook.sheets() {
             let part = &self.sheet_parts[&ws.id()];
             let original = self
@@ -658,8 +727,9 @@ impl ReadWorkbook {
             }
         }
         // Input changes retain formula definitions. Formula replacement/clearing is
-        // admitted only without calcChain; all supported caches are recalculated.
+        // admitted after invalidating a supported optional calcChain; supported
+        // caches are recalculated and unknown chain dependencies fail closed.
         // Workbook calcPr and all unrelated payloads remain byte-exact.
-        Ok(rewrite_parts(&bytes, &replacements)?)
+        Ok(rewrite_parts_with_removals(&bytes, &replacements, &removals)?)
     }
 }

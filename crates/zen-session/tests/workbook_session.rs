@@ -144,10 +144,110 @@ fn formula_chain_fixture() -> Vec<u8> {
     z.finish().unwrap()
 }
 
+fn unsupported_chain_fixture() -> Vec<u8> {
+    let mut p = zen_opc::Package::from_archive(&zen_opc::ZipArchive::read(&formula_chain_fixture()).unwrap()).unwrap();
+    let xml = p.get_text("/xl/calcChain.xml").unwrap().replace("</calcChain>", "<extLst/></calcChain>");
+    p.put_text("/xl/calcChain.xml", xml).unwrap(); p.to_bytes().unwrap()
+}
+
+fn expect_chain_absent(bytes: &[u8]) {
+    let zip = zen_opc::ZipArchive::read(bytes).unwrap();
+    assert!(zip.get("xl/calcChain.xml").is_none());
+    let rels = std::str::from_utf8(zip.get("xl/_rels/workbook.xml.rels").unwrap()).unwrap();
+    assert!(!rels.contains("/calcChain"));
+    let types = std::str::from_utf8(zip.get("[Content_Types].xml").unwrap()).unwrap();
+    assert!(!types.contains("/xl/calcChain.xml"));
+    let read = ReadWorkbook::read(bytes, &WorkbookReadLimits::default()).unwrap();
+    assert!(!read.package().diagnostics().iter().any(|d| matches!(d.code,
+        zen_formats::opc::DiagnosticCode::DanglingTarget | zen_formats::opc::DiagnosticCode::UnmappedZipItem)));
+}
+
+#[test]
+fn chain_formula_replacement_invalidates_part_relationship_type_and_exact_history() {
+    let source = formula_chain_fixture(); let original = zen_opc::ZipArchive::read(&source).unwrap();
+    let mut s = open(&source);
+    s.set_formula("Report", a(0, 0), "Inputs!B1*2").unwrap();
+    assert_eq!(typed(&s, "Report", a(0, 0)).unwrap().text(), "14");
+    expect_chain_absent(s.bytes()); let changed = s.bytes().to_vec();
+    let after = zen_opc::ZipArchive::read(&changed).unwrap();
+    assert_eq!(after.entries.len() + 1, original.entries.len());
+    for e in &original.entries {
+        if !["xl/calcChain.xml", "xl/_rels/workbook.xml.rels", "[Content_Types].xml", "xl/worksheets/s2.xml"].contains(&e.name.as_str()) {
+            assert_eq!(after.get(&e.name), Some(e.data.as_slice()), "{}", e.name);
+        }
+    }
+    s.undo().unwrap(); assert_eq!(s.bytes(), source);
+    assert!(zen_opc::ZipArchive::read(s.bytes()).unwrap().get("xl/calcChain.xml").is_some());
+    s.redo().unwrap(); assert_eq!(s.bytes(), changed);
+    s.set_number("Inputs", a(0, 1), 8.0).unwrap();
+    assert_eq!(typed(&s, "Report", a(0, 0)).unwrap().text(), "16"); expect_chain_absent(s.bytes());
+}
+
+#[test]
+fn chain_clear_and_manual_calc_policy_preserve_workbook_and_rebuild_from_formula_bytes() {
+    let raw = formula_chain_fixture();
+    let mut p = zen_opc::Package::from_archive(&zen_opc::ZipArchive::read(&raw).unwrap()).unwrap();
+    let workbook = p.get_text("/xl/workbook.xml").unwrap().replace("</workbook>", "<calcPr calcMode=\"manual\" fullCalcOnLoad=\"0\" forceFullCalc=\"0\"/></workbook>");
+    p.put_text("/xl/workbook.xml", workbook).unwrap();
+    let source = p.to_bytes().unwrap(); let before = zen_opc::ZipArchive::read(&source).unwrap();
+    let mut s = open(&source); s.clear_formula("Report", a(0, 0)).unwrap();
+    assert_eq!(typed(&s, "Report", a(0, 0)), None); expect_chain_absent(s.bytes());
+    let after = zen_opc::ZipArchive::read(s.bytes()).unwrap();
+    assert_eq!(after.get("xl/workbook.xml"), before.get("xl/workbook.xml"));
+    s.set_formula("Report", a(0, 0), "Inputs!A2+1").unwrap();
+    assert_eq!(typed(&s, "Report", a(0, 0)).unwrap().text(), "4"); expect_chain_absent(s.bytes());
+    let reopened = open(s.bytes());
+    assert_eq!(typed(&reopened, "Report", a(0, 0)).unwrap().text(), "4");
+}
+
+#[test]
+fn chain_unknown_metadata_shared_ownership_and_duplicate_links_refuse_with_redo() {
+    let source = formula_chain_fixture();
+    for (part, from, to) in [
+        ("/xl/calcChain.xml", "</calcChain>", "<extLst/></calcChain>"),
+        ("/xl/calcChain.xml", "r=\"A2\" i=\"3\"", "r=\"A2\" i=\"3\" s=\"1\""),
+        ("/xl/calcChain.xml", "i=\"3\"", "i=\"999\""),
+        ("/xl/calcChain.xml", "r=\"A2\"", "r=\"B1\""),
+        ("/xl/_rels/workbook.xml.rels", "</Relationships>", "<Relationship Id=\"extra-chain\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/calcChain\" Target=\"calcChain.xml\"/></Relationships>"),
+        ("/xl/_rels/workbook.xml.rels", "</Relationships>", "<Relationship Id=\"shared\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink\" Target=\"calcChain.xml\"/></Relationships>"),
+    ] {
+        let mut p = zen_opc::Package::from_archive(&zen_opc::ZipArchive::read(&source).unwrap()).unwrap();
+        let xml = p.get_text(part).unwrap(); assert!(xml.contains(from));
+        p.put_text(part, xml.replace(from, to)).unwrap();
+        let mut s = open(&p.to_bytes().unwrap());
+        s.set_number("Inputs", a(0, 1), 8.0).unwrap(); s.undo().unwrap(); let before = state(&s);
+        assert!(s.set_formula("Report", a(0, 0), "Inputs!B1*2").is_err()); assert_eq!(before, state(&s));
+        assert!(s.clear_formula("Report", a(0, 0)).is_err()); assert_eq!(before, state(&s));
+    }
+}
+
+#[test]
+fn chain_candidate_budget_failure_and_create_new_save_preserve_source_old_output_and_chain() {
+    let source = formula_chain_fixture();
+    let mut s = WorkbookSession::from_bytes(&source, &WorkbookReadLimits::default(), HistoryBudget { max_frames: 1, ..HistoryBudget::default() }).unwrap();
+    let before = state(&s);
+    assert!(matches!(s.set_formula("Report", a(0, 0), "Inputs!B1*2"), Err(SessionError::HistoryBudget)));
+    assert_eq!(before, state(&s));
+    let dir = tempfile::tempdir().unwrap(); let input = dir.path().join("input.xlsx");
+    let output = dir.path().join("no-chain.xlsx"); let old = dir.path().join("old.xlsx");
+    std::fs::write(&input, &source).unwrap(); std::fs::write(&old, b"old output").unwrap();
+    let mut s = WorkbookSession::open(&input, &WorkbookReadLimits::default(), HistoryBudget::default()).unwrap();
+    s.set_formula("Report", a(0, 0), "Inputs!B1*2").unwrap(); let before = state(&s);
+    assert!(s.save_as_new(&old).is_err()); assert_eq!(before, state(&s));
+    assert_eq!(std::fs::read(&old).unwrap(), b"old output");
+    s.save_as_new(&output).unwrap(); assert!(!s.is_dirty());
+    expect_chain_absent(&std::fs::read(&output).unwrap());
+    let reopened = WorkbookSession::open(&output, &WorkbookReadLimits::default(), HistoryBudget::default()).unwrap();
+    assert_eq!(typed(&reopened, "Report", a(0, 0)).unwrap().text(), "14");
+    assert_eq!(std::fs::read(&input).unwrap(), source);
+    s.undo().unwrap(); assert_eq!(s.bytes(), source); assert!(s.is_dirty());
+    s.redo().unwrap(); assert!(!s.is_dirty()); expect_chain_absent(s.bytes());
+}
+
 #[test]
 fn formula_calc_chain_rejection_and_new_file_save_are_explicit() {
     let source = typed_fixture("");
-    let chained = formula_chain_fixture();
+    let chained = unsupported_chain_fixture();
     let mut s = open(&chained); let before = state(&s);
     let error = s.set_formula("Report", a(0, 0), "Inputs!B1*2").unwrap_err();
     assert!(error.to_string().contains("calcChain"), "{error}"); assert_eq!(before, state(&s));
@@ -210,7 +310,7 @@ fn clear_formula_rejects_chain_metadata_nonformula_and_changed_error_cache_atomi
         let before = state(&s);
         assert!(s.clear_formula(sheet, at).is_err()); assert_eq!(before, state(&s));
     }
-    let mut s = open(&formula_chain_fixture());
+    let mut s = open(&unsupported_chain_fixture());
     s.set_number("Inputs", a(0, 1), 8.0).unwrap(); s.undo().unwrap();
     let before = state(&s);
     let error = s.clear_formula("Report", a(0, 0)).unwrap_err();

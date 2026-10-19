@@ -197,7 +197,7 @@
     "crates/zen-formats/src/opc/xml.rs": "2717606e0a0834814ea83e53ea9895569551857def92f84d2d42f305ac4d98f8",
     "crates/zen-formats/src/opc/zip_layout.rs": "b41a44ba80a58288dcde5389a9c65390d92c210e2a45165bb4eb4191cbd5cd9a",
     "crates/zen-formats/src/spreadsheet/cells.rs": "968e307e02391afafe8995f429fa39115593cc78d62bd1ae914e642dfe70dff6",
-    "crates/zen-formats/src/spreadsheet/edit.rs": "b349881453634e854e054dc250737c3c1f5003d15f3b6818007be56632dfecf2",
+    "crates/zen-formats/src/spreadsheet/edit.rs": "1bbfb0a8701e1b37a44d5470274ef8de1dde00fa1bcfcc7a1c6302a713b69672",
     "crates/zen-formats/src/spreadsheet/mod.rs": "31939c6091f558b2c3fa151bb286f83a69c8b0a9d7b85315dd82f9116fa2faa7",
     "crates/zen-formats/src/spreadsheet/xml.rs": "2dd43733e5a32bd739117e825ab53d7d0eeb2c93ae28c7d9d4e051cd7e3d4430",
     "crates/zen-formats/src/xlsx.rs": "ca760f13f2ebe3a1c58c89983e397d64a61051967725914c470d6d78e30e78f1",
@@ -404,6 +404,17 @@
         "ci": 39191763684,
         "implementation_unchanged_since": "69c1514b64ea2941e77b347383c641e2e0a28dc9",
         "prior_test_expectation_failure": 39191466274
+      }
+    },
+    {
+      "date": "2026-10-19",
+      "task": "ENG-005",
+      "reason": "ENG-005 bounded calcChain invalidation: formula structure edits admit one standard canonical solely-owned r/i chain, remove chain/owning relationship/explicit type override as one candidate, preserve calcPr; unknown metadata/ownership fails closed. Four new chain regression functions require exact-commit Windows CI; original fingerprints/taskbook unchanged.",
+      "files": {
+        "crates/zen-formats/src/spreadsheet/edit.rs": {
+          "before": "b349881453634e854e054dc250737c3c1f5003d15f3b6818007be56632dfecf2",
+          "after": "1bbfb0a8701e1b37a44d5470274ef8de1dde00fa1bcfcc7a1c6302a713b69672"
+        }
       }
     }
   ]

@@ -136,8 +136,8 @@ impl WorkbookSession {
         self.commit_candidate(candidate)
     }
 
-    /// Replace/create a normal formula in an existing cell. CalcChain workbooks
-    /// and error/empty results are deferred and rejected; clear_formula is separate.
+    /// Replace/create a normal formula in an existing cell. A supported optional
+    /// calcChain is invalidated; unknown chain/error/empty results are rejected.
     pub fn set_formula(
         &mut self, sheet: &str, address: CellAddress, formula: &str,
     ) -> Result<EditOutcome, SessionError> {
@@ -159,7 +159,7 @@ impl WorkbookSession {
 
     /// Clear a normal formula and its cache to blank, preserving cell/style.
     /// An existing blank is a byte-preserving no-op; nonblank inputs are not
-    /// formula targets. Chain/metadata/error/unsupported-cache rules still apply.
+    /// formula targets. Chain admission/metadata/error/cache rules still apply.
     pub fn clear_formula(
         &mut self, sheet: &str, address: CellAddress,
     ) -> Result<EditOutcome, SessionError> {
