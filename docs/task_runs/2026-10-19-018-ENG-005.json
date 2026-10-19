@@ -1,0 +1,106 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-005",
+  "started_at": "2026-10-19T05:44:54.725896+00:00",
+  "ended_at": "2026-10-19T05:57:00.106751+00:00",
+  "status": "PARTIAL",
+  "actual_commit": "4f82fd711ea703227f4926fcd54f6659715e3e06",
+  "actual_scope": "Explicit bounded date-serial intent with pre-existing verified date style; numeric projection, no calendar conversion/rendering/new native host comparison",
+  "commands": [
+    "official get_usage_limits; quota guard --check; frozen calibrate; continuity inspect/begin/checkpoint",
+    "Predeclare docs/engine_specs/ENG-005-date-serial-v1.json before implementation; review pinned ONLYOFFICE/Office evidence and Microsoft numFmt/xf primary documentation",
+    "guard.py --run cargo test --locked -p zen-session --test date_serial: exited 0 but empty redirected transcript; not counted as test evidence",
+    "cargo test --locked -p zen-session --test date_serial: actual local transcript final 6 PASS, 0 FAIL",
+    "python tools/check_baseline.py; git diff --check; push dev source 4f82fd7",
+    "Windows CI39206789714 at source 4f82fd711ea703227f4926fcd54f6659715e3e06: release build, workspace all-targets Rust and 3 numeric business regressions",
+    "Download exact successful-run artifacts; check six date test names, 300/0/6 totals, Cargo.lock, three case hashes/source/output/native identity",
+    "python tools/taskbook/calibrate.py --report docs/task_runs/2026-10-19-018-ENG-005.json; final frozen check",
+    "Fast-forward main only after exact-commit verification; push; compare HEAD/ls-remote and worktree; finish continuity"
+  ],
+  "deviations": [
+    "Finite existing-style serial intent, not Gregorian conversion, displayed-date rendering, automatic style assignment or date/formula CLI.",
+    "Style admission intentionally narrower than valid OOXML: explicit true applyNumberFormat, no selected-xf child metadata, xfId absent/0, five builtins/two exact customs, no target-sheet conditional/table format precedence. Other styles remain refused.",
+    "The predeclared evidence plan said two independently authored system packages. Actual Rust fixture construction is one independently hand-authored microfixture family with two system/style/namespace variants, not two independent business files; record that independence limitation instead of changing the plan or borrowing native counts.",
+    "Local Rust 1.99.1 is now installed and was measured this cycle; previous no-local-toolchain records retain their historical meaning.",
+    "Initial guarded local command returned no captured test text; preserved empty log but used the subsequent actual targeted local transcript and exact Windows CI artifacts, not its zero exit, as proof.",
+    "No Office/ONLYOFFICE binary or native host operation was run; primary documentation and source observations remain distinct from runtime validation."
+  ],
+  "untested": [
+    "Three newly frozen typed/date business workbooks and equivalent Excel operations",
+    "Calendar/ISO/timezone parsing and display formatting",
+    "Automatic style assignment and broad/custom/conditional format precedence",
+    "Date/formula CLI; other pre-existing unsupported metadata/array/name/external cases",
+    "Independent 3-business typed/date same-operation native acceptance; date CLI; full style inheritance, locale and conditional formats",
+    "Exact 16384-node admission boundary and broad hostile-metadata combinations beyond tested variants"
+  ],
+  "next_step": "Build a newly versioned, independently specified budget/orders/attendance typed/date suite; freeze operations and expectations before native runs. Exercise type switching, clear/formula changes, both systems/style refusal, save/reopen and source preservation against equivalent Excel operations. Do not alter res-002-v1 or frozen v1.0 taskbook.",
+  "criteria": {
+    "ENG-005-C1": {
+      "requirement": "建立TypedValue和编辑准入表，覆盖空白、文本、布尔、数字、日期及普通公式；日期体系和错误值单列。",
+      "result": "PASS",
+      "observation": "Typed admission design includes explicit date serial, both systems, distinct errors/calendar/display policy, supported pre-existing formats and refusal boundaries. Design PASS does not complete runtime acceptance.",
+      "sample_count": 1,
+      "evidence": [
+        "docs/TYPED_EDIT_CONTRACT.md",
+        "docs/engine_specs/ENG-005-admission.json",
+        "docs/engine_specs/ENG-005-date-serial-v1.json",
+        "docs/research/ENG-005-DATE-2026-10-19.json"
+      ]
+    },
+    "ENG-005-C2": {
+      "requirement": "实现支持的类型/公式写回和跨表动态依赖更新；缓存与calc配置有独立预期；未知名称、数组、外链明确拒绝或只读。",
+      "result": "NOT_RUN",
+      "observation": "Whole original condition has not been independently accepted across the complete typed/date/business matrix; bounded date runtime evidence is recorded separately.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C3": {
+      "requirement": "3份业务XLSX分别包含类型切换、清空和公式替换；保存重开并与Excel同等修改对照。",
+      "result": "NOT_RUN",
+      "observation": "Whole original condition has not been independently accepted across the complete typed/date/business matrix; bounded date runtime evidence is recorded separately.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C4": {
+      "requirement": "失败不改变会话/原包/旧输出，撤销恢复数据和计算状态；相关Rust回归按提交记录。",
+      "result": "NOT_RUN",
+      "observation": "Whole original condition has not been independently accepted across the complete typed/date/business matrix; bounded date runtime evidence is recorded separately.",
+      "sample_count": 0,
+      "evidence": []
+    }
+  },
+  "dependency_review": {
+    "ENG-004": "DONE in bounded E1 scope; prior frozen evidence retained",
+    "previous_cycle": "Reference integration record017; continuity COMPLETE, no unfinished owned command; main9e05190 clean and remote-equal at start"
+  },
+  "slice_acceptance": {
+    "status": "PASS",
+    "scope": "Only six bounded synthetic date-regression functions plus unchanged numeric business regression, not complete ENG-005",
+    "rust": {
+      "passed": 300,
+      "failed": 0,
+      "ignored": 6,
+      "test_binaries": 37
+    },
+    "new_rust_test_functions": [
+      "date_serial_boundaries_recalculate_and_preserve_both_systems",
+      "date_serial_admitted_formats_and_literal_type_transitions",
+      "date_serial_validation_precedes_noop_and_preserves_redo_on_refusal",
+      "date_serial_ambiguous_styles_and_unsupported_targets_refuse_atomically",
+      "date_serial_history_and_xml_limits_refuse_without_state_change",
+      "date_serial_windows_save_reopen_preserves_source_style_system_and_savepoint"
+    ],
+    "fixture_families": 1,
+    "system_variants": 2,
+    "new_native_runs": 0,
+    "evidence": [
+      "docs/research/ENG-005-DATE-2026-10-19.json",
+      "https://github.com/yanyu03/ZenOffice/actions/runs/39206789714"
+    ],
+    "full_task_done": false
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "date": "2026-10-19",
+  "task": "ENG-005",
+  "scope": "Explicit bounded date-serial intent with pre-existing verified date style; numeric projection, no calendar conversion/rendering/new native host comparison",
+  "commit": "4f82fd711ea703227f4926fcd54f6659715e3e06",
+  "ci": {
+    "id": 39206789714,
+    "url": "https://github.com/yanyu03/ZenOffice/actions/runs/39206789714",
+    "status": "PASS"
+  },
+  "rust": {
+    "passed": 300,
+    "failed": 0,
+    "ignored": 6,
+    "test_binaries": 37
+  },
+  "new_test_functions": [
+    "date_serial_boundaries_recalculate_and_preserve_both_systems",
+    "date_serial_admitted_formats_and_literal_type_transitions",
+    "date_serial_validation_precedes_noop_and_preserves_redo_on_refusal",
+    "date_serial_ambiguous_styles_and_unsupported_targets_refuse_atomically",
+    "date_serial_history_and_xml_limits_refuse_without_state_change",
+    "date_serial_windows_save_reopen_preserves_source_style_system_and_savepoint"
+  ],
+  "samples": "One hand-authored two-sheet microfixture family with 1900/builtin/unprefixed and 1904/custom/prefixed variants plus format/target/refusal variants. Not two independent business workbooks.",
+  "local_targeted": {
+    "passed": 6,
+    "failed": 0,
+    "compiler": "rustc 1.99.1 (58cf8f9c3 2026-10-13), x86_64-pc-windows-msvc",
+    "log_sha256": "158da48067f39634d7614d50e9e54edbc80a7cee6ca32fa355b0100c3d8fd465"
+  },
+  "new_office_runs": 0,
+  "new_onlyoffice_runs": 0,
+  "primary_format_references": [
+    "https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.spreadsheet.numberingformat",
+    "https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.spreadsheet.cellformat"
+  ],
+  "core_log_sha256": "aa4fa1e0903f8570273e59a00898472bb089f62cd6a93ecd124df1a40236842c",
+  "cargo_lock_sha256_normalized_lf": "3fd739660d7244bd711eda209e72172e062138afba5821aa258897087587c1ab",
+  "cli_binary_sha256_reported_by_ci": "61fc6b0ceb5fd5b2269fa363467fabae3371afebdff2817d6e3be961c8b9533e",
+  "native_reference_sha256": "78bb9b1b58fab36e7612ef237964f638857a0748609936f1a1dc86c2e03795c1",
+  "business_regression": [
+    {
+      "id": "budget",
+      "status": "PASS",
+      "observed_values": 170,
+      "native_runs_compared": 3,
+      "source_sha256": "dded0be3d458ec04df9789aeeefc2c4103db368ed96f2a93b1b817a8b5b2db26",
+      "output_sha256": "aee383737eb7ab2c4412e9876533475cb07ea633f88155c525498cc0656831a6"
+    },
+    {
+      "id": "orders",
+      "status": "PASS",
+      "observed_values": 110,
+      "native_runs_compared": 3,
+      "source_sha256": "f96cb703551eccaf6c552990572ab3a7d5ca771676026f828230f9b54dc27261",
+      "output_sha256": "f432a5f86a65b221b1b561a2c4f7a7c9977f19e7adfac8917dfb6b7dcf63857c"
+    },
+    {
+      "id": "attendance",
+      "status": "PASS",
+      "observed_values": 110,
+      "native_runs_compared": 3,
+      "source_sha256": "95bede4f59704a5ac491961838cd11e89dffd9c5fefedb50f8e2545d73042e8d",
+      "output_sha256": "a20f17338f820d26849a81fc88b624c04584472f8c463dcb06469221a8b42ccb"
+    }
+  ],
+  "metadata_policy": "Keep original styles.xml, workbook.xml/date1904/calcPr, relationships and unrelated payloads; target serial and supported dependent caches only; validate style/system before no-op",
+  "remaining": [
+    "Three newly frozen typed/date business workbooks and equivalent Excel operations",
+    "Calendar/ISO/timezone parsing and display formatting",
+    "Automatic style assignment and broad/custom/conditional format precedence",
+    "Date/formula CLI; other pre-existing unsupported metadata/array/name/external cases"
+  ]
+}

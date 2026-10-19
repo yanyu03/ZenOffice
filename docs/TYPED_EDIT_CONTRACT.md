@@ -1,12 +1,12 @@
 # ENG-005类型与公式编辑实施契约
 
-日期：2026-10-19。性质：可变实现设计，落实ZEN-ENGINE-v1.0的ENG-005-C1，不取代或修改冻结验收标准。首份设计依据28f2db7（E1实测08bc566）；类型首切片实测a83fe4d，普通公式替换切片实测d991431。C2/C3/C4整体仍未验收。日期序号新切片见末节；本机定向6项通过，固定提交Windows CI待核实。
+日期：2026-10-19。性质：可变实现设计，落实ZEN-ENGINE-v1.0的ENG-005-C1，不取代或修改冻结验收标准。首份设计依据28f2db7（E1实测08bc566）；类型首切片实测a83fe4d，普通公式替换切片实测d991431。C2/C3/C4整体仍未验收。日期序号新切片见末节；实测4f82fd7：本机6项、Windows CI总300项通过，6忽略；新日期宿主仍未运行。
 
 ## 数据模型和调用意图
 
 复用zen_engine::workbook::TypedValue::{Number,Text,Boolean,Error}及DateSystem::{Excel1900,Excel1904}。空白使用Option<TypedValue>::None，不新增与现有模型冲突的Blank读取变体；空字符串是Some(Text(""))，不等同于None、0或false。原数值lexical用于保真；新数字应按value生成合法词法，不信任调用者提供的矛盾lexical。新请求不能直接修改共享Workbook，也不能暴露候选ZIP的无验证提交接口。
 
-已实现WorkbookSession::set_value、受限set_formula及clear_formula；已新增set_date_serial(sheet,address,serial,system)，限定既有显式日期样式；本机定向测试通过，固定提交CI和新宿主对照仍待核实。公式替换/清除限已有格及受支持的可选链失效规则，详见末节；下述各切片按提交保留历史，当前能力以准入表和最后一节为准。SetValue(Text("=A1"))是字面文本，永不自动转为公式；SetFormula才进入公式解析。读取模型继续把带日期格式的n单元格投影为Number，日期编辑意图必须另外携带体系，不能由样式索引猜测已经完成日期语义。
+已实现WorkbookSession::set_value、受限set_formula及clear_formula；已新增set_date_serial(sheet,address,serial,system)，限定既有显式日期样式；固定4f82fd7的本机/Windows CI合成测试通过，新宿主对照未运行。公式替换/清除限已有格及受支持的可选链失效规则，详见末节；下述各切片按提交保留历史，当前能力以准入表和最后一节为准。SetValue(Text("=A1"))是字面文本，永不自动转为公式；SetFormula才进入公式解析。读取模型继续把带日期格式的n单元格投影为Number，日期编辑意图必须另外携带体系，不能由样式索引猜测已经完成日期语义。
 
 | 意图 | 表示与区别 | 当前运行能力 | ENG-005目标准入及写回规则 |
 | --- | --- | --- | --- |
@@ -87,4 +87,6 @@ n=4新Rust测试函数，1份双表链夹具及7种负向变体；验证替换/�
 
 新的样式与目标表元数据读取另限2MiB/16384节点；超出拒绝，不扩张会话原资源预算。无变化也必须通过日期体系/样式准入，之后保持原词法、ZIP、revision与redo；修改仍受完整保包门禁、合并目标拒绝和候选重读约束。原数值/通用类型入口保持原意图边界，不从数字猜日期。
 
-实现依据：[微软numFmt列表](https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.spreadsheet.numberingformat)、[xf/applyNumberFormat](https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.spreadsheet.cellformat)与research/DEVELOPMENT-REFERENCES.md固定ONLYOFFICE源码线索；来源不能替代本机Excel同操作观测。两个手写体系样本及拒绝变体，已本机6项回归通过；新日期Excel和ONLYOFFICE运行0次。ENG-005整体仍PARTIAL。
+实现依据：[微软numFmt列表](https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.spreadsheet.numberingformat)、[xf/applyNumberFormat](https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.spreadsheet.cellformat)与research/DEVELOPMENT-REFERENCES.md固定ONLYOFFICE源码线索；来源不能替代本机Excel同操作观测。一个手写家族的两个体系变体及拒绝变体，已本机6项回归通过；新日期Excel和ONLYOFFICE运行0次。ENG-005整体仍PARTIAL。
+
+固定提交4f82fd711ea703227f4926fcd54f6659715e3e06，[CI39206789714](https://github.com/yanyu03/ZenOffice/actions/runs/39206789714)实际300通过/0失败/6忽略，37测试二进制，六个日期回归函数逐名通过；证据见research/ENG-005-DATE-2026-10-19.json。样本实际为一个手写微型家族的两个体系/样式/命名空间变体，不把它们计作两份独立业务样本。

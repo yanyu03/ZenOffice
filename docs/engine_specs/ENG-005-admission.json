@@ -2,9 +2,9 @@
   "task": "ENG-005",
   "kind": "mutable implementation design, not frozen taskbook or runtime evidence",
   "contract": "docs/TYPED_EDIT_CONTRACT.md",
-  "reviewed_commit": "d81da828fe93493e36c2f22e6432d83580f4d060",
+  "reviewed_commit": "4f82fd711ea703227f4926fcd54f6659715e3e06",
   "read_model": "zen_engine::workbook::TypedValue and Option<TypedValue>; reuse DateSystem",
-  "current_writer": "Existing typed/formula/clear/chain boundaries plus explicit date-serial intent with existing verified date style; six local synthetic regressions PASS, exact-commit Windows CI pending; no new native typed/date comparison",
+  "current_writer": "Existing typed/formula/clear/chain boundaries plus explicit date-serial intent with verified existing date style; source4f82fd7 six local date functions and Windows CI300 PASS/6ignored; no native typed/date comparison",
   "intents": [
     {
       "id": "blank",
@@ -64,7 +64,7 @@
     {
       "id": "date_1900",
       "representation": "set_date_serial(sheet,address,serial,DateSystem)",
-      "current_edit": "LOCAL_SYNTHETIC_PASS_PENDING_EXACT_COMMIT_CI_AND_NATIVE_DATE_HOST",
+      "current_edit": "BOUNDED_SYNTHETIC_DATE_SERIAL_PASS_4f82fd7_NO_NATIVE_DATE_HOST",
       "planned_encoding": "numeric serial plus explicitly validated date style; workbook date system unchanged",
       "must_distinguish": "date serial versus absolute Gregorian date",
       "boundary_plan": [
@@ -85,7 +85,7 @@
     {
       "id": "date_1904",
       "representation": "set_date_serial(sheet,address,serial,DateSystem)",
-      "current_edit": "LOCAL_SYNTHETIC_PASS_PENDING_EXACT_COMMIT_CI_AND_NATIVE_DATE_HOST",
+      "current_edit": "BOUNDED_SYNTHETIC_DATE_SERIAL_PASS_4f82fd7_NO_NATIVE_DATE_HOST",
       "planned_encoding": "numeric serial plus explicitly validated date style; no implicit system conversion",
       "must_distinguish": "1904 serial versus same number in 1900 system",
       "boundary_plan": [
