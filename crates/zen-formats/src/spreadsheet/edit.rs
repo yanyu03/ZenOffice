@@ -566,6 +566,11 @@ impl ReadWorkbook {
         {
             let xml = utf8(part.bytes())?;
             let doc = roxmltree::Document::parse(xml)?;
+            if typed && doc.descendants().any(|n| {
+                n.has_tag_name((C, "strRef")) || n.has_tag_name((C, "multiLvlStrRef"))
+            }) {
+                return Err(unsupported("chart string-reference caches are not maintained by typed edits"));
+            }
             let mut edits = Vec::new();
             for reference in doc.descendants().filter(|n| n.has_tag_name((C, "numRef"))) {
                 let formula = reference

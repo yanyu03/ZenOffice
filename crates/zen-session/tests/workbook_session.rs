@@ -134,6 +134,14 @@ fn typed_rejections_preserve_full_state_and_live_redo() {
 
 #[test]
 fn typed_budget_and_merged_protected_or_opaque_targets_fail_atomically() {
+    let source = business_fixture();
+    let zip = zen_opc::ZipArchive::read(source).unwrap();
+    assert!(std::str::from_utf8(zip.get("xl/charts/chart1.xml").unwrap()).unwrap().contains("strRef"));
+    let mut s = open(source);
+    let before = state(&s);
+    let error = s.set_value("Transactions", a(3, 3), Some(TypedValue::Number { value: 42.0, lexical: "42".into() })).unwrap_err();
+    assert!(error.to_string().contains("chart string-reference caches"), "{error}");
+    assert_eq!(before, state(&s));
     for extra in [r#"<x:mergeCells><x:mergeCell ref="B1:C1"/></x:mergeCells>"#,
                   r#"<x:sheetProtection sheet="1"/>"#] {
         let mut s = open(&typed_fixture(extra));
