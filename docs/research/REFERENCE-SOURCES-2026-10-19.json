@@ -1,0 +1,103 @@
+{
+  "id": "ZEN-REFERENCE-2026-10-19",
+  "scope": "Source reading and existing Office evidence integration; no new product/Office/ONLYOFFICE execution",
+  "repositories": [
+    {
+      "repository": "https://github.com/ONLYOFFICE/sdkjs",
+      "commit": "9d2138866d929be32f1d107e8b5bfae36156e097",
+      "tree_truncated": false,
+      "license": "AGPL-3.0-only with upstream additional terms; read pinned LICENSE and per-file headers",
+      "files": [
+        {
+          "path": "cell/model/FormulaObjects/dateandtimeFunctions.js",
+          "bytes": 83920,
+          "sha256": "608bf87e95ec478592318c63912cfaeb845faf3d6a813038eeebf748680ee6cc",
+          "git_blob_sha1": "f07f289675b7c48f9642a2556173040447d417f6",
+          "url": "https://github.com/ONLYOFFICE/sdkjs/blob/9d2138866d929be32f1d107e8b5bfae36156e097/cell/model/FormulaObjects/dateandtimeFunctions.js"
+        },
+        {
+          "path": "cell/model/FormulaObjects/parserFormula.js",
+          "bytes": 487302,
+          "sha256": "35fb18e1fb9f94f9108b96afa20738f8bd7dfe185755f9842f26ed791a26572b",
+          "git_blob_sha1": "c0a7e23f2414920ec8b8e450a38bec662eca449d",
+          "url": "https://github.com/ONLYOFFICE/sdkjs/blob/9d2138866d929be32f1d107e8b5bfae36156e097/cell/model/FormulaObjects/parserFormula.js"
+        },
+        {
+          "path": "cell/model/History.js",
+          "bytes": 65928,
+          "sha256": "2835f913eb804976106b7578a0553a971c8c10371d71ea72312cc3ce7505b6a4",
+          "git_blob_sha1": "700407bb5c17c2f4caf03356180fe39f57fa5c78",
+          "url": "https://github.com/ONLYOFFICE/sdkjs/blob/9d2138866d929be32f1d107e8b5bfae36156e097/cell/model/History.js"
+        },
+        {
+          "path": "cell/model/Workbook.js",
+          "bytes": 951634,
+          "sha256": "99efed16da6970c65ee56ce7ad15ebc0b910098c9512bc792954e650a6c61ecf",
+          "git_blob_sha1": "18ef9ef937c9b86cc2fa12851db6e576b2603291",
+          "url": "https://github.com/ONLYOFFICE/sdkjs/blob/9d2138866d929be32f1d107e8b5bfae36156e097/cell/model/Workbook.js"
+        },
+        {
+          "path": "common/NumFormat.js",
+          "bytes": 220292,
+          "sha256": "87ce1227be5b33c8c00da676443d89a8dc07645e17644e80c88a14fd1770ab78",
+          "git_blob_sha1": "7c14e759e718d2309fed68ad33ee33371c65cbaa",
+          "url": "https://github.com/ONLYOFFICE/sdkjs/blob/9d2138866d929be32f1d107e8b5bfae36156e097/common/NumFormat.js"
+        },
+        {
+          "path": "LICENSE",
+          "bytes": 37800,
+          "sha256": "3a9b4b6ab698d668dcedcda1c2da598f4ca9789a0d8b4aefb90e00e2cb425040",
+          "git_blob_sha1": "53bc62cde3c705aa2d03b895b966bd6250f389ae",
+          "url": "https://github.com/ONLYOFFICE/sdkjs/blob/9d2138866d929be32f1d107e8b5bfae36156e097/LICENSE"
+        }
+      ]
+    },
+    {
+      "repository": "https://github.com/ONLYOFFICE/core",
+      "commit": "ed63e94de814ff1d4ea28cddfaba6939bc9df9ed",
+      "tree_truncated": false,
+      "license": "AGPL-3.0-only with upstream additional terms; read pinned LICENSE and per-file headers",
+      "files": [
+        {
+          "path": "LICENSE",
+          "bytes": 37800,
+          "sha256": "3a9b4b6ab698d668dcedcda1c2da598f4ca9789a0d8b4aefb90e00e2cb425040",
+          "git_blob_sha1": "53bc62cde3c705aa2d03b895b966bd6250f389ae",
+          "url": "https://github.com/ONLYOFFICE/core/blob/ed63e94de814ff1d4ea28cddfaba6939bc9df9ed/LICENSE"
+        },
+        {
+          "path": "OOXML/XlsxFormat/CalcChain/CalcChain.cpp",
+          "bytes": 5437,
+          "sha256": "874d882714b0e7e76c11b4cc8cdbe6fabd9a4df1d17ae18cb7166c533dbea0d2",
+          "git_blob_sha1": "ff7fcc3fe4d9f7cc387f53866bca6214663093df",
+          "url": "https://github.com/ONLYOFFICE/core/blob/ed63e94de814ff1d4ea28cddfaba6939bc9df9ed/OOXML/XlsxFormat/CalcChain/CalcChain.cpp"
+        },
+        {
+          "path": "OOXML/XlsxFormat/Workbook/WorkbookPr.cpp",
+          "bytes": 25431,
+          "sha256": "6e436e38c05b4443d7183c370f7d0e4d76b8b439d56c2e66033bf7a57feb23f6",
+          "git_blob_sha1": "a434a664803a2d3fc3b3935a2c4237e7293ce0fa",
+          "url": "https://github.com/ONLYOFFICE/core/blob/ed63e94de814ff1d4ea28cddfaba6939bc9df9ed/OOXML/XlsxFormat/Workbook/WorkbookPr.cpp"
+        }
+      ]
+    }
+  ],
+  "onlyoffice_runtime_runs": 0,
+  "office_new_runtime_runs": 0,
+  "office_historical_manifest_files_verified": 44,
+  "office_current_identity": {
+    "product_release_ids": "ProPlus2024Volume",
+    "platform": "x64",
+    "version": "16.0.17932.21000",
+    "excel_bytes": 69737792,
+    "excel_sha256": "c71c7ca0faf896fd52e66924f7ec43ab8b7b110fa3b179097c1f0e3c6c036369"
+  },
+  "office_static_identity_report": "docs/OFFICE_RESEARCH_BASELINE_2026-10-18.md",
+  "office_runtime_summary": "docs/research/RES-002-EXCEL-2026-10-19.json",
+  "local_cache": "target/reference_sources/onlyoffice-2026-10-19",
+  "limitations": [
+    "Source presence is not runtime correctness",
+    "Historical static 21056 and runtime/current 21000 identities are distinct; cause uninvestigated",
+    "No vendor source, decompilation, or UI resources imported into public implementation"
+  ]
+}
