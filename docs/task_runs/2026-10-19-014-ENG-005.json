@@ -1,0 +1,107 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-005",
+  "started_at": "2026-10-19T01:32:22.530433+00:00",
+  "ended_at": "2026-10-19T02:40:53.827270+00:00",
+  "status": "PARTIAL",
+  "actual_commit": "d9914312ec3f1ded2d18a97a3768a4c0662efb41",
+  "actual_scope": "ENG-005 ordinary formula replacement first slice: existing cells, no calcChain; staged full dependency reconstruction and typed caches, same session candidate commit. Four synthetic Rust regression functions; no formula removal, dates or native typed-business acceptance.",
+  "commands": [
+    "official get_usage_limits",
+    "python tools/quota_guard/guard.py --check",
+    "python tools/taskbook/calibrate.py",
+    "python tools/continuity/continuity.py inspect/begin/checkpoint",
+    "python tools/check_baseline.py",
+    "git diff --check",
+    "source review: calculator dependencies, serializer namespace and formula metadata admission",
+    "dev branch commit/push; GitHub Windows core workflow exact-commit validation required",
+    "Windows core CI 39190167786: release build, locked workspace all-targets tests and 3 numeric business regressions PASS",
+    "download and independently inspect exact test names/core counts/Cargo.lock and 3 business records",
+    "python tools/taskbook/calibrate.py --report docs/task_runs/2026-10-19-014-ENG-005.json",
+    "python tools/taskbook/calibrate.py",
+    "git HEAD/ls-remote/status after final sync"
+  ],
+  "deviations": [
+    "Finite formula replacement slice refuses workbooks with calcChain rather than deleting/rebuilding a chain without evidence. Formula removal remains deferred.",
+    "Candidate calculation rebuilds dependency graph from selected bytes, then applies the new formula and fully recalculates; no incremental evaluation/performance claim.",
+    "Workbook calcPr is preserved byte-exact, including manual mode/fullCalcOnLoad=0/forceFullCalc=0 in one synthetic fixture; no native host behavior claimed.",
+    "Source review added rejection of formula metadata other than explicit normal type; old ca/ref/other attributes cannot be dropped silently.",
+    "Readable-source branch of DSHA; no new vendor binary session or Office host run. Local Rust toolchain absent; actual runtime validation uses Windows CI.",
+    "GitHub API TLS timeouts observed after dev push; query the existing exact run instead of replaying tests. Wall-clock waits are not effective development time."
+  ],
+  "untested": [
+    "Formula removal and calcChain reconstruction",
+    "Date/style intent and both date systems",
+    "Changed errors and empty formula results",
+    "Three new typed-business workbooks and same-operation native Excel comparison",
+    "New formula CLI protocol and incremental calculation performance"
+  ],
+  "next_step": "Next bounded slice: formula removal and calcChain policy with independent positive/negative package expectations. Then date/styles and three newly frozen typed-business/native Excel comparisons. Do not revise v1 taskbook or original business samples.",
+  "criteria": {
+    "ENG-005-C1": {
+      "requirement": "建立TypedValue和编辑准入表，覆盖空白、文本、布尔、数字、日期及普通公式；日期体系和错误值单列。",
+      "result": "PASS",
+      "observation": "Existing eight-intent design reviewed and updated with actual bounded set_value capability versus pending formula/date/error intents. Design PASS only; runtime slice separately recorded.",
+      "sample_count": 1,
+      "evidence": [
+        "docs/TYPED_EDIT_CONTRACT.md",
+        "docs/engine_specs/ENG-005-admission.json",
+        "crates/zen-engine/src/workbook.rs",
+        "crates/zen-engine/src/recalc.rs",
+        "crates/zen-formats/src/spreadsheet/cells.rs",
+        "crates/zen-formats/src/spreadsheet/edit.rs",
+        "crates/zen-session/src/lib.rs",
+        "docs/research/ENG-005-TYPED-2026-10-19.json"
+      ]
+    },
+    "ENG-005-C2": {
+      "requirement": "实现支持的类型/公式写回和跨表动态依赖更新；缓存与calc配置有独立预期；未知名称、数组、外链明确拒绝或只读。",
+      "result": "NOT_RUN",
+      "observation": "Partial evidence: normal formula replacement across sheets, new/old reference values and typed caches PASS; calcPr preservation has independent expected bytes. calcChain/removal/date and full supported policy acceptance remain incomplete: full condition NOT_RUN.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C3": {
+      "requirement": "3份业务XLSX分别包含类型切换、清空和公式替换；保存重开并与Excel同等修改对照。",
+      "result": "NOT_RUN",
+      "observation": "Full frozen condition remains unaccepted; this cycle is only a bounded ordinary-formula slice, not complete formula/date/host business acceptance.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C4": {
+      "requirement": "失败不改变会话/原包/旧输出，撤销恢复数据和计算状态；相关Rust回归按提交记录。",
+      "result": "NOT_RUN",
+      "observation": "Partial evidence: formula failure with live redo, metadata/array/cycle/unknown/external/error/chain rejection, budget and source/old-output/save/undo/redo PASS. Remaining date/removal/chain failure matrix not run; full condition NOT_RUN.",
+      "sample_count": 0,
+      "evidence": []
+    }
+  },
+  "dependency_review": {
+    "ENG-004": "DONE; original E1 actual and latest 3 numeric business regressions reviewed",
+    "previous_ENG005": "PARTIAL; main 0db7a6a, exact product a83fe4d CI 39179693476 complete and no active prior commands"
+  },
+  "slice_acceptance": {
+    "status": "PASS",
+    "rust": {
+      "passed": 286,
+      "failed": 0,
+      "ignored": 6,
+      "test_binaries": 36
+    },
+    "new_rust_test_functions": [
+      "formula_replacement_rebuilds_cross_sheet_dependencies_and_exact_history",
+      "formula_xml_text_is_distinct_from_string_cache_and_calc_configuration_is_preserved",
+      "formula_rejections_and_budget_preserve_state_with_live_redo",
+      "formula_calc_chain_rejection_and_new_file_save_are_explicit"
+    ],
+    "evidence": [
+      "docs/research/ENG-005-FORMULA-2026-10-19.json",
+      "https://github.com/yanyu03/ZenOffice/actions/runs/39190167786"
+    ],
+    "full_task_done": false
+  }
+}

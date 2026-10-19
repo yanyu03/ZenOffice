@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-19",
+  "task": "ENG-005",
+  "scope": "Ordinary formula replacement on existing cells without calcChain; not formula removal/date/native typed-business completion",
+  "commit": "d9914312ec3f1ded2d18a97a3768a4c0662efb41",
+  "ci": {
+    "id": 39190167786,
+    "url": "https://github.com/yanyu03/ZenOffice/actions/runs/39190167786",
+    "status": "PASS"
+  },
+  "rust": {
+    "passed": 286,
+    "failed": 0,
+    "ignored": 6,
+    "test_binaries": 36
+  },
+  "new_test_functions": [
+    "formula_replacement_rebuilds_cross_sheet_dependencies_and_exact_history",
+    "formula_xml_text_is_distinct_from_string_cache_and_calc_configuration_is_preserved",
+    "formula_rejections_and_budget_preserve_state_with_live_redo",
+    "formula_calc_chain_rejection_and_new_file_save_are_explicit"
+  ],
+  "samples": "1 independent handwritten two-sheet typed microfixture; variants add manual calcPr, array/ca metadata and a linked calcChain; four functions are not four business workbooks",
+  "core_log_sha256": "962d9a5d73704ad584de911fa6d4513824c235849427e6c445febc2bb19f125a",
+  "cli_binary_sha256": "22c4ee0ac24c1e02b09fdd0f7de2db1621ca8c6633896aff0174ded0e4f93593",
+  "native_reference_sha256": "78bb9b1b58fab36e7612ef237964f638857a0748609936f1a1dc86c2e03795c1",
+  "new_office_runs": 0,
+  "business_regression": [
+    {
+      "id": "budget",
+      "status": "PASS",
+      "observed_values": 170,
+      "native_runs_compared": 3,
+      "source_sha256": "dded0be3d458ec04df9789aeeefc2c4103db368ed96f2a93b1b817a8b5b2db26",
+      "output_sha256": "aee383737eb7ab2c4412e9876533475cb07ea633f88155c525498cc0656831a6"
+    },
+    {
+      "id": "orders",
+      "status": "PASS",
+      "observed_values": 110,
+      "native_runs_compared": 3,
+      "source_sha256": "f96cb703551eccaf6c552990572ab3a7d5ca771676026f828230f9b54dc27261",
+      "output_sha256": "f432a5f86a65b221b1b561a2c4f7a7c9977f19e7adfac8917dfb6b7dcf63857c"
+    },
+    {
+      "id": "attendance",
+      "status": "PASS",
+      "observed_values": 110,
+      "native_runs_compared": 3,
+      "source_sha256": "95bede4f59704a5ac491961838cd11e89dffd9c5fefedb50f8e2545d73042e8d",
+      "output_sha256": "a20f17338f820d26849a81fc88b624c04584472f8c463dcb06469221a8b42ccb"
+    }
+  ],
+  "calc_policy": "Full candidate recalculation; preserve original workbook.xml/calcPr bytes; reject existing calcChain instead of leaving a stale chain",
+  "unsupported": [
+    "Formula removal and calcChain reconstruction",
+    "Date/style intent and both date systems",
+    "Changed errors and empty formula results",
+    "Three new typed-business workbooks and same-operation native Excel comparison",
+    "New formula CLI protocol and incremental calculation performance"
+  ]
+}

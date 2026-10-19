@@ -381,7 +381,7 @@
     {
       "date": "2026-10-19",
       "task": "ENG-005",
-      "reason": "First typed-input slice: shared package admission and staged blank/text/bool/finite-number serialization; typed non-error cache updates retain formula definitions and original namespace context. Existing numeric entry remains restricted. Six independent session regression scenarios added; Windows CI required before main merge. Frozen taskbook and original import identity unchanged.",
+      "reason": "ENG-005 formula metadata review: reject replacing ca/ref/other metadata that a new normal f element would drop; negative full-state preservation regression in final Windows CI 39190167786 (d991431). Current source fingerprint updated; original import hashes and frozen taskbook untouched.",
       "files": {
         "crates/zen-formats/src/spreadsheet/edit.rs": {
           "before": "4cd9a3470cb8195309f45fff1342161e54ec8cd6b880467ea1b35ffa1ea0cae8",

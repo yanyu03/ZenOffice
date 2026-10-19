@@ -2,9 +2,9 @@
   "task": "ENG-005",
   "kind": "mutable implementation design, not frozen taskbook or runtime evidence",
   "contract": "docs/TYPED_EDIT_CONTRACT.md",
-  "reviewed_commit": "a83fe4d602a9693418415bf82d538be76bf655c6",
+  "reviewed_commit": "d9914312ec3f1ded2d18a97a3768a4c0662efb41",
   "read_model": "zen_engine::workbook::TypedValue and Option<TypedValue>; reuse DateSystem",
-  "current_writer": "set_value: existing non-formula/non-error blank/text/bool/finite-number inputs and supported non-error cache transitions; set_number retains legacy numeric admission",
+  "current_writer": "set_value: existing non-formula/non-error blank/text/bool/finite-number inputs and supported non-error cache transitions; set_number retains legacy numeric admission; set_formula: existing-cell ordinary replacement without calcChain, full dependency rebuild; no formula removal/date intent",
   "intents": [
     {
       "id": "blank",
@@ -102,7 +102,7 @@
     {
       "id": "formula",
       "representation": "SetFormula(String)",
-      "current_edit": "NO_FORMULA_REPLACEMENT_API",
+      "current_edit": "SYNTHETIC_ORDINARY_REPLACEMENT_PASS_EXISTING_CELL_NO_CALCCHAIN",
       "planned_encoding": "qualified f plus typed recalculated cache; one optional leading = on request",
       "must_distinguish": "formula definition versus typed input versus cache versus display",
       "rejections": [
@@ -110,7 +110,11 @@
         "array/shared/data-table formula",
         "external or dynamic reference",
         "cycle",
-        "unsupported dependent result"
+        "unsupported dependent result",
+        "existing calcChain",
+        "formula metadata except t=normal",
+        "formula removal not exposed",
+        "changed error or empty result"
       ]
     },
     {
@@ -142,7 +146,9 @@
     "normal formula replacement and cross-sheet dynamic dependencies",
     "explicit date/style boundaries and three independent business host comparisons"
   ],
-  "new_runtime_tests_in_this_cycle": 6,
+  "new_runtime_tests_in_this_cycle": 4,
   "new_office_runs_in_this_cycle": 0,
-  "runtime_evidence": "docs/research/ENG-005-TYPED-2026-10-19.json"
+  "runtime_evidence": "docs/research/ENG-005-FORMULA-2026-10-19.json",
+  "formula_slice_evidence": "docs/research/ENG-005-FORMULA-2026-10-19.json",
+  "typed_slice_evidence": "docs/research/ENG-005-TYPED-2026-10-19.json"
 }
