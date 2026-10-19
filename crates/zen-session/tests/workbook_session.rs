@@ -196,11 +196,15 @@ fn clear_formula_removes_definition_and_cache_recalculates_and_restores_exact_fr
     assert_eq!(typed(&s, "Inputs", a(1, 0)), None, "cleared cell has no dependency on A1");
     assert_eq!(typed(&s, "Report", a(0, 0)).unwrap().text(), "1");
     assert_eq!(typed(&open(s.bytes()), "Report", a(0, 0)).unwrap().text(), "1");
+    let mut direct = open(&typed_fixture(""));
+    direct.clear_formula("Inputs", a(1, 0)).unwrap();
+    assert_eq!(typed(&direct, "Report", a(0, 0)).unwrap().text(), "0", "direct blank reference evaluates to zero");
 }
 
 #[test]
-fn clear_formula_rejects_chain_metadata_nonformula_and_empty_dependent_cache_atomically() {
+fn clear_formula_rejects_chain_metadata_nonformula_and_changed_error_cache_atomically() {
     let mut s = open(&typed_fixture(""));
+    s.set_formula("Report", a(0, 0), "1/Inputs!A2").unwrap();
     s.clear_formula("Report", a(0, 0)).unwrap(); s.undo().unwrap();
     for (sheet, at) in [("Inputs", a(0, 0)), ("Inputs", a(1, 0)), ("Inputs", a(9, 9))] {
         let before = state(&s);
