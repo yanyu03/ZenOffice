@@ -1,0 +1,62 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-004",
+  "started_at": "2026-10-19T15:05:13.923529+00:00",
+  "ended_at": "2026-10-19T15:07:16.254628+00:00",
+  "status": "PARTIAL",
+  "actual_commit": "6c60f017dc5cde35e6ed8c4ae509f4815d6202f4",
+  "actual_scope": "One authorized second-heartbeat external review of a fixed ENG-004 summary. Response truncated; primary validated first complete observation against existing logs. No product implementation or new engine/Office execution.",
+  "commands": [
+    "Official quota20% then local19% READY; frozen calibration PASS; continuity inspect no active journal.",
+    "ticket.py mark --event 2026-10-19T15:04:14.830Z returned ordinal2 ELIGIBLE_ONCE.",
+    "DSHA EnvFeel Python3.12.14 PASS; ticket.py run --event 2026-10-19T15:04:14.830Z sent one request max512 completion tokens.",
+    "Inspected response, receipt, usage and finish_reason=length; verified historical log hashes and read actual source-lock/target-existing stderr.",
+    "Prior CI39240674168 completed success at8957d19; no active command replay. Process-local Git PATH supplied for gh; no global environment edit."
+  ],
+  "deviations": [
+    "Provider transport completed but review delivery truncated:340 prompt+512 completion=852 tokens;438 reasoning tokens. No retry or substitution.",
+    "This is only evidence review. All frozen product criteria NOT_RUN; prior bounded ENG-004 DONE remains unchanged.",
+    "ENG-005 authoring blocker unchanged; no v2 inputs, generator repair or automatic re-execution."
+  ],
+  "untested": [
+    "All new Rust/Zen business execution and Office/ONLYOFFICE observations",
+    "Independent target-lock causality",
+    "Remaining truncated worker observations; no invented completion"
+  ],
+  "next_step": "One-shot exception consumed. Future heartbeats mark actual events only; do not read CMD_ENV or call worker. ENG-005 remains blocked pending explicitly authorized qualified authoring work.",
+  "criteria": {
+    "ENG-004-C1": {
+      "requirement": "预算、订单、考勤3份XLSX完成Zen多步数字编辑、撤销重做、另存和重开。",
+      "result": "NOT_RUN",
+      "observation": "No product rerun in this read-only review cycle; historical evidence is not a new measured sample.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-004-C2": {
+      "requirement": "与同等修改的Excel结果逐格比较支持范围内值、公式和缓存；不支持部分明确列出。",
+      "result": "NOT_RUN",
+      "observation": "No product rerun in this read-only review cycle; historical evidence is not a new measured sample.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-004-C3": {
+      "requirement": "核对修改范围外部件及源文件保持；拒绝和锁定路径有独立样本；完整失败记录保留。",
+      "result": "NOT_RUN",
+      "observation": "No product rerun in this read-only review cycle; historical evidence is not a new measured sample.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-004-C4": {
+      "requirement": "固定提交的相关Rust与Office宿主结果均可追溯；外部宿主未运行时只能标PARTIAL。",
+      "result": "NOT_RUN",
+      "observation": "No product rerun in this read-only review cycle; historical evidence is not a new measured sample.",
+      "sample_count": 0,
+      "evidence": []
+    }
+  },
+  "review_evidence": "docs/operations/2026-10-19-WORKER-DEEPSEEK-ONCE-RESULT.md"
+}
