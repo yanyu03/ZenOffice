@@ -38,7 +38,7 @@ fn business_fixture() -> &'static [u8] {
 fn typed_fixture(extra: &str) -> Vec<u8> {
     let mut p = zen_opc::Package::from_archive(&zen_opc::ZipArchive::read(&small_fixture("")).unwrap()).unwrap();
     p.put_text("/xl/worksheets/s1.xml", format!(r#"<x:worksheet xmlns:x="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><x:sheetData><x:row r="1"><x:c r="A1"><x:v>3</x:v></x:c><x:c r="B1"><x:v>7</x:v></x:c><x:c r="C1" s="2"/></x:row><x:row r="2"><x:c r="A2"><x:f>A1</x:f><x:v>3</x:v></x:c><x:c r="B2" t="str"><x:f>IF(A1=3,"yes","no")</x:f><x:v>yes</x:v></x:c><x:c r="C2" t="b"><x:f>A1=3</x:f><x:v>1</x:v></x:c></x:row></x:sheetData>{extra}</x:worksheet>"#)).unwrap();
-    p.put_text("/xl/worksheets/s2.xml", r#"<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData><row r="1"><c r="A1"><f>Inputs!A2</f><v>3</v></c></row></sheetData></worksheet>"#.into()).unwrap();
+    p.put_text("/xl/worksheets/s2.xml", r#"<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData><row r="1"><c r="A1"><f>Inputs!A2</f><v>3</v></c></row></sheetData></worksheet>"#).unwrap();
     p.to_bytes().unwrap()
 }
 
