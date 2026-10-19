@@ -1,0 +1,110 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-005",
+  "started_at": "2026-10-19T02:43:40.607842+00:00",
+  "ended_at": "2026-10-19T02:52:56.714325+00:00",
+  "status": "PARTIAL",
+  "actual_commit": "053811dd7806de098cd714d616a5b3fdf53da7dc",
+  "actual_scope": "ENG-005 normal formula clearing slice: explicit clear_formula removes f and its cache to blank on existing cells without calcChain, keeps c/r/s, recalculates supported dependent results and commits via existing bounded immutable frames.",
+  "commands": [
+    "official get_usage_limits",
+    "python tools/quota_guard/guard.py --check",
+    "python tools/taskbook/calibrate.py",
+    "python tools/continuity/continuity.py inspect/begin/checkpoint",
+    "python tools/check_baseline.py",
+    "git diff --check",
+    "source review: formula/input admission, temporary calculator set_input removes dependencies, serializer blank path, original candidate commit",
+    "exact source dev branch Windows core CI; read-only GitHub API status/artifact queries",
+    "Windows core CI39191466274: one new negative test FAIL due to blank-reference expectation; subsequent workflow tests/business did not complete",
+    "Windows core CI 39191763684 at 053811dd7806de098cd714d616a5b3fdf53da7dc: release build, workspace all-targets tests and 3 numeric business regressions PASS",
+    "download and check exact new/retained test names, totals, Cargo.lock, business cases and hashes",
+    "python tools/taskbook/calibrate.py --report docs/task_runs/2026-10-19-015-ENG-005.json",
+    "python tools/taskbook/calibrate.py",
+    "git HEAD/ls-remote/status after synchronization"
+  ],
+  "deviations": [
+    "Finite clear slice retains calcChain refusal; does not delete or rebuild the chain.",
+    "clear_formula is separate from set_value; an existing blank is a byte-preserving no-op, nonblank literal inputs are rejected by the formula-only intent.",
+    "Clearing removes both formula and stored result; it does not freeze a result into a constant or delete a cell/row/column.",
+    "Empty dependent formula results, error caches/changes and unknown formula metadata remain refused; only supported downstream numbers/text/bools are saved.",
+    "Readable-source DSHA branch; actual Rust tests run in GitHub Windows CI because no local Rust toolchain. No new Office binary/host execution.",
+    "Existing linked-chain fixture setup extracted into a shared helper with unchanged payload; old formula replacement rejection test still required.",
+    "First CI39191466274 at 69c1514 failed one negative test: direct reference to cleared blank is Number(0), not Empty, in existing eval. Source implementation unchanged; corrected microfixture adds explicit zero positive assertion and reciprocal-of-cleared-cell changed-error rejection. Frozen taskbook/input files unchanged."
+  ],
+  "untested": [
+    "calcChain removal/rebuild and host recalculation policy",
+    "Dates/styles and both date systems",
+    "Native typed/formula-clear business comparisons on 3 new workbooks",
+    "Empty dependent formula cache and direct/changed error semantics beyond existing rejection policy",
+    "New clear-formula CLI flow and incremental recalculation performance"
+  ],
+  "next_step": "Next finite slice: explicit calcChain removal/rebuild policy with independent positive/negative package and calcPr expectations, then dates/styles and 3 new typed-business/native Excel comparisons. Original taskbook and numeric fixtures remain frozen.",
+  "criteria": {
+    "ENG-005-C1": {
+      "requirement": "建立TypedValue和编辑准入表，覆盖空白、文本、布尔、数字、日期及普通公式；日期体系和错误值单列。",
+      "result": "PASS",
+      "observation": "Eight-intent contract and admission matrix updated with actual typed-input, normal-formula replacement and bounded clear_formula APIs; date/chain/error policies remain explicit. Design PASS only; runtime slices recorded separately.",
+      "sample_count": 1,
+      "evidence": [
+        "docs/TYPED_EDIT_CONTRACT.md",
+        "docs/engine_specs/ENG-005-admission.json",
+        "crates/zen-engine/src/workbook.rs",
+        "crates/zen-engine/src/recalc.rs",
+        "crates/zen-formats/src/spreadsheet/cells.rs",
+        "crates/zen-formats/src/spreadsheet/edit.rs",
+        "crates/zen-session/src/lib.rs",
+        "docs/research/ENG-005-TYPED-2026-10-19.json",
+        "docs/research/ENG-005-CLEAR-2026-10-19.json"
+      ]
+    },
+    "ENG-005-C2": {
+      "requirement": "实现支持的类型/公式写回和跨表动态依赖更新；缓存与calc配置有独立预期；未知名称、数组、外链明确拒绝或只读。",
+      "result": "NOT_RUN",
+      "observation": "Partial runtime evidence: normal formula clear to blank with downstream arithmetic and dependency removal PASS, calcPr/other payloads retained. calcChain/date and full admission/host policy not complete; whole condition NOT_RUN.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C3": {
+      "requirement": "3份业务XLSX分别包含类型切换、清空和公式替换；保存重开并与Excel同等修改对照。",
+      "result": "NOT_RUN",
+      "observation": "Whole original condition remains incomplete; this cycle is a limited clear-formula slice, not full chain/date/three-business host acceptance.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C4": {
+      "requirement": "失败不改变会话/原包/旧输出，撤销恢复数据和计算状态；相关Rust回归按提交记录。",
+      "result": "NOT_RUN",
+      "observation": "Partial runtime evidence: exact undo/redo, blank no-op/redo branch, frame/byte budgets, chain/metadata/changed-error/nonformula rejection, save/reopen/source/old-output protection PASS. Remaining date/chain/host matrix not executed; whole condition NOT_RUN.",
+      "sample_count": 0,
+      "evidence": []
+    }
+  },
+  "dependency_review": {
+    "ENG-004": "DONE; E1 actual preserved",
+    "previous_ENG005": "58fe985 main clean/synced, exact d991431 CI39190167786 PASS and continuity COMPLETE/no unfinished owned command records"
+  },
+  "slice_acceptance": {
+    "status": "PASS",
+    "rust": {
+      "passed": 290,
+      "failed": 0,
+      "ignored": 6,
+      "test_binaries": 36
+    },
+    "new_rust_test_functions": [
+      "clear_formula_removes_definition_and_cache_recalculates_and_restores_exact_frames",
+      "clear_formula_rejects_chain_metadata_nonformula_and_changed_error_cache_atomically",
+      "clear_formula_blank_noop_keeps_redo_and_budget_failure_keeps_history",
+      "clear_formula_save_reopens_blank_and_protects_source_old_output_and_savepoint"
+    ],
+    "evidence": [
+      "docs/research/ENG-005-CLEAR-2026-10-19.json",
+      "https://github.com/yanyu03/ZenOffice/actions/runs/39191763684"
+    ],
+    "full_task_done": false
+  }
+}

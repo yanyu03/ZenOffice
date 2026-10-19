@@ -1,0 +1,73 @@
+{
+  "date": "2026-10-19",
+  "task": "ENG-005",
+  "scope": "ENG-005 normal formula clearing slice: explicit clear_formula removes f and its cache to blank on existing cells without calcChain, keeps c/r/s, recalculates supported dependent results and commits via existing bounded immutable frames.",
+  "commit": "053811dd7806de098cd714d616a5b3fdf53da7dc",
+  "ci": {
+    "id": 39191763684,
+    "url": "https://github.com/yanyu03/ZenOffice/actions/runs/39191763684",
+    "status": "PASS"
+  },
+  "rust": {
+    "passed": 290,
+    "failed": 0,
+    "ignored": 6,
+    "test_binaries": 36
+  },
+  "new_test_functions": [
+    "clear_formula_removes_definition_and_cache_recalculates_and_restores_exact_frames",
+    "clear_formula_rejects_chain_metadata_nonformula_and_changed_error_cache_atomically",
+    "clear_formula_blank_noop_keeps_redo_and_budget_failure_keeps_history",
+    "clear_formula_save_reopens_blank_and_protects_source_old_output_and_savepoint"
+  ],
+  "samples": "One independent handwritten two-sheet microfixture, with styled/formula/chain/array/ca variants. Four functions are not four independent business workbooks.",
+  "new_office_runs": 0,
+  "core_log_sha256": "39c264f68638e202b0e8a945e0fbd917da7b42b1acbea9af1adb840bdcc7e2eb",
+  "cargo_lock_sha256_normalized_lf": "3fd739660d7244bd711eda209e72172e062138afba5821aa258897087587c1ab",
+  "cli_binary_sha256": "c3a57afba92751c34d1700de2686c9f38dd0b5c24cd6c3b93428fa7b8d029f25",
+  "native_reference_sha256": "78bb9b1b58fab36e7612ef237964f638857a0748609936f1a1dc86c2e03795c1",
+  "business_regression": [
+    {
+      "id": "budget",
+      "status": "PASS",
+      "observed_values": 170,
+      "native_runs_compared": 3,
+      "source_sha256": "dded0be3d458ec04df9789aeeefc2c4103db368ed96f2a93b1b817a8b5b2db26",
+      "output_sha256": "aee383737eb7ab2c4412e9876533475cb07ea633f88155c525498cc0656831a6"
+    },
+    {
+      "id": "orders",
+      "status": "PASS",
+      "observed_values": 110,
+      "native_runs_compared": 3,
+      "source_sha256": "f96cb703551eccaf6c552990572ab3a7d5ca771676026f828230f9b54dc27261",
+      "output_sha256": "f432a5f86a65b221b1b561a2c4f7a7c9977f19e7adfac8917dfb6b7dcf63857c"
+    },
+    {
+      "id": "attendance",
+      "status": "PASS",
+      "observed_values": 110,
+      "native_runs_compared": 3,
+      "source_sha256": "95bede4f59704a5ac491961838cd11e89dffd9c5fefedb50f8e2545d73042e8d",
+      "output_sha256": "a20f17338f820d26849a81fc88b624c04584472f8c463dcb06469221a8b42ccb"
+    }
+  ],
+  "calc_policy": "Clear to blank, full candidate recalculation, preserve original workbook.xml/calcPr, refuse calcChain and unsupported empty dependent caches",
+  "remaining": [
+    "calcChain removal/rebuild and host recalculation policy",
+    "Dates/styles and both date systems",
+    "Native typed/formula-clear business comparisons on 3 new workbooks",
+    "Empty dependent formula cache and direct/changed error semantics beyond existing rejection policy",
+    "New clear-formula CLI flow and incremental recalculation performance"
+  ],
+  "prior_ci": [
+    {
+      "id": 39191466274,
+      "commit": "69c1514b64ea2941e77b347383c641e2e0a28dc9",
+      "result": "FAIL",
+      "failed_test": "clear_formula_rejects_chain_metadata_nonformula_and_empty_dependent_cache_atomically",
+      "reason": "Wrong negative expectation for direct blank reference; existing eval returns zero. Test corrected to explicit zero positive and reciprocal/zero changed-error rejection; source implementation unchanged.",
+      "core_log_sha256": "f86ea1906eeef6a7227f86440fdafdd9cadba6d68fab767da073dda1b41d03d6"
+    }
+  ]
+}

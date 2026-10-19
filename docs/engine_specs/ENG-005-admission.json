@@ -2,24 +2,24 @@
   "task": "ENG-005",
   "kind": "mutable implementation design, not frozen taskbook or runtime evidence",
   "contract": "docs/TYPED_EDIT_CONTRACT.md",
-  "reviewed_commit": "d9914312ec3f1ded2d18a97a3768a4c0662efb41",
+  "reviewed_commit": "053811dd7806de098cd714d616a5b3fdf53da7dc",
   "read_model": "zen_engine::workbook::TypedValue and Option<TypedValue>; reuse DateSystem",
-  "current_writer": "set_value: existing non-formula/non-error blank/text/bool/finite-number inputs and supported non-error cache transitions; set_number retains legacy numeric admission; set_formula: existing-cell ordinary replacement without calcChain, full dependency rebuild; no formula removal/date intent",
+  "current_writer": "set_value: existing non-formula/non-error blank/text/bool/finite-number inputs and supported non-error cache transitions; set_number retains legacy numeric admission; set_formula: existing-cell ordinary replacement without calcChain, full dependency rebuild; no formula removal/date intent; clear_formula: clear existing normal formula/cache to blank without calcChain, supported dependent caches only",
   "intents": [
     {
       "id": "blank",
-      "representation": "SetValue(None)",
-      "current_edit": "SYNTHETIC_RUST_SLICE_PASS_NO_NATIVE_TYPED_HOST",
+      "representation": "set_value(None) for literal inputs; clear_formula for existing normal formula",
+      "current_edit": "SYNTHETIC_INPUT_AND_NORMAL_FORMULA_CLEAR_PASS_NO_CALCCHAIN",
       "planned_encoding": "retain existing c position/style, remove f/v/is and stale type",
       "must_distinguish": "blank versus empty text, zero, false",
       "rejections": [
         "missing explicit cell node in first slice",
         "unprojected metadata",
         "candidate budget failure",
-        "formula targets until next slice",
         "merged targets",
         "empty dependent formula result cache",
-        "chart string-reference caches present"
+        "chart string-reference caches present",
+        "calcChain and unprojected formula metadata"
       ]
     },
     {
@@ -113,7 +113,6 @@
         "unsupported dependent result",
         "existing calcChain",
         "formula metadata except t=normal",
-        "formula removal not exposed",
         "changed error or empty result"
       ]
     },
@@ -148,7 +147,8 @@
   ],
   "new_runtime_tests_in_this_cycle": 4,
   "new_office_runs_in_this_cycle": 0,
-  "runtime_evidence": "docs/research/ENG-005-FORMULA-2026-10-19.json",
+  "runtime_evidence": "docs/research/ENG-005-CLEAR-2026-10-19.json",
   "formula_slice_evidence": "docs/research/ENG-005-FORMULA-2026-10-19.json",
-  "typed_slice_evidence": "docs/research/ENG-005-TYPED-2026-10-19.json"
+  "typed_slice_evidence": "docs/research/ENG-005-TYPED-2026-10-19.json",
+  "formula_clear_slice_evidence": "docs/research/ENG-005-CLEAR-2026-10-19.json"
 }

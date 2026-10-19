@@ -1,16 +1,16 @@
 # ENG-005类型与公式编辑实施契约
 
-日期：2026-10-19。性质：可变实现设计，落实ZEN-ENGINE-v1.0的ENG-005-C1，不取代或修改冻结验收标准。首份设计依据28f2db7（E1实测08bc566）；类型首切片实测a83fe4d，普通公式替换切片实测d991431。C2/C3/C4整体仍未验收。日期、公式清除和calcChain维护仍待实现。
+日期：2026-10-19。性质：可变实现设计，落实ZEN-ENGINE-v1.0的ENG-005-C1，不取代或修改冻结验收标准。首份设计依据28f2db7（E1实测08bc566）；类型首切片实测a83fe4d，普通公式替换切片实测d991431。C2/C3/C4整体仍未验收。日期和calcChain维护仍待实现；普通公式清除的最新有界能力见末节。
 
 ## 数据模型和调用意图
 
 复用zen_engine::workbook::TypedValue::{Number,Text,Boolean,Error}及DateSystem::{Excel1900,Excel1904}。空白使用Option<TypedValue>::None，不新增与现有模型冲突的Blank读取变体；空字符串是Some(Text(""))，不等同于None、0或false。原数值lexical用于保真；新数字应按value生成合法词法，不信任调用者提供的矛盾lexical。新请求不能直接修改共享Workbook，也不能暴露候选ZIP的无验证提交接口。
 
-已实现WorkbookSession::set_value及受限set_formula；SetDateSerial{serial,system}仍未实现。set_formula限已有格、无calcChain的普通公式，详见末节。SetValue(Text("=A1"))是字面文本，永不自动转为公式；SetFormula才进入公式解析。读取模型继续把带日期格式的n单元格投影为Number，日期编辑意图必须另外携带体系，不能由样式索引猜测已经完成日期语义。
+已实现WorkbookSession::set_value、受限set_formula及clear_formula；SetDateSerial{serial,system}仍未实现。公式替换/清除限已有格、无calcChain的普通公式，详见末节。SetValue(Text("=A1"))是字面文本，永不自动转为公式；SetFormula才进入公式解析。读取模型继续把带日期格式的n单元格投影为Number，日期编辑意图必须另外携带体系，不能由样式索引猜测已经完成日期语义。
 
 | 意图 | 表示与区别 | 当前运行能力 | ENG-005目标准入及写回规则 |
 | --- | --- | --- | --- |
-| 清空 | None，移除输入和公式，保留单元格位置/样式 | 已有非公式/非错误输入格清空，合并格拒绝 | 已存在显式c节点清空内容；保留r/s，移除f/v/is及过期类型；空白已空且无公式时不改变字节/redo |
+| 清空 | None，移除输入和公式，保留单元格位置/样式 | set_value清字面输入；clear_formula清普通公式及缓存，无calcChain限定；合并/错误格拒绝 | 已存在显式c节点清空内容；保留r/s，移除f/v/is及过期类型；空白已空且无公式时不改变字节/redo |
 | 文本 | Some(Text)，含空字符串及以=开头文本 | 已有输入格可写，Rust合成样本通过；尚无新宿主对照 | 新文本使用inlineStr/is/t并做XML转义及必要空白保持，不重排sharedStrings；空字符串仍是文本 |
 | 布尔 | Some(Boolean)，不是数字0/1或文本TRUE | 已有输入格可写，Rust合成样本通过；尚无新宿主对照 | 输入和缓存分别写合法b/0或1；计算准入不得通过把布尔伪装成数字来通过 |
 | 数字 | Some(Number)，仅有限f64 | set_value可切换已有输入类型；set_number保持E1入口限制 | 两入口复用候选提交；NaN/无穷拒绝；相同数字保持原词法和字节 |
@@ -61,3 +61,9 @@ C1设计范围完成；C2/C3/C4要求完整类型/公式、三份业务与宿主
 实测d9914312ec3f1ded2d18a97a3768a4c0662efb41 / CI 39190167786：WorkbookSession::set_formula已实现已有格的普通公式替换/从输入变公式，允许一个首字符=，不改写内部空白；数字/文本/布尔结果可写。复用临时计算器解析/名称解析/拓扑检查和全量依赖重建；随后的输入编辑按新的公式求值。相同公式保留字节/redo。公式XML文本和ST_Xstring缓存分别编码，限定名和r/s保留。
 
 新请求有calcChain时拒绝；不删除链，不宣称链维护完成。原calcPr逐字节保留，手写manual/fullCalcOnLoad=0/forceFullCalc=0有独立不变预期，不推断Excel执行行为。变化错误/空结果、公式ca/ref等元数据、数组/外链/未知名/循环、缺失或合并格仍拒绝；公式清除和日期API仍未实现。4项新增合成测试、1份主要双表夹具及其变体通过；三份原数字业务仅回归，新的类型宿主运行0次。完整证据见docs/research/ENG-005-FORMULA-2026-10-19.json，ENG-005 C2/C3/C4整体仍未通过。
+
+## 公式清除切片（2026-10-19）
+
+实测053811dd7806de098cd714d616a5b3fdf53da7dc / CI 39191763684：WorkbookSession::clear_formula移除普通f及缓存为None，保留c/r/s，不把旧计算结果固化为输入。此意图与set_value(None)清输入分开：非空字面输入拒绝，已有空白返回Unchanged并保持字节/redo。候选用set_input(None)解除公式和依赖后全量重算；支持的下游算术重新写缓存。原calcPr及无关部件保持，undo/redo恢复完整归档。
+
+仍拒绝calcChain、未知公式元数据/数组、原错误缓存及不支持的空下游缓存；不删除/重建链，不主张日期或宿主兼容完成。n=4新增测试函数，1份手写双表夹具及其变体，安全保存/重开、旧输出/原源和预算/失败状态保持均在最终CI验证。三份数字业务只是旧范围回归，新Office运行0次。完整证据：docs/research/ENG-005-CLEAR-2026-10-19.json；ENG-005仍PARTIAL。
