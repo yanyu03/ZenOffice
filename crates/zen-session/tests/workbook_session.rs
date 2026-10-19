@@ -128,8 +128,7 @@ fn formula_rejections_and_budget_preserve_state_with_live_redo() {
     assert!(error.to_string().contains("formula metadata"), "{error}"); assert_eq!(before, state(&s));
 }
 
-#[test]
-fn formula_calc_chain_rejection_and_new_file_save_are_explicit() {
+fn formula_chain_fixture() -> Vec<u8> {
     let source = typed_fixture("");
     let original = zen_opc::ZipArchive::read(&source).unwrap();
     let mut z = zen_opc::ZipWriter::new();
@@ -142,7 +141,14 @@ fn formula_calc_chain_rejection_and_new_file_save_are_explicit() {
         z.add(&entry.name, bytes);
     }
     z.add("xl/calcChain.xml", br#"<calcChain xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><c r="A2" i="3"/><c r="B2"/><c r="C2"/><c r="A1" i="9"/></calcChain>"#.to_vec());
-    let mut s = open(&z.finish().unwrap()); let before = state(&s);
+    z.finish().unwrap()
+}
+
+#[test]
+fn formula_calc_chain_rejection_and_new_file_save_are_explicit() {
+    let source = typed_fixture("");
+    let chained = formula_chain_fixture();
+    let mut s = open(&chained); let before = state(&s);
     let error = s.set_formula("Report", a(0, 0), "Inputs!B1*2").unwrap_err();
     assert!(error.to_string().contains("calcChain"), "{error}"); assert_eq!(before, state(&s));
     let dir = tempfile::tempdir().unwrap(); let input = dir.path().join("input.xlsx");
@@ -157,6 +163,101 @@ fn formula_calc_chain_rejection_and_new_file_save_are_explicit() {
     assert_eq!(typed(&reopened, "Report", a(0, 0)).unwrap().text(), "14");
     assert_eq!(std::fs::read(&input).unwrap(), source);
     s.undo().unwrap(); assert!(s.is_dirty()); s.redo().unwrap(); assert!(!s.is_dirty());
+}
+
+#[test]
+fn clear_formula_removes_definition_and_cache_recalculates_and_restores_exact_frames() {
+    let raw = typed_fixture("");
+    let mut p = zen_opc::Package::from_archive(&zen_opc::ZipArchive::read(&raw).unwrap()).unwrap();
+    let xml = p.get_text("/xl/worksheets/s1.xml").unwrap().replace("r=\"A2\"", "r=\"A2\" s=\"2\"");
+    p.put_text("/xl/worksheets/s1.xml", xml).unwrap();
+    let source = p.to_bytes().unwrap();
+    let mut s = open(&source);
+    s.set_formula("Report", a(0, 0), "Inputs!A2+1").unwrap();
+    assert_eq!(typed(&s, "Report", a(0, 0)).unwrap().text(), "4");
+    let before = s.bytes().to_vec();
+    s.clear_formula("Inputs", a(1, 0)).unwrap();
+    let cell = s.workbook().sheets()[0].cell(a(1, 0)).unwrap();
+    assert_eq!(cell.value, None); assert!(cell.formula.is_none()); assert_eq!(cell.style_index, Some(2));
+    assert_eq!(typed(&s, "Report", a(0, 0)).unwrap().text(), "1");
+    let cleared = s.bytes().to_vec();
+    let zip = zen_opc::ZipArchive::read(&cleared).unwrap();
+    let xml = std::str::from_utf8(zip.get("xl/worksheets/s1.xml").unwrap()).unwrap();
+    assert!(xml.contains("<x:c r=\"A2\" s=\"2\"></x:c>"));
+    let prior = zen_opc::ZipArchive::read(&before).unwrap();
+    for e in &prior.entries {
+        if !["xl/worksheets/s1.xml", "xl/worksheets/s2.xml"].contains(&e.name.as_str()) {
+            assert_eq!(zip.get(&e.name), Some(e.data.as_slice()), "{}", e.name);
+        }
+    }
+    s.undo().unwrap(); assert_eq!(s.bytes(), before);
+    s.redo().unwrap(); assert_eq!(s.bytes(), cleared);
+    s.set_value("Inputs", a(0, 0), Some(TypedValue::Number { value: 9.0, lexical: "9".into() })).unwrap();
+    assert_eq!(typed(&s, "Inputs", a(1, 0)), None, "cleared cell has no dependency on A1");
+    assert_eq!(typed(&s, "Report", a(0, 0)).unwrap().text(), "1");
+    assert_eq!(typed(&open(s.bytes()), "Report", a(0, 0)).unwrap().text(), "1");
+}
+
+#[test]
+fn clear_formula_rejects_chain_metadata_nonformula_and_empty_dependent_cache_atomically() {
+    let mut s = open(&typed_fixture(""));
+    s.clear_formula("Report", a(0, 0)).unwrap(); s.undo().unwrap();
+    for (sheet, at) in [("Inputs", a(0, 0)), ("Inputs", a(1, 0)), ("Inputs", a(9, 9))] {
+        let before = state(&s);
+        assert!(s.clear_formula(sheet, at).is_err()); assert_eq!(before, state(&s));
+    }
+    let mut s = open(&formula_chain_fixture());
+    s.set_number("Inputs", a(0, 1), 8.0).unwrap(); s.undo().unwrap();
+    let before = state(&s);
+    let error = s.clear_formula("Report", a(0, 0)).unwrap_err();
+    assert!(error.to_string().contains("calcChain"), "{error}"); assert_eq!(before, state(&s));
+    for replacement in ["<x:f ca=\"1\">A1</x:f>", "<x:f t=\"array\" ref=\"A2:A2\">A1</x:f>"] {
+        let raw = typed_fixture("");
+        let mut p = zen_opc::Package::from_archive(&zen_opc::ZipArchive::read(&raw).unwrap()).unwrap();
+        let xml = p.get_text("/xl/worksheets/s1.xml").unwrap().replace("<x:f>A1</x:f>", replacement);
+        p.put_text("/xl/worksheets/s1.xml", xml).unwrap();
+        let mut s = open(&p.to_bytes().unwrap()); let before = state(&s);
+        assert!(s.clear_formula("Inputs", a(1, 0)).is_err()); assert_eq!(before, state(&s));
+    }
+}
+
+#[test]
+fn clear_formula_blank_noop_keeps_redo_and_budget_failure_keeps_history() {
+    let source = typed_fixture("");
+    let mut s = open(&source);
+    s.clear_formula("Report", a(0, 0)).unwrap();
+    s.set_number("Inputs", a(0, 1), 8.0).unwrap(); s.undo().unwrap();
+    let before = state(&s);
+    assert_eq!(s.clear_formula("report", a(0, 0)).unwrap(), EditOutcome::Unchanged);
+    assert_eq!(before, state(&s)); assert!(s.can_redo());
+    s.set_formula("Report", a(0, 0), "Inputs!B1*2").unwrap();
+    assert!(!s.can_redo()); assert_eq!(typed(&s, "Report", a(0, 0)).unwrap().text(), "14");
+    for budget in [HistoryBudget { max_frames: 1, ..HistoryBudget::default() },
+                   HistoryBudget { max_retained_archive_bytes: source.len(), ..HistoryBudget::default() }] {
+        let mut s = WorkbookSession::from_bytes(&source, &WorkbookReadLimits::default(), budget).unwrap();
+        let before = state(&s);
+        assert!(matches!(s.clear_formula("Report", a(0, 0)), Err(SessionError::HistoryBudget)));
+        assert_eq!(before, state(&s));
+    }
+}
+
+#[test]
+fn clear_formula_save_reopens_blank_and_protects_source_old_output_and_savepoint() {
+    let dir = tempfile::tempdir().unwrap(); let source = typed_fixture("");
+    let input = dir.path().join("input.xlsx"); let output = dir.path().join("clear.xlsx");
+    let old = dir.path().join("old.xlsx");
+    std::fs::write(&input, &source).unwrap(); std::fs::write(&old, b"old bytes").unwrap();
+    let mut s = WorkbookSession::open(&input, &WorkbookReadLimits::default(), HistoryBudget::default()).unwrap();
+    s.clear_formula("Report", a(0, 0)).unwrap(); let before = state(&s);
+    assert!(s.save_as_new(&old).is_err()); assert_eq!(before, state(&s));
+    assert_eq!(std::fs::read(&old).unwrap(), b"old bytes");
+    s.save_as_new(&output).unwrap(); assert!(!s.is_dirty());
+    let reopened = WorkbookSession::open(&output, &WorkbookReadLimits::default(), HistoryBudget::default()).unwrap();
+    let cell = reopened.workbook().sheets()[1].cell(a(0, 0)).unwrap();
+    assert_eq!(cell.value, None); assert!(cell.formula.is_none()); assert_eq!(reopened.bytes(), s.bytes());
+    assert_eq!(std::fs::read(&input).unwrap(), source);
+    s.undo().unwrap(); assert!(s.is_dirty()); assert_eq!(typed(&s, "Report", a(0, 0)).unwrap().text(), "3");
+    s.redo().unwrap(); assert!(!s.is_dirty());
 }
 
 #[test]

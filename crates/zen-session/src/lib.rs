@@ -136,8 +136,8 @@ impl WorkbookSession {
         self.commit_candidate(candidate)
     }
 
-    /// Replace/create a normal formula in an existing cell. Formula removal,
-    /// calcChain workbooks and error/empty results are deferred and rejected.
+    /// Replace/create a normal formula in an existing cell. CalcChain workbooks
+    /// and error/empty results are deferred and rejected; clear_formula is separate.
     pub fn set_formula(
         &mut self, sheet: &str, address: CellAddress, formula: &str,
     ) -> Result<EditOutcome, SessionError> {
@@ -154,6 +154,22 @@ impl WorkbookSession {
             }
         }
         let candidate = self.projection.write_formula_edit(sheet, address, formula)?;
+        self.commit_candidate(candidate)
+    }
+
+    /// Clear a normal formula and its cache to blank, preserving cell/style.
+    /// An existing blank is a byte-preserving no-op; nonblank inputs are not
+    /// formula targets. Chain/metadata/error/unsupported-cache rules still apply.
+    pub fn clear_formula(
+        &mut self, sheet: &str, address: CellAddress,
+    ) -> Result<EditOutcome, SessionError> {
+        if let Some(input) = self.workbook().sheets().iter()
+            .find(|s| s.name().eq_ignore_ascii_case(sheet)).and_then(|s| s.cell(address)) {
+            if input.formula.is_none() && input.value.is_none() {
+                return Ok(EditOutcome::Unchanged);
+            }
+        }
+        let candidate = self.projection.write_clear_formula_edit(sheet, address)?;
         self.commit_candidate(candidate)
     }
 

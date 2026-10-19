@@ -253,7 +253,7 @@ impl ReadWorkbook {
         }
         self.write_input_edit(sheet_name, address, Some(TypedValue::Number {
             value, lexical: value.to_string(),
-        }), false, None)
+        }), false, None, false)
     }
 
     /// Replace an existing non-formula, non-error input with blank, text, bool
@@ -262,7 +262,7 @@ impl ReadWorkbook {
     pub fn write_value_edit(
         &self, sheet_name: &str, address: CellAddress, value: Option<TypedValue>,
     ) -> EditResult<Vec<u8>> {
-        self.write_input_edit(sheet_name, address, value, true, None)
+        self.write_input_edit(sheet_name, address, value, true, None, false)
     }
 
     /// Set a normal formula in an existing cell, without retaining a stale chain.
@@ -275,7 +275,15 @@ impl ReadWorkbook {
             return Err(unsupported("one nonempty normal formula required"));
         }
         string_xml(formula)?;
-        self.write_input_edit(sheet_name, address, None, true, Some(formula))
+        self.write_input_edit(sheet_name, address, None, true, Some(formula), false)
+    }
+
+    /// Remove a normal formula and its cached value, retaining the cell/style.
+    /// Existing calcChain, error caches and unsupported dependent results refuse.
+    pub fn write_clear_formula_edit(
+        &self, sheet_name: &str, address: CellAddress,
+    ) -> EditResult<Vec<u8>> {
+        self.write_input_edit(sheet_name, address, None, true, None, true)
     }
 
     fn admitted_source(&self) -> EditResult<Vec<u8>> {
@@ -470,7 +478,7 @@ impl ReadWorkbook {
     }
 
     fn write_input_edit(
-        &self, sheet_name: &str, address: CellAddress, value: Option<TypedValue>, typed: bool, formula: Option<&str>,
+        &self, sheet_name: &str, address: CellAddress, value: Option<TypedValue>, typed: bool, formula: Option<&str>, clear_formula: bool,
     ) -> EditResult<Vec<u8>> {
         if matches!(&value, Some(TypedValue::Number { value, .. }) if !value.is_finite()) {
             return Err(unsupported("input number must be finite"));
@@ -482,20 +490,23 @@ impl ReadWorkbook {
             .find(|s| s.name().eq_ignore_ascii_case(sheet_name))
             .ok_or_else(|| unsupported("sheet not found"))?;
         let input = sheet.cell(address).ok_or_else(|| unsupported("existing explicit input required"))?;
-        if (formula.is_none() && input.formula.is_some()) || matches!(&input.value, Some(TypedValue::Error(_))) {
+        if clear_formula && input.formula.is_none() {
+            return Err(unsupported("formula clearing requires an existing formula"));
+        }
+        if (formula.is_none() && !clear_formula && input.formula.is_some()) || matches!(&input.value, Some(TypedValue::Error(_))) {
             return Err(unsupported("formula/error input replacement is not supported"));
         }
-        if formula.is_some() && input.formula.as_ref().is_some_and(|f| {
+        if (formula.is_some() || clear_formula) && input.formula.as_ref().is_some_and(|f| {
             f.attributes.iter().any(|(key, value)| key != "t" || value != "normal")
         }) {
             return Err(unsupported("formula metadata replacement is not supported"));
         }
         let bytes = self.admitted_source()?;
-        if formula.is_some() && (
+        if (formula.is_some() || clear_formula) && (
             self.package.parts().any(|p| p.content_type().contains("calcChain")) ||
             self.package.relationships_from(Some(&self.workbook_part)).any(|r| r.relationship_type.ends_with("/calcChain"))
         ) {
-            return Err(unsupported("formula replacement with calcChain is not supported"));
+            return Err(unsupported("formula structure edit with calcChain is not supported"));
         }
         let mut calc = WorkbookCalculator::new(&self.workbook)?;
         if let Some(formula) = formula { calc.set_formula(sheet.name(), address, formula)?; }
@@ -646,7 +657,7 @@ impl ReadWorkbook {
                 );
             }
         }
-        // Input changes retain formula definitions. Formula replacement is
+        // Input changes retain formula definitions. Formula replacement/clearing is
         // admitted only without calcChain; all supported caches are recalculated.
         // Workbook calcPr and all unrelated payloads remain byte-exact.
         Ok(rewrite_parts(&bytes, &replacements)?)
