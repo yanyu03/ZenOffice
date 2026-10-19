@@ -1,9 +1,9 @@
 name: Frozen taskbook calibration
 on:
   push:
-    paths: ['tools/taskbook/**', 'docs/taskbooks/**', 'docs/task_runs/**', 'tools/office_research/check_typed_plan.py', 'docs/engine_specs/ENG-005-business-v2.json', '.github/workflows/taskbook.yml']
+    paths: ['tools/taskbook/**', 'docs/taskbooks/**', 'docs/task_runs/**', 'tools/office_research/check_typed_plan.py', 'tools/office_research/*typed*.mjs', 'tools/office_research/test_typed_preflight.py', 'docs/engine_specs/ENG-005-business-v2.json', '.github/workflows/taskbook.yml']
   pull_request:
-    paths: ['tools/taskbook/**', 'docs/taskbooks/**', 'docs/task_runs/**', 'tools/office_research/check_typed_plan.py', 'docs/engine_specs/ENG-005-business-v2.json', '.github/workflows/taskbook.yml']
+    paths: ['tools/taskbook/**', 'docs/taskbooks/**', 'docs/task_runs/**', 'tools/office_research/check_typed_plan.py', 'tools/office_research/*typed*.mjs', 'tools/office_research/test_typed_preflight.py', 'docs/engine_specs/ENG-005-business-v2.json', '.github/workflows/taskbook.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -15,6 +15,8 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - name: Audit typed business plan arithmetic (not engine or Office acceptance)
         run: python tools/office_research/check_typed_plan.py docs/engine_specs/ENG-005-business-v2.json
+      - name: Check authoring refuses before dependency loading or output writes
+        run: python tools/office_research/test_typed_preflight.py
       - name: Check source baseline and calibration regression cases
         run: |
           python tools/check_baseline.py

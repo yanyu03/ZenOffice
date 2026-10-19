@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-19",
+  "scope": "candidate export and observed package metadata only; product work stopped at first known input-policy failure",
+  "source_commit": "640f3fb255a149292bc40b53ca3e3ef1878f8bdb",
+  "status": "BLOCKED",
+  "runtime": {
+    "node": "24.19.0",
+    "python": "3.12.14",
+    "dsha_adapter": "2.5.1",
+    "workspace_bundle": "26.1015.12040"
+  },
+  "candidate_files": 3,
+  "accepted_or_sealed_inputs": 0,
+  "zen_runs": 0,
+  "excel_runs": 0,
+  "onlyoffice_runs": 0,
+  "initial_literal_assertions_in_builder": 16,
+  "rendered_files": 6,
+  "visually_reviewed_sheets": 0,
+  "observed": {
+    "workbookPr": "absent in all three; orders1904 marker absent",
+    "calcPr": "absent in all three",
+    "date_numFmtId": 200,
+    "date_formatCode": "mm-dd-yy",
+    "date_xf_extra_attributes": [
+      "applyFont",
+      "applyFill",
+      "applyBorder"
+    ]
+  },
+  "not_run": [
+    "full package admission and ZIP integrity",
+    "visual review",
+    "customXml preservation probe",
+    "Zen API acceptance",
+    "Excel same-operation runs"
+  ],
+  "automatic_repairs": [],
+  "evidence_sha256": {
+    "target/office_research/ENG-005-v2-prep/api-help.local.json": "cc1e3de1d81f8dd0524553791e204a59b36270bcb10f34fd23a128cdddca654a",
+    "target/office_research/ENG-005-v2-prep/generation.local.json": "86a1e8cfbcf492e881914df53f0463e109c22cd0bc9e338cb072c705cc5b74f1",
+    "target/office_research/ENG-005-v2-prep/rendered/generation.json": "079f8c863564570266a3d691c6713e347fedd46297d9ab4c1a314a00097b7b80",
+    "target/office_research/ENG-005-v2-prep/candidates/plan.json": "ebd6c6dd390a4a1890eb2b1ec78f54d18d828ab8a1201d65676849bded820dba",
+    "target/office_research/ENG-005-v2-prep/candidates/budget.xlsx": "5687c020ceed2a2a8c37e73809c3b85b06ab755cc17e16c0e621e9cd750bde4a",
+    "target/office_research/ENG-005-v2-prep/candidates/orders.xlsx": "65dc0c2c4245f9989aadb815f37adcb799ebbfd692e31d122684e41b219afb8a",
+    "target/office_research/ENG-005-v2-prep/candidates/attendance.xlsx": "df7b36c9c542a7137f04219757b3b33ef51f7b826e2c8fbcd036190f50d7de0e"
+  },
+  "plan_sha256": "ebd6c6dd390a4a1890eb2b1ec78f54d18d828ab8a1201d65676849bded820dba"
+}
