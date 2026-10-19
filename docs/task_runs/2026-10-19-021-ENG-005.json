@@ -1,0 +1,95 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-005",
+  "started_at": "2026-10-19T08:24:29.388247+00:00",
+  "ended_at": "2026-10-19T08:31:39.797626+00:00",
+  "status": "BLOCKED",
+  "actual_commit": "d0de55277289e8446e0fadfdd48e2f8ecaa490b9",
+  "actual_scope": "User-authorized incident review; confirmed generator omissions; fail-before-authoring guard and five negative regressions verified. No candidate regeneration or engine acceptance.",
+  "commands": [
+    "Official quota34% start,33% before sync; guard READY; frozen calibration PASS; continuity inspect COMPLETE then begin e6f25c07",
+    "Read source/receipts; three original candidate hashes unchanged, ZIP CRC PASS; XML lacks required metadata and customXml; original generator preserved locally",
+    "test_typed_preflight.py with bundled Node24.19.0: five tests PASS; no artifact library or candidate writes",
+    "check_baseline.py PASS106; test_calibrate.py ten PASS; check_typed_plan.py PASS27 states/144 arithmetic expectations only",
+    "calibrate and --report020 PASS; diff --check PASS; canonical Git frozen blobs match locked SHA256",
+    "Push d0de552 and verify remote main equals HEAD; CI39223251596 started; final receipt sync follows",
+    "CI39223251596 SUCCESS; job117963299381 log confirms five preflight tests, ten calibration tests and baseline106; downloaded locally"
+  ],
+  "deviations": [
+    "Generator omitted required metadata handlers; environment readiness and arithmetic checks did not prove authoring capability.",
+    "Batch export/render preceded admission checks. New guard exits126 before imports/writes; process fix only.",
+    "Prior BLOCKED record020 preserved. Its formerly pending owned source and receipts now reviewed and synchronized under explicit user review request.",
+    "No standard changed, candidate repaired, alternate generator or automatic retry. Negative harness cases are predeclared and isolated.",
+    "One receipt-writing command failed decoding UTF-8 with default GBK before any write; rerun with explicit utf-8 succeeded, no evidence changed."
+  ],
+  "untested": [
+    "Actual metadata authoring and full independent package admission",
+    "Visual review of six prior PNG",
+    "New Zen typed/date business execution and native Excel/ONLYOFFICE comparison",
+    "Rust regressions not repeated: Rust unchanged; guard tests do not prove ENG-005-C4"
+  ],
+  "next_step": "Product BLOCKED: implement actual metadata handlers and independent package checks before accepted inputs under unchanged v2 plan. Do not merely flip readiness claims or replay old generation.",
+  "criteria": {
+    "ENG-005-C1": {
+      "requirement": "建立TypedValue和编辑准入表，覆盖空白、文本、布尔、数字、日期及普通公式；日期体系和错误值单列。",
+      "result": "PASS",
+      "observation": "Existing typed/date admission design retained and read against unchanged plan; design only.",
+      "sample_count": 1,
+      "evidence": [
+        "docs/TYPED_EDIT_CONTRACT.md",
+        "docs/engine_specs/ENG-005-business-v2.json"
+      ]
+    },
+    "ENG-005-C2": {
+      "requirement": "实现支持的类型/公式写回和跨表动态依赖更新；缓存与calc配置有独立预期；未知名称、数组、外链明确拒绝或只读。",
+      "result": "NOT_RUN",
+      "observation": "No new product execution; guard tests are separate from engine/host acceptance.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C3": {
+      "requirement": "3份业务XLSX分别包含类型切换、清空和公式替换；保存重开并与Excel同等修改对照。",
+      "result": "NOT_RUN",
+      "observation": "No new product execution; guard tests are separate from engine/host acceptance.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C4": {
+      "requirement": "失败不改变会话/原包/旧输出，撤销恢复数据和计算状态；相关Rust回归按提交记录。",
+      "result": "NOT_RUN",
+      "observation": "No new product execution; guard tests are separate from engine/host acceptance.",
+      "sample_count": 0,
+      "evidence": []
+    }
+  },
+  "dependency_review": {
+    "ENG-004": "Bounded DONE retained; no waived dependency",
+    "ENG-005": "BLOCKED before accepted typed/date business inputs"
+  },
+  "incident_review": {
+    "report": "docs/operations/2026-10-19-TYPED-AUTHORING-INCIDENT.md",
+    "original_candidates": 3,
+    "hashes_unchanged": true,
+    "zip_crc_pass": 3,
+    "accepted_inputs": 0,
+    "new_zen_runs": 0,
+    "new_excel_runs": 0,
+    "new_onlyoffice_runs": 0,
+    "preflight_tests_pass": 5,
+    "evidence": {
+      "target\\office_research\\ENG-005-v2-prep\\incident-review.json": "f25f818fecb6f597d1a16c4226fd75061fef8ac5555ca2ab85bdf2d4f9119f7c",
+      "target\\office_research\\ENG-005-v2-prep\\preflight-tests.log": "84aa814199932a6a423df070acc17b3b1bed3c40313e3f8adbccd0593b785288"
+    }
+  },
+  "sync": {
+    "source_commit": "d0de55277289e8446e0fadfdd48e2f8ecaa490b9",
+    "source_remote_equal": true,
+    "source_ci": 39223251596,
+    "source_ci_status": "SUCCESS",
+    "final_receipt": "separate commit; remote/head and CI rechecked after push"
+  }
+}
