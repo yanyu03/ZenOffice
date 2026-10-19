@@ -197,7 +197,7 @@
     "crates/zen-formats/src/opc/xml.rs": "2717606e0a0834814ea83e53ea9895569551857def92f84d2d42f305ac4d98f8",
     "crates/zen-formats/src/opc/zip_layout.rs": "b41a44ba80a58288dcde5389a9c65390d92c210e2a45165bb4eb4191cbd5cd9a",
     "crates/zen-formats/src/spreadsheet/cells.rs": "968e307e02391afafe8995f429fa39115593cc78d62bd1ae914e642dfe70dff6",
-    "crates/zen-formats/src/spreadsheet/edit.rs": "89d461d47ad57211a84064494c7ad6c5d7a6cb62f8a5ff593d642d534a454f32",
+    "crates/zen-formats/src/spreadsheet/edit.rs": "35c7db6a29e7af4eb59742504cbb0987f5f18baaa9d513bbad91391ea5488fa3",
     "crates/zen-formats/src/spreadsheet/mod.rs": "31939c6091f558b2c3fa151bb286f83a69c8b0a9d7b85315dd82f9116fa2faa7",
     "crates/zen-formats/src/spreadsheet/xml.rs": "2dd43733e5a32bd739117e825ab53d7d0eeb2c93ae28c7d9d4e051cd7e3d4430",
     "crates/zen-formats/src/xlsx.rs": "ca760f13f2ebe3a1c58c89983e397d64a61051967725914c470d6d78e30e78f1",
@@ -331,6 +331,17 @@
         "crates/zen-formats/src/spreadsheet/edit.rs": {
           "before": "dacc40ff589b0b0881e453c87322893e0a21890ed0779a0b119f8e7ac70c25a7",
           "after": "89d461d47ad57211a84064494c7ad6c5d7a6cb62f8a5ff593d642d534a454f32"
+        }
+      }
+    },
+    {
+      "date": "2026-10-19",
+      "task": "ENG-005",
+      "reason": "First typed-input slice: shared package admission and staged blank/text/bool/finite-number serialization; typed non-error cache updates retain formula definitions and original namespace context. Existing numeric entry remains restricted. Six independent session regression scenarios added; Windows CI required before main merge. Frozen taskbook and original import identity unchanged.",
+      "files": {
+        "crates/zen-formats/src/spreadsheet/edit.rs": {
+          "before": "89d461d47ad57211a84064494c7ad6c5d7a6cb62f8a5ff593d642d534a454f32",
+          "after": "35c7db6a29e7af4eb59742504cbb0987f5f18baaa9d513bbad91391ea5488fa3"
         }
       }
     }

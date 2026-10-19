@@ -114,7 +114,16 @@ fn typed_edit(
     let prefix = tag.strip_suffix('c').unwrap();
     // Keep the source opening tag (including local namespace declarations).
     let start = cell.range().start;
-    let open_end = xml[start..].find('>').ok_or_else(|| unsupported("cell opening tag"))? + start;
+    let mut quote = None;
+    let open_end = xml[start..].char_indices().find_map(|(i, c)| {
+        match (quote, c) {
+            (None, '\'' | '"') => quote = Some(c),
+            (Some(q), c) if q == c => quote = None,
+            (None, '>') => return Some(start + i),
+            _ => (),
+        }
+        None
+    }).ok_or_else(|| unsupported("cell opening tag"))?;
     let mut opening = xml[start..open_end].to_string();
     if let Some(t) = cell.attribute_node("t") {
         let r = t.range();

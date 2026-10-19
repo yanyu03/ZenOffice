@@ -48,7 +48,13 @@ fn typed(s: &WorkbookSession, sheet: &str, at: CellAddress) -> Option<TypedValue
 
 #[test]
 fn typed_literals_distinguish_blank_empty_false_zero_and_escape_round_trip() {
-    let source = typed_fixture("");
+    let raw = typed_fixture("");
+    let mut package = zen_opc::Package::from_archive(&zen_opc::ZipArchive::read(&raw).unwrap()).unwrap();
+    let xml = package.get_text("/xl/worksheets/s1.xml").unwrap()
+        .replace("r=\"C1\" s=\"2\"/>", "r=\"C1\" s=\"2\" xmlns:local=\"urn:>zen\"/>");
+    assert!(xml.contains("xmlns:local=\"urn:>zen\""));
+    package.put_text("/xl/worksheets/s1.xml", xml).unwrap();
+    let source = package.to_bytes().unwrap();
     let original = zen_opc::ZipArchive::read(&source).unwrap();
     let mut s = open(&source);
     let at = a(0, 2);
