@@ -1,0 +1,112 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-005",
+  "started_at": "2026-10-19T00:01:30.670636+00:00",
+  "ended_at": "2026-10-19T01:03:09.965191+00:00",
+  "status": "PARTIAL",
+  "actual_commit": "a83fe4d602a9693418415bf82d538be76bf655c6",
+  "actual_scope": "ENG-005 first existing-input code slice: blank/text/bool/finite-number set_value API, shared package admission, non-error typed cache changes and same immutable-frame history/create-new persistence. Six new synthetic Rust regressions PASS; full formula/date/three-business host criteria remain pending.",
+  "commands": [
+    "official get_usage_limits",
+    "python tools/quota_guard/guard.py --check",
+    "python tools/taskbook/calibrate.py",
+    "python tools/continuity/continuity.py inspect/begin/checkpoint",
+    "python tools/check_baseline.py",
+    "git diff --check",
+    "Windows core workflow CI 39179101156 (c6c5df3): compile FAIL E0599 Attribute::range absent in roxmltree 0.19; tests and business NOT_RUN",
+    "Windows core workflow 39179693476 at a83fe4d602a9693418415bf82d538be76bf655c6: release build, locked workspace all-targets tests and 3 numeric business regressions PASS",
+    "gh run download: core-baseline-evidence and business-acceptance-evidence",
+    "independent artifact check: six exact new test names, aggregate totals, Cargo.lock equality, 3 business statuses and evidence hashes",
+    "python tools/taskbook/calibrate.py --report docs/task_runs/2026-10-19-013-ENG-005.json",
+    "python tools/taskbook/calibrate.py",
+    "git ls-remote origin refs/heads/main and git status --short (after final push)"
+  ],
+  "deviations": [
+    "First slice refuses formula targets including clear/replacement so calcChain and graph structure remain unchanged; date/formula intents and changed errors remain pending.",
+    "Local machine has no Rust toolchain; actual build/tests run in GitHub Windows CI.",
+    "Temporary identity helper initially normalized binary DOCX bytes while calculating current fingerprints; static check rejected the mismatch. Reverted only the mistaken manifest entry; original file and imported-before-adjustment fingerprints unchanged.",
+    "First CI compile failure preserved locally and linked; no failed code merged to main.",
+    "Second CI confirmed CANCELLED after source review found ambiguous generic fixture conversion; no result from it is used as final proof.",
+    "Intermediate 05b0742/39179482631 passed full CI; source review then found chart string reference caches unmaintained. Final a83fe4d rejects strRef/multiLvlStrRef typed requests and tests full-state preservation using existing business fixture.",
+    "No new Office process launched: existing 9 Excel numeric observations are regression references only, not new typed host evidence.",
+    "Typed API is programmatic; CLI still exposes the existing numeric flow. Clearing/replacing formula nodes, merged/missing cells and changed error/empty formula caches remain rejected."
+  ],
+  "untested": [
+    "Typed native Excel comparison and three new business workbooks",
+    "Formula replacement/removal and dynamic dependency changes",
+    "Date/style intentions and both date systems",
+    "Changed errors, empty formula result caches, missing cells and merged targets remain unsupported",
+    "Typed chart strRef/multiLvlStrRef maintenance is unsupported and now explicitly rejected"
+  ],
+  "next_step": "Implement normal formula replacement/removal with calcChain and dynamic dependency handling; independently specify calc configuration and error/empty-cache policy, then dates/styles and three new frozen typed-business host comparisons. Keep v1 numeric fixtures immutable.",
+  "criteria": {
+    "ENG-005-C1": {
+      "requirement": "建立TypedValue和编辑准入表，覆盖空白、文本、布尔、数字、日期及普通公式；日期体系和错误值单列。",
+      "result": "PASS",
+      "observation": "Existing eight-intent design reviewed and updated with actual bounded set_value capability versus pending formula/date/error intents. Design PASS only; runtime slice separately recorded.",
+      "sample_count": 1,
+      "evidence": [
+        "docs/TYPED_EDIT_CONTRACT.md",
+        "docs/engine_specs/ENG-005-admission.json",
+        "crates/zen-engine/src/workbook.rs",
+        "crates/zen-engine/src/recalc.rs",
+        "crates/zen-formats/src/spreadsheet/cells.rs",
+        "crates/zen-formats/src/spreadsheet/edit.rs",
+        "crates/zen-session/src/lib.rs",
+        "docs/research/ENG-005-TYPED-2026-10-19.json"
+      ]
+    },
+    "ENG-005-C2": {
+      "requirement": "实现支持的类型/公式写回和跨表动态依赖更新；缓存与calc配置有独立预期；未知名称、数组、外链明确拒绝或只读。",
+      "result": "NOT_RUN",
+      "observation": "Partial runtime evidence: typed existing input/cache slice passes six synthetic regressions. Formula writing/dynamic dependency changes and calc configuration acceptance not complete, so full condition NOT_RUN.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C3": {
+      "requirement": "3份业务XLSX分别包含类型切换、清空和公式替换；保存重开并与Excel同等修改对照。",
+      "result": "NOT_RUN",
+      "observation": "No three new typed business files or same-operation native Excel runs; 3 historical numeric cases rerun only as regression. Full condition NOT_RUN.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C4": {
+      "requirement": "失败不改变会话/原包/旧输出，撤销恢复数据和计算状态；相关Rust回归按提交记录。",
+      "result": "NOT_RUN",
+      "observation": "Partial runtime evidence: typed failure/history/budget/save-source/old-output scenarios PASS in final CI. Formula/date failure matrix is not yet implemented or run; full condition NOT_RUN.",
+      "sample_count": 0,
+      "evidence": []
+    }
+  },
+  "dependency_review": {
+    "ENG-004": "DONE; original 2026-10-19-011 actual and current 3 numeric business regression results reviewed"
+  },
+  "slice_acceptance": {
+    "status": "PASS",
+    "evidence": [
+      "docs/research/ENG-005-TYPED-2026-10-19.json",
+      "https://github.com/yanyu03/ZenOffice/actions/runs/39179693476"
+    ],
+    "new_rust_test_functions": [
+      "typed_literals_distinguish_blank_empty_false_zero_and_escape_round_trip",
+      "typed_input_updates_text_boolean_and_cross_sheet_cache_types_without_changing_formulas",
+      "typed_rejections_preserve_full_state_and_live_redo",
+      "typed_budget_and_merged_protected_or_opaque_targets_fail_atomically",
+      "typed_new_branch_clears_redo_only_after_success",
+      "typed_save_as_new_and_failed_old_output_preserve_source_and_history"
+    ],
+    "rust": {
+      "passed": 282,
+      "failed": 0,
+      "ignored": 6,
+      "test_binaries": 36
+    },
+    "business_numeric_cases": 3,
+    "new_office_runs": 0,
+    "full_task_done": false
+  }
+}

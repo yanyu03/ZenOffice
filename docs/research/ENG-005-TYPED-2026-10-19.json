@@ -1,0 +1,87 @@
+{
+  "date": "2026-10-19",
+  "task": "ENG-005",
+  "scope": "First typed existing-input API slice only; not full ENG-005 or native typed-business acceptance",
+  "commit": "a83fe4d602a9693418415bf82d538be76bf655c6",
+  "ci": {
+    "id": 39179693476,
+    "url": "https://github.com/yanyu03/ZenOffice/actions/runs/39179693476",
+    "status": "PASS"
+  },
+  "rust": {
+    "passed": 282,
+    "failed": 0,
+    "ignored": 6,
+    "test_binaries": 36
+  },
+  "new_test_functions": [
+    "typed_literals_distinguish_blank_empty_false_zero_and_escape_round_trip",
+    "typed_input_updates_text_boolean_and_cross_sheet_cache_types_without_changing_formulas",
+    "typed_rejections_preserve_full_state_and_live_redo",
+    "typed_budget_and_merged_protected_or_opaque_targets_fail_atomically",
+    "typed_new_branch_clears_redo_only_after_success",
+    "typed_save_as_new_and_failed_old_output_preserve_source_and_history"
+  ],
+  "sample_identity": "One independent handwritten two-sheet typed microfixture (qualified and unqualified XML), plus existing small arithmetic fixture for changed-error refusal; six scenarios do not mean six business files; existing multiscenario workbook separately exercises chart-cache rejection",
+  "core_log_sha256": "87a2e223df327c863f403fe3b8fccfbde5d61f5449e98c6613ecc65171919814",
+  "cargo_lock_sha256_normalized_lf": "3fd739660d7244bd711eda209e72172e062138afba5821aa258897087587c1ab",
+  "native_new_runs": 0,
+  "business_regression": [
+    {
+      "id": "budget",
+      "status": "PASS",
+      "observed_values": 170,
+      "native_runs_compared": 3,
+      "source_sha256": "dded0be3d458ec04df9789aeeefc2c4103db368ed96f2a93b1b817a8b5b2db26",
+      "output_sha256": "aee383737eb7ab2c4412e9876533475cb07ea633f88155c525498cc0656831a6"
+    },
+    {
+      "id": "orders",
+      "status": "PASS",
+      "observed_values": 110,
+      "native_runs_compared": 3,
+      "source_sha256": "f96cb703551eccaf6c552990572ab3a7d5ca771676026f828230f9b54dc27261",
+      "output_sha256": "f432a5f86a65b221b1b561a2c4f7a7c9977f19e7adfac8917dfb6b7dcf63857c"
+    },
+    {
+      "id": "attendance",
+      "status": "PASS",
+      "observed_values": 110,
+      "native_runs_compared": 3,
+      "source_sha256": "95bede4f59704a5ac491961838cd11e89dffd9c5fefedb50f8e2545d73042e8d",
+      "output_sha256": "a20f17338f820d26849a81fc88b624c04584472f8c463dcb06469221a8b42ccb"
+    }
+  ],
+  "previous_ci": [
+    {
+      "id": 39179101156,
+      "commit": "c6c5df32e572a8025cae90d19f69695b980bd256",
+      "result": "COMPILE_FAIL",
+      "reason": "Attribute::range absent in roxmltree 0.19; no Rust test results"
+    },
+    {
+      "id": 39179292092,
+      "commit": "582f4e39714d4cd720fbe3eb37ad2e2a6524466f",
+      "result": "CANCELLED",
+      "reason": "Static review found unnecessary ambiguous generic test string conversion; final CI validates corrected source"
+    },
+    {
+      "id": 39179482631,
+      "commit": "05b0742190fe24264f637fa83afdcdfff72a0ea2",
+      "result": "PASS",
+      "reason": "Intermediate full build/tests/business PASS; subsequent source review identified chart string caches outside typed maintenance; final commit adds explicit rejection and an existing business-fixture negative regression."
+    }
+  ],
+  "unsupported": [
+    "formula target replacement/removal",
+    "date/style intent",
+    "direct and changed errors",
+    "empty formula result cache",
+    "missing cells",
+    "merged targets",
+    "new typed CLI protocol and native Excel comparison",
+    "typed editing when chart strRef/multiLvlStrRef caches exist"
+  ],
+  "native_reference_sha256": "78bb9b1b58fab36e7612ef237964f638857a0748609936f1a1dc86c2e03795c1",
+  "cli_binary_sha256": "7399791d5d855569f950b8af8f77a9dc1722c39d764f67865c4ef2639ac27929"
+}

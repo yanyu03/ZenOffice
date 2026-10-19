@@ -1,19 +1,19 @@
 # ENG-005类型与公式编辑实施契约
 
-日期：2026-10-19。性质：可变实现设计，落实ZEN-ENGINE-v1.0的ENG-005-C1，不取代或修改冻结验收标准。当前代码身份：28f2db7（产品实测08bc566）。本轮不新增写回接口，C2/C3/C4仍未验收。已有TypedValue是读取/计算模型，不等于各类型已可编辑。
+日期：2026-10-19。性质：可变实现设计，落实ZEN-ENGINE-v1.0的ENG-005-C1，不取代或修改冻结验收标准。首份设计依据28f2db7（E1实测08bc566）；当前首切片实测a83fe4d。已增加下述有界类型输入API，C2/C3/C4整体仍未验收。日期/公式意图仍为设计。
 
 ## 数据模型和调用意图
 
 复用zen_engine::workbook::TypedValue::{Number,Text,Boolean,Error}及DateSystem::{Excel1900,Excel1904}。空白使用Option<TypedValue>::None，不新增与现有模型冲突的Blank读取变体；空字符串是Some(Text(""))，不等同于None、0或false。原数值lexical用于保真；新数字应按value生成合法词法，不信任调用者提供的矛盾lexical。新请求不能直接修改共享Workbook，也不能暴露候选ZIP的无验证提交接口。
 
-拟增加的会话意图（尚非公开实现）：SetValue(Option<TypedValue>)、SetFormula(String)、SetDateSerial{serial,system}。SetValue(Text("=A1"))是字面文本，永不自动转为公式；SetFormula才进入公式解析。读取模型继续把带日期格式的n单元格投影为Number，日期编辑意图必须另外携带体系，不能由样式索引猜测已经完成日期语义。
+已实现首切片WorkbookSession::set_value(Option<TypedValue>)；SetFormula(String)、SetDateSerial{serial,system}仍未实现。SetValue(Text("=A1"))是字面文本，永不自动转为公式；SetFormula才进入公式解析。读取模型继续把带日期格式的n单元格投影为Number，日期编辑意图必须另外携带体系，不能由样式索引猜测已经完成日期语义。
 
 | 意图 | 表示与区别 | 当前运行能力 | ENG-005目标准入及写回规则 |
 | --- | --- | --- | --- |
-| 清空 | None，移除输入和公式，保留单元格位置/样式 | 未实现 | 已存在显式c节点清空内容；保留r/s，移除f/v/is及过期类型；空白已空且无公式时不改变字节/redo |
-| 文本 | Some(Text)，含空字符串及以=开头文本 | 可读，未提供文本编辑 | 新文本使用inlineStr/is/t并做XML转义及必要空白保持，不重排sharedStrings；空字符串仍是文本 |
-| 布尔 | Some(Boolean)，不是数字0/1或文本TRUE | 可读，未提供布尔编辑 | 输入和缓存分别写合法b/0或1；计算准入不得通过把布尔伪装成数字来通过 |
-| 数字 | Some(Number)，仅有限f64 | E1已有数字输入修改 | 复用现有set_number兼容入口，后续归入同一事务；NaN/无穷拒绝；相同数字保持原词法和字节 |
+| 清空 | None，移除输入和公式，保留单元格位置/样式 | 已有非公式/非错误输入格清空，合并格拒绝 | 已存在显式c节点清空内容；保留r/s，移除f/v/is及过期类型；空白已空且无公式时不改变字节/redo |
+| 文本 | Some(Text)，含空字符串及以=开头文本 | 已有输入格可写，Rust合成样本通过；尚无新宿主对照 | 新文本使用inlineStr/is/t并做XML转义及必要空白保持，不重排sharedStrings；空字符串仍是文本 |
+| 布尔 | Some(Boolean)，不是数字0/1或文本TRUE | 已有输入格可写，Rust合成样本通过；尚无新宿主对照 | 输入和缓存分别写合法b/0或1；计算准入不得通过把布尔伪装成数字来通过 |
+| 数字 | Some(Number)，仅有限f64 | set_value可切换已有输入类型；set_number保持E1入口限制 | 两入口复用候选提交；NaN/无穷拒绝；相同数字保持原词法和字节 |
 | 日期1900 | 显式serial+Excel1900 | 数字序列可读/保持，无专用日期写入契约 | 体系必须与目标Workbook一致，拒绝隐式转换；先核对/解析目标日期格式，再写序列；边界及序列60单列宿主样本 |
 | 日期1904 | 显式serial+Excel1904 | 体系可读/保持，未做1904业务写入验收 | 同上；体系不符拒绝，不因当前机器区域或默认体系重写workbookPr；1904样本必须独立冻结 |
 | 普通公式 | SetFormula，区别于输入/缓存/显示 | 可读/计算已有普通公式，未提供公式替换 | 复用WorkbookCalculator解析/名称解析/循环检测，替换后重建动态依赖并重算；输入允许一个前导=，保存f不含前导=；仅严格相同公式意图可判无变化，不自行改内部空白 |
@@ -50,4 +50,8 @@ OOXML的b/n/e/s/str/inlineStr语义与读取模型及意图映射要分开，不
 
 新类型样本另建版本，不改RCD/engine-acceptance/res-002-v1。每份在运行前冻结输入SHA256、请求序列、逐步TypedValue/公式/缓存/格式/日期预期及数值容差，包含字面=文本、空白与空字符串、false与0、拒绝分支/保存失败、两步撤销/重做和分支预算。原9次纯数字Excel观测只作旧范围回归，不能充当类型/公式新宿主结果。
 
-C1仅设计范围完成；C2/C3/C4要求实际写入、三份业务与宿主/回归证据，未执行不得标PASS。复现本设计的代码核查位置：zen-engine/src/workbook.rs、recalc.rs；zen-formats/src/spreadsheet/{cells.rs,edit.rs}；zen-session/src/{lib.rs,persistence.rs}及08bc566的保留/拒绝测试。回滚该可变设计按提交撤回，保留实况；不修改冻结任务书。
+首切片a83fe4d的set_value实现已有非公式/非错误输入格的清空、文本、布尔、有限数字及支持的变化文本/布尔/数字缓存；set_number保持旧入口限制。原包准入共用，源限定名/局部命名空间/r/s和原公式片段保持；ST_Xstring字面转义及CR不丢失；相同值保持字节和redo。公式目标含清除、日期、直接/变化错误、空公式结果缓存、缺失/合并格仍拒绝。n=6新测试函数、1份主要手写双表类型夹具及既有小算术夹具，不是6份业务文件。见docs/research/ENG-005-TYPED-2026-10-19.json和CI 39179693476。
+
+C1设计范围完成；C2/C3/C4要求完整类型/公式、三份业务与宿主/回归证据，未执行不得标PASS。复现本设计的代码核查位置：zen-engine/src/workbook.rs、recalc.rs；zen-formats/src/spreadsheet/{cells.rs,edit.rs}；zen-session/src/{lib.rs,persistence.rs}及08bc566的保留/拒绝测试。回滚该可变设计按提交撤回，保留实况；不修改冻结任务书。
+
+首切片图表边界：数值图表缓存仍按原路径维护；存在strRef或multiLvlStrRef的工作簿拒绝新的set_value请求，避免文字标签缓存陈旧。原set_number范围不变。该拒绝用既有多场景文件实际回归，不宣称已支持文字图表缓存刷新。
