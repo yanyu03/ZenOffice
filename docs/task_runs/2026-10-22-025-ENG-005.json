@@ -1,0 +1,70 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-005",
+  "started_at": "2026-10-21T23:54:34.150721+00:00",
+  "ended_at": "2026-10-21T23:56:53.645Z",
+  "status": "PARTIAL",
+  "actual_commit": "cae1de00c332b5b65785a361adba2bb93cb057b5",
+  "actual_scope": "Verify prior standalone fresh metadata component:9 synthetic tests and5 original guard regressions pass; builder integration, business input sealing, Zen and Office NOT_RUN.",
+  "commands": [
+    "Official quota86%; local UNKNOWN refreshed by one verified installed codex.exe --once to READY; frozen calibration PASS; previous cycle COMPLETE/no pending owned handles.",
+    "Real event ticket ordinal4 attempted=true; no worker API or CMD_ENV read.",
+    "DSHA EnvFeel Python3.12.14 PASS; test_typed_metadata.py --log target/typed-metadata-025-tests.log:9 PASS.",
+    "Node24.19.0 test_typed_preflight.py --node <bundled-node>:5 PASS; old generation remains blocked.",
+    "check_baseline.py PASS106; three old failed candidate hashes unchanged; diff --check PASS."
+  ],
+  "deviations": [
+    "Source drafts and workflow originated in prior blocked record024, now independently validated; prior failure record preserved.",
+    "Standalone XML construction only; no candidate rewriting, no READY-flag changes and no generator execution.",
+    "All frozen product criteria NOT_RUN; component assertions do not establish XLSX/Zen/Office business acceptance."
+  ],
+  "untested": [
+    "Business generator integration and actual full package admission/rendering",
+    "Zen typed/date business sessions and Excel/ONLYOFFICE comparisons",
+    "Rust regression not repeated; no Rust source changed"
+  ],
+  "next_step": "Keep old generator refused; design a policy-compliant integration and independent complete package admission without modifying failed candidates or lowering standards.",
+  "criteria": {
+    "ENG-005-C1": {
+      "requirement": "建立TypedValue和编辑准入表，覆盖空白、文本、布尔、数字、日期及普通公式；日期体系和错误值单列。",
+      "result": "NOT_RUN",
+      "observation": "No new product execution; metadata component and guard tests are separate evidence.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C2": {
+      "requirement": "实现支持的类型/公式写回和跨表动态依赖更新；缓存与calc配置有独立预期；未知名称、数组、外链明确拒绝或只读。",
+      "result": "NOT_RUN",
+      "observation": "No new product execution; metadata component and guard tests are separate evidence.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C3": {
+      "requirement": "3份业务XLSX分别包含类型切换、清空和公式替换；保存重开并与Excel同等修改对照。",
+      "result": "NOT_RUN",
+      "observation": "No new product execution; metadata component and guard tests are separate evidence.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C4": {
+      "requirement": "失败不改变会话/原包/旧输出，撤销恢复数据和计算状态；相关Rust回归按提交记录。",
+      "result": "NOT_RUN",
+      "observation": "No new product execution; metadata component and guard tests are separate evidence.",
+      "sample_count": 0,
+      "evidence": []
+    }
+  },
+  "slice_evidence": "docs/operations/2026-10-22-TYPED-METADATA-COMPONENT.md",
+  "component_checks": {
+    "metadata_tests_pass": 9,
+    "guard_regressions_pass": 5,
+    "old_failed_candidate_hashes_unchanged": 3,
+    "new_business_inputs": 0,
+    "new_zen_runs": 0,
+    "new_excel_runs": 0
+  }
+}
