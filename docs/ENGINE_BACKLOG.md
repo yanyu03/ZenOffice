@@ -1,5 +1,7 @@
 # 引擎待办与交接
 
+2026-10-23／实况036：新增不可变OpaqueXmlPolicy，初始源/稳定身份、拥有关系与有效媒体行固定；候选每次重验但不重算初始SHA。拒绝xml:base等未知元数据属性/内容；9新方法，22OPC+24描述/policy+3默认拒绝PASS。仍是只读组件，未接编辑/撤销/保存，无候选合法编辑/祖先关系证明或已保存重开凭据，三封存输入不变；原033C2FAIL保留、ENG005PARTIAL/BLOCKED。下一步XLSX显式组合原门禁并贯穿ReadWorkbook/Session，先确定保存帧重开身份，不宽松重试。
+
 2026-10-23／实况035：新增独立只读opaque_xml声明核验器，单一显式自有叶子XML；输入/payload SHA、媒体、唯一workbook关系、已知绑定/路径/预算拒绝。15新增+22OPC+3原输入默认原子拒绝PASS，三封存输入仅描述核验通过。初轮预算夹具先被ZIP比例门禁拦截的失败保留，store-only后验证XML限额。未接入写路径、无新业务8步/保存/Office验收；ENG005仍PARTIAL/BLOCKED，原033C2FAIL不变。下一步先跟进本提交CI，再审查policy贯穿候选/历史/保存；禁止宽松回退或探针白名单。
 
 2026-10-23／实况034：原47d30ee两CI实际成功、旧失败周期已真实收尾；正常业务0PASS3FAIL不变。只读审查3封存包：各1叶子customXML191/191/195字节、工作簿单入向/无出向、声明的绑定标记未见，不证明任意语义独立。新增CUSTOM_XML_PRESERVATION_CONTRACT.md：默认严格不变，受控自有来源显式grant绑定输入/部件/媒体/关系，语义独立是调用方前提，禁止namespace白名单；尚未实现/放行/重跑业务。ENG005PARTIAL/BLOCKED，本轮4条件NOT_RUN。下一步无写入grant验证器及通用/负向夹具，再做事务集成。

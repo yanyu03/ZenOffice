@@ -1,6 +1,6 @@
 # XLSX显式不透明custom XML保留契约（实现设计v0.1）
 
-日期2026-10-23，基于实测失败47d30ee。原034轮完成设计及3份只读结构审查。035轮已实现独立只读OpaqueXmlDeclaration/validate_opaque_xml_descriptor/回执（15新增测试PASS），未接入写路径；默认unknown custom XML dependency拒绝保持。完整会话grant/policy仍为拟议接口。落实ENG-005的包保持/明确拒绝要求，不替代ZEN-ENGINE-v1.0、不改变业务v2输入和原预期。下文保留完整设计目标，描述核验不代表全部目标已实现；当前范围见operations/2026-10-23-OPAQUE-XML-VALIDATOR.md。
+日期2026-10-23，基于实测失败47d30ee。原034轮完成设计及3份只读结构审查。035轮已实现独立只读OpaqueXmlDeclaration/validate_opaque_xml_descriptor/回执（15新增测试PASS）；036轮实现不可变OpaqueXmlPolicy、初始/候选检查区分及元数据未知属性拒绝（9新方法PASS），仍未接入写路径；默认unknown custom XML dependency拒绝保持。完整会话/历史/保存与保存帧重开接口仍待实现，当前policy只是只读保留不变量检查。落实ENG-005的包保持/明确拒绝要求，不替代ZEN-ENGINE-v1.0、不改变业务v2输入和原预期。下文保留完整设计目标，描述核验不代表全部目标已实现；当前范围见operations/2026-10-23-OPAQUE-XML-VALIDATOR.md。
 
 ## 已知问题与证据
 

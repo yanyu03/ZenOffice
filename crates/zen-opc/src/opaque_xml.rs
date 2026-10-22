@@ -84,6 +84,45 @@ fn xml(bytes: &[u8]) -> Result<roxmltree::Document<'_>> {
     )
     .map_err(|_| reject("invalid/over-budget XML"))
 }
+
+fn metadata_shape(
+    doc: &roxmltree::Document<'_>,
+    root_name: &str,
+    namespace: &str,
+    rows: &[(&str, &[&str])],
+) -> Result<()> {
+    let root = doc.root_element();
+    if !root.has_tag_name((namespace, root_name)) || root.attributes().len() != 0 {
+        return Err(reject("unknown metadata root/attributes"));
+    }
+    for node in root.children() {
+        if node.is_comment() {
+            continue;
+        }
+        if node.is_text() && node.text().is_some_and(|s| s.trim().is_empty()) {
+            continue;
+        }
+        if !node.is_element() || node.tag_name().namespace() != Some(namespace) {
+            return Err(reject("unknown metadata node"));
+        }
+        let fields = rows
+            .iter()
+            .find(|(name, _)| *name == node.tag_name().name())
+            .map(|(_, fields)| *fields)
+            .ok_or_else(|| reject("unknown metadata row"))?;
+        if node
+            .attributes()
+            .any(|a| a.namespace().is_some() || !fields.contains(&a.name()))
+            || node
+                .children()
+                .any(|n| !n.is_text() || n.text().is_none_or(|s| !s.trim().is_empty()))
+        {
+            return Err(reject("unknown metadata attributes/content"));
+        }
+    }
+    Ok(())
+}
+
 fn owner(rels: &str) -> Result<String> {
     if rels == "/_rels/.rels" {
         return Ok("/".into());
@@ -104,6 +143,14 @@ pub fn validate_opaque_xml_descriptor(
     bytes: &[u8],
     declarations: &[OpaqueXmlDeclaration],
 ) -> Result<OpaqueXmlReceipt> {
+    validate_descriptor(bytes, declarations, true)
+}
+
+fn validate_descriptor(
+    bytes: &[u8],
+    declarations: &[OpaqueXmlDeclaration],
+    initial: bool,
+) -> Result<OpaqueXmlReceipt> {
     if bytes.len() > MAX_INPUT {
         return Err(reject("input budget"));
     }
@@ -123,7 +170,7 @@ pub fn validate_opaque_xml_descriptor(
     {
         return Err(reject("missing/over-budget caller declaration"));
     }
-    if sha256(bytes) != d.source_sha256 {
+    if initial && sha256(bytes) != d.source_sha256 {
         return Err(reject("source identity"));
     }
     canonical(&d.part_name)?;
@@ -206,6 +253,15 @@ pub fn validate_opaque_xml_descriptor(
         .get("[Content_Types].xml")
         .ok_or_else(|| reject("missing content types"))?;
     let ct_doc = xml(ct_bytes)?;
+    metadata_shape(
+        &ct_doc,
+        "Types",
+        TYPES_NS,
+        &[
+            ("Default", &["Extension", "ContentType"]),
+            ("Override", &["PartName", "ContentType"]),
+        ],
+    )?;
     let mut defaults = BTreeSet::new();
     let mut overrides = BTreeSet::new();
     for n in ct_doc.root_element().children().filter(|n| n.is_element()) {
@@ -252,6 +308,12 @@ pub fn validate_opaque_xml_descriptor(
             return Err(reject("orphan relationship owner"));
         }
         let doc = xml(&e.data)?;
+        metadata_shape(
+            &doc,
+            "Relationships",
+            RELS_NS,
+            &[("Relationship", &["Id", "Type", "Target", "TargetMode"])],
+        )?;
         if doc.root_element().tag_name().namespace() != Some(RELS_NS) {
             return Err(reject("relationship namespace"));
         }
@@ -312,7 +374,145 @@ pub fn validate_opaque_xml_descriptor(
         return Err(reject("single workbook relationship required"));
     }
     Ok(OpaqueXmlReceipt {
-        source_sha256: d.source_sha256,
+        source_sha256: sha256(bytes),
         payload_sha256: d.payload_sha256,
     })
+}
+
+/// Immutable preservation invariants bound to the explicitly reviewed initial
+/// bytes. This checker is not an editor/session capability. A caller must still
+/// establish candidate lineage and run every ordinary edit/package/save gate.
+#[derive(Debug)]
+pub struct OpaqueXmlPolicy {
+    declaration: OpaqueXmlDeclaration,
+    relationship_xml: Vec<u8>,
+    media_xml: Vec<u8>,
+    identity: [u8; 32],
+}
+const MAX_POLICY_BYTES: usize = 16 * 1024;
+
+impl OpaqueXmlPolicy {
+    /// Does not discover, infer or update a declaration.
+    pub fn bind_initial(bytes: &[u8], declaration: &OpaqueXmlDeclaration) -> Result<Self> {
+        validate_opaque_xml_descriptor(bytes, std::slice::from_ref(declaration))?;
+        let (relationship_xml, media_xml) = metadata_rows(bytes, declaration)?;
+        let strings = declaration.part_name.len()
+            + declaration.content_type.len()
+            + declaration.relationship_id.len()
+            + declaration.relationship_target.len()
+            + declaration.review_basis.len();
+        if strings + relationship_xml.len() + media_xml.len() > MAX_POLICY_BYTES {
+            return Err(reject("policy retained descriptor budget"));
+        }
+        let mut hash = Sha256::new();
+        hash.update(b"ZenOffice opaque XML policy v1\0");
+        // Length-prefixed fields avoid concatenation ambiguity. Fixed-width
+        // lengths and sizes make identity independent of host pointer width.
+        for value in [
+            declaration.source_sha256.as_slice(),
+            declaration.part_name.as_bytes(),
+            declaration.payload_sha256.as_slice(),
+            &(declaration.payload_bytes as u64).to_le_bytes(),
+            declaration.content_type.as_bytes(),
+            declaration.relationship_id.as_bytes(),
+            declaration.relationship_target.as_bytes(),
+            &[
+                declaration.controlled_owned_source as u8,
+                declaration.semantically_independent as u8,
+            ],
+            declaration.review_basis.as_bytes(),
+            relationship_xml.as_slice(),
+            media_xml.as_slice(),
+        ] {
+            hash.update((value.len() as u64).to_le_bytes());
+            hash.update(value);
+        }
+        Ok(Self {
+            declaration: declaration.clone(),
+            relationship_xml,
+            media_xml,
+            identity: hash.finalize().into(),
+        })
+    }
+
+    pub fn identity(&self) -> [u8; 32] {
+        self.identity
+    }
+    pub fn initial_source_sha256(&self) -> [u8; 32] {
+        self.declaration.source_sha256
+    }
+    /// Descriptor string/row payload bytes only, not exact heap allocation.
+    pub fn retained_descriptor_bytes(&self) -> usize {
+        self.declaration.part_name.len()
+            + self.declaration.content_type.len()
+            + self.declaration.relationship_id.len()
+            + self.declaration.relationship_target.len()
+            + self.declaration.review_basis.len()
+            + self.relationship_xml.len()
+            + self.media_xml.len()
+    }
+
+    /// Reopening as the initial source must match the original archive SHA.
+    /// A candidate frame must never silently be adopted as a new initial source.
+    pub fn validate_initial(&self, bytes: &[u8]) -> Result<OpaqueXmlReceipt> {
+        validate_opaque_xml_descriptor(bytes, std::slice::from_ref(&self.declaration))?;
+        self.validate_candidate(bytes)
+    }
+
+    /// Recheck preserved invariants without requiring normal changed archive
+    /// bytes to equal the initial archive hash. Never updates the policy or its
+    /// source hash. A success is NOT proof that this frame arose from an allowed
+    /// edit or belongs to a session: that obligation stays with the transaction.
+    /// The receipt's source_sha256 identifies THESE checked bytes.
+    pub fn validate_candidate(&self, bytes: &[u8]) -> Result<OpaqueXmlReceipt> {
+        let receipt = validate_descriptor(bytes, std::slice::from_ref(&self.declaration), false)?;
+        let (relationship_xml, media_xml) = metadata_rows(bytes, &self.declaration)?;
+        if relationship_xml != self.relationship_xml || media_xml != self.media_xml {
+            return Err(reject("preserved relationship/media row changed"));
+        }
+        Ok(receipt)
+    }
+}
+
+/// Retain only the exact owning relationship and effective media declaration,
+/// not a whole workbook relationship file (other valid edits may invalidate a
+/// calcChain). Default -> override migration is intentionally refused.
+fn metadata_rows(bytes: &[u8], d: &OpaqueXmlDeclaration) -> Result<(Vec<u8>, Vec<u8>)> {
+    let zip = ZipArchive::read(bytes)?;
+    let relationships = zip
+        .get("xl/_rels/workbook.xml.rels")
+        .ok_or_else(|| reject("missing workbook relationship file"))?;
+    let rel_doc = xml(relationships)?;
+    let rel = rel_doc
+        .root_element()
+        .children()
+        .find(|n| n.is_element() && n.attribute("Id") == Some(d.relationship_id.as_str()))
+        .ok_or_else(|| reject("missing owning relationship"))?;
+    let content_types = zip
+        .get("[Content_Types].xml")
+        .ok_or_else(|| reject("missing content types"))?;
+    let media_doc = xml(content_types)?;
+    let root = media_doc.root_element();
+    let media = root
+        .children()
+        .find(|n| {
+            n.is_element()
+                && n.tag_name().name() == "Override"
+                && n.attribute("PartName") == Some(d.part_name.as_str())
+        })
+        .or_else(|| {
+            root.children().find(|n| {
+                n.is_element()
+                    && n.tag_name().name() == "Default"
+                    && n.attribute("Extension")
+                        .is_some_and(|e| e.eq_ignore_ascii_case("xml"))
+            })
+        })
+        .ok_or_else(|| reject("missing effective media declaration"))?;
+    let rel_bytes = &relationships[rel.range()];
+    let media_bytes = &content_types[media.range()];
+    if rel_bytes.len() + media_bytes.len() > MAX_POLICY_BYTES {
+        return Err(reject("policy metadata row budget"));
+    }
+    Ok((rel_bytes.to_vec(), media_bytes.to_vec()))
 }

@@ -305,3 +305,252 @@ fn relationship_traversal_above_root_refuses_even_if_declared() {
     d.relationship_target = "../../customXml/memo.xml".into();
     assert!(validate_opaque_xml_descriptor(&bytes, &[d]).is_err());
 }
+
+fn changed_workbook(p: &mut Package, text: &str) -> Vec<u8> {
+    p.put_text("/xl/workbook.xml", text).unwrap();
+    p.to_bytes().unwrap()
+}
+#[test]
+fn policy_checks_changed_frames_without_resealing_initial_source() {
+    let mut p = package();
+    let initial = p.to_bytes().unwrap();
+    let d = declaration(&initial);
+    let policy = OpaqueXmlPolicy::bind_initial(&initial, &d).unwrap();
+    let identity = policy.identity();
+    let changed = changed_workbook(&mut p, "<workbook><ownedCandidate/></workbook>");
+    assert_ne!(sha256(&changed), d.source_sha256);
+    let receipt = policy.validate_candidate(&changed).unwrap();
+    assert_eq!(receipt.source_sha256(), sha256(&changed));
+    assert_eq!(policy.initial_source_sha256(), sha256(&initial));
+    assert!(policy.validate_initial(&changed).is_err());
+    assert_eq!(policy.identity(), identity);
+    policy.validate_initial(&initial).unwrap();
+    // Checking preserved bytes is deliberately not proof of an allowed edit or
+    // candidate ancestry. No session or write API receives this policy yet.
+}
+#[test]
+fn policy_copies_caller_declaration_and_has_stable_identity() {
+    let bytes = package().to_bytes().unwrap();
+    let mut d = declaration(&bytes);
+    let a = OpaqueXmlPolicy::bind_initial(&bytes, &d).unwrap();
+    let b = OpaqueXmlPolicy::bind_initial(&bytes, &d).unwrap();
+    assert_eq!(a.identity(), b.identity());
+    d.review_basis = "A different reviewed premise".into();
+    let c = OpaqueXmlPolicy::bind_initial(&bytes, &d).unwrap();
+    assert_ne!(a.identity(), c.identity());
+    d.part_name.clear();
+    d.source_sha256 = [0; 32];
+    d.controlled_owned_source = false;
+    a.validate_initial(&bytes).unwrap();
+    assert!(OpaqueXmlPolicy::bind_initial(&bytes, &d).is_err());
+    assert!(a.retained_descriptor_bytes() > 0 && a.retained_descriptor_bytes() <= 16 * 1024);
+}
+#[test]
+fn policy_refuses_new_source_and_preserves_original_binding() {
+    let mut p = package();
+    let initial = p.to_bytes().unwrap();
+    let a = OpaqueXmlPolicy::bind_initial(&initial, &declaration(&initial)).unwrap();
+    let other = changed_workbook(&mut p, "<workbook other='source'/>");
+    assert!(a.validate_initial(&other).is_err());
+    assert!(OpaqueXmlPolicy::bind_initial(&other, &declaration(&initial)).is_err());
+    let b = OpaqueXmlPolicy::bind_initial(&other, &declaration(&other)).unwrap();
+    assert_ne!(a.identity(), b.identity());
+    assert_eq!(a.initial_source_sha256(), sha256(&initial));
+}
+#[test]
+fn policy_refuses_semantically_equal_but_changed_owning_row() {
+    let p = package();
+    let initial = p.to_bytes().unwrap();
+    let policy = OpaqueXmlPolicy::bind_initial(&initial, &declaration(&initial)).unwrap();
+    let mut p = package();
+    let mut rels = p.rels_for("/xl/workbook.xml").unwrap();
+    rels.items[0].mode = Some("Internal".into());
+    p.set_rels_for("/xl/workbook.xml", &rels).unwrap();
+    let changed = p.to_bytes().unwrap();
+    // Initial descriptor semantics accept explicit Internal; immutable policy
+    // must still refuse a change to the owning row's exact representation.
+    validate_opaque_xml_descriptor(&changed, &[declaration(&changed)]).unwrap();
+    let identity = policy.identity();
+    assert!(
+        policy
+            .validate_candidate(&changed)
+            .unwrap_err()
+            .to_string()
+            .contains("row changed")
+    );
+    assert_eq!(policy.identity(), identity);
+    policy.validate_candidate(&initial).unwrap();
+}
+#[test]
+fn policy_refuses_effective_media_declaration_migration() {
+    let initial = package().to_bytes().unwrap();
+    let policy = OpaqueXmlPolicy::bind_initial(&initial, &declaration(&initial)).unwrap();
+    let mut p = package();
+    p.content_types
+        .add_override("/customXml/memo.xml", "application/xml")
+        .unwrap();
+    let changed = p.to_bytes().unwrap();
+    validate_opaque_xml_descriptor(&changed, &[declaration(&changed)]).unwrap();
+    assert!(
+        policy
+            .validate_candidate(&changed)
+            .unwrap_err()
+            .to_string()
+            .contains("row changed")
+    );
+}
+#[test]
+fn policy_rechecks_payload_binding_topology_and_active_content_each_frame() {
+    let initial = package().to_bytes().unwrap();
+    let policy = OpaqueXmlPolicy::bind_initial(&initial, &declaration(&initial)).unwrap();
+    let identity = policy.identity();
+    for index in 0..6 {
+        let mut p = package();
+        match index {
+            0 => p
+                .put_text("/customXml/memo.xml", "<memo>different payload</memo>")
+                .unwrap(),
+            1 => p.put_text("/customXml/extra.xml", "<extra/>").unwrap(),
+            2 => p.put_text("/xl/extra.xml", "<dataBinding/>").unwrap(),
+            3 => p
+                .put("/xl/vbaProject.bin", b"owned macro specimen")
+                .unwrap(),
+            4 => {
+                let mut r = p.rels_for("/xl/workbook.xml").unwrap();
+                r.items[0].target = "../customXml/elsewhere.xml".into();
+                p.set_rels_for("/xl/workbook.xml", &r).unwrap();
+            }
+            _ => {
+                p.content_types
+                    .add_override("/customXml/memo.xml", "text/xml")
+                    .unwrap();
+            }
+        }
+        assert!(
+            policy.validate_candidate(&p.to_bytes().unwrap()).is_err(),
+            "case {index}"
+        );
+        assert_eq!(policy.identity(), identity);
+        assert_eq!(policy.initial_source_sha256(), sha256(&initial));
+        policy.validate_initial(&initial).unwrap();
+    }
+}
+#[test]
+fn policy_allows_unrelated_relationship_invalidation_and_archive_repacking() {
+    let initial = package().to_bytes().unwrap();
+    let policy = OpaqueXmlPolicy::bind_initial(&initial, &declaration(&initial)).unwrap();
+    let mut p = package();
+    let mut rels = p.rels_for("/xl/workbook.xml").unwrap();
+    rels.add(
+        "other",
+        "http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles",
+        "styles.xml",
+    );
+    p.set_rels_for("/xl/workbook.xml", &rels).unwrap();
+    p.put_text("/xl/styles.xml", "<styleSheet/>").unwrap();
+    let with_other = p.to_bytes().unwrap();
+    policy.validate_candidate(&with_other).unwrap();
+    policy.validate_candidate(&initial).unwrap();
+    let archive = ZipArchive::read(&initial).unwrap();
+    let mut writer = ZipWriter::store_only();
+    for e in archive.entries {
+        writer.add(e.name, e.data);
+    }
+    let repacked = writer.finish().unwrap();
+    assert_ne!(repacked, initial);
+    policy.validate_candidate(&repacked).unwrap();
+    assert!(policy.validate_initial(&repacked).is_err());
+}
+#[test]
+fn policy_retained_metadata_budget_is_enforced_before_binding() {
+    let mut p = package();
+    // Large whitespace in the owning XML row is legal XML; it must not become
+    // an unbounded retained descriptor. Store-only avoids ZIP ratio preemption.
+    let original = p.rels_for("/xl/workbook.xml").unwrap().to_xml();
+    let long = original.replace(
+        "Id=\"custom1\"",
+        &format!("{}Id=\"custom1\"", " ".repeat(17 * 1024)),
+    );
+    p.put_text("/xl/_rels/workbook.xml.rels", long).unwrap();
+    let mut writer = ZipWriter::store_only();
+    writer.add("[Content_Types].xml", p.content_types.to_xml());
+    for part in p.parts {
+        writer.add(part.name.trim_start_matches('/'), part.data);
+    }
+    let bytes = writer.finish().unwrap();
+    let d = declaration(&bytes);
+    validate_opaque_xml_descriptor(&bytes, &[d.clone()]).unwrap();
+    assert!(
+        OpaqueXmlPolicy::bind_initial(&bytes, &d)
+            .unwrap_err()
+            .to_string()
+            .contains("row budget")
+    );
+}
+
+#[test]
+fn unknown_metadata_semantics_refuse_initial_and_candidate_binding() {
+    let initial = package().to_bytes().unwrap();
+    let policy = OpaqueXmlPolicy::bind_initial(&initial, &declaration(&initial)).unwrap();
+    for (part, needle, replacement) in [
+        (
+            "/xl/_rels/workbook.xml.rels",
+            "<Relationships ",
+            "<Relationships xml:base=\"https://invalid.example/\" ",
+        ),
+        (
+            "/xl/_rels/workbook.xml.rels",
+            "Id=\"custom1\"",
+            "Id=\"custom1\" unknown=\"dependency\"",
+        ),
+        (
+            "/xl/_rels/workbook.xml.rels",
+            "/></Relationships>",
+            "><consumer/></Relationship></Relationships>",
+        ),
+        (
+            "/[Content_Types].xml",
+            "<Types ",
+            "<Types xml:base=\"https://invalid.example/\" ",
+        ),
+        (
+            "/[Content_Types].xml",
+            "Extension=\"xml\"",
+            "Extension=\"xml\" unknown=\"dependency\"",
+        ),
+        (
+            "/[Content_Types].xml",
+            "<Default ",
+            "unmodeled-text<Default ",
+        ),
+    ] {
+        let mut p = package();
+        let source = if part == "/[Content_Types].xml" {
+            p.content_types.to_xml()
+        } else {
+            p.get_text(part).unwrap()
+        };
+        let changed = source.replace(needle, replacement);
+        assert_ne!(changed, source, "invalid fixture {part}");
+        let bytes = if part == "/[Content_Types].xml" {
+            let archive = ZipArchive::read(&initial).unwrap();
+            let mut writer = ZipWriter::new();
+            for e in archive.entries {
+                if e.name == "[Content_Types].xml" {
+                    writer.add(e.name, changed.as_bytes());
+                } else {
+                    writer.add(e.name, e.data);
+                }
+            }
+            writer.finish().unwrap()
+        } else {
+            p.put_text(part, changed).unwrap();
+            p.to_bytes().unwrap()
+        };
+        let d = declaration(&bytes);
+        assert!(validate_opaque_xml_descriptor(&bytes, &[d.clone()]).is_err());
+        assert!(OpaqueXmlPolicy::bind_initial(&bytes, &d).is_err());
+        assert!(policy.validate_candidate(&bytes).is_err());
+    }
+    policy.validate_initial(&initial).unwrap();
+}

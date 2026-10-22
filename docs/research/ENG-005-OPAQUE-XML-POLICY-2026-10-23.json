@@ -1,0 +1,70 @@
+{
+  "date": "2026-10-23",
+  "task": "ENG-005",
+  "source_parent": "f65620abe99e9017b193cc8d9754b6fffd12423a",
+  "scope": "Immutable initial-source-bound opaque XML preservation checker; not edit admission, session/history integration, allowed-edit lineage proof, or saved-output reopen capability",
+  "runtime": {
+    "dsha": "2.5.2",
+    "python": "3.12.14",
+    "cargo": "1.99.1",
+    "rustc": "1.99.1",
+    "sdk": "PASS child mapping"
+  },
+  "implemented": [
+    "bind_initial validates declared source hash then copies declaration into private immutable fields",
+    "Stable domain-separated length-prefixed SHA256 policy identity includes initial source, declaration fields and exact owning relationship/effective media rows",
+    "Candidate checks do not reseal/update initial hash; receipt identifies actual checked candidate bytes",
+    "Initial reopening of changed/repacked bytes refuses even when preservation invariants hold",
+    "Exact owning relationship/media row representations pinned; unrelated relationships and ZIP compression can change subject to separate transaction gates",
+    "All descriptor payload/topology/binding/active-content/resource checks rerun on candidates",
+    "Metadata root/row unknown attributes (including xml:base), nested elements and unmodeled text explicitly refuse",
+    "Retained descriptor string/row payload bounded16KiB; not exact heap usage"
+  ],
+  "checks": [
+    {
+      "command": "cargo test --locked --offline -p zen-opc",
+      "result": "PASS",
+      "unit_tests": 22,
+      "descriptor_policy_tests": 24,
+      "new_test_methods": 9,
+      "log": "target/quota_guard/command-7dffddb821164a44b5faa989eb45a419.log"
+    },
+    {
+      "command": "cargo test --locked --offline -p zen-session --test typed_business_admission",
+      "result": "PASS",
+      "strict_default_refusals": 3,
+      "log": "target/quota_guard/command-c7016048359f4580915589ba0ecda3f6.log"
+    },
+    {
+      "command": "verify_typed_inputs.py original pinned manifest",
+      "result": "PASS3 inputs byte unchanged;16initial formulas; no engine edits"
+    },
+    {
+      "command": "check_baseline.py",
+      "result": "PASS106 imported identities; no current/original fingerprint updates needed"
+    }
+  ],
+  "negative_observations": [
+    "Changed initial source refuses without resealing",
+    "Changing caller declaration after bind does not modify existing policy",
+    "Changed payload, secondcustomXML, databinding, macro, target/media all refuse and policy remains reusable unchanged",
+    "Semantically equal TargetMode=Internal addition and default-to-override media migration refuse exact-row pin",
+    "17KiB owning row refuses retained metadata budget",
+    "Six metadata fault specimens refuse at descriptor/bind/candidate checks"
+  ],
+  "limits": [
+    "Read-only checker accepts preservation-compatible synthetic workbook XML candidates that are not full valid/allowed workbook edits; no session lineage proof claimed",
+    "Caller controlled ownership and semantic independence remain trust premises",
+    "No new original8step business edits/undo/save/reopen, no nativeExcel runs; original033 C2FAIL and productPARTIAL/BLOCKED retained",
+    "Policy not serialized and no saved-output reopen token exists; initial validation must not be used to reopen modified saved content",
+    "No macro/generalXML/unknownrelationship admission; existing edit/package/formula/source/output gates must all remain in future integration"
+  ],
+  "source_sha256": {
+    "crates/zen-opc/src/opaque_xml.rs": "7ce23bd4e13b735e58993d187ccfe4a1c6eb0e6ec993b3eb40706a48e82ad7c2",
+    "crates/zen-opc/tests/opaque_xml.rs": "f2ad96cbcb1e7d229118dcfb69fb6c8e7835aa798d86c38ec6839723bfff8d6c"
+  },
+  "log_sha256": {
+    "target/quota_guard/command-7dffddb821164a44b5faa989eb45a419.log": "2e2229e9b1ce58136c28b8a3fb515e54f78ded64dfccd1c23ed88bfff57e000e",
+    "target/quota_guard/command-c7016048359f4580915589ba0ecda3f6.log": "b2cb3ee5da1ae582791706ebf82e2bea41e22624273f9a2e30f691689670948e"
+  }
+}
