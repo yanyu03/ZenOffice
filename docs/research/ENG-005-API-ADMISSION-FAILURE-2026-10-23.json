@@ -1,0 +1,54 @@
+{
+  "date_local": "2026-10-23",
+  "source_commit": "6134f01a413eb5776d1c272109d1bab6b8836a85",
+  "kind": "Real typed business API attempt FAILED at admission; separate negative regression PASS",
+  "toolchain": {
+    "python": "3.12.14",
+    "cargo": "1.99.1",
+    "rustc": "1.99.1",
+    "msvc_sdk_activation": "DSHA PASS, child environment only"
+  },
+  "business_attempt": {
+    "compiled": true,
+    "tests_pass": 0,
+    "tests_fail": 3,
+    "first_operation_refusals": 3,
+    "successful_forward_edits": 0,
+    "completed_eight_step_cases": 0,
+    "saved_reopened_outputs": 0,
+    "error": "unknown custom XML dependency",
+    "cases": [
+      "budget/review-text",
+      "orders/status-text",
+      "attendance/approval-text"
+    ]
+  },
+  "negative_regression": {
+    "tests_pass": 3,
+    "tests_fail": 0,
+    "scope": "First text request on each real sealed package refuses and preserves archive,revision,history,retained bytes,dirty,undo,redo; not normal business success"
+  },
+  "root_cause_observation": {
+    "file": "crates/zen-opc/src/preserve.rs",
+    "behavior": "Existing preservation gate admits only recognized bibliography customXML; owned synthetic probe namespace not admitted",
+    "classification": "Input package policy/identity readiness did not establish engine edit admission; no proof guard itself is wrong"
+  },
+  "manifest_sha256": "bc82f786f0db1c842188dbdb891b4b6ef3c2f0af5f4c026fe4ae19bf428aaad4",
+  "sealed_inputs_unchanged": true,
+  "wrapper_failure": "Initial guard argparse rejected -- --nocapture before cargo start; fixed wrapper locally, retained original failure. Guard command logs, not empty wrapper redirection, used for actual evidence.",
+  "failed_runner_snapshot": "target/office_research/ENG-005-api-033/typed_business.failed.rs",
+  "failed_runner_committed": false,
+  "engine_production_source_changed": false,
+  "new_excel_runs": 0,
+  "new_onlyoffice_runs": 0,
+  "hashes": {
+    "local/typed_business.failed.rs": "4d8c0bbca8b3134f6787edc30d26ecf4ccddfbf82337b5598ba8a25f93a1b0ad",
+    "local/failed-runner-dependency.diff": "7ad2e08b8a0dc4c9cbd6d7187ecebdafa0a1da869fe082ba0ac96d60576feef3",
+    "local/cargo-initial.log": "026b1bc6a6e9ffc999f657037bf5be37f4a4319b1f5ef2a891ec3eea099e4baf",
+    "local/cargo-actual-child.log": "07c92d733ec6566738bc6a227c9868ce643e3db9c39f98e90c057259aa330c14",
+    "local/cargo-refusal-child.log": "9e8642e5a592404ca0eb04b8a98a3de2a851363e8df1e0ba694c81e00ef6f9c6",
+    "local/envfeel-actual.log": "cc06293538ef8616155b2df37721cdcb326b381efaefd4b0719da37afbede2c2",
+    "local/envfeel-refusal.log": "a6605a331391bd23641429c80cd2ef3d721212ba3238fdaf6b80d49b2dd245e7",
+    "crates/zen-session/tests/typed_business_admission.rs": "276f89bc086644a05ccf09724adf12612536dab21a3ef287d087372d7dbec26c"
+  }
+}

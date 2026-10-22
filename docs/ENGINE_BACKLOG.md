@@ -1,5 +1,7 @@
 # 引擎待办与交接
 
+2026-10-23／实况033：首次真实三业务类型API执行器编译成功，但首步文本均被unknown custom XML dependency拒绝（0通过3失败、成功修改/保存0）；已有zen-opc保护不接纳自有探针。新增三真实输入原子拒绝回归3PASS，不能替代原8步。失败执行器/依赖差异留target，未推失败代码；原输入和清单不变。输入封存不等于写入口准入，ENG-005仍PARTIAL且现BLOCKED；本轮FAILED，C2FAIL，其他全条件NOT_RUN。下一步自有/不透明customXML通用准入和依赖契约，不为样本白名单、不删探针或改标准。见operations/2026-10-23-TYPED-API-ADMISSION-FAILURE.md。
+
 2026-10-22／实况032：原字节封存三业务类型输入和原计划至RCD/engine-acceptance/eng-005-business-v2，清单SHAbc82f786…；7项核验器测试PASS，独立进程验证3文件16初始公式/缓存及日期元数据PASS。复核6布局+3日期图片身份，原预览1904差异保留，不主张原生Text等价。输入准备阻断已推进为固定输入就绪；Zen/Excel新业务执行0，ENG-005仍PARTIAL。下一步真正的Zen API8步类型业务执行器及历史/保存验收，再做Excel同操作对照。见operations/2026-10-22-TYPED-INPUT-SEAL.md。
 
 2026-10-22／实况031：新增独立只读日期解释卡，7项边界/拒绝/源保护测试PASS，三固定候选实际生成并查看日期卡；订单1904的59.25解释为1904-02-29 06:00，三原包不变。不是原生Text/通用排版，前轮artifact预览差异保留。未封存、无新Zen/Office运行，ENG-005 PARTIAL。下一步综合既有包/六全表布局/三日期卡证据逐项准入封存，再开发业务执行器。见operations/2026-10-22-TYPED-DATE-INTERPRETATION.md。

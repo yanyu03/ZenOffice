@@ -1,0 +1,66 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-005",
+  "started_at": "2026-10-22T16:29:29.884170+00:00",
+  "ended_at": "2026-10-22T16:36:49.536Z",
+  "status": "FAILED",
+  "actual_commit": "6134f01a413eb5776d1c272109d1bab6b8836a85",
+  "actual_scope": "Attempted sealed3case Rust API8operation business runner; compilationPASS but0PASS3FAIL on first text request unknowncustomXML. Preserved failed runner locally; separate3test atomic-refusal regressionPASS. Production engine unchanged; native0.",
+  "commands": [
+    "Official41% start/39% end; localREADY; taskbook and continuityPASS; actualworkerordinal13 mark only",
+    "Original manifest pinned verificationPASS; Rust API runner source built from sealed original plan expectations",
+    "Initial wrapper argparse failure beforeCargo preserved; fixed owned wrapper only; DSHA Python/Cargo/Rust/MSVC healthPASS",
+    "quota_guard owned cargo test --offline -p zen-session --test typed_business: compilePASS,0PASS3FAIL firsttext unknowncustomXML; actual child log retained",
+    "Preserve failedsource+dependencydiff under target; restore only own Cargo.toml/Cargo.lock edits; replace pending test with explicitly named negative regression",
+    "DSHA guarded cargo test --locked --offline -p zen-session --test typed_business_admission:3PASS0FAIL; actual guardchildlog retained",
+    "Sealed input verificationPASS;check_baseline106PASS;report/frozen/diff checks before sync"
+  ],
+  "deviations": [
+    "Real business path blocked by existing customXML guard; no evidence that guard itself is incorrect",
+    "Prior input readiness meant identity/structure, not edit admission; no input/manifest/taskbook changes to force success",
+    "Failed business runner kept private pending redesign; only validated negative regression and factual docs submitted; no productioncode/dependencychange"
+  ],
+  "untested": [
+    "All8normal business operations, typed/date undo-redo and saved outputs on3sealedinputs",
+    "Native Excel/ONLYOFFICE same-operation comparison",
+    "Safe generalizedcustomXML preservation admission; fullRustsuite delegated to exactcommitCI not repeatedlocally"
+  ],
+  "next_step": "Define and independently justify generalized customXML dependency/preservation admission; keep unsupportedcases refusing; then recover original runner from checkpoint and test unchanged sealed inputs without lowering standard.",
+  "criteria": {
+    "ENG-005-C1": {
+      "requirement": "建立TypedValue和编辑准入表，覆盖空白、文本、布尔、数字、日期及普通公式；日期体系和错误值单列。",
+      "result": "NOT_RUN",
+      "observation": "Whole original condition not executed; failed normal business attempt and separate negative regression recorded independently",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C2": {
+      "requirement": "实现支持的类型/公式写回和跨表动态依赖更新；缓存与calc配置有独立预期；未知名称、数组、外链明确拒绝或只读。",
+      "result": "FAIL",
+      "observation": "Three declared business first text edits refuse unknown customXML; required runtime path did not meet planned behavior. Not proof protective refusal is itself wrong.",
+      "sample_count": 3,
+      "evidence": [
+        "docs/research/ENG-005-API-ADMISSION-FAILURE-2026-10-23.json"
+      ]
+    },
+    "ENG-005-C3": {
+      "requirement": "3份业务XLSX分别包含类型切换、清空和公式替换；保存重开并与Excel同等修改对照。",
+      "result": "NOT_RUN",
+      "observation": "Whole original condition not executed; failed normal business attempt and separate negative regression recorded independently",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C4": {
+      "requirement": "失败不改变会话/原包/旧输出，撤销恢复数据和计算状态；相关Rust回归按提交记录。",
+      "result": "NOT_RUN",
+      "observation": "Whole original condition not executed; failed normal business attempt and separate negative regression recorded independently",
+      "sample_count": 0,
+      "evidence": []
+    }
+  },
+  "slice_evidence": "docs/research/ENG-005-API-ADMISSION-FAILURE-2026-10-23.json"
+}
