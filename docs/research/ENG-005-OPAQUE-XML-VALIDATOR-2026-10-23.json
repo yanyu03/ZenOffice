@@ -1,0 +1,69 @@
+{
+  "date": "2026-10-23",
+  "task": "ENG-005",
+  "source_parent": "d22928deff37252f03e5ad47f354a516cf43e2ca",
+  "scope": "Read-only single owned XML declaration descriptor, NOT write admission; no mutation/history/save integration",
+  "runtime": {
+    "dsha": "2.5.2",
+    "python": "3.12.14",
+    "cargo": "1.99.1",
+    "rustc": "1.99.1",
+    "sdk": "child mapping PASS",
+    "sha2": "0.10.9"
+  },
+  "checks": [
+    {
+      "command": "cargo test --locked --offline -p zen-opc",
+      "result": "PASS",
+      "counts": {
+        "unit": 22,
+        "descriptor": 15
+      },
+      "log": "target/quota_guard/command-819da230a3c7434c9c02cc276faabcb0.log"
+    },
+    {
+      "command": "cargo test --locked --offline -p zen-session --test typed_business_admission",
+      "result": "PASS",
+      "counts": {
+        "strict_refusals": 3
+      },
+      "log": "target/quota_guard/command-9d6aeb59bcba4cccb0d237f6ea5fb93b.log"
+    }
+  ],
+  "initial_failure": {
+    "log": "target/quota_guard/command-ba82c4920ea54dd6b64429204cb1a756.log",
+    "result": "22 unit PASS,13 descriptor PASS,1 descriptor fixture FAIL; expected XML budget but ZIP ratio guard refused first; budget specimen changed to store-only; environment prerequisites all PASS"
+  },
+  "positive_samples": [
+    "generic independent leaf XML (no probe namespace whitelist)",
+    "three original sealed owned business inputs (descriptor only)"
+  ],
+  "negative_groups": [
+    "source/payload/size/media/part/relationship identity",
+    "no/duplicate/untrusted caller declaration",
+    "duplicate/case/percent/traversal alias",
+    "missing or multiple/wrong/external workbook ownership",
+    "extra custom XML/properties/outgoing graph",
+    "known bindings/extensions/protection",
+    "active payload/signatures",
+    "nonleaf/mixed/DTD/comment payload",
+    "descriptor/XML node/size budgets",
+    "above-root relationship traversal"
+  ],
+  "limitations": [
+    "Caller ownership and semantic independence are explicit trust premises, not inferred from marker absence",
+    "Receipt is not package/edit admission; unknown relationships/semantic dependencies still need original gates at integration",
+    "First cut exactly one application/xml UTF-8 leaf, ASCII canonical paths; no generic custom XML support",
+    "16MiB compressed input,256 entries,32MiB expanded post-read,1MiB XML and16384 nodes; ZIP pre-inflate64/256MiB existing limits remain; no peak-heap claim",
+    "No new original8step edits/save/reopen/native Excel runs; historical033 C2FAIL preserved"
+  ],
+  "sources": {
+    "crates/zen-opc/src/opaque_xml.rs": "12cc28b9115f80f1be3320dbbe5e5020f39074a3b60735e0716d935c2ff47f98",
+    "crates/zen-opc/tests/opaque_xml.rs": "153bc190f1a1154aff80d0b9b169a3d798349da9afe4ee4b75bf670e8dba2ed1",
+    "Cargo.lock": "99870e067f5379bd0f768fdefb757c9aa254c804d147ca8dd7d13f66ac99ae4d"
+  },
+  "logs": {
+    "target/quota_guard/command-819da230a3c7434c9c02cc276faabcb0.log": "864279a54eaec0723aedc8c031091e573db12da3f6db7ee9ee438ba01560a7a6",
+    "target/quota_guard/command-9d6aeb59bcba4cccb0d237f6ea5fb93b.log": "f3b00e2b7098c940fa4a41c5356e3f6d163001f7d9ba743cf6387aa1e9176fcc"
+  }
+}

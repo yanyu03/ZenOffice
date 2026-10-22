@@ -11,6 +11,7 @@
 
 pub mod crc32;
 pub mod opc;
+pub mod opaque_xml;
 pub mod preserve;
 pub mod zip;
 

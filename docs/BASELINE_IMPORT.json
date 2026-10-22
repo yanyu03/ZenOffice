@@ -149,7 +149,7 @@
   ],
   "fresh_build": "NOT RUN: Rust toolchain unavailable on audit host",
   "public_imported_sha256": {
-    "Cargo.lock": "3fd739660d7244bd711eda209e72172e062138afba5821aa258897087587c1ab",
+    "Cargo.lock": "99870e067f5379bd0f768fdefb757c9aa254c804d147ca8dd7d13f66ac99ae4d",
     "Cargo.toml": "8ebce798e02e92b6c0890412a18777e5370a2a00eadb21414569d996156f50f2",
     "RCD/red-team-corpus/academic-word-2026-10/manifest.json": "8ccf363854c8f5e128ff1b1e85ac01fbfe24d956f6c477351a6f292340ba03fa",
     "RCD/red-team-corpus/academic-word-2026-10/zen_academic_multiscenario.docx": "4b841b58d991d79ab5069439d8bed5e743ab5ab866fec50e22527b22ece7a3bd",
@@ -210,9 +210,9 @@
     "crates/zen-formats/tests/trinity_ooxml.rs": "0c82b914ee16855aa825210565ce0978714d76440f421596273bb6dc80da9249",
     "crates/zen-harness/Cargo.toml": "f6f4a89f892a7f64a53681942d7f77d3b7fdf619bf89e10500952a5ddeb3d36c",
     "crates/zen-harness/src/bin/zen_deliver.rs": "2fb2677c58636869f977558e5db2975888954bc4d34535db655ba9fc5ea42810",
-    "crates/zen-opc/Cargo.toml": "726bd4fd6879badbc22efc34a477c2f2769be58566427ccd878904ada096ebe7",
+    "crates/zen-opc/Cargo.toml": "f269b219b7b41ad8fd0fe0370868fe25f9163476b09d1dceea0e718b93d44b54",
     "crates/zen-opc/src/crc32.rs": "68eeb77901ad0c917a1baa923016f9f053f7fd1dade6d31259772cecda7628da",
-    "crates/zen-opc/src/lib.rs": "f03b1cb22a65bb1f2079488ed81b0d6e90297b22e3d9dc180edd551f45eda56a",
+    "crates/zen-opc/src/lib.rs": "504074d706b92e4af0c17223103540e9605c4b16a660cfe23a9ae99072fcaaf0",
     "crates/zen-opc/src/opc.rs": "c583379ebcf3b4c88b78f8a653e214e7edea47b445427d725dc4f9074120001b",
     "crates/zen-opc/src/preserve.rs": "ac033c2d1d4b8856cdaad5f2e2a4ea7216312b77a308c3f054abb6db218e135c",
     "crates/zen-opc/src/zip.rs": "dbaa21018080589cfb102956c26dd7b705e934e26570af717a2650565087145c",
@@ -445,6 +445,29 @@
           "before": "31939c6091f558b2c3fa151bb286f83a69c8b0a9d7b85315dd82f9116fa2faa7",
           "after": "d41a3538cf559fff0f0ad9d48fb318aac42c88b435805c64e2aa951f14cb8498"
         }
+      }
+    },
+    {
+      "date": "2026-10-23",
+      "task": "ENG-005",
+      "reason": "Standalone read-only opaque XML declaration receipt, no editing admission. Export new module and pin sha2 0.10.9 plus locked transitive dependencies; original imported_sha256_before_adjustments untouched.",
+      "files": {
+        "Cargo.lock": {
+          "before": "3fd739660d7244bd711eda209e72172e062138afba5821aa258897087587c1ab",
+          "after": "99870e067f5379bd0f768fdefb757c9aa254c804d147ca8dd7d13f66ac99ae4d"
+        },
+        "crates/zen-opc/Cargo.toml": {
+          "before": "726bd4fd6879badbc22efc34a477c2f2769be58566427ccd878904ada096ebe7",
+          "after": "f269b219b7b41ad8fd0fe0370868fe25f9163476b09d1dceea0e718b93d44b54"
+        },
+        "crates/zen-opc/src/lib.rs": {
+          "before": "f03b1cb22a65bb1f2079488ed81b0d6e90297b22e3d9dc180edd551f45eda56a",
+          "after": "504074d706b92e4af0c17223103540e9605c4b16a660cfe23a9ae99072fcaaf0"
+        }
+      },
+      "validation": {
+        "local": "22 OPC +15 descriptor +3 strict refusal Rust tests PASS",
+        "evidence": "docs/research/ENG-005-OPAQUE-XML-VALIDATOR-2026-10-23.json"
       }
     }
   ]
