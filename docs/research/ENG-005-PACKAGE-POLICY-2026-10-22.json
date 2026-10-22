@@ -1,0 +1,14 @@
+{
+  "scope": "Narrow initial package policy; no generator, rendering, sealing, Zen or Office execution",
+  "positive_memory_packages": 3,
+  "negative_specimens": 30,
+  "test_methods_pass": 7,
+  "original_failed_candidates_unchanged": 3,
+  "source_sha256": {
+    "checker": "48b050664f6e3bdb1139be69b79860e8447f39a23d5778f7dcfcae65c3667eb7",
+    "tests": "142d63be2acb5280d5e2c82763434422261a9bf5007ecd3efaa69798df604f7e"
+  },
+  "local_log_sha256": "18f40d6d04a104b18397daf8c844b2c3ccd4bdf59c28f68a3f90211debc9b8c6",
+  "initial_invalid_source_sha256": "9ba7739cc99a2dc449c75a95fe714dd8e2182400191e2fdea2e0926f021abd29",
+  "second_invalid_source_sha256": "e28e146005db4e0c00fcd113f4c1a47c38b0b77200ac9aaee8c2bda6f3ca729b"
+}

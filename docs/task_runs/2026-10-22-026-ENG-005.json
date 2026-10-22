@@ -1,0 +1,77 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-005",
+  "started_at": "2026-10-22T08:34:30.626085+00:00",
+  "ended_at": "2026-10-22T08:41:22.236Z",
+  "status": "PARTIAL",
+  "actual_commit": "c16757233efc8541c1276faa0d6a128e126d2f70",
+  "actual_scope": "Independent read-only narrow initial package policy and authorized fault specimens:7 test methods pass,3 in-memory positives and30 negatives. No input generation, sealing or engine/Office execution.",
+  "commands": [
+    "Official quota82% and localREADY; taskbook calibrated; continuity priorCOMPLETE no active owned commands; actual ticket ordinal5 mark only.",
+    "Source inspection and new independent checker/tests; CI paths/step added.",
+    "Two test launch failures before unittest log; preserved bad sources and second DSHA TASK_FAILED response; Python identity and health PASS. AST diagnostics identified malformed fixture literal and duplicated tail; source corrected.",
+    "Same DSHA EnvFeel Python3.12.14 test_typed_package.py --log target/typed-package-026-tests.log:7 methods PASS including3 positive micro-packages and30 negative specimens.",
+    "check_baseline.py PASS106; diff --check PASS; three original failed candidate hashes unchanged."
+  ],
+  "deviations": [
+    "No authoring integration or original generator retry; source draft remains distinct from existing refused path.",
+    "First launch stdout was not captured; no reconstructed execution output. Second failed response and both invalid source snapshots preserved.",
+    "Test-only memory packages do not count as sealed business inputs; all frozen product criteria remain NOT_RUN."
+  ],
+  "untested": [
+    "Actual business package creation/rendering/sealing and generator integration",
+    "New Zen typed/date sessions, history/refusal regression and native Excel/ONLYOFFICE comparison",
+    "General OOXML schema validity, arbitrary packages, shared-string label support and external parts",
+    "Rust all-target regression not repeated; no Rust changes"
+  ],
+  "next_step": "Review a policy-compliant whole-package creation/integration design; independently inspect a real minimal candidate before any three-business input sealing. Keep existing generator refused and original failed packages unchanged.",
+  "criteria": {
+    "ENG-005-C1": {
+      "requirement": "建立TypedValue和编辑准入表，覆盖空白、文本、布尔、数字、日期及普通公式；日期体系和错误值单列。",
+      "result": "NOT_RUN",
+      "observation": "No new product execution; package checker specimens are separate from frozen engine/host acceptance.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C2": {
+      "requirement": "实现支持的类型/公式写回和跨表动态依赖更新；缓存与calc配置有独立预期；未知名称、数组、外链明确拒绝或只读。",
+      "result": "NOT_RUN",
+      "observation": "No new product execution; package checker specimens are separate from frozen engine/host acceptance.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C3": {
+      "requirement": "3份业务XLSX分别包含类型切换、清空和公式替换；保存重开并与Excel同等修改对照。",
+      "result": "NOT_RUN",
+      "observation": "No new product execution; package checker specimens are separate from frozen engine/host acceptance.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C4": {
+      "requirement": "失败不改变会话/原包/旧输出，撤销恢复数据和计算状态；相关Rust回归按提交记录。",
+      "result": "NOT_RUN",
+      "observation": "No new product execution; package checker specimens are separate from frozen engine/host acceptance.",
+      "sample_count": 0,
+      "evidence": []
+    }
+  },
+  "slice_evidence": "docs/research/ENG-005-PACKAGE-POLICY-2026-10-22.json",
+  "component_checks": {
+    "scope": "Narrow initial package policy; no generator, rendering, sealing, Zen or Office execution",
+    "positive_memory_packages": 3,
+    "negative_specimens": 30,
+    "test_methods_pass": 7,
+    "original_failed_candidates_unchanged": 3,
+    "source_sha256": {
+      "checker": "48b050664f6e3bdb1139be69b79860e8447f39a23d5778f7dcfcae65c3667eb7",
+      "tests": "142d63be2acb5280d5e2c82763434422261a9bf5007ecd3efaa69798df604f7e"
+    },
+    "local_log_sha256": "18f40d6d04a104b18397daf8c844b2c3ccd4bdf59c28f68a3f90211debc9b8c6",
+    "initial_invalid_source_sha256": "9ba7739cc99a2dc449c75a95fe714dd8e2182400191e2fdea2e0926f021abd29",
+    "second_invalid_source_sha256": "e28e146005db4e0c00fcd113f4c1a47c38b0b77200ac9aaee8c2bda6f3ca729b"
+  }
+}

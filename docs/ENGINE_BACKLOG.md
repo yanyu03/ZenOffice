@@ -1,5 +1,7 @@
 # 引擎待办与交接
 
+2026-10-22／实况026：新增独立只读包策略检查器，7项方法通过（3个内存正向包、30个独立拒绝样本）；核对日期体系、calcPr、日期xf、初始值/公式缓存及customXml关系。两次测试夹具语法启动失败已保留并修正；三旧失败候选不变。旧生成器未集成，未新建封存业务输入或启动Zen/Office，ENG-005仍PARTIAL。见operations/2026-10-22-TYPED-PACKAGE-POLICY.md。
+
 2026-10-22／实况025：上轮额度阻断保留的独立元数据构造器已通过9项专项，原5项拒绝回归通过；显式日期体系、manual calcPr、builtin14样式及自有customXml关系可在新XML部件中构造。旧生成入口仍拒绝，三业务输入/整包集成未完成，ENG-005仍PARTIAL/BLOCKED于业务验收；本轮所有产品条件NOT_RUN，未进行Zen/Office新运行。详见operations/2026-10-22-TYPED-METADATA-COMPONENT.md。
 
 第022轮／实况023：一次性第二heartbeat副手审阅已消耗，852 tokens，回答length截断；完整一条锁证据提醒已对照27份历史日志核实，不能算完整审阅或新增产品验收。ENG-004本轮所有条件NOT_RUN/PARTIAL，既有DONE不回改；ENG-005阻断不变。此后定时只登记真实事件，不读CMD_ENV、不请求副手；普通手动分工授权不扩大自动化权限。见operations/2026-10-19-WORKER-DEEPSEEK-ONCE-RESULT.md。
