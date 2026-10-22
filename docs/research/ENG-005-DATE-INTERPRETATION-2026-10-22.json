@@ -1,0 +1,98 @@
+{
+  "kind": "Independent read-only date interpretation diagnostic, not native rendering or product acceptance",
+  "source_commit": "5e8bcc2b7ca904e506322f986030d0e1ab3e5892",
+  "tests_pass": 7,
+  "test_log_sha256": "cf48b19dee3c66c12801c0b57a46f4c206c6de32cf6f8022b5b98bd63c668556",
+  "candidate_receipts": [
+    {
+      "system": "Excel1900",
+      "serial": "46314",
+      "kind": "calendar",
+      "interpretation": "2026-10-19 00:00:00",
+      "case": "budget",
+      "sheet": "Budget",
+      "cell": "B10",
+      "style_index": "1",
+      "input_sha256": "c76852a1ad28b717fb9b44ea3f0afd7a846c19862776dabf8065cc7b65035531",
+      "scope": "independent numeric date interpretation; not native Text or layout fidelity",
+      "plan_sha256": "ebd6c6dd390a4a1890eb2b1ec78f54d18d828ab8a1201d65676849bded820dba",
+      "svg_sha256": "2dcb84361f4b20e49d12f7bb23556df2a454e57c5b8b002880ebed4b1fb9851b",
+      "input_unchanged": true
+    },
+    {
+      "system": "Excel1904",
+      "serial": "59.25",
+      "kind": "calendar",
+      "interpretation": "1904-02-29 06:00:00",
+      "case": "orders",
+      "sheet": "Orders",
+      "cell": "B9",
+      "style_index": "1",
+      "input_sha256": "71d0703cc63d1ab66284aadcff3d54fe0f09f47102068306726c6c0fa7cd8d96",
+      "scope": "independent numeric date interpretation; not native Text or layout fidelity",
+      "plan_sha256": "ebd6c6dd390a4a1890eb2b1ec78f54d18d828ab8a1201d65676849bded820dba",
+      "svg_sha256": "c4d602cc0634c0e44c579d12c5bdfa5123f0058811c904220c83fca9df7f84a5",
+      "input_unchanged": true
+    },
+    {
+      "system": "Excel1900",
+      "serial": "59",
+      "kind": "calendar",
+      "interpretation": "1900-02-28 00:00:00",
+      "case": "attendance",
+      "sheet": "Attendance",
+      "cell": "B9",
+      "style_index": "1",
+      "input_sha256": "ea4395387368189d5e05451776cca51e56a439836757325b734af7e8e8659ea2",
+      "scope": "independent numeric date interpretation; not native Text or layout fidelity",
+      "plan_sha256": "ebd6c6dd390a4a1890eb2b1ec78f54d18d828ab8a1201d65676849bded820dba",
+      "svg_sha256": "8ca6ae539a35df746e8c1ccc225cecc416bc864503515988ec951582dc4bd601",
+      "input_unchanged": true
+    }
+  ],
+  "raster": {
+    "node": "v24.14.1",
+    "sharp": "0.35.5",
+    "records": [
+      {
+        "case": "budget",
+        "png_sha256": "604c8c30fc4f2713d884993c4319a37f7e7bb1242d9515488feed28fcc53d77a"
+      },
+      {
+        "case": "orders",
+        "png_sha256": "be74a454913dbe6dec66908dcddc7708567543b2654ccf4d09bde541df6eb7b6"
+      },
+      {
+        "case": "attendance",
+        "png_sha256": "5d51020d674dbfe2a734207e3d572782c78b4bc620178b214b54240c50e60cf3"
+      }
+    ]
+  },
+  "visual_review": {
+    "cards_reviewed": 3,
+    "result": "PASS for diagnostic legibility and independently expected date/time",
+    "scope": "Date cards only; no full-sheet layout or native builtin14 Text equivalence"
+  },
+  "source_sha256": {
+    "tools/office_research/preview_typed_date.py": "5d0bfc80281b652f04d2105f21f01d0e98e4f441bc83b610ff7a011e9a02d525",
+    "tools/office_research/test_preview_typed_date.py": "e289f90e596f43d9ddcee64302905a06088aecedbfe09f386b620a8ca25da493",
+    ".github/workflows/taskbook.yml": "f063f135ba26a1f42522a3b104b11c83fa645e3933aec8357c51e39c37f3cc7d"
+  },
+  "local_script_sha256": {
+    "run-preview.py": "07a43914890b1051c8318e891dd7ffd6917690d730837e8f8f6873996287fd01",
+    "raster.mjs": "4cc1b954b28a5f19679d9c7425bde4968a32a033b954c64a53acf2167df8c50d",
+    "tests.envfeel.log": "2d21d546fe2051d71c1881f6ebaf6d525885d6ab355106f5768e9cd44d5424ba",
+    "preview.envfeel.log": "2d21d546fe2051d71c1881f6ebaf6d525885d6ab355106f5768e9cd44d5424ba",
+    "raster.envfeel.log": "50f67aa28fe6e94f975ab6ddeefa6a88bfe28cdf5b33a166376eba18fd3ddb9a"
+  },
+  "qualified_inputs_sealed": 0,
+  "new_zen_runs": 0,
+  "new_excel_runs": 0,
+  "new_onlyoffice_runs": 0,
+  "known_discrepancy": "Previous artifact-tool1904 preview remains unresolved and retained; independent view does not repair that library",
+  "references": [
+    "https://support.microsoft.com/en-gb/excel/date-systems-in-excel",
+    "https://learn.microsoft.com/en-us/troubleshoot/microsoft-365-apps/excel/wrongly-assumes-1900-is-leap-year",
+    "https://learn.microsoft.com/en-us/openspecs/office_file_formats/ms-xls/4a5e900a-0eb0-4355-8fc1-81aab8f46e8b"
+  ]
+}
