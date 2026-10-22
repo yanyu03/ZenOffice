@@ -1,0 +1,90 @@
+{
+  "kind": "Fresh candidate interoperability repair; preparatory evidence only",
+  "source_commit": "6068332f37b7cd406051ad31a14bc0bf851d896b",
+  "original_candidate_sha256": "47d5bc24b376e9f5c61f85055f59ab35b6d6fca65e53340daf0687eb57a45664",
+  "original_candidate_unchanged": true,
+  "initial_import": {
+    "result": "FAIL",
+    "attempts": 2,
+    "second_attempt": "same input/environment with error receipt only",
+    "environment": "PASS Node24.14.1",
+    "error": "Xml_MessageWithErrorPosition, Xml_UserException, 2, 2",
+    "location": "System.IO.Packaging.ZipPackage.ContentTypeHelper.ParseContentTypesFile"
+  },
+  "repair": "Fresh Content_Types uses local default namespace; no global registration or old-package repair. Independent narrow reader compatibility gate rejects prefixed qualified names.",
+  "tests": {
+    "metadata": 10,
+    "package": 8,
+    "author": 8,
+    "total": 26,
+    "baseline_identities": 106
+  },
+  "corrected_candidate": {
+    "kind": "fresh candidate only; render/sealing/Zen/Office NOT_RUN",
+    "case": "budget",
+    "plan_sha256": "ebd6c6dd390a4a1890eb2b1ec78f54d18d828ab8a1201d65676849bded820dba",
+    "candidate_sha256": "c76852a1ad28b717fb9b44ea3f0afd7a846c19862776dabf8065cc7b65035531",
+    "bytes": 3369
+  },
+  "package_check": {
+    "policy": "PASS",
+    "case": "budget",
+    "initial_formulas_checked": 6,
+    "scope": "narrow package policy only; render/sealing/Zen/Office NOT_RUN",
+    "candidate_sha256": "c76852a1ad28b717fb9b44ea3f0afd7a846c19862776dabf8065cc7b65035531",
+    "input_bytes_unchanged": true
+  },
+  "render": {
+    "input_sha256": "c76852a1ad28b717fb9b44ea3f0afd7a846c19862776dabf8065cc7b65035531",
+    "input_bytes": 3369,
+    "input_unchanged": true,
+    "node": "v24.14.1",
+    "views": [
+      {
+        "sheetName": "Summary",
+        "range": "A1:E8",
+        "png_sha256": "4981977139ff631f11448fcd9d45c844da47124a308963e2446e56a622df118e",
+        "inspection": "{\"kind\":\"table\",\"sheet\":\"Summary\",\"address\":\"A1:E8\",\"rows\":8,\"cols\":5,\"values\":[[\"budget — independent typed/date fixture\",null,null,null,null],[\"Business result\",1300,null,null,null],[\"Date serial plus one\",46315,null,null,null],[null,null,null,null,null],[\"Source: synthetic ZenOffice business-v2 plan\",null,null,null,null],[\"Planned date system: Excel1900\",null,null,null,null],[null,null,null,null,null],[null,null,null,null,null]]}"
+      },
+      {
+        "sheetName": "Budget",
+        "range": "A1:E14",
+        "png_sha256": "acadba0e46c4069abe4b1e552015dead31b6e6ac36d332c176e365565bff67a2",
+        "inspection": "{\"kind\":\"table\",\"sheet\":\"Budget\",\"address\":\"A1:E14\",\"rows\":14,\"cols\":5,\"values\":[[\"Budget variance (CNY)\",null,null,null,null],[null,null,null,null,null],[\"Category\",\"Planned\",\"Actual\",\"Variance\",null],[\"Payroll\",12000,11000,1000,null],[\"Rent\",4500,4500,0,null],[\"Supplies\",1800,1500,300,null],[null,null,null,null,null],[\"Total variance\",null,null,1300,null],[null,null,null,null,null],[\"Report date serial (1900)\",46314,null,null,null],[null,null,null,null,null],[\"Review state\",7,null,null,null],[null,null,null,null,null],[null,null,null,null,null]]}"
+      }
+    ],
+    "exports": 0,
+    "engine_runs": 0,
+    "native_runs": 0
+  },
+  "visual": {
+    "reviewed_images": 2,
+    "result": "PASS for declared populated areas",
+    "Summary": "A1:E8 title/source labels and 1300/46315 readable; no clipping observed",
+    "Budget": "A1:E14 categories, amounts, total1300, review7 and date10/19/26 readable; no clipping/#### observed"
+  },
+  "qualified_inputs_sealed": 0,
+  "new_zen_runs": 0,
+  "new_excel_runs": 0,
+  "new_onlyoffice_runs": 0,
+  "limitations": [
+    "Importer/renderer observation is not native Excel behavior or general OOXML validation",
+    "Other two real business candidates and typed engine/native runs remain pending",
+    "No workbook export, source edits, taskbook changes or worker calls"
+  ],
+  "hashes": {
+    "tools/office_research/typed_metadata.py": "79b7f518adaa09c41a93d31c709c92ecf392920b5c0337702dfda24fc375d177",
+    "tools/office_research/check_typed_package.py": "cc3401ed9bc4025f7fc9a20ba14cb103e24ba3527c69d0c9c8667f911025288e",
+    "tools/office_research/test_typed_metadata.py": "0eecae970d39156f8b06aaa459cf011a7e898d182d63510b0d2e5b1361b0a897",
+    "tools/office_research/test_typed_package.py": "26ea2351f6a2b46173253c3dd107f41ac3b4c66d8d99bd5cc4313281b44b504f",
+    "local/envfeel.log": "1af776f26adaecb97dc62c46e7f573c070d134f886f9d2f8d0c581d28932a6c0",
+    "local/envfeel-diagnostic.log": "1af776f26adaecb97dc62c46e7f573c070d134f886f9d2f8d0c581d28932a6c0",
+    "local/failure.json": "8f9fe38a9a8fdbe01f27187f1c49a488cfd10945567c6911b0b5a7a07514accc",
+    "local/test_typed_metadata.py.log": "9154bbb7eab5e8f4fe2d8c39ee90c8fa6e220abd9d2e9bffe9a6de9af9d26687",
+    "local/test_typed_package.py.log": "aad45bac7399860916d7bc1e723b97a3ffdb9388ac6e542bf08817f56e9b2e42",
+    "local/test_author_typed_package.py.log": "57027b3b8744b28b2f76b19bb851c38ad2b1da080715591cf776436cc9b4ecb9",
+    "local/corrected/receipt.json": "8f68451ecb3baa226f53505869e36466c86d9ceca7f028edf929a6c30ff0ccec",
+    "local/render.mjs": "93685cc0cef16ba3d244222f55f6bd091cedbab4e697cd705e3753c62909071a",
+    "local/render-corrected.mjs": "592ca4e52ba4aa68af7583a10c92ca85a482e6a463682da4a526943789d2a8ed"
+  }
+}

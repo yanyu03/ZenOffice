@@ -66,6 +66,11 @@ class PackagePolicyTests(unittest.TestCase):
 
     def alter(self,part,fn):
         parts=dict(self.parts);root=ET.fromstring(parts[part]);fn(root)
+        if part=='[Content_Types].xml':
+            # Preserve default-namespace spelling so unrelated negative specimens
+            # still reach their intended duplicate/type checks.
+            for e in root.iter(): e.tag=e.tag.split('}',1)[-1]
+            root.set('xmlns','http://schemas.openxmlformats.org/package/2006/content-types')
         parts[part]=ET.tostring(root);return parts
 
     def refuse(self,parts):
@@ -115,6 +120,15 @@ class PackagePolicyTests(unittest.TestCase):
         self.refuse(self.alter('xl/_rels/workbook.xml.rels',lambda r:r[1].set('Target',r[0].get('Target'))))
         self.refuse(self.alter('[Content_Types].xml',lambda r:r.append(copy.deepcopy(r[-1]))))
         self.refuse(self.alter('[Content_Types].xml',lambda r:r[-1].set('ContentType','application/xml')))
+
+    def test_prefixed_content_types_rejected_without_changing_other_policy(self):
+        # Expanded XML names are equal, but the observed Packaging reader rejects prefixes.
+        original=self.parts['[Content_Types].xml']
+        prefixed=ET.tostring(ET.fromstring(original))
+        self.assertEqual(ET.fromstring(original).tag,ET.fromstring(prefixed).tag)
+        parts=dict(self.parts);parts['[Content_Types].xml']=prefixed
+        self.refuse(parts)
+        self.assertEqual(check_package(package(self.parts),self.spec)['policy'],'PASS')
 
     def test_zip_duplicate_and_unsafe_names(self):
         with self.assertRaises(ValueError): check_package(package(self.parts,'xl/workbook.xml'),self.spec)

@@ -72,6 +72,17 @@ class MetadataTests(unittest.TestCase):
         self.assertTrue(overrides['/xl/styles.xml'].endswith('.styles+xml'))
         self.assertEqual({e.get('Extension'):e.get('ContentType') for e in ct.findall(C+'Default')}['xml'],'application/xml')
 
+    def test_content_types_use_local_default_namespace_without_global_registration(self):
+        from xml.parsers import expat
+        before=dict(ET._namespace_map)  # test-only observation of unwanted global mutation
+        parts=metadata_parts('Excel1900','Budget','budget')
+        names=[]; parser=expat.ParserCreate()
+        parser.StartElementHandler=lambda name,attrs: names.append(name)
+        parser.Parse(parts['[Content_Types].xml'],True)
+        self.assertEqual(names,['Types','Default','Default','Override','Override','Override','Override'])
+        self.assertEqual(ET._namespace_map,before)
+        self.assertEqual(ET.fromstring(parts['[Content_Types].xml']).tag,C+'Types')
+
     def test_xml_escaping_and_unicode_roundtrip(self):
         parts = metadata_parts('Excel1904','研发 & <预算>','owned_01')
         wb = ET.fromstring(parts['xl/workbook.xml'])

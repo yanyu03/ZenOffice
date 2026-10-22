@@ -1,0 +1,62 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-005",
+  "started_at": "2026-10-22T11:37:16.776872+00:00",
+  "ended_at": "2026-10-22T11:41:27.065Z",
+  "status": "PARTIAL",
+  "actual_commit": "6068332f37b7cd406051ad31a14bc0bf851d896b",
+  "actual_scope": "Diagnose actual budget import failure; fix fresh content-type namespace spelling and independent compatibility gate;26 tool tests PASS; new budget candidate read-only imported/rendered and 2 images visually reviewed. No product acceptance.",
+  "commands": [
+    "Official quota63% start/60% end; localREADY; frozen calibration PASS; continuity no active handles; worker ordinal8 mark only",
+    "DSHA Node24.14.1 environment PASS; original fixed candidate import TASK_FAILED twice, second diagnostic receipt only",
+    "DSHA Python metadata10/package8/author8 tests PASS; check_baseline106 PASS; diff --check PASS",
+    "DSHA Python create-new fresh budget from unchanged plan and separate readonly checker PASS6 formulas",
+    "DSHA Node import/render corrected candidate COMPLETE; viewed Summary/Budget PNGs; source hashes unchanged"
+  ],
+  "deviations": [
+    "Narrow package PASS previously missed qualified-name compatibility; original remains failed/unsealed",
+    "Task expanded from read-only render to bounded observed author/checker fix; taskbook and plan unchanged",
+    "Public .NET source supports qualified-name hypothesis; loaded WASM source version not verified"
+  ],
+  "untested": [
+    "Other two real business candidates, all-input sealing",
+    "Zen typed/date business edits, undo/redo/save and Excel/ONLYOFFICE comparison",
+    "General OOXML validation and Rust regression (Rust source unchanged)"
+  ],
+  "next_step": "Create-new remaining two business candidates, independently check and render all declared populated views; seal only after conditions pass, then engine/native same-operation runners.",
+  "criteria": {
+    "ENG-005-C1": {
+      "requirement": "建立TypedValue和编辑准入表，覆盖空白、文本、布尔、数字、日期及普通公式；日期体系和错误值单列。",
+      "result": "NOT_RUN",
+      "observation": "Preparatory tool repair and rendering only; no new product or native-host acceptance",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C2": {
+      "requirement": "实现支持的类型/公式写回和跨表动态依赖更新；缓存与calc配置有独立预期；未知名称、数组、外链明确拒绝或只读。",
+      "result": "NOT_RUN",
+      "observation": "Preparatory tool repair and rendering only; no new product or native-host acceptance",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C3": {
+      "requirement": "3份业务XLSX分别包含类型切换、清空和公式替换；保存重开并与Excel同等修改对照。",
+      "result": "NOT_RUN",
+      "observation": "Preparatory tool repair and rendering only; no new product or native-host acceptance",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C4": {
+      "requirement": "失败不改变会话/原包/旧输出，撤销恢复数据和计算状态；相关Rust回归按提交记录。",
+      "result": "NOT_RUN",
+      "observation": "Preparatory tool repair and rendering only; no new product or native-host acceptance",
+      "sample_count": 0,
+      "evidence": []
+    }
+  },
+  "slice_evidence": "docs/research/ENG-005-RENDER-INTEROP-2026-10-22.json"
+}

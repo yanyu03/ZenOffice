@@ -69,14 +69,16 @@ def metadata_parts(date_system, sheet_name, case_id):
     root_rels = ET.Element('{' + PKG_REL + '}Relationships')
     ET.SubElement(root_rels,'{' + PKG_REL + '}Relationship',
                   {'Id':'rIdWorkbook','Type':REL+'/officeDocument','Target':'xl/workbook.xml'})
-    types = ET.Element('{' + CT + '}Types')
+    # Packaging readers compare qualified names here; use a local default namespace.
+    # Avoid process-global ElementTree namespace registration.
+    types = ET.Element('Types', {'xmlns':CT})
     for ext, mime in [('rels','application/vnd.openxmlformats-package.relationships+xml'),('xml','application/xml')]:
-        ET.SubElement(types,'{' + CT + '}Default',{'Extension':ext,'ContentType':mime})
+        ET.SubElement(types,'Default',{'Extension':ext,'ContentType':mime})
     for part, kind in [('workbook','sheet.main'),('styles','styles')]:
-        ET.SubElement(types,'{' + CT + '}Override',{'PartName':'/xl/'+part+'.xml',
+        ET.SubElement(types,'Override',{'PartName':'/xl/'+part+'.xml',
             'ContentType':'application/vnd.openxmlformats-officedocument.spreadsheetml.'+kind+'+xml'})
     for i in (1,2):
-        ET.SubElement(types,'{' + CT + '}Override',{'PartName':'/xl/worksheets/sheet'+str(i)+'.xml',
+        ET.SubElement(types,'Override',{'PartName':'/xl/worksheets/sheet'+str(i)+'.xml',
             'ContentType':'application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml'})
     probe = ET.Element('{' + PROBE + '}probe', {'case':case_id})
     probe.text = 'Owned synthetic preservation sentinel; no vendor payload.'

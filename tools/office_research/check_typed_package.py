@@ -11,6 +11,7 @@ from pathlib import Path
 import posixpath
 import re
 import xml.etree.ElementTree as ET
+from xml.parsers import expat
 from zipfile import ZipFile, BadZipFile
 
 M='{http://schemas.openxmlformats.org/spreadsheetml/2006/main}'
@@ -127,6 +128,14 @@ def check_package(data, spec):
     probe=parse(probes[0]);require(probe.tag=='{urn:zenoffice:synthetic-preservation-probe:v1}probe'
                                and probe.get('case')==spec['id'] and bool(probe.text),'wrong probe identity')
     types=parse('[Content_Types].xml');require(types.tag==CT+'Types','wrong content types namespace')
+    # Narrow compatibility gate for the observed Packaging reader; not general XML validity.
+    lexical_names=[]
+    lexical=expat.ParserCreate()
+    lexical.StartElementHandler=lambda name,attrs: lexical_names.append(name)
+    lexical.Parse(parts['[Content_Types].xml'],True)
+    require(lexical_names and lexical_names[0]=='Types'
+            and all(n in ('Default','Override') for n in lexical_names[1:]),
+            'content types qualified names outside reader compatibility policy')
     override_list=types.findall(CT+'Override'); default_list=types.findall(CT+'Default')
     overrides={e.get('PartName'):e.get('ContentType') for e in override_list}
     defaults={e.get('Extension'):e.get('ContentType') for e in default_list}
