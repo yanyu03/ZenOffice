@@ -1,9 +1,9 @@
 name: Frozen taskbook calibration
 on:
   push:
-    paths: ['tools/taskbook/**', 'docs/taskbooks/**', 'docs/task_runs/**', 'tools/office_research/check_typed_plan.py', 'tools/office_research/*typed*.mjs', 'tools/office_research/test_typed_preflight.py', 'tools/office_research/typed_metadata.py', 'tools/office_research/test_typed_metadata.py', 'tools/office_research/check_typed_package.py', 'tools/office_research/test_typed_package.py', 'docs/engine_specs/ENG-005-business-v2.json', '.github/workflows/taskbook.yml']
+    paths: ['tools/taskbook/**', 'docs/taskbooks/**', 'docs/task_runs/**', 'tools/office_research/check_typed_plan.py', 'tools/office_research/*typed*.mjs', 'tools/office_research/test_typed_preflight.py', 'tools/office_research/typed_metadata.py', 'tools/office_research/test_typed_metadata.py', 'tools/office_research/check_typed_package.py', 'tools/office_research/test_typed_package.py', 'tools/office_research/author_typed_package.py', 'tools/office_research/test_author_typed_package.py', 'docs/engine_specs/ENG-005-business-v2.json', '.github/workflows/taskbook.yml']
   pull_request:
-    paths: ['tools/taskbook/**', 'docs/taskbooks/**', 'docs/task_runs/**', 'tools/office_research/check_typed_plan.py', 'tools/office_research/*typed*.mjs', 'tools/office_research/test_typed_preflight.py', 'tools/office_research/typed_metadata.py', 'tools/office_research/test_typed_metadata.py', 'tools/office_research/check_typed_package.py', 'tools/office_research/test_typed_package.py', 'docs/engine_specs/ENG-005-business-v2.json', '.github/workflows/taskbook.yml']
+    paths: ['tools/taskbook/**', 'docs/taskbooks/**', 'docs/task_runs/**', 'tools/office_research/check_typed_plan.py', 'tools/office_research/*typed*.mjs', 'tools/office_research/test_typed_preflight.py', 'tools/office_research/typed_metadata.py', 'tools/office_research/test_typed_metadata.py', 'tools/office_research/check_typed_package.py', 'tools/office_research/test_typed_package.py', 'tools/office_research/author_typed_package.py', 'tools/office_research/test_author_typed_package.py', 'docs/engine_specs/ENG-005-business-v2.json', '.github/workflows/taskbook.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -21,6 +21,8 @@ jobs:
         run: python tools/office_research/test_typed_metadata.py
       - name: Check independent typed package policy and negative specimens
         run: python tools/office_research/test_typed_package.py
+      - name: Check independent fresh candidate author (not business or Office acceptance)
+        run: python tools/office_research/test_author_typed_package.py
       - name: Check source baseline and calibration regression cases
         run: |
           python tools/check_baseline.py

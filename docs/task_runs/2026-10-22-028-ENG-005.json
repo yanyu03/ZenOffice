@@ -1,0 +1,94 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-005",
+  "started_at": "2026-10-22T10:35:08.136928+00:00",
+  "ended_at": "2026-10-22T10:39:38.520Z",
+  "status": "PARTIAL",
+  "actual_commit": "f23d055a6fcdf79d7a79e378ab937847f67481dc",
+  "actual_scope": "Fresh independent candidate author implemented;8 tool tests PASS; one new budget candidate written create-new and independently package-policy checked. No business manifest sealing, rendering, engine or native-host runs.",
+  "commands": [
+    "Official75% then74/73% and localREADY; taskbook calibration PASS; continuity previousCOMPLETE no active handles; actual worker ticket ordinal7 mark only.",
+    "Source AST PASS; DSHA EnvFeel Python3.12.14 test_author_typed_package.py --log target/fresh-author-028-tests-final.log:8 PASS; rerun only after making owned target parent creation explicit for clean CI.",
+    "DSHA-gated new author API: write_new_candidate(original plan,budget,new target/office_research/ENG-005-fresh-028/budget.xlsx); receipt3374 bytes SHA47d5bc24... retained.",
+    "Separate DSHA-gated read-only package check on actual file:PASS,6 initial formulas, input bytes unchanged; no author import into checker.",
+    "check_baseline.py PASS106; original three failed package hashes unchanged; diff --check PASS."
+  ],
+  "deviations": [
+    "Independent fresh author is explicitly distinct from old guarded artifact builder; no READY flag changes, old-output repair or fixture-function reuse.",
+    "Initial formula caches come from predeclared literals checked by independent arithmetic; not computed by Zen or Excel.",
+    "One real candidate and three in-memory unit layouts do not constitute three qualified sealed business inputs.",
+    "Output create-new only in trusted existing parent; fsync failure retention tested, atomic publication/power-loss recovery not claimed."
+  ],
+  "untested": [
+    "Candidate rendering and actual visual inspection; all-three real inputs and input manifest sealing",
+    "Zen typed/date operation runner, history/failure protection business regression and Excel/ONLYOFFICE native comparison",
+    "General schema validation, arbitrary authoring and hostile namespace concurrency; Rust tests not repeated since source unchanged"
+  ],
+  "next_step": "Read-only render/visually inspect the one fixed-identity new candidate; verify package structure and unchanged bytes, then extend remaining two business candidates. Seal only after all declared initial/visual conditions; then implement engine/native runners.",
+  "criteria": {
+    "ENG-005-C1": {
+      "requirement": "建立TypedValue和编辑准入表，覆盖空白、文本、布尔、数字、日期及普通公式；日期体系和错误值单列。",
+      "result": "NOT_RUN",
+      "observation": "No new engine or native-host execution; author tests and one candidate package check are separate preparatory evidence.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C2": {
+      "requirement": "实现支持的类型/公式写回和跨表动态依赖更新；缓存与calc配置有独立预期；未知名称、数组、外链明确拒绝或只读。",
+      "result": "NOT_RUN",
+      "observation": "No new engine or native-host execution; author tests and one candidate package check are separate preparatory evidence.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C3": {
+      "requirement": "3份业务XLSX分别包含类型切换、清空和公式替换；保存重开并与Excel同等修改对照。",
+      "result": "NOT_RUN",
+      "observation": "No new engine or native-host execution; author tests and one candidate package check are separate preparatory evidence.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C4": {
+      "requirement": "失败不改变会话/原包/旧输出，撤销恢复数据和计算状态；相关Rust回归按提交记录。",
+      "result": "NOT_RUN",
+      "observation": "No new engine or native-host execution; author tests and one candidate package check are separate preparatory evidence.",
+      "sample_count": 0,
+      "evidence": []
+    }
+  },
+  "slice_evidence": "docs/research/ENG-005-FRESH-AUTHOR-2026-10-22.json",
+  "authoring_result": {
+    "kind": "One fresh candidate, narrow independent package policy PASS; not sealed business acceptance",
+    "source_commit": "f23d055a6fcdf79d7a79e378ab937847f67481dc",
+    "source_sha256": {
+      "author": "e5b4547467c10acbcba8b9be60a0bdc48d3933137ac38c43851615abadca4f1e",
+      "tests": "6ce6dc2fe62e7bc35860543f143057ffbf5b5bbd8982665252dee8b417fd9e65"
+    },
+    "test_methods_pass": 8,
+    "test_log_sha256": "34079f33c796b68a238a02552af1a6135b1e72748fac69645b113232236925cf",
+    "candidate": {
+      "kind": "fresh candidate only; render/sealing/Zen/Office NOT_RUN",
+      "case": "budget",
+      "plan_sha256": "ebd6c6dd390a4a1890eb2b1ec78f54d18d828ab8a1201d65676849bded820dba",
+      "candidate_sha256": "47d5bc24b376e9f5c61f85055f59ab35b6d6fca65e53340daf0687eb57a45664",
+      "bytes": 3374
+    },
+    "package_policy": {
+      "policy": "PASS",
+      "case": "budget",
+      "initial_formulas_checked": 6,
+      "scope": "narrow package policy only; render/sealing/Zen/Office NOT_RUN",
+      "candidate_sha256": "47d5bc24b376e9f5c61f85055f59ab35b6d6fca65e53340daf0687eb57a45664",
+      "input_bytes_unchanged": true
+    },
+    "old_failed_candidate_hashes_unchanged": 3,
+    "qualified_inputs_sealed": 0,
+    "new_zen_runs": 0,
+    "new_excel_runs": 0,
+    "new_onlyoffice_runs": 0,
+    "rendered_or_visually_reviewed": false
+  }
+}

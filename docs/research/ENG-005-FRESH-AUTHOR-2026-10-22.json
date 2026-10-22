@@ -1,0 +1,31 @@
+{
+  "kind": "One fresh candidate, narrow independent package policy PASS; not sealed business acceptance",
+  "source_commit": "f23d055a6fcdf79d7a79e378ab937847f67481dc",
+  "source_sha256": {
+    "author": "e5b4547467c10acbcba8b9be60a0bdc48d3933137ac38c43851615abadca4f1e",
+    "tests": "6ce6dc2fe62e7bc35860543f143057ffbf5b5bbd8982665252dee8b417fd9e65"
+  },
+  "test_methods_pass": 8,
+  "test_log_sha256": "34079f33c796b68a238a02552af1a6135b1e72748fac69645b113232236925cf",
+  "candidate": {
+    "kind": "fresh candidate only; render/sealing/Zen/Office NOT_RUN",
+    "case": "budget",
+    "plan_sha256": "ebd6c6dd390a4a1890eb2b1ec78f54d18d828ab8a1201d65676849bded820dba",
+    "candidate_sha256": "47d5bc24b376e9f5c61f85055f59ab35b6d6fca65e53340daf0687eb57a45664",
+    "bytes": 3374
+  },
+  "package_policy": {
+    "policy": "PASS",
+    "case": "budget",
+    "initial_formulas_checked": 6,
+    "scope": "narrow package policy only; render/sealing/Zen/Office NOT_RUN",
+    "candidate_sha256": "47d5bc24b376e9f5c61f85055f59ab35b6d6fca65e53340daf0687eb57a45664",
+    "input_bytes_unchanged": true
+  },
+  "old_failed_candidate_hashes_unchanged": 3,
+  "qualified_inputs_sealed": 0,
+  "new_zen_runs": 0,
+  "new_excel_runs": 0,
+  "new_onlyoffice_runs": 0,
+  "rendered_or_visually_reviewed": false
+}
