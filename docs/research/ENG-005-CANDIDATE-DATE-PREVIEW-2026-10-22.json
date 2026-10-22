@@ -1,0 +1,179 @@
+{
+  "kind": "Two fresh business candidates plus bounded date-preview discrepancy investigation; not product acceptance",
+  "source_commit": "58f3b89806a91d9662c9df992ef915cee89a89b4",
+  "plan_sha256": "ebd6c6dd390a4a1890eb2b1ec78f54d18d828ab8a1201d65676849bded820dba",
+  "author_receipts": [
+    {
+      "kind": "fresh candidate only; render/sealing/Zen/Office NOT_RUN",
+      "case": "orders",
+      "plan_sha256": "ebd6c6dd390a4a1890eb2b1ec78f54d18d828ab8a1201d65676849bded820dba",
+      "candidate_sha256": "71d0703cc63d1ab66284aadcff3d54fe0f09f47102068306726c6c0fa7cd8d96",
+      "bytes": 3307
+    },
+    {
+      "kind": "fresh candidate only; render/sealing/Zen/Office NOT_RUN",
+      "case": "attendance",
+      "plan_sha256": "ebd6c6dd390a4a1890eb2b1ec78f54d18d828ab8a1201d65676849bded820dba",
+      "candidate_sha256": "ea4395387368189d5e05451776cca51e56a439836757325b734af7e8e8659ea2",
+      "bytes": 3342
+    }
+  ],
+  "package_checks": [
+    {
+      "policy": "PASS",
+      "case": "orders",
+      "initial_formulas_checked": 5,
+      "scope": "narrow package policy only; render/sealing/Zen/Office NOT_RUN",
+      "candidate_sha256": "71d0703cc63d1ab66284aadcff3d54fe0f09f47102068306726c6c0fa7cd8d96",
+      "input_bytes_unchanged": true
+    },
+    {
+      "policy": "PASS",
+      "case": "attendance",
+      "initial_formulas_checked": 5,
+      "scope": "narrow package policy only; render/sealing/Zen/Office NOT_RUN",
+      "candidate_sha256": "ea4395387368189d5e05451776cca51e56a439836757325b734af7e8e8659ea2",
+      "input_bytes_unchanged": true
+    }
+  ],
+  "render": [
+    {
+      "case": "orders",
+      "input_sha256": "71d0703cc63d1ab66284aadcff3d54fe0f09f47102068306726c6c0fa7cd8d96",
+      "input_unchanged": true,
+      "node": "v24.14.1",
+      "views": [
+        {
+          "sheetName": "Summary",
+          "range": "A1:G8",
+          "png": "orders-Summary.png",
+          "png_sha256": "9688bf5a591af70b87e12db23d1a9df2b5bb1751d3e7e76f813c7c64cd22564f",
+          "inspection": "{\"kind\":\"table\",\"sheet\":\"Summary\",\"address\":\"A1:G8\",\"rows\":8,\"cols\":7,\"values\":[[\"orders — independent typed/date fixture\",null,null,null,null,null,null],[\"Business result\",535,null,null,null,null,null],[\"Date serial plus one\",60.25,null,null,null,null,null],[null,null,null,null,null,null,null],[\"Source: synthetic ZenOffice business-v2 plan\",null,null,null,null,null,null],[\"Planned date system: Excel1904\",null,null,null,null,null,null],[null,null,null,null,null,null,null],[null,null,null,null,null,null,null]]}"
+        },
+        {
+          "sheetName": "Orders",
+          "range": "A1:G12",
+          "png": "orders-Orders.png",
+          "png_sha256": "06a50b5b09954a6044585592925abfc611dadda67c228614c572f784d758e74c",
+          "inspection": "{\"kind\":\"table\",\"sheet\":\"Orders\",\"address\":\"A1:G12\",\"rows\":12,\"cols\":7,\"values\":[[\"Order value (CNY)\",null,null,null,null,null,null],[null,null,null,null,null,null,null],[\"Order\",\"Quantity\",\"Unit price\",\"Line value\",null,null,null],[\"O-201\",3,125,375,null,null,null],[\"O-202\",2,80,160,null,null,null],[null,null,null,null,null,null,null],[\"Total value\",null,null,535,null,null,null],[null,null,null,null,null,null,null],[\"Delivery serial (1904)\",59.25,0,null,null,null,null],[null,null,null,null,null,null,null],[null,null,null,null,null,null,null],[null,null,null,null,null,null,null]]}"
+        }
+      ],
+      "exports": 0,
+      "engine_runs": 0,
+      "native_runs": 0
+    },
+    {
+      "case": "attendance",
+      "input_sha256": "ea4395387368189d5e05451776cca51e56a439836757325b734af7e8e8659ea2",
+      "input_unchanged": true,
+      "node": "v24.14.1",
+      "views": [
+        {
+          "sheetName": "Summary",
+          "range": "A1:G8",
+          "png": "attendance-Summary.png",
+          "png_sha256": "3e376e01c96542b244f3c7ae13df71bd90fde504e28b37ceea3a6b9a7f6d69a8",
+          "inspection": "{\"kind\":\"table\",\"sheet\":\"Summary\",\"address\":\"A1:G8\",\"rows\":8,\"cols\":7,\"values\":[[\"attendance — independent typed/date fixture\",null,null,null,null,null,null],[\"Business result\",299,null,null,null,null,null],[\"Date serial plus one\",60,null,null,null,null,null],[null,null,null,null,null,null,null],[\"Source: synthetic ZenOffice business-v2 plan\",null,null,null,null,null,null],[\"Planned date system: Excel1900\",null,null,null,null,null,null],[null,null,null,null,null,null,null],[null,null,null,null,null,null,null]]}"
+        },
+        {
+          "sheetName": "Attendance",
+          "range": "A1:G12",
+          "png": "attendance-Attendance.png",
+          "png_sha256": "286da50ac6ca891c285ef13b12c3fdc1176cb4d88a5e63236b596d3740233572",
+          "inspection": "{\"kind\":\"table\",\"sheet\":\"Attendance\",\"address\":\"A1:G12\",\"rows\":12,\"cols\":7,\"values\":[[\"Attendance (hours)\",null,null,null,null,null,null],[null,null,null,null,null,null,null],[\"Employee\",\"Days\",\"Hours per day\",\"Overtime\",null,\"Total hours\",null],[\"EMP-A\",20,8,4,null,164,null],[\"EMP-B\",18,7.5,0,null,135,null],[null,null,null,null,null,null,null],[\"Total hours\",null,null,null,null,299,null],[null,null,null,null,null,null,null],[\"Period serial (1900)\",59,1,null,null,null,null],[null,null,null,null,null,null,null],[null,null,null,null,null,null,null],[null,null,null,null,null,null,null]]}"
+        }
+      ],
+      "exports": 0,
+      "engine_runs": 0,
+      "native_runs": 0
+    }
+  ],
+  "controls": {
+    "controls": [
+      {
+        "kind": "owned renderer control only, not business input",
+        "date_system": "Excel1900",
+        "serial": 59.25,
+        "sha256": "dcc9f822016ad8f96b570b73c19c0fea54d9ef74b8422de8742b61d625878cfb"
+      },
+      {
+        "kind": "owned renderer control only, not business input",
+        "date_system": "Excel1904",
+        "serial": 59.25,
+        "sha256": "71d0703cc63d1ab66284aadcff3d54fe0f09f47102068306726c6c0fa7cd8d96"
+      }
+    ],
+    "different_parts": [
+      "xl/workbook.xml",
+      "xl/worksheets/sheet1.xml"
+    ],
+    "orders_worksheet_identical": true
+  },
+  "control_render": {
+    "records": [
+      {
+        "kind": "owned renderer control only, not business input",
+        "date_system": "Excel1900",
+        "serial": 59.25,
+        "sha256": "dcc9f822016ad8f96b570b73c19c0fea54d9ef74b8422de8742b61d625878cfb",
+        "png_sha256": "b58f56c41b2938de728c59a479cfe1e500a2246ae2747e79ea1a26ee5a2cffc6",
+        "input_unchanged": true,
+        "node": "v24.14.1"
+      },
+      {
+        "kind": "owned renderer control only, not business input",
+        "date_system": "Excel1904",
+        "serial": 59.25,
+        "sha256": "71d0703cc63d1ab66284aadcff3d54fe0f09f47102068306726c6c0fa7cd8d96",
+        "png_sha256": "b58f56c41b2938de728c59a479cfe1e500a2246ae2747e79ea1a26ee5a2cffc6",
+        "input_unchanged": true,
+        "node": "v24.14.1"
+      }
+    ],
+    "png_bytes_identical": true,
+    "exports": 0,
+    "native_runs": 0
+  },
+  "visual": {
+    "business_views_reviewed": 4,
+    "control_views_reviewed": 2,
+    "layout": "PASS for inspected areas: no clipped labels, numbers or #### observed; orders total535,attendance299",
+    "date_interpretation": "FAIL in orders preview: date1904=1 and numeric59.25 but display2/28/00; not a native Excel observation",
+    "independent_1904_arithmetic": "1904-01-01 +59.25days =1904-02-29T06:00:00",
+    "scope": "Public import/render path exhibits same output under 1900/1904 controls; exact import-versus-render internal cause unknown"
+  },
+  "qualified_inputs_sealed": 0,
+  "new_zen_runs": 0,
+  "new_excel_runs": 0,
+  "new_onlyoffice_runs": 0,
+  "references": [
+    "https://support.microsoft.com/en-gb/excel/date-systems-in-excel"
+  ],
+  "local_evidence_sha256": {
+    "create.py": "0794993b89083184bb22549d2414a5216b091b985808df9edb2a799be044ed3f",
+    "check.py": "b0c9d9755d229fcc1e9a78025ab1d788798268c64dfb148bad40f28b715ee7a6",
+    "render.mjs": "85cf5305bc483baf64c707ca49f3a7527c4527bcbd373f06390587196ddc179e",
+    "date-controls.py": "e12479e4751ba765d271dcd5e05fe61e36819dcfab0f559d9d201b7fde1b3138",
+    "render-controls.mjs": "17ecea6a048473cea798194e1bcc829add0a4d9271574142961c3483af935e7c",
+    "create.py.envfeel.log": "2d21d546fe2051d71c1881f6ebaf6d525885d6ab355106f5768e9cd44d5424ba",
+    "check.py.envfeel.log": "2d21d546fe2051d71c1881f6ebaf6d525885d6ab355106f5768e9cd44d5424ba",
+    "render.envfeel.log": "50f67aa28fe6e94f975ab6ddeefa6a88bfe28cdf5b33a166376eba18fd3ddb9a",
+    "date-controls.envfeel.log": "2d21d546fe2051d71c1881f6ebaf6d525885d6ab355106f5768e9cd44d5424ba",
+    "render-controls.envfeel.log": "50f67aa28fe6e94f975ab6ddeefa6a88bfe28cdf5b33a166376eba18fd3ddb9a"
+  },
+  "old_failed_candidates": [
+    {
+      "case": "budget",
+      "sha256": "5687c020ceed2a2a8c37e73809c3b85b06ab755cc17e16c0e621e9cd750bde4a"
+    },
+    {
+      "case": "orders",
+      "sha256": "65dc0c2c4245f9989aadb815f37adcb799ebbfd692e31d122684e41b219afb8a"
+    },
+    {
+      "case": "attendance",
+      "sha256": "df7b36c9c542a7137f04219757b3b33ef51f7b826e2c8fbcd036190f50d7de0e"
+    }
+  ],
+  "previous_budget_candidate_sha256": "c76852a1ad28b717fb9b44ea3f0afd7a846c19862776dabf8065cc7b65035531"
+}

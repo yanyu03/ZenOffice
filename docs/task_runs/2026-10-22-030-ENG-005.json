@@ -1,0 +1,63 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-005",
+  "started_at": "2026-10-22T12:30:29.650536+00:00",
+  "ended_at": "2026-10-22T12:35:02.816Z",
+  "status": "PARTIAL",
+  "actual_commit": "58f3b89806a91d9662c9df992ef915cee89a89b4",
+  "actual_scope": "Two create-new business candidates package-policy PASS; four business and two owned control views reviewed; actual 1904 preview discrepancy documented, sealing withheld. No engine/native runs.",
+  "commands": [
+    "Official54% and localREADY; taskbook baselinePASS; continuity priorCOMPLETE/no active handles; worker ordinal9 mark only",
+    "DSHA Python fresh create-new orders/attendance from fixed plan and separate package check PASS,5 formulas each",
+    "DSHA Node24.14.1 artifact-tool2.8.99 readonly import/render four business sheets COMPLETE; actual images reviewed",
+    "Predeclared owned1900/1904 controls: same Orders worksheet bytes; identical preview PNGs confirmed and viewed",
+    "Independent plan arithmetic27states144assertions PASS; raw date1904=1/serial59.25/style1 and standard-library date arithmetic checked",
+    "End official53%/localREADY; check_baseline106 PASS; report calibration/frozen baseline/diff --check PASS; no source code edits"
+  ],
+  "deviations": [
+    "Orders package-policy PASS but preview calendar interpretation FAIL; no source/plan changes to mask mismatch",
+    "Two control packages are not business samples;1904 control identical to orders candidate",
+    "Exact import-versus-render root cause unknown; native Excel behavior not measured"
+  ],
+  "untested": [
+    "Independent date-system-aware preview and formal three-input sealing",
+    "Zen typed/date operations, history/save/failure protection and same-operation Excel/ONLYOFFICE runs",
+    "General OOXML schema validation; Rust unchanged and not rerun"
+  ],
+  "next_step": "Establish independent date-system-aware read-only preview/review with explicit1900 boundaries and1904 arithmetic; resolve evidence admission before sealing three inputs, then implement engine/native business runners.",
+  "criteria": {
+    "ENG-005-C1": {
+      "requirement": "建立TypedValue和编辑准入表，覆盖空白、文本、布尔、数字、日期及普通公式；日期体系和错误值单列。",
+      "result": "NOT_RUN",
+      "observation": "Preparatory candidates/render investigation only; no new product or native acceptance",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C2": {
+      "requirement": "实现支持的类型/公式写回和跨表动态依赖更新；缓存与calc配置有独立预期；未知名称、数组、外链明确拒绝或只读。",
+      "result": "NOT_RUN",
+      "observation": "Preparatory candidates/render investigation only; no new product or native acceptance",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C3": {
+      "requirement": "3份业务XLSX分别包含类型切换、清空和公式替换；保存重开并与Excel同等修改对照。",
+      "result": "NOT_RUN",
+      "observation": "Preparatory candidates/render investigation only; no new product or native acceptance",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C4": {
+      "requirement": "失败不改变会话/原包/旧输出，撤销恢复数据和计算状态；相关Rust回归按提交记录。",
+      "result": "NOT_RUN",
+      "observation": "Preparatory candidates/render investigation only; no new product or native acceptance",
+      "sample_count": 0,
+      "evidence": []
+    }
+  },
+  "slice_evidence": "docs/research/ENG-005-CANDIDATE-DATE-PREVIEW-2026-10-22.json"
+}
