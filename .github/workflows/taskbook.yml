@@ -1,9 +1,9 @@
 name: Frozen taskbook calibration
 on:
   push:
-    paths: ['tools/taskbook/**', 'docs/taskbooks/**', 'docs/task_runs/**', 'tools/office_research/check_typed_plan.py', 'tools/office_research/*typed*.mjs', 'tools/office_research/test_typed_preflight.py', 'tools/office_research/typed_metadata.py', 'tools/office_research/test_typed_metadata.py', 'tools/office_research/check_typed_package.py', 'tools/office_research/test_typed_package.py', 'tools/office_research/author_typed_package.py', 'tools/office_research/test_author_typed_package.py', 'tools/office_research/preview_typed_date.py', 'tools/office_research/test_preview_typed_date.py', 'docs/engine_specs/ENG-005-business-v2.json', '.github/workflows/taskbook.yml']
+    paths: ['tools/taskbook/**', 'docs/taskbooks/**', 'docs/task_runs/**', 'tools/office_research/check_typed_plan.py', 'tools/office_research/*typed*.mjs', 'tools/office_research/test_typed_preflight.py', 'tools/office_research/typed_metadata.py', 'tools/office_research/test_typed_metadata.py', 'tools/office_research/check_typed_package.py', 'tools/office_research/test_typed_package.py', 'tools/office_research/author_typed_package.py', 'tools/office_research/test_author_typed_package.py', 'tools/office_research/preview_typed_date.py', 'tools/office_research/test_preview_typed_date.py', 'tools/office_research/verify_typed_inputs.py', 'tools/office_research/test_verify_typed_inputs.py', 'RCD/engine-acceptance/eng-005-business-v2/**', '.gitattributes', 'docs/engine_specs/ENG-005-business-v2.json', '.github/workflows/taskbook.yml']
   pull_request:
-    paths: ['tools/taskbook/**', 'docs/taskbooks/**', 'docs/task_runs/**', 'tools/office_research/check_typed_plan.py', 'tools/office_research/*typed*.mjs', 'tools/office_research/test_typed_preflight.py', 'tools/office_research/typed_metadata.py', 'tools/office_research/test_typed_metadata.py', 'tools/office_research/check_typed_package.py', 'tools/office_research/test_typed_package.py', 'tools/office_research/author_typed_package.py', 'tools/office_research/test_author_typed_package.py', 'tools/office_research/preview_typed_date.py', 'tools/office_research/test_preview_typed_date.py', 'docs/engine_specs/ENG-005-business-v2.json', '.github/workflows/taskbook.yml']
+    paths: ['tools/taskbook/**', 'docs/taskbooks/**', 'docs/task_runs/**', 'tools/office_research/check_typed_plan.py', 'tools/office_research/*typed*.mjs', 'tools/office_research/test_typed_preflight.py', 'tools/office_research/typed_metadata.py', 'tools/office_research/test_typed_metadata.py', 'tools/office_research/check_typed_package.py', 'tools/office_research/test_typed_package.py', 'tools/office_research/author_typed_package.py', 'tools/office_research/test_author_typed_package.py', 'tools/office_research/preview_typed_date.py', 'tools/office_research/test_preview_typed_date.py', 'tools/office_research/verify_typed_inputs.py', 'tools/office_research/test_verify_typed_inputs.py', 'RCD/engine-acceptance/eng-005-business-v2/**', '.gitattributes', 'docs/engine_specs/ENG-005-business-v2.json', '.github/workflows/taskbook.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -25,6 +25,10 @@ jobs:
         run: python tools/office_research/test_author_typed_package.py
       - name: Check independent date preview boundaries and source protection
         run: python tools/office_research/test_preview_typed_date.py
+      - name: Check sealed typed input integrity refusal specimens
+        run: python tools/office_research/test_verify_typed_inputs.py
+      - name: Verify pinned typed business input bytes and initial package policy
+        run: python tools/office_research/verify_typed_inputs.py RCD/engine-acceptance/eng-005-business-v2 --manifest-sha bc82f786f0db1c842188dbdb891b4b6ef3c2f0af5f4c026fe4ae19bf428aaad4
       - name: Check source baseline and calibration regression cases
         run: |
           python tools/check_baseline.py

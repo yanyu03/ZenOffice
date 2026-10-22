@@ -1,0 +1,94 @@
+{
+  "kind": "Three owned typed business inputs identity-sealed; input preparation only",
+  "source_commit": "4fafdfb126b21e8dabab63265bc5b8b8c6a72a1f",
+  "manifest": "RCD/engine-acceptance/eng-005-business-v2/manifest.json",
+  "manifest_sha256": "bc82f786f0db1c842188dbdb891b4b6ef3c2f0af5f4c026fe4ae19bf428aaad4",
+  "seal_receipt": {
+    "status": "PASS",
+    "manifest_sha256": "bc82f786f0db1c842188dbdb891b4b6ef3c2f0af5f4c026fe4ae19bf428aaad4",
+    "cases": [
+      {
+        "case": "budget",
+        "input_sha256": "c76852a1ad28b717fb9b44ea3f0afd7a846c19862776dabf8065cc7b65035531",
+        "initial_formulas_checked": 6,
+        "date_system": "Excel1900",
+        "serial": "46314",
+        "diagnostic_date": "2026-10-19 00:00:00"
+      },
+      {
+        "case": "orders",
+        "input_sha256": "71d0703cc63d1ab66284aadcff3d54fe0f09f47102068306726c6c0fa7cd8d96",
+        "initial_formulas_checked": 5,
+        "date_system": "Excel1904",
+        "serial": "59.25",
+        "diagnostic_date": "1904-02-29 06:00:00"
+      },
+      {
+        "case": "attendance",
+        "input_sha256": "ea4395387368189d5e05451776cca51e56a439836757325b734af7e8e8659ea2",
+        "initial_formulas_checked": 5,
+        "date_system": "Excel1900",
+        "serial": "59",
+        "diagnostic_date": "1900-02-28 00:00:00"
+      }
+    ],
+    "input_bytes_unchanged": true,
+    "scope": "input identity and narrow package policy only; no human-review authentication or engine/native acceptance",
+    "local_files_readonly": true
+  },
+  "separate_process_verification": {
+    "status": "PASS",
+    "manifest_sha256": "bc82f786f0db1c842188dbdb891b4b6ef3c2f0af5f4c026fe4ae19bf428aaad4",
+    "cases": [
+      {
+        "case": "budget",
+        "input_sha256": "c76852a1ad28b717fb9b44ea3f0afd7a846c19862776dabf8065cc7b65035531",
+        "initial_formulas_checked": 6,
+        "date_system": "Excel1900",
+        "serial": "46314",
+        "diagnostic_date": "2026-10-19 00:00:00"
+      },
+      {
+        "case": "orders",
+        "input_sha256": "71d0703cc63d1ab66284aadcff3d54fe0f09f47102068306726c6c0fa7cd8d96",
+        "initial_formulas_checked": 5,
+        "date_system": "Excel1904",
+        "serial": "59.25",
+        "diagnostic_date": "1904-02-29 06:00:00"
+      },
+      {
+        "case": "attendance",
+        "input_sha256": "ea4395387368189d5e05451776cca51e56a439836757325b734af7e8e8659ea2",
+        "initial_formulas_checked": 5,
+        "date_system": "Excel1900",
+        "serial": "59",
+        "diagnostic_date": "1900-02-28 00:00:00"
+      }
+    ],
+    "input_bytes_unchanged": true,
+    "scope": "input identity and narrow package policy only; no human-review authentication or engine/native acceptance"
+  },
+  "tests_pass": 7,
+  "test_log_sha256": "5d63c1484814551f289a0da533c1683bf90d5c0d458ef9ac47614603365f9b99",
+  "reviewed_image_hashes_rechecked": 9,
+  "previous_reviewed_layout_views": 6,
+  "previous_reviewed_date_cards": 3,
+  "known_preview_failure_retained": true,
+  "qualified_for": "Fixed input identity for future engine/native operation tests; not product DONE, schema validation or native Text equivalence",
+  "new_engine_runs": 0,
+  "new_excel_runs": 0,
+  "new_onlyoffice_runs": 0,
+  "source_sha256": {
+    "tools/office_research/verify_typed_inputs.py": "3f219d922930157239891b761bddac1c9ed22bee5d7fb8a07464f1b5fd4f4289",
+    "tools/office_research/test_verify_typed_inputs.py": "00ea3544c78e65bf6d1de1d1f9a61758d1cf2188f9e1ee965aa913972d63a6c1",
+    ".gitattributes": "5d6e8ad267554805204a30502a4f9668ee48309931cb0844fca979975796068b",
+    ".github/workflows/taskbook.yml": "4782d574a42f5655948bb1168dca3afa6d27ffb5ce38fc500e41f593ad6c6548"
+  },
+  "local_evidence_sha256": {
+    "seal.py": "4842332d2795e35ca77cbe8be94acd1a8c985e8ec24d00903bf30c4b62d3caba",
+    "verify.py": "98efea858da4d807f2ae43640e7b63a898d135b8cdbc4043f8e727a75aeb27d4",
+    "tests.envfeel.log": "2d21d546fe2051d71c1881f6ebaf6d525885d6ab355106f5768e9cd44d5424ba",
+    "seal.envfeel.log": "2d21d546fe2051d71c1881f6ebaf6d525885d6ab355106f5768e9cd44d5424ba",
+    "verify.envfeel.log": "2d21d546fe2051d71c1881f6ebaf6d525885d6ab355106f5768e9cd44d5424ba"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "ENG-005-business-v2-inputs-v1",
+  "source_commit": "4fafdfb126b21e8dabab63265bc5b8b8c6a72a1f",
+  "sha256": {
+    "plan.json": "ebd6c6dd390a4a1890eb2b1ec78f54d18d828ab8a1201d65676849bded820dba",
+    "budget.xlsx": "c76852a1ad28b717fb9b44ea3f0afd7a846c19862776dabf8065cc7b65035531",
+    "orders.xlsx": "71d0703cc63d1ab66284aadcff3d54fe0f09f47102068306726c6c0fa7cd8d96",
+    "attendance.xlsx": "ea4395387368189d5e05451776cca51e56a439836757325b734af7e8e8659ea2"
+  },
+  "review_basis": [
+    {
+      "path": "docs/research/ENG-005-RENDER-INTEROP-2026-10-22.json",
+      "sha256": "1c00c7eab15d37c267015b5558057b663c6138020eddfb0a15218112dfb09591"
+    },
+    {
+      "path": "docs/research/ENG-005-CANDIDATE-DATE-PREVIEW-2026-10-22.json",
+      "sha256": "5fbc445ea9472e425c9da7041dfb1056650977e26ee370971d448b3d387015e7"
+    },
+    {
+      "path": "docs/research/ENG-005-DATE-INTERPRETATION-2026-10-22.json",
+      "sha256": "e376f266895cacd46b025029a0428b3a73c285277c9590c69dc45ec81b7be495"
+    }
+  ],
+  "admission_scope": "Identity pinned for future engine/native tests. Package policy,6 prior layout views and3 independent date cards reviewed; not full schema/native formatting acceptance.",
+  "known_discrepancy": "artifact-tool2.8.99 Orders1904 preview displays2/28/00; retained as FAIL. Separate date interpretation is1904-02-29T06:00; no candidate metadata or numeric changes.",
+  "new_engine_runs": 0,
+  "new_native_runs": 0
+}
