@@ -1,0 +1,62 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-005",
+  "started_at": "2026-10-22T17:33:20.658116+00:00",
+  "ended_at": "2026-10-22T17:36:45.544Z",
+  "status": "PARTIAL",
+  "actual_commit": "47d30ee4a7057f653d18348d4b1391601df38d57",
+  "actual_scope": "Recovered prior exactcommit CI; read-only3sealedpackage customXML topology/payload audit; explicit controlled-source opaque-preservation implementation contract only. Default refusal and production code unchanged; no business retry.",
+  "commands": [
+    "Official100%/localREADY unlatched; frozen calibrationPASS; workerordinal14 mark only; recover priorACTIVE CI actualsuccess before finish",
+    "Exact47d30ee local/remote main+clean, old033record calibrationPASS, CI39815580821+39815580826 jobs success savedprivately; normal businessfailure preserved",
+    "DSHA Python readonly audit after fixedmanifest verify:3packages8parts each,1leafprobe191/191/195bytes,1incoming/0outgoing,declaredbindingmarkersnone,sourceunchanged",
+    "Read actual shared preserve.rs guard and Sheets integration;primaryMicrosoftXMLmap/datastoreItem references consulted; no REA binary question and no engine edit runs",
+    "End baseline/report/frozen/diff checks before sync"
+  ],
+  "deviations": [
+    "No new runtime permission: explicit-grant design not implemented; controlled-source semantic independence remains caller trust premise",
+    "Audit marker absence and hash equality do not prove arbitraryXML has no dependencies",
+    "Prior failure0PASS3FAIL remains historical; current contract review does not rerun or lower original8step/native criteria"
+  ],
+  "untested": [
+    "Grant validator/model and all fault matrix cases: NOT_IMPLEMENTED/NOT_RUN",
+    "Policy integration into edit/candidate/history/source/save; original3business8step execution and nativeExcel comparison",
+    "GeneralcustomXML semantics, schema/mapping completeness, resource limits for futurepolicy"
+  ],
+  "next_step": "Implement standalone no-write opaque-grant validation with explicit source identity, media/topology and controlled ownership declaration; test generic non-probe fixtures and negative bindings; default strict path stays unchanged until independent evidence permits integration.",
+  "criteria": {
+    "ENG-005-C1": {
+      "requirement": "建立TypedValue和编辑准入表，覆盖空白、文本、布尔、数字、日期及普通公式；日期体系和错误值单列。",
+      "result": "NOT_RUN",
+      "observation": "Read-only audit/design only; no new engine edit/native acceptance; prior033FAIL retained",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C2": {
+      "requirement": "实现支持的类型/公式写回和跨表动态依赖更新；缓存与calc配置有独立预期；未知名称、数组、外链明确拒绝或只读。",
+      "result": "NOT_RUN",
+      "observation": "Read-only audit/design only; no new engine edit/native acceptance; prior033FAIL retained",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C3": {
+      "requirement": "3份业务XLSX分别包含类型切换、清空和公式替换；保存重开并与Excel同等修改对照。",
+      "result": "NOT_RUN",
+      "observation": "Read-only audit/design only; no new engine edit/native acceptance; prior033FAIL retained",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C4": {
+      "requirement": "失败不改变会话/原包/旧输出，撤销恢复数据和计算状态；相关Rust回归按提交记录。",
+      "result": "NOT_RUN",
+      "observation": "Read-only audit/design only; no new engine edit/native acceptance; prior033FAIL retained",
+      "sample_count": 0,
+      "evidence": []
+    }
+  },
+  "slice_evidence": "docs/research/ENG-005-CUSTOMXML-CONTRACT-2026-10-23.json"
+}

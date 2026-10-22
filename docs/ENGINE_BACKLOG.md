@@ -1,5 +1,7 @@
 # 引擎待办与交接
 
+2026-10-23／实况034：原47d30ee两CI实际成功、旧失败周期已真实收尾；正常业务0PASS3FAIL不变。只读审查3封存包：各1叶子customXML191/191/195字节、工作簿单入向/无出向、声明的绑定标记未见，不证明任意语义独立。新增CUSTOM_XML_PRESERVATION_CONTRACT.md：默认严格不变，受控自有来源显式grant绑定输入/部件/媒体/关系，语义独立是调用方前提，禁止namespace白名单；尚未实现/放行/重跑业务。ENG005PARTIAL/BLOCKED，本轮4条件NOT_RUN。下一步无写入grant验证器及通用/负向夹具，再做事务集成。
+
 2026-10-23／实况033：首次真实三业务类型API执行器编译成功，但首步文本均被unknown custom XML dependency拒绝（0通过3失败、成功修改/保存0）；已有zen-opc保护不接纳自有探针。新增三真实输入原子拒绝回归3PASS，不能替代原8步。失败执行器/依赖差异留target，未推失败代码；原输入和清单不变。输入封存不等于写入口准入，ENG-005仍PARTIAL且现BLOCKED；本轮FAILED，C2FAIL，其他全条件NOT_RUN。下一步自有/不透明customXML通用准入和依赖契约，不为样本白名单、不删探针或改标准。见operations/2026-10-23-TYPED-API-ADMISSION-FAILURE.md。
 
 2026-10-22／实况032：原字节封存三业务类型输入和原计划至RCD/engine-acceptance/eng-005-business-v2，清单SHAbc82f786…；7项核验器测试PASS，独立进程验证3文件16初始公式/缓存及日期元数据PASS。复核6布局+3日期图片身份，原预览1904差异保留，不主张原生Text等价。输入准备阻断已推进为固定输入就绪；Zen/Excel新业务执行0，ENG-005仍PARTIAL。下一步真正的Zen API8步类型业务执行器及历史/保存验收，再做Excel同操作对照。见operations/2026-10-22-TYPED-INPUT-SEAL.md。

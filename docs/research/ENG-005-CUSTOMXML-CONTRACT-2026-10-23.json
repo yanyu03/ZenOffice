@@ -1,0 +1,119 @@
+{
+  "date_local": "2026-10-23",
+  "source_commit": "47d30ee4a7057f653d18348d4b1391601df38d57",
+  "kind": "Read-only audit and implementation contract; production default refusal unchanged",
+  "audit": {
+    "manifest_sha256": "bc82f786f0db1c842188dbdb891b4b6ef3c2f0af5f4c026fe4ae19bf428aaad4",
+    "reports": [
+      {
+        "case": "budget",
+        "input_sha256": "c76852a1ad28b717fb9b44ea3f0afd7a846c19862776dabf8065cc7b65035531",
+        "archive_parts": 8,
+        "custom_xml": [
+          {
+            "part": "customXml/zen-probe.xml",
+            "sha256": "17f419b42f75a18cba584f3cd05f355d5079db1a27998186672eed0d7f66bdf6",
+            "bytes": 191,
+            "root": "{urn:zenoffice:synthetic-preservation-probe:v1}probe",
+            "attributes": {
+              "case": "budget"
+            },
+            "children": 0,
+            "text": "Owned synthetic preservation sentinel; no vendor payload.",
+            "content_type": "application/xml",
+            "incoming": [
+              {
+                "owner": "xl/workbook.xml",
+                "id": "rIdProbe",
+                "type": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/customXml",
+                "target": "customXml/zen-probe.xml",
+                "mode": null
+              }
+            ],
+            "outgoing": []
+          }
+        ],
+        "known_binding_markers": [],
+        "scope": "Read-only declared marker/topology observation only; does not prove semantic independence"
+      },
+      {
+        "case": "orders",
+        "input_sha256": "71d0703cc63d1ab66284aadcff3d54fe0f09f47102068306726c6c0fa7cd8d96",
+        "archive_parts": 8,
+        "custom_xml": [
+          {
+            "part": "customXml/zen-probe.xml",
+            "sha256": "e2089695e56d8992eb652a0df4bee0aacea0c0319bae3710122c1de93b3476a2",
+            "bytes": 191,
+            "root": "{urn:zenoffice:synthetic-preservation-probe:v1}probe",
+            "attributes": {
+              "case": "orders"
+            },
+            "children": 0,
+            "text": "Owned synthetic preservation sentinel; no vendor payload.",
+            "content_type": "application/xml",
+            "incoming": [
+              {
+                "owner": "xl/workbook.xml",
+                "id": "rIdProbe",
+                "type": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/customXml",
+                "target": "customXml/zen-probe.xml",
+                "mode": null
+              }
+            ],
+            "outgoing": []
+          }
+        ],
+        "known_binding_markers": [],
+        "scope": "Read-only declared marker/topology observation only; does not prove semantic independence"
+      },
+      {
+        "case": "attendance",
+        "input_sha256": "ea4395387368189d5e05451776cca51e56a439836757325b734af7e8e8659ea2",
+        "archive_parts": 8,
+        "custom_xml": [
+          {
+            "part": "customXml/zen-probe.xml",
+            "sha256": "43b9949f5311d6dd0fd90182b87ee6c83b5b7f8e3a245684a21e4870dfb80073",
+            "bytes": 195,
+            "root": "{urn:zenoffice:synthetic-preservation-probe:v1}probe",
+            "attributes": {
+              "case": "attendance"
+            },
+            "children": 0,
+            "text": "Owned synthetic preservation sentinel; no vendor payload.",
+            "content_type": "application/xml",
+            "incoming": [
+              {
+                "owner": "xl/workbook.xml",
+                "id": "rIdProbe",
+                "type": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/customXml",
+                "target": "customXml/zen-probe.xml",
+                "mode": null
+              }
+            ],
+            "outgoing": []
+          }
+        ],
+        "known_binding_markers": [],
+        "scope": "Read-only declared marker/topology observation only; does not prove semantic independence"
+      }
+    ],
+    "input_bytes_unchanged": true,
+    "engine_runs": 0,
+    "native_runs": 0
+  },
+  "source_guard_sha256": "ac033c2d1d4b8856cdaad5f2e2a4ea7216312b77a308c3f054abb6db218e135c",
+  "contract_sha256": "5c24cb7fc85100882d2b213978d969c1dffa9d3bbf7f6ad54c822f773e8deb65",
+  "audit_script_sha256": "67a14a496463e23c8224cd6c35d372d8aca2451cb9b32e31c592418456bfcde0",
+  "audit_environment_log_sha256": "2d21d546fe2051d71c1881f6ebaf6d525885d6ab355106f5768e9cd44d5424ba",
+  "references": [
+    "https://support.microsoft.com/en-us/excel/map-xml-elements-to-cells-in-an-xml-map",
+    "https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.customxmldataproperties.datastoreitem?view=openxml-3.0.1"
+  ],
+  "decision": "Explicit source-bound opaque-part grant proposed for controlled owned inputs; trust assertion remains caller premise, not proven by hashes/marker absence; default path and other guards unchanged",
+  "implemented": false,
+  "engine_runs": 0,
+  "native_runs": 0,
+  "failed_business_runner_replayed": false
+}
