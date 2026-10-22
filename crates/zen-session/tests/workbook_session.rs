@@ -664,3 +664,82 @@ fn invalid_open_and_empty_history_budget_fail_explicitly() {
     assert!(matches!(WorkbookSession::from_bytes(&small_fixture(""),&WorkbookReadLimits::default(),
         HistoryBudget{max_frames:0,..HistoryBudget::default()}),Err(SessionError::HistoryBudget)));
 }
+
+// Independent error-cache admission specimens, predeclared in
+// docs/engine_specs/ENG-005-admission-review-v1.json. Not native Office evidence.
+fn admission_error_fixture(input: &str, cache: &str, literal_error: &str) -> Vec<u8> {
+    let mut p = zen_opc::Package::from_archive(
+        &zen_opc::ZipArchive::read(&small_fixture("")).unwrap()).unwrap();
+    p.put_text("/xl/worksheets/s1.xml", format!(r#"<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData><row r="1"><c r="A1"><v>{input}</v></c><c r="B1"><v>7</v></c></row><row r="2"><c r="A2" t="{}"><f>1/A1</f><v>{cache}</v></c></row><row r="3"><c r="A3" t="e"><v>{literal_error}</v></c></row></sheetData></worksheet>"#, if cache.starts_with('#') { "e" } else { "n" })).unwrap();
+    p.put_text("/xl/worksheets/s2.xml", format!(r#"<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData><row r="1"><c r="A1" t="{}"><f>Inputs!A2</f><v>{cache}</v></c></row></sheetData></worksheet>"#, if cache.starts_with('#') { "e" } else { "n" })).unwrap();
+    p.to_bytes().unwrap()
+}
+fn error_formula_node(bytes: &[u8]) -> String {
+    let zip = zen_opc::ZipArchive::read(bytes).unwrap();
+    let xml = std::str::from_utf8(zip.get("xl/worksheets/s1.xml").unwrap()).unwrap();
+    let start = xml.find("<c r=\"A2\"").unwrap();
+    let end = start + xml[start..].find("</c>").unwrap() + 4;
+    xml[start..end].to_owned()
+}
+#[test]
+fn admission_unchanged_error_cache_is_preserved_on_unrelated_edit_and_history() {
+    let source = admission_error_fixture("0", "#DIV/0!", "#DIV/0!");
+    let original = zen_opc::ZipArchive::read(&source).unwrap();
+    let mut s = open(&source);
+    assert_eq!(typed(&s,"Inputs",a(1,0)),Some(TypedValue::Error("#DIV/0!".into())));
+    s.set_value("Inputs",a(0,1),Some(TypedValue::Number { value:8.0, lexical:"untrusted".into() })).unwrap();
+    assert_eq!(typed(&s,"Inputs",a(0,1)).unwrap().text(),"8");
+    assert_eq!(typed(&s,"Report",a(0,0)),Some(TypedValue::Error("#DIV/0!".into())));
+    assert_eq!(error_formula_node(s.bytes()),error_formula_node(&source));
+    let result = zen_opc::ZipArchive::read(s.bytes()).unwrap();
+    assert_eq!(result.get("xl/worksheets/s2.xml"),original.get("xl/worksheets/s2.xml"));
+    let saved = s.bytes().to_vec();
+    s.undo().unwrap(); assert_eq!(s.bytes(),source);
+    s.redo().unwrap(); assert_eq!(s.bytes(),saved);
+}
+#[test]
+fn admission_changed_error_cache_and_error_type_transitions_refuse_with_redo() {
+    for (input,cache,at,next) in [
+        ("1","1",a(0,0),0.0),
+        ("0","#DIV/0!",a(0,0),2.0),
+        ("0","#VALUE!",a(0,1),8.0),
+    ] {
+        let source = admission_error_fixture(input,cache,"#DIV/0!");
+        let mut s = open(&source);
+        // Establish live redo only for initially consistent caches. A stale
+        // cache already refuses any real edit, so that specimen starts fresh.
+        if cache != "#VALUE!" {
+            s.set_value("Inputs",a(0,1),Some(TypedValue::Boolean(false))).unwrap();
+            s.undo().unwrap(); assert!(s.can_redo());
+        }
+        let before = state(&s);
+        let error = s.set_value("Inputs",at,Some(TypedValue::Number { value:next, lexical:next.to_string() })).unwrap_err();
+        assert!(error.to_string().contains("error"),"{error}");
+        assert_eq!(state(&s),before);
+        assert_eq!(s.bytes(),source);
+    }
+}
+#[test]
+fn admission_error_tags_are_readable_but_literal_error_targets_and_writes_refuse() {
+    for tag in ["#DIV/0!","#OWNED_UNKNOWN!"] {
+        let source = admission_error_fixture("1","1",tag);
+        let mut s = open(&source);
+        assert_eq!(typed(&s,"Inputs",a(2,0)),Some(TypedValue::Error(tag.into())));
+        s.set_value("Inputs",a(0,1),Some(TypedValue::Boolean(false))).unwrap();
+        s.undo().unwrap(); assert!(s.can_redo());
+        let before = state(&s);
+        for at in [a(0,1),a(2,0)] {
+            assert!(s.set_value("Inputs",at,Some(TypedValue::Error(tag.into()))).is_err());
+            assert_eq!(state(&s),before);
+        }
+        for value in [None,Some(TypedValue::Number { value:1.0, lexical:"1".into() })] {
+            assert!(s.set_value("Inputs",a(2,0),value).is_err());
+            assert_eq!(state(&s),before);
+        }
+        assert!(s.set_formula("Inputs",a(2,0),"1+1").is_err());
+        assert_eq!(state(&s),before);
+        assert!(s.clear_formula("Inputs",a(2,0)).is_err());
+        assert_eq!(state(&s),before);
+        assert_eq!(s.bytes(),source);
+    }
+}

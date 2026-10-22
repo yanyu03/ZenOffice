@@ -1,0 +1,32 @@
+{
+  "task": "ENG-005",
+  "kind": "predeclared bounded admission-table review; not frozen acceptance replacement",
+  "base_commit": "c5c6dbce62d7e020a91c7d943b2c086e087429fe",
+  "expectations": [
+    {
+      "id": "unchanged_error_cache",
+      "source": "owned micro-workbook A1=0,A2=1/A1 cached#DIV/0!, Report!A1=Inputs!A2 cached#DIV/0!, unrelated B1=7",
+      "request": "B1=8",
+      "expected": "changed input; both formula error cache subtrees retained byte-exact; unrelated report part unchanged; undo/redo exact archive"
+    },
+    {
+      "id": "cache_transitions",
+      "variants": [
+        "number1 to#DIV/0! by A1=0",
+        "#DIV/0! to number0.5 by A1=2",
+        "stale#VALUE! to computed#DIV/0! by unrelated B1=8"
+      ],
+      "expected": "each request refuses and preserves full state/source; live redo for initially consistent cache variants, fresh session for stale cache"
+    },
+    {
+      "id": "direct_error",
+      "source_tags": [
+        "#DIV/0!",
+        "#OWNED_UNKNOWN!"
+      ],
+      "expected": "reader preserves raw tag as Error, no promise recognized spreadsheet semantics; every direct Error write refused including same tag; set_value None/Number, set_formula and clear_formula on literal error target refuse, no state change"
+    }
+  ],
+  "other_coverage": "rerun existing workbook_session input/formula/blank/error tests and six date_serial boundary tests; three sealed business/policy and default refusal tests",
+  "native_runs": 0
+}

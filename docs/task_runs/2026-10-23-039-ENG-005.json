@@ -1,0 +1,73 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-005",
+  "started_at": "2026-10-22T22:32:39.242817+00:00",
+  "ended_at": "2026-10-22T22:36:26.287Z",
+  "status": "PARTIAL",
+  "actual_commit": "c5c6dbce62d7e020a91c7d943b2c086e087429fe",
+  "actual_scope": "Complete current eight-row TypedValue admission table review and mutable contract correction; three independent-literal error boundary regression methods, no engine implementation change.",
+  "commands": [
+    "Official87%remaining/localREADY/frozen15PASS; prior cycleCOMPLETE, no unfinished owned commands; c5c6dbc both exactSHA CI successes/remote main checked; workerordinal19mark only",
+    "Predeclared error specimens before running; DSHA Python3.12.14/Cargo1.99.1/Rustc1.99.1 owned probes+MSVC child SDK PASS",
+    "cargo test --locked --offline -p zen-session --test workbook_session:28PASS; date_serial:6PASS; opaque_policy_session:9PASS; typed_business_admission:3PASS; total46",
+    "check_baseline.py/report/frozen/diff before sync; exact new commit/CI in continuity; no unrelated local full suite or release rerun"
+  ],
+  "deviations": [
+    "Retracted stale mutable-contract current-state date-not-implemented claim; historical dated slices retained in Git/research; frozen taskbook unchanged",
+    "Source permits raw unknown error labels to be read, unlike ambiguous old table refusal wording; documented this measured boundary, no write permission added",
+    "Stale error-cache negative starts fresh because a real edit already refuses; consistent-cache variants verify live redo unchanged",
+    "actual_commit is tested code base before test/docs commit; final synchronized commit/CI in continuity"
+  ],
+  "untested": [
+    "Unknown error tag is raw readable data, not proof of valid/implemented error semantics",
+    "No new production behavior or native Excel typed/date comparison",
+    "Ordinary no-op does not grant full package admission",
+    "No total memory/namespace CAS guarantee; receipt remains in-memory only"
+  ],
+  "next_step": "Execute native Excel equivalent typed/date/formula operations for original sealed3business inputs with3independent runs each, compare same-plan values/types/formulas/cache/date-system/save-reopens. C3 staysNOT_RUN until actual evidence.",
+  "criteria": {
+    "ENG-005-C1": {
+      "requirement": "建立TypedValue和编辑准入表，覆盖空白、文本、布尔、数字、日期及普通公式；日期体系和错误值单列。",
+      "result": "PASS",
+      "observation": "One current source-reviewed table has8intent rows:blank,text,bool,number,date1900,date1904,normalformula,error; TypedValue/Option/DateSystem reused, date and error boundaries separated. Three new error regression methods with1microfixturefamily/variants; date6existing methods and3sealed business cases rerun. Design criterion only.",
+      "sample_count": 1,
+      "evidence": [
+        "docs/TYPED_EDIT_CONTRACT.md",
+        "docs/engine_specs/ENG-005-admission.json",
+        "docs/research/ENG-005-ADMISSION-REVIEW-2026-10-23.json"
+      ]
+    },
+    "ENG-005-C2": {
+      "requirement": "实现支持的类型/公式写回和跨表动态依赖更新；缓存与calc配置有独立预期；未知名称、数组、外链明确拒绝或只读。",
+      "result": "PASS",
+      "observation": "Bounded explicit-policy path: original sealed3business×8operations plus saved continuation tests rerun; independent literal cache/formula/calcPr/unchanged-part expectations preserved. Existing unknownname/array/external refusal regression passes; no new implementation.",
+      "sample_count": 3,
+      "evidence": [
+        "docs/research/ENG-005-ADMISSION-REVIEW-2026-10-23.json",
+        "crates/zen-session/tests/opaque_policy_session.rs"
+      ]
+    },
+    "ENG-005-C3": {
+      "requirement": "3份业务XLSX分别包含类型切换、清空和公式替换；保存重开并与Excel同等修改对照。",
+      "result": "NOT_RUN",
+      "observation": "NativeExcel equivalent typed/date business comparison0; design/table and Rust passes do not close C3.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C4": {
+      "requirement": "失败不改变会话/原包/旧输出，撤销恢复数据和计算状态；相关Rust回归按提交记录。",
+      "result": "PASS",
+      "observation": "1newmicrofixturefamily with cache/tag variants: unchanged error caches preserve exact node/report bytes and undo/redo; number-to-error/error-to-number/changed-error and all direct-error writes/targets refuse without state mutation, including live redo where initially consistent.46targeted Rust methods PASS. Existing three-business saved continuation regressions rerun.",
+      "sample_count": 1,
+      "evidence": [
+        "docs/research/ENG-005-ADMISSION-REVIEW-2026-10-23.json",
+        "crates/zen-session/tests/workbook_session.rs"
+      ]
+    }
+  },
+  "slice_evidence": "docs/research/ENG-005-ADMISSION-REVIEW-2026-10-23.json"
+}

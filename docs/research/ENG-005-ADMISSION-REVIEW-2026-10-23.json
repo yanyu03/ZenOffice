@@ -1,0 +1,70 @@
+{
+  "date": "2026-10-23",
+  "task": "ENG-005",
+  "level": "Z: bounded Rust runtime tests; design admission review, no native host",
+  "device": "Windows x86_64 reported runtime; no hardware attestation",
+  "tools": {
+    "python": "3.12.14",
+    "cargo": "1.99.1",
+    "rustc": "1.99.1",
+    "sdk": "DSHA child MSVC SDK health PASS"
+  },
+  "reviewed_base": "c5c6dbce62d7e020a91c7d943b2c086e087429fe",
+  "sample_counts": {
+    "admission_tables": 1,
+    "intent_rows": 8,
+    "new_test_methods": 3,
+    "new_owned_micro_fixture_families": 1,
+    "targeted_test_methods": 46,
+    "sealed_business_files_rerun": 3,
+    "new_native_runs": 0
+  },
+  "logs": [
+    {
+      "path": "target/quota_guard/command-4276fa53c8384784a94d27d3d125ab9e.log",
+      "sha256": "a9a12dcf6edb8f4cf9776e6ba9a91be03292d7accdc65bef468f105c8932560f",
+      "summary": [
+        "test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s"
+      ]
+    },
+    {
+      "path": "target/quota_guard/command-4e602fa07de0489badab9167aa67d07e.log",
+      "sha256": "9c2cb3c09d73293acf51297a58bb76908d13186e3a37e695f80e8b930c6a5e57",
+      "summary": [
+        "test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.39s"
+      ]
+    },
+    {
+      "path": "target/quota_guard/command-fa6c396666644eb6bd29a53a2c824b37.log",
+      "sha256": "838a345360c01e20a8257bfc467b0e58807f3dbd8eaad131e542b09c7cdbb724",
+      "summary": [
+        "test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.13s"
+      ]
+    },
+    {
+      "path": "target/quota_guard/command-72d8d2a715184c66aeb4cf477be1d882.log",
+      "sha256": "cac42482e3817aef14c59f00378ff6d5df3ad7c657090b202535fe6033663c09",
+      "summary": [
+        "test result: ok. 28 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.20s"
+      ]
+    }
+  ],
+  "source_identities": {
+    "crates/zen-engine/src/workbook.rs": "9a5e288149e9f9cae7970d19308875cde345000235fd6d041b2d78edf2dfcfba",
+    "crates/zen-formats/src/spreadsheet/cells.rs": "968e307e02391afafe8995f429fa39115593cc78d62bd1ae914e642dfe70dff6",
+    "crates/zen-formats/src/spreadsheet/edit.rs": "024fc4d316597d4e054796be4380ef60a3e94bd4cce4402a3920a68bb43d49fe",
+    "crates/zen-formats/src/spreadsheet/dates.rs": "a34d9707db62de35f741c6fa9f53a422cb39be8e884923023193cc15b330e871",
+    "crates/zen-session/src/lib.rs": "d65b39df5e9adc34dd2aba035c812a6bbe827f5ef8e28eeb87cfd2381100bbe4",
+    "crates/zen-session/tests/workbook_session.rs": "cd5069173453a39c614858a2623ff4692a1936d2563cf1d8186adb75444e10b5",
+    "docs/engine_specs/ENG-005-admission-review-v1.json": "0fd573675b57b8aa749774c13f0b873b6140840d71cedf0f4a9ed20e2db16be6"
+  },
+  "result": "PASS within current model/table and declared error/date/typed boundaries",
+  "limitations": [
+    "Unknown error tag is raw readable data, not proof of valid/implemented error semantics",
+    "No new production behavior or native Excel typed/date comparison",
+    "Ordinary no-op does not grant full package admission",
+    "No total memory/namespace CAS guarantee; receipt remains in-memory only"
+  ],
+  "reproduce": "DSHA envfeel --require python --require cargo; cargo test --locked --offline -p zen-session --test <workbook_session|date_serial|opaque_policy_session|typed_business_admission>, each target separately via quota_guard",
+  "rollback": "Review/revert this commit only; preserve frozen taskbook/sealed inputs and historical failures"
+}
