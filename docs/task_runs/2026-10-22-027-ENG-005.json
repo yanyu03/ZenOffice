@@ -1,0 +1,70 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-005",
+  "started_at": "2026-10-22T09:30:00.937966+00:00",
+  "ended_at": "2026-10-22T09:32:23.976Z",
+  "status": "PARTIAL",
+  "actual_commit": "be373cd7af4767d7570e1fecd0320ecd3d05c3b8",
+  "actual_scope": "Read-only public authoring contract review and one documented help query; selected docs/query did not expose required setters. Primary selected fresh native whole-package implementation route within existing engine authorization. No generation or product execution.",
+  "commands": [
+    "Official77% and guardREADY; frozen taskbook calibrated; prior cycleCOMPLETE no active handles; real ticket ordinal6 mark only.",
+    "Read artifact-tool package.json2.8.99/granola5.3.28; rg selected metadata terms over public docs/spreadsheets Markdown returned no matches.",
+    "Read public Workbook Facade help contract; DSHA EnvFeel Node24.14.1 PASS and one help-only query returned0entries; exported0.",
+    "Primary completed concrete route comparison and selected independent fresh authoring route B within existing engine authorization; no old generation or model request."
+  ],
+  "deviations": [
+    "Runtime Node24.14.1 was discovered by DSHA, distinct from bundled Node24.19.0 used in past tests.",
+    "No docs/query match is not proof of absent library capability; no private-interface inference or export attempted.",
+    "Implementation-route decision does not change frozen standards. No extra user approval is required for routine source work; any future standard change still needs explicit user authorization."
+  ],
+  "untested": [
+    "Actual library metadata writing/export behavior",
+    "New XLSX generation/rendering/sealing and independent package admission",
+    "Zen/Excel/ONLYOFFICE business execution; Rust regression not repeated for documents-only review"
+  ],
+  "next_step": "Implement and test independent fresh-package authoring from the unchanged plan; first validate one actual minimal candidate before expanding to three cases. Keep old generator refused; never patch old failed output.",
+  "criteria": {
+    "ENG-005-C1": {
+      "requirement": "建立TypedValue和编辑准入表，覆盖空白、文本、布尔、数字、日期及普通公式；日期体系和错误值单列。",
+      "result": "NOT_RUN",
+      "observation": "No new engine or native-host execution; public help query and route proposal do not meet product acceptance.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C2": {
+      "requirement": "实现支持的类型/公式写回和跨表动态依赖更新；缓存与calc配置有独立预期；未知名称、数组、外链明确拒绝或只读。",
+      "result": "NOT_RUN",
+      "observation": "No new engine or native-host execution; public help query and route proposal do not meet product acceptance.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C3": {
+      "requirement": "3份业务XLSX分别包含类型切换、清空和公式替换；保存重开并与Excel同等修改对照。",
+      "result": "NOT_RUN",
+      "observation": "No new engine or native-host execution; public help query and route proposal do not meet product acceptance.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C4": {
+      "requirement": "失败不改变会话/原包/旧输出，撤销恢复数据和计算状态；相关Rust回归按提交记录。",
+      "result": "NOT_RUN",
+      "observation": "No new engine or native-host execution; public help query and route proposal do not meet product acceptance.",
+      "sample_count": 0,
+      "evidence": []
+    }
+  },
+  "slice_evidence": "docs/operations/2026-10-22-TYPED-AUTHORING-ROUTE-PROPOSAL.md",
+  "authoring_api_query": {
+    "version": "2.8.99",
+    "node_version": "24.14.1",
+    "help_entries": 0,
+    "query_only": true,
+    "library_support_status": "UNCONFIRMED",
+    "xlsx_exported": 0,
+    "help_response_sha256": "a9d6d6aa435c5287bb75095c34d24107c3142c1f24cb16798277d96711d203df"
+  }
+}

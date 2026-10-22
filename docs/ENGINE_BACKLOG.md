@@ -1,5 +1,7 @@
 # 引擎待办与交接
 
+2026-10-22／实况027：固定artifact-tool2.8.99公开文档和一次help查询未找到所需metadata写入口（不证明库无此能力）。主助手已在既有开发授权内选定独立从零创作新包的路线B，下一有限任务实施源码与测试；A保留为待公开接口的备选。不是修补旧输出或回改标准，旧生成器保持拒绝。ENG-005业务输入仍BLOCKED，本轮PARTIAL且C1—C4 NOT_RUN；无新证据不重复同一帮助查询。见operations/2026-10-22-TYPED-AUTHORING-ROUTE-PROPOSAL.md。
+
 2026-10-22／实况026：新增独立只读包策略检查器，7项方法通过（3个内存正向包、30个独立拒绝样本）；核对日期体系、calcPr、日期xf、初始值/公式缓存及customXml关系。两次测试夹具语法启动失败已保留并修正；三旧失败候选不变。旧生成器未集成，未新建封存业务输入或启动Zen/Office，ENG-005仍PARTIAL。见operations/2026-10-22-TYPED-PACKAGE-POLICY.md。
 
 2026-10-22／实况025：上轮额度阻断保留的独立元数据构造器已通过9项专项，原5项拒绝回归通过；显式日期体系、manual calcPr、builtin14样式及自有customXml关系可在新XML部件中构造。旧生成入口仍拒绝，三业务输入/整包集成未完成，ENG-005仍PARTIAL/BLOCKED于业务验收；本轮所有产品条件NOT_RUN，未进行Zen/Office新运行。详见operations/2026-10-22-TYPED-METADATA-COMPONENT.md。
