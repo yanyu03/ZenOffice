@@ -1,0 +1,73 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-005",
+  "started_at": "2026-10-22T20:35:37.450300+00:00",
+  "ended_at": "2026-10-22T20:46:46.908Z",
+  "status": "PARTIAL",
+  "actual_commit": "446da33ef6f59534639aa7432d42ab76e48d0a11",
+  "actual_scope": "Explicit owned-input XLSX policy integration with original eight-step typed business API, candidate reread, history and create-new persistence. Native Office comparison and editable saved-output reopening remain pending.",
+  "commands": [
+    "Official93%remaining and localREADY unlatched; frozenPASS; workerordinal17mark only; priorcycle COMPLETE and both446da33CI PASS checked",
+    "Manually reviewed original033failed runner before adapting explicit policy; same sealed3files/plan/eight operations/literal full snapshots preserved, no automatic old patch application",
+    "DSHA Python/Cargo/Rustc owned-health and MSVC SDK PASS; targeted and injected private fault tests PASS",
+    "cargo test --locked --offline --workspace --all-targets:336PASS6ignored; release zen-deliver PASS; after final test-only manifest self-pin insertion six integration tests rerun PASS",
+    "Independent original manifest/sample hashes unchanged; source baseline/report/frozen/diff verification before synchronization; exactcommit CI to continuity receipt"
+  ],
+  "deviations": [
+    "Default unknowncustomXML refusal remains; admission only via explicit immutable controlled-owned independent leafXML policy",
+    "Saved outputs reloaded for content comparison through ordinary strict session; that session refuses edits and originalpolicy refuses changed-source reopening. Editable saved-output receipt API remains unimplemented",
+    "Original033C2FAIL retained unchanged; current bounded explicit-path C2/C4 newPASS evidence does not mark whole ENG005DONE",
+    "Runtime source/frames/output artifacts stay target; only owned semantic receipts/hashes and source/tests/docs committed. Current4imported fingerprints updated; original import hashes unchanged"
+  ],
+  "untested": [
+    "Only explicitly reviewed controlled-owned independent leafXML; no automatic unknown-source admission or namespace/payload whitelist",
+    "Saved content can be read and compared via ordinary strict session; editable reopening with samepolicy needs a saved-frame receipt and is not implemented",
+    "No CLI enrollment, no native typed/date Excel or rendering comparison; C3 NOT_RUN; prior033FAIL retained unchanged",
+    "Initial runner self-pin textual insertion first did not match formatted source; reviewed marker absence, inserted at verified anchor and reran6tests; no frozen or source identity lock changed",
+    "History budget counts encoded archives; descriptor has explicit16KiBpayload bound, no total heap or untrusted filesystem CAS guarantee"
+  ],
+  "next_step": "Design and implement explicit saved-frame receipt preserving policy identity for editable reopening without resealing; then nativeExcel3files×3runs typed/date/formula comparison against same sealed plan and evidence. Review C1 admission table separately; do not claim C3 without native observations.",
+  "criteria": {
+    "ENG-005-C1": {
+      "requirement": "建立TypedValue和编辑准入表，覆盖空白、文本、布尔、数字、日期及普通公式；日期体系和错误值单列。",
+      "result": "NOT_RUN",
+      "observation": "This round did not close the complete TypedValue/admission-table requirement; bounded runtime evidence recorded separately.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C2": {
+      "requirement": "实现支持的类型/公式写回和跨表动态依赖更新；缓存与calc配置有独立预期；未知名称、数组、外链明确拒绝或只读。",
+      "result": "PASS",
+      "observation": "Explicit owned-policy path only: three original sealed business files each8steps; text/bool/blank/date/formula/clear and old/new cross-sheet references match independent literal full snapshots, calcPr/unmodifiedparts/styles exact. Missing names/functions,array/external formula intents refuse atomically. Ordinary default remains strict. Prior033FAIL retained.",
+      "sample_count": 3,
+      "evidence": [
+        "docs/research/ENG-005-EXPLICIT-POLICY-SESSION-2026-10-23.json",
+        "crates/zen-session/tests/opaque_policy_session.rs",
+        "target/quota_guard/command-eddb685b713449b8a41d6ba1657d2ae2.log"
+      ]
+    },
+    "ENG-005-C3": {
+      "requirement": "3份业务XLSX分别包含类型切换、清空和公式替换；保存重开并与Excel同等修改对照。",
+      "result": "NOT_RUN",
+      "observation": "Zen3files original8steps/9readonlysave-reopens PASS, but nativeExcel comparison0 and editable policy reopen not implemented; whole criterion NOT_RUN.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C4": {
+      "requirement": "失败不改变会话/原包/旧输出，撤销恢复数据和计算状态；相关Rust回归按提交记录。",
+      "result": "PASS",
+      "observation": "3original business inputs:33byte-exact undo/redo pairs and1904tracked cell snapshots;9new-target saves/read-reopens and9existing-output refusals. Additional owned faults: date/intent/budget,unknownrelation,candidate/history corruption,sourcechange,lockedoutput,actualpartialwrite/sync/publish/contender and mismatchedtemporary all preserve session/policy/source/prioroutput. Workspace336PASS6ignored and releasePASS; Windows trusted/create-new scope only.",
+      "sample_count": 3,
+      "evidence": [
+        "docs/research/ENG-005-EXPLICIT-POLICY-SESSION-2026-10-23.json",
+        "target/quota_guard/command-d1e95b29d3ee4beda919a8bb115d9bc0.log",
+        "target/quota_guard/command-56cb434e853f4b5194710b831203c285.log"
+      ]
+    }
+  },
+  "slice_evidence": "docs/research/ENG-005-EXPLICIT-POLICY-SESSION-2026-10-23.json"
+}

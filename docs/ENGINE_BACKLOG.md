@@ -1,5 +1,7 @@
 # 引擎待办与交接
 
+2026-10-23／实况037：显式受控自有policy已贯穿XLSX原门禁、候选重读、Session编辑/undo/redo及安全保存，实际临时字节发布前核验；普通入口仍拒绝unknowncustomXML。三原封存业务各8步首次PASS：24前向、33撤销重做对、1904逐格快照核对、9保存与普通只读重开；故障原子性及默认3拒绝PASS。完整Rust336PASS6ignored/ReleasePASS，最终测试内清单自校验6集成重跑PASS。C2/C4有界新PASS，C1/C3未关闭、ENG005PARTIAL；旧033FAIL保留。无新Excel，保存文件继续编辑仍拒绝、需保存帧重开凭据，不自动重算grant。下一步凭据与原三文件×3次原生对照，见operations/2026-10-23-EXPLICIT-POLICY-SESSION.md。
+
 2026-10-23／实况036：新增不可变OpaqueXmlPolicy，初始源/稳定身份、拥有关系与有效媒体行固定；候选每次重验但不重算初始SHA。拒绝xml:base等未知元数据属性/内容；9新方法，22OPC+24描述/policy+3默认拒绝PASS。仍是只读组件，未接编辑/撤销/保存，无候选合法编辑/祖先关系证明或已保存重开凭据，三封存输入不变；原033C2FAIL保留、ENG005PARTIAL/BLOCKED。下一步XLSX显式组合原门禁并贯穿ReadWorkbook/Session，先确定保存帧重开身份，不宽松重试。
 
 2026-10-23／实况035：新增独立只读opaque_xml声明核验器，单一显式自有叶子XML；输入/payload SHA、媒体、唯一workbook关系、已知绑定/路径/预算拒绝。15新增+22OPC+3原输入默认原子拒绝PASS，三封存输入仅描述核验通过。初轮预算夹具先被ZIP比例门禁拦截的失败保留，store-only后验证XML限额。未接入写路径、无新业务8步/保存/Office验收；ENG005仍PARTIAL/BLOCKED，原033C2FAIL不变。下一步先跟进本提交CI，再审查policy贯穿候选/历史/保存；禁止宽松回退或探针白名单。

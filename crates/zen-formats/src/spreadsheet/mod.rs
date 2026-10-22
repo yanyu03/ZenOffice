@@ -26,6 +26,8 @@ const STRINGS_TYPE: &str =
 #[derive(Debug, thiserror::Error)]
 pub enum ReadError {
     #[error(transparent)]
+    Preservation(#[from] zen_opc::OpcError),
+    #[error(transparent)]
     Opc(#[from] OpcError),
     #[error(transparent)]
     Xml(#[from] roxmltree::Error),
@@ -94,6 +96,7 @@ pub enum SaveCapability {
 /// Read-only access prevents the preview from authorizing a destructive save.
 #[derive(Debug)]
 pub struct ReadWorkbook {
+    opaque_xml_policy: Option<std::sync::Arc<zen_opc::opaque_xml::OpaqueXmlPolicy>>,
     package: Package,
     workbook: Workbook,
     sheet_parts: BTreeMap<SheetId, PartName>,
@@ -106,6 +109,38 @@ impl ReadWorkbook {
     }
     pub fn read(bytes: &[u8], limits: &WorkbookReadLimits) -> Result<Self, ReadError> {
         Self::from_package(Package::read(bytes, &limits.package)?, limits)
+    }
+    /// Explicit controlled-source path; the immutable policy must match the
+    /// initial archive. Ordinary read/open/from_package stay strict for edits.
+    pub fn read_with_opaque_xml_policy(
+        bytes: &[u8], limits: &WorkbookReadLimits,
+        policy: std::sync::Arc<zen_opc::opaque_xml::OpaqueXmlPolicy>,
+    ) -> Result<Self, ReadError> {
+        policy.validate_initial(bytes)?;
+        let mut result = Self::read(bytes, limits)?;
+        result.opaque_xml_policy = Some(policy);
+        Ok(result)
+    }
+    /// Re-read a candidate produced by this projection's transaction using the
+    /// same policy. Caller establishes allowed-edit lineage; not a new-source
+    /// opening API and not a policy reseal.
+    pub fn reread_candidate(&self, bytes: &[u8], limits: &WorkbookReadLimits) -> Result<Self, ReadError> {
+        self.recheck_preservation(bytes)?;
+        let mut result = Self::read(bytes, limits)?;
+        result.opaque_xml_policy = self.opaque_xml_policy.clone();
+        Ok(result)
+    }
+    pub fn recheck_preservation(&self, bytes: &[u8]) -> Result<(), ReadError> {
+        if let Some(policy) = &self.opaque_xml_policy { policy.validate_candidate(bytes)?; }
+        Ok(())
+    }
+    pub fn opaque_xml_policy_identity(&self) -> Option<[u8; 32]> {
+        self.opaque_xml_policy.as_ref().map(|p| p.identity())
+    }
+    /// String/row descriptor payload only; fixed policy limit16KiB, shared by
+    /// projections. Archive history limits do not measure exact process heap.
+    pub fn retained_policy_descriptor_bytes(&self) -> usize {
+        self.opaque_xml_policy.as_ref().map_or(0, |p| p.retained_descriptor_bytes())
     }
     pub fn workbook(&self) -> &Workbook {
         &self.workbook
@@ -290,6 +325,7 @@ impl ReadWorkbook {
         let workbook_part = main.name().clone();
         let workbook = Workbook::new(sheets, date_system)?.with_defined_names(defined_names)?;
         Ok(Self {
+            opaque_xml_policy: None,
             package,
             workbook,
             workbook_part,

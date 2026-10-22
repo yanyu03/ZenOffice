@@ -1,7 +1,7 @@
 //! First saving tier: trusted local paths, Windows, create-new only.
 //! It never overwrites an existing target or claims namespace compare-and-swap.
 use crate::{HistoryBudget, SessionError, WorkbookSession};
-use std::{fs::{self, File, OpenOptions}, io::{Read, Write}, path::{Component, Path, PathBuf}, sync::Arc};
+use std::{fs::{self, File, OpenOptions}, io::{Read, Write, Seek, SeekFrom}, path::{Component, Path, PathBuf}, sync::Arc};
 use zen_formats::spreadsheet::WorkbookReadLimits;
 
 // Private I/O boundary: tests inject actual partial temporary writes or errors
@@ -31,6 +31,8 @@ pub enum SaveError {
     Io(#[from] std::io::Error),
     #[error(transparent)]
     Session(#[from] SessionError),
+    #[error("temporary output bytes differ from the checked current frame")]
+    TemporaryChanged,
     #[error("source archive changed since this session was opened")]
     SourceChanged,
     #[error("source archive exceeds configured read limit")]
@@ -120,6 +122,21 @@ impl WorkbookSession {
         Ok(session)
     }
 
+    /// File-backed controlled-source policy. Modified saved output is not
+    /// adopted as an initial source; its editable reopening needs a separate
+    /// saved-frame identity API, which is not exposed by this slice.
+    pub fn open_with_opaque_xml_policy(
+        path: &Path, limits: &WorkbookReadLimits, budget: HistoryBudget,
+        policy: Arc<zen_opc::opaque_xml::OpaqueXmlPolicy>,
+    ) -> Result<Self, SaveError> {
+        let path = local_path(path)?;
+        let (_guard, bytes) = read_source(&path, limits.package.max_archive_bytes)?;
+        let path = fs::canonicalize(path)?;
+        let mut session = Self::from_bytes_with_opaque_xml_policy(&bytes, limits, budget, policy)?;
+        session.source = Some(path);
+        Ok(session)
+    }
+
     /// Publish a complete current candidate only to a new filename. The source
     /// remains the original input; Save As does not silently retarget its identity.
     pub fn save_as_new(&mut self, target: &Path) -> Result<(), SaveError> {
@@ -142,10 +159,21 @@ impl WorkbookSession {
         }
         let (_source_guard, bytes) = read_source(source, self.limits.package.max_archive_bytes)?;
         if bytes.as_slice() != self.frames[0].as_ref() { return Err(SaveError::SourceChanged); }
+        self.projection.recheck_preservation(self.bytes()).map_err(SessionError::from)?;
         let saved = Arc::clone(&self.frames[self.cursor]);
         let mut temporary = tempfile::NamedTempFile::new_in(parent)?;
         io.write(&mut temporary, &saved)?;
         io.sync(&temporary)?;
+        if self.opaque_xml_policy_identity().is_some() {
+            // Verify the actual owned temporary handle before publication.
+            // No namespace CAS or post-publication rollback is claimed.
+            temporary.as_file_mut().seek(SeekFrom::Start(0))?;
+            let mut actual = Vec::new();
+            Read::by_ref(temporary.as_file_mut()).take((saved.len() as u64).saturating_add(1))
+                .read_to_end(&mut actual)?;
+            if actual.as_slice() != saved.as_ref() { return Err(SaveError::TemporaryChanged); }
+            self.projection.recheck_preservation(&actual).map_err(SessionError::from)?;
+        }
         // Noclobber is the publication condition, not a check followed by overwrite.
         // If another process creates target first, its bytes are left intact.
         io.publish(temporary, &target)?;
@@ -258,4 +286,69 @@ mod failure_tests {
     fn late_existing_target_is_never_replaced_and_retry_still_succeeds() {
         check_failure(Fault::Contender, &["write", "sync", "publish"]);
     }
+
+    fn policy_file_session(source_path:&Path) -> WorkbookSession {
+        use zen_opc::opaque_xml::{OpaqueXmlDeclaration,OpaqueXmlPolicy,sha256};
+        let source=fs::read(source_path).unwrap();
+        let archive=zen_opc::ZipArchive::read(&source).unwrap();
+        let payload=archive.get("customXml/zen-probe.xml").unwrap();
+        let d=OpaqueXmlDeclaration{
+            source_sha256:sha256(&source),part_name:"/customXml/zen-probe.xml".into(),
+            payload_sha256:sha256(payload),payload_bytes:payload.len(),content_type:"application/xml".into(),
+            relationship_id:"rIdProbe".into(),relationship_target:"../customXml/zen-probe.xml".into(),
+            controlled_owned_source:true,semantically_independent:true,review_basis:"Owned sealed budget; private persistence fault injection".into(),
+        };
+        let policy=Arc::new(OpaqueXmlPolicy::bind_initial(&source,&d).unwrap());
+        WorkbookSession::open_with_opaque_xml_policy(source_path,&WorkbookReadLimits::default(),HistoryBudget::default(),policy).unwrap()
+    }
+    #[test]
+    fn opaque_policy_is_retained_across_each_actual_save_io_failure() {
+        use zen_engine::workbook::TypedValue;
+        for fault in [Fault::Write,Fault::Sync,Fault::Publish,Fault::Contender] {
+            let directory=tempfile::tempdir().unwrap();let source=directory.path().join("source.xlsx");
+            let original=include_bytes!("../../../RCD/engine-acceptance/eng-005-business-v2/budget.xlsx");
+            fs::write(&source,original).unwrap();
+            let mut s=policy_file_session(&source);let identity=s.opaque_xml_policy_identity();
+            let a=CellAddress::new(11,1).unwrap();
+            s.set_value("Budget",a,Some(TypedValue::Text("Reviewed".into()))).unwrap();
+            let prior=directory.path().join("prior.xlsx");s.save_as_new(&prior).unwrap();let prior_bytes=fs::read(&prior).unwrap();
+            s.set_value("Budget",a,Some(TypedValue::Boolean(true))).unwrap();
+            s.set_value("Budget",a,None).unwrap();s.undo().unwrap();
+            let before=state(&s);let target=directory.path().join("attempt.xlsx");
+            let mut io=FailingIo{fault,reached:vec![]};
+            assert!(matches!(s.save_as_new_with(&target,&mut io),Err(SaveError::Io(_))));
+            assert_eq!(state(&s),before);assert_eq!(s.opaque_xml_policy_identity(),identity);
+            assert_eq!(fs::read(&source).unwrap(),original);assert_eq!(fs::read(&prior).unwrap(),prior_bytes);
+            if fault==Fault::Contender {assert_eq!(fs::read(&target).unwrap(),b"late competing output");}
+            else {assert!(!target.exists());}
+            assert_eq!(fs::read_dir(directory.path()).unwrap().count(),if fault==Fault::Contender{3}else{2});
+            s.redo().unwrap();assert_eq!(s.opaque_xml_policy_identity(),identity);
+        }
+    }
+    struct CorruptingTemporary;
+    impl SaveIo for CorruptingTemporary {
+        fn write(&mut self, temporary:&mut tempfile::NamedTempFile, _bytes:&[u8])->std::io::Result<()> {
+            temporary.write_all(b"owned wrong temporary bytes")
+        }
+        fn sync(&mut self, temporary:&tempfile::NamedTempFile)->std::io::Result<()> {FileSaveIo.sync(temporary)}
+        fn publish(&mut self, _temporary:tempfile::NamedTempFile, _target:&Path)->std::io::Result<()> {
+            panic!("unverified temporary must not publish")
+        }
+    }
+    #[test]
+    fn opaque_policy_checks_actual_temporary_before_publication() {
+        use zen_engine::workbook::TypedValue;
+        let directory=tempfile::tempdir().unwrap();let source=directory.path().join("source.xlsx");
+        let original=include_bytes!("../../../RCD/engine-acceptance/eng-005-business-v2/budget.xlsx");
+        fs::write(&source,original).unwrap();
+        let mut s=policy_file_session(&source);
+        s.set_value("Budget",CellAddress::new(11,1).unwrap(),Some(TypedValue::Text("Reviewed".into()))).unwrap();
+        let before=state(&s);let identity=s.opaque_xml_policy_identity();
+        let target=directory.path().join("attempt.xlsx");
+        assert!(matches!(s.save_as_new_with(&target,&mut CorruptingTemporary),Err(SaveError::TemporaryChanged)));
+        assert_eq!(state(&s),before);assert_eq!(s.opaque_xml_policy_identity(),identity);
+        assert!(!target.exists());assert_eq!(fs::read(&source).unwrap(),original);
+        assert_eq!(fs::read_dir(directory.path()).unwrap().count(),1);
+    }
+
 }

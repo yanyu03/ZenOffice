@@ -92,6 +92,25 @@ pub fn validate_text_edit_package(
     bytes: &[u8],
     allowed_office_relationships: &[&str],
 ) -> Result<()> {
+    validate_edit_package(bytes, allowed_office_relationships, None)
+}
+
+/// Explicit XLSX preservation policy only. The checked single custom XML edge
+/// and payload can satisfy that specific rejection branch; all other gates run.
+/// This does not infer ownership, waive formula/worksheet admission, or retry a
+/// previously refused ordinary edit.
+pub fn validate_xlsx_edit_package_with_policy(
+    bytes: &[u8], allowed_office_relationships: &[&str],
+    policy: &crate::opaque_xml::OpaqueXmlPolicy,
+) -> Result<()> {
+    policy.validate_candidate(bytes)?;
+    validate_edit_package(bytes, allowed_office_relationships, Some(policy))
+}
+
+fn validate_edit_package(
+    bytes: &[u8], allowed_office_relationships: &[&str],
+    policy: Option<&crate::opaque_xml::OpaqueXmlPolicy>,
+) -> Result<()> {
     let archive = ZipArchive::read(bytes)?;
     for entry in &archive.entries {
         let lower = entry.name.to_ascii_lowercase();
@@ -118,6 +137,7 @@ pub fn validate_text_edit_package(
                         | "http://schemas.openxmlformats.org/package/2006/relationships/metadata/thumbnail"
                 );
                 if !core
+                    && !(policy.is_some() && rel.ty == crate::opaque_xml::CUSTOM_XML_REL)
                     && !allowed_office_relationships.contains(&rel.ty.as_str())
                     && !office.is_some_and(|kind| allowed_office_relationships.contains(&kind))
                 {
@@ -161,7 +181,8 @@ pub fn validate_text_edit_package(
                         "uri",
                     )) == Some(bibliography)
                 });
-            if !known_sources && !known_properties {
+            if !known_sources && !known_properties
+                && !policy.is_some_and(|p| p.declared_part() == format!("/{}", entry.name)) {
                 return Err(OpcError::Xml("unknown custom XML dependency".into()));
             }
         }

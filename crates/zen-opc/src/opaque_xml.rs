@@ -392,6 +392,8 @@ pub struct OpaqueXmlPolicy {
 const MAX_POLICY_BYTES: usize = 16 * 1024;
 
 impl OpaqueXmlPolicy {
+    pub(crate) fn declared_part(&self) -> &str { &self.declaration.part_name }
+
     /// Does not discover, infer or update a declaration.
     pub fn bind_initial(bytes: &[u8], declaration: &OpaqueXmlDeclaration) -> Result<Self> {
         validate_opaque_xml_descriptor(bytes, std::slice::from_ref(declaration))?;

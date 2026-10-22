@@ -71,6 +71,22 @@ impl WorkbookSession {
                   limits: limits.clone(), budget, revision: 0, source: None, save_point: initial })
     }
 
+    /// Explicit reviewed owned-input policy; never enabled by discovery/env.
+    /// The original source hash is required here, even for saved output bytes.
+    pub fn from_bytes_with_opaque_xml_policy(
+        bytes: &[u8], limits: &WorkbookReadLimits, budget: HistoryBudget,
+        policy: Arc<zen_opc::opaque_xml::OpaqueXmlPolicy>,
+    ) -> Result<Self, SessionError> {
+        let mut result = Self::from_bytes(bytes, limits, budget)?;
+        result.projection = ReadWorkbook::read_with_opaque_xml_policy(bytes, limits, policy)?;
+        Ok(result)
+    }
+    pub fn opaque_xml_policy_identity(&self) -> Option<[u8; 32]> {
+        self.projection.opaque_xml_policy_identity()
+    }
+    pub fn retained_policy_descriptor_bytes(&self) -> usize {
+        self.projection.retained_policy_descriptor_bytes()
+    }
     pub fn workbook(&self) -> &Workbook { self.projection.workbook() }
     pub fn read_workbook(&self) -> &ReadWorkbook { &self.projection }
     pub fn diagnostics(&self) -> &[ReadDiagnostic] { self.projection.diagnostics() }
@@ -201,7 +217,7 @@ impl WorkbookSession {
             || retained.is_none_or(|n| n > self.budget.max_retained_archive_bytes) {
             return Err(SessionError::HistoryBudget);
         }
-        let projection = ReadWorkbook::read(&bytes, &self.limits)?;
+        let projection = self.projection.reread_candidate(&bytes, &self.limits)?;
         let revision = self.revision.checked_add(1).ok_or(SessionError::RevisionExhausted)?;
         let frame: Arc<[u8]> = if reuses_saved { Arc::clone(&self.save_point) } else { Arc::from(bytes) };
         self.frames.try_reserve(1)?;
@@ -225,7 +241,7 @@ impl WorkbookSession {
     }
 
     fn restore(&mut self, cursor: usize) -> Result<EditOutcome, SessionError> {
-        let projection = ReadWorkbook::read(&self.frames[cursor], &self.limits)?;
+        let projection = self.projection.reread_candidate(&self.frames[cursor], &self.limits)?;
         let revision = self.revision.checked_add(1).ok_or(SessionError::RevisionExhausted)?;
         self.projection = projection;
         self.cursor = cursor;
@@ -267,4 +283,43 @@ mod fault_tests {
         assert_eq!(s.history_frames(), 2);
         assert_eq!(s.revision(), u64::MAX);
     }
+
+    fn opaque_session() -> WorkbookSession {
+        use zen_opc::opaque_xml::{OpaqueXmlDeclaration, OpaqueXmlPolicy, sha256};
+        let bytes=include_bytes!("../../../RCD/engine-acceptance/eng-005-business-v2/budget.xlsx");
+        let zip=zen_opc::ZipArchive::read(bytes).unwrap();
+        let payload=zip.get("customXml/zen-probe.xml").unwrap();
+        let declaration=OpaqueXmlDeclaration{
+            source_sha256:sha256(bytes),part_name:"/customXml/zen-probe.xml".into(),
+            payload_sha256:sha256(payload),payload_bytes:payload.len(),content_type:"application/xml".into(),
+            relationship_id:"rIdProbe".into(),relationship_target:"../customXml/zen-probe.xml".into(),
+            controlled_owned_source:true,semantically_independent:true,review_basis:"Owned sealed budget; private candidate/history fault specimen".into(),
+        };
+        let policy=Arc::new(OpaqueXmlPolicy::bind_initial(bytes,&declaration).unwrap());
+        WorkbookSession::from_bytes_with_opaque_xml_policy(bytes,&WorkbookReadLimits::default(),HistoryBudget::default(),policy).unwrap()
+    }
+    #[test]
+    fn opaque_policy_candidate_and_restore_failures_are_atomic() {
+        let mut s=opaque_session();
+        let initial=s.bytes().to_vec();let identity=s.opaque_xml_policy_identity();
+        s.set_value("Budget",CellAddress::new(11,1).unwrap(),Some(TypedValue::Text("Reviewed".into()))).unwrap();
+        let mut p=zen_opc::Package::from_bytes(&initial).unwrap();
+        p.put_text("/customXml/zen-probe.xml","<probe>owned fault mutation</probe>").unwrap();
+        let bad=p.to_bytes().unwrap();
+        let snapshot=|s:&WorkbookSession|(s.bytes().to_vec(),s.cursor,s.revision,s.history_frames(),s.retained_archive_bytes(),s.is_dirty(),s.can_undo(),s.can_redo(),s.opaque_xml_policy_identity());
+        let before=snapshot(&s);
+        assert!(matches!(s.commit_candidate(bad.clone()),Err(SessionError::Read(_))));
+        assert_eq!(snapshot(&s),before);
+        // Private fault injection only: a retained frame is made invalid. No
+        // public frame/patch/import API exposes this mutation.
+        s.frames[0]=Arc::from(bad);
+        let before=snapshot(&s);
+        assert!(matches!(s.undo(),Err(SessionError::Read(_))));
+        assert_eq!(snapshot(&s),before);
+        assert_eq!(s.opaque_xml_policy_identity(),identity);
+        s.frames[0]=Arc::from(initial);
+        s.undo().unwrap();assert!(!s.is_dirty());
+        assert_eq!(s.opaque_xml_policy_identity(),identity);
+    }
+
 }

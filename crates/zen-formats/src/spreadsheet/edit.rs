@@ -308,9 +308,7 @@ impl ReadWorkbook {
             return Err(unsupported("package has dangling or unmapped dependencies"));
         }
         let bytes = source_bytes(self)?;
-        validate_text_edit_package(
-            &bytes,
-            &[
+        let allowed_relationships = &[
                 "officeDocument",
                 "extended-properties",
                 "custom-properties",
@@ -324,8 +322,12 @@ impl ReadWorkbook {
                 "image",
                 "table",
                 "hyperlink",
-            ],
-        )?;
+            ];
+        if let Some(policy) = &self.opaque_xml_policy {
+            zen_opc::preserve::validate_xlsx_edit_package_with_policy(&bytes, allowed_relationships, policy)?;
+        } else {
+            validate_text_edit_package(&bytes, allowed_relationships)?;
+        }
         // Opaque dependencies are preserved only where the operation's effects
         // are understood. Protection, external data, extension semantics and
         // calculated table columns are not safe under this numeric-edit subset.
@@ -741,6 +743,8 @@ impl ReadWorkbook {
         // admitted after invalidating a supported optional calcChain; supported
         // caches are recalculated and unknown chain dependencies fail closed.
         // Workbook calcPr and all unrelated payloads remain byte-exact.
-        Ok(rewrite_parts_with_removals(&bytes, &replacements, &removals)?)
+        let candidate = rewrite_parts_with_removals(&bytes, &replacements, &removals)?;
+        if let Some(policy) = &self.opaque_xml_policy { policy.validate_candidate(&candidate)?; }
+        Ok(candidate)
     }
 }

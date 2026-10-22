@@ -1,0 +1,343 @@
+{
+  "date": "2026-10-23",
+  "task": "ENG-005",
+  "source_parent": "446da33ef6f59534639aa7432d42ab76e48d0a11",
+  "scope": "Explicit owned-input XLSX policy integration with original eight-step typed business API, candidate reread, history and create-new persistence. Native Office comparison and editable saved-output reopening remain pending.",
+  "implemented": [
+    "Ordinary entry stays strict; explicit XLSX guard validates immutable policy first then executes original relationship/labels/protection/active payload checks; only corresponding customXML payload/edge satisfied",
+    "ReadWorkbook initial input requires original identity; same Arc policy carried by candidate rereads and session commit/undo/redo; policy descriptor16KiB budget separate from archive-history bytes",
+    "Input mutation validates resulting opaque invariants before return; session rereads full candidate with original limits before committing state",
+    "File-backed explicit open checks initial identity. Save checks policy on current frame and actual temporary handle bytes before create-new publication; wrong temp refuses without target or state change",
+    "Original failed033 runner manually reviewed and adapted to explicit policy, retaining original sealed plan and full literal snapshots. Test itself now pins manifest SHA plus all4file hashes; no expected values derived from engine output",
+    "Default saved reopen is strict readonly for these customXML inputs; continued edit refuses. Original policy cannot reopen a changed saved source; no grant resealing or editable reopen API"
+  ],
+  "local_tests": [
+    {
+      "command": "cargo test --locked --offline --workspace --all-targets",
+      "result": "PASS",
+      "passed": 336,
+      "ignored": 6,
+      "log": "target/quota_guard/command-d1e95b29d3ee4beda919a8bb115d9bc0.log"
+    },
+    {
+      "command": "cargo build --locked --offline --release -p zen-harness --bin zen-deliver",
+      "result": "PASS",
+      "log": "target/quota_guard/command-163a6fcfbe21468cb48f559cdd527949.log"
+    },
+    {
+      "command": "cargo test --locked --offline -p zen-session --test opaque_policy_session (final manifest pin added)",
+      "result": "PASS6",
+      "log": "target/quota_guard/command-eddb685b713449b8a41d6ba1657d2ae2.log"
+    },
+    {
+      "command": "cargo test --locked --offline -p zen-session --lib",
+      "result": "PASS9 includes3newfaultmethods",
+      "log": "target/quota_guard/command-56cb434e853f4b5194710b831203c285.log"
+    },
+    {
+      "command": "cargo test --locked --offline -p zen-session --test typed_business_admission",
+      "result": "PASS3defaultatomicrefusals",
+      "log": "target/quota_guard/command-447ebaed266e4e5686ca24cbbad1d785.log"
+    }
+  ],
+  "business_cases": [
+    {
+      "directory": "target/typed-business/orders-hxMHh7",
+      "case": "orders",
+      "cell_snapshot_assertions": 560,
+      "existing_output_refusals": 3,
+      "forward_operations": [
+        {
+          "history_frames": 2,
+          "operation": "status-text",
+          "retained_archive_bytes": 6636,
+          "revision": 3,
+          "step": 1
+        },
+        {
+          "history_frames": 3,
+          "operation": "status-boolean",
+          "retained_archive_bytes": 9961,
+          "revision": 6,
+          "step": 2
+        },
+        {
+          "history_frames": 4,
+          "operation": "status-clear",
+          "retained_archive_bytes": 13283,
+          "revision": 9,
+          "step": 3
+        },
+        {
+          "history_frames": 5,
+          "operation": "delivery-date",
+          "retained_archive_bytes": 16608,
+          "revision": 14,
+          "step": 4
+        },
+        {
+          "history_frames": 6,
+          "operation": "replace-line-formula",
+          "retained_archive_bytes": 19922,
+          "revision": 19,
+          "step": 5
+        },
+        {
+          "history_frames": 7,
+          "operation": "old-reference-edit",
+          "retained_archive_bytes": 23235,
+          "revision": 22,
+          "step": 6
+        },
+        {
+          "history_frames": 8,
+          "operation": "new-reference-edit",
+          "retained_archive_bytes": 26548,
+          "revision": 25,
+          "step": 7
+        },
+        {
+          "history_frames": 9,
+          "operation": "clear-line-formula",
+          "retained_archive_bytes": 29858,
+          "revision": 30,
+          "step": 8
+        }
+      ],
+      "manifest_sha256": "bc82f786f0db1c842188dbdb891b4b6ef3c2f0af5f4c026fe4ae19bf428aaad4",
+      "native_runs": 0,
+      "policy_sha256": "afb254503fd82666743e01948bfe721417db4505aa3e8fe23ecb6bbfde85c7c9",
+      "saved_reopen_mode": "ordinary strict readonly projection; editable policy reopen NOT_IMPLEMENTED",
+      "saved_reopened_states": 3,
+      "status": "PASS",
+      "undo_redo_pairs": 11,
+      "output_sha256": {
+        "saved-4.xlsx": "78fcb43911bec4522c5f7fb39720f0c460c8701417b79da31293232814cfaafa",
+        "saved-5.xlsx": "81ca5845be4de055c4e9544862a60d323d14295e8637e0bf5c948cbc0059789f",
+        "saved-8.xlsx": "61b2cf75b88da81ec7317d2f780db6e06463bf2999dceab274ff3415e67009af",
+        "state-1.xlsx": "30cafefec4ab9c3add60f58224f05355313dd09a7b06e0373a34aaea41b85808",
+        "state-2.xlsx": "59ca3fc19c352a702324bf3164bf0a72ce4e4bb3b2ce0eaf81c5ddef98cc3ecb",
+        "state-3.xlsx": "d17075e9dbfd9f95a0f064c058ea4e283455d766b58f9ba86be6f3fb85ffd6b1",
+        "state-4.xlsx": "78fcb43911bec4522c5f7fb39720f0c460c8701417b79da31293232814cfaafa",
+        "state-5.xlsx": "81ca5845be4de055c4e9544862a60d323d14295e8637e0bf5c948cbc0059789f",
+        "state-6.xlsx": "fdf79e6a643301693c4747b896b8828df471f29d67552d71ae93d09873ad2a89",
+        "state-7.xlsx": "7969f3d0861fdf0b812670bc1e9f8281e1f3a849a04a2715ef7499dc054a3707",
+        "state-8.xlsx": "61b2cf75b88da81ec7317d2f780db6e06463bf2999dceab274ff3415e67009af"
+      }
+    },
+    {
+      "directory": "target/typed-business/budget-pvT3bV",
+      "case": "budget",
+      "cell_snapshot_assertions": 700,
+      "existing_output_refusals": 3,
+      "forward_operations": [
+        {
+          "history_frames": 2,
+          "operation": "review-text",
+          "retained_archive_bytes": 6754,
+          "revision": 3,
+          "step": 1
+        },
+        {
+          "history_frames": 3,
+          "operation": "review-boolean",
+          "retained_archive_bytes": 10142,
+          "revision": 6,
+          "step": 2
+        },
+        {
+          "history_frames": 4,
+          "operation": "review-clear",
+          "retained_archive_bytes": 13526,
+          "revision": 9,
+          "step": 3
+        },
+        {
+          "history_frames": 5,
+          "operation": "report-date",
+          "retained_archive_bytes": 16915,
+          "revision": 14,
+          "step": 4
+        },
+        {
+          "history_frames": 6,
+          "operation": "replace-variance",
+          "retained_archive_bytes": 20296,
+          "revision": 19,
+          "step": 5
+        },
+        {
+          "history_frames": 7,
+          "operation": "old-reference-edit",
+          "retained_archive_bytes": 23677,
+          "revision": 22,
+          "step": 6
+        },
+        {
+          "history_frames": 8,
+          "operation": "new-reference-edit",
+          "retained_archive_bytes": 27064,
+          "revision": 25,
+          "step": 7
+        },
+        {
+          "history_frames": 9,
+          "operation": "clear-variance-formula",
+          "retained_archive_bytes": 30448,
+          "revision": 30,
+          "step": 8
+        }
+      ],
+      "manifest_sha256": "bc82f786f0db1c842188dbdb891b4b6ef3c2f0af5f4c026fe4ae19bf428aaad4",
+      "native_runs": 0,
+      "policy_sha256": "6e6277c2c7b40805ed1ca7dae5848a48e4ad391b483f00faa928fbc585ac7443",
+      "saved_reopen_mode": "ordinary strict readonly projection; editable policy reopen NOT_IMPLEMENTED",
+      "saved_reopened_states": 3,
+      "status": "PASS",
+      "undo_redo_pairs": 11,
+      "output_sha256": {
+        "saved-4.xlsx": "6a42f9c8f0696ce17d91726e01851736b4dd0daba8a5ef590f6b7eb59955bd2b",
+        "saved-5.xlsx": "daf1d5a4aae81d7f5221e7b804c4feae2a5ce4f400510d4c50d71e1c09ed7846",
+        "saved-8.xlsx": "10f0fd03b3d517b030aeca44d50f15c699431c35b8c7d4d11a605943ac6aeb65",
+        "state-1.xlsx": "0e9cef862c3d244e9de3a667ec3e4cb7095478b8717c0fe431164074d1a38b8b",
+        "state-2.xlsx": "f32dafd6c94fa0a6a762e8282c3eac9662523eeb5ab291c3f82358c545403752",
+        "state-3.xlsx": "99b9ecc0e2d5786e2e9d92b6a84f7b385ab325fa4c6f50e1a680afa4fc4ad5b2",
+        "state-4.xlsx": "6a42f9c8f0696ce17d91726e01851736b4dd0daba8a5ef590f6b7eb59955bd2b",
+        "state-5.xlsx": "daf1d5a4aae81d7f5221e7b804c4feae2a5ce4f400510d4c50d71e1c09ed7846",
+        "state-6.xlsx": "f2661aeb8fbbf9474053b3b0874d933fe3ca95d938325cf069b54c634bb5df60",
+        "state-7.xlsx": "e9a71a6ca2a8557a59e594e085afa62014e2abda2f4902ac1bca2c5645235c15",
+        "state-8.xlsx": "10f0fd03b3d517b030aeca44d50f15c699431c35b8c7d4d11a605943ac6aeb65"
+      }
+    },
+    {
+      "directory": "target/typed-business/attendance-AaeV6c",
+      "case": "attendance",
+      "cell_snapshot_assertions": 644,
+      "existing_output_refusals": 3,
+      "forward_operations": [
+        {
+          "history_frames": 2,
+          "operation": "approval-text",
+          "retained_archive_bytes": 6704,
+          "revision": 3,
+          "step": 1
+        },
+        {
+          "history_frames": 3,
+          "operation": "approval-boolean",
+          "retained_archive_bytes": 10063,
+          "revision": 6,
+          "step": 2
+        },
+        {
+          "history_frames": 4,
+          "operation": "approval-clear",
+          "retained_archive_bytes": 13418,
+          "revision": 9,
+          "step": 3
+        },
+        {
+          "history_frames": 5,
+          "operation": "period-date",
+          "retained_archive_bytes": 16780,
+          "revision": 14,
+          "step": 4
+        },
+        {
+          "history_frames": 6,
+          "operation": "replace-hours-formula",
+          "retained_archive_bytes": 20136,
+          "revision": 19,
+          "step": 5
+        },
+        {
+          "history_frames": 7,
+          "operation": "old-reference-edit",
+          "retained_archive_bytes": 23489,
+          "revision": 22,
+          "step": 6
+        },
+        {
+          "history_frames": 8,
+          "operation": "new-reference-edit",
+          "retained_archive_bytes": 26842,
+          "revision": 25,
+          "step": 7
+        },
+        {
+          "history_frames": 9,
+          "operation": "clear-hours-formula",
+          "retained_archive_bytes": 30186,
+          "revision": 30,
+          "step": 8
+        }
+      ],
+      "manifest_sha256": "bc82f786f0db1c842188dbdb891b4b6ef3c2f0af5f4c026fe4ae19bf428aaad4",
+      "native_runs": 0,
+      "policy_sha256": "94fcb9bdb770415ffc982b4aef89a1fbf9e96d76ab89ff194d8db8622c3b60d1",
+      "saved_reopen_mode": "ordinary strict readonly projection; editable policy reopen NOT_IMPLEMENTED",
+      "saved_reopened_states": 3,
+      "status": "PASS",
+      "undo_redo_pairs": 11,
+      "output_sha256": {
+        "saved-4.xlsx": "05e92d66f4940e945ad88771312e91fdeecddf528310cdeba52d610b225faba3",
+        "saved-5.xlsx": "496aefe497583d122c84a9d4874d7543aa81739fea2b5ee4c9568cb406c18cda",
+        "saved-8.xlsx": "42fe202dabee2a4e519a6a927d2702e660093e5c7f4ed292d23ce197b931daf8",
+        "state-1.xlsx": "6468a802a8aa0fd69133b582f18144b24f40bfd8c5f606fc9afde44fd3c57dcb",
+        "state-2.xlsx": "fac60f4eaf722c1c0a87a977daab317696515b3ce581b6f0ee31092431093b83",
+        "state-3.xlsx": "9bf3ca7f681065affbfef2295f85fc4d68f7a8ed904135e6a211ef04f943d1c9",
+        "state-4.xlsx": "05e92d66f4940e945ad88771312e91fdeecddf528310cdeba52d610b225faba3",
+        "state-5.xlsx": "496aefe497583d122c84a9d4874d7543aa81739fea2b5ee4c9568cb406c18cda",
+        "state-6.xlsx": "bb0c9982f308ee090c3f1e8be35f63421fd39a899b69837b78df1c07602ac148",
+        "state-7.xlsx": "4a7bd9b94e6676b6cdb8f40aca0943cc4ab24871c148e3b3c78d8b3648e86fd3",
+        "state-8.xlsx": "42fe202dabee2a4e519a6a927d2702e660093e5c7f4ed292d23ce197b931daf8"
+      }
+    }
+  ],
+  "totals": {
+    "independent_business_files": 3,
+    "forward_operations": 24,
+    "undo_redo_pairs": 33,
+    "saved_readonly_reopens": 9,
+    "existing_output_refusals": 9,
+    "strict_reopen_edit_refusals": 9,
+    "original_policy_changed_source_reopen_refusals": 9,
+    "tracked_cell_snapshot_checks": 1904,
+    "native_office_runs": 0
+  },
+  "faults": [
+    "unknown names/functions/array/external formula intents, wrong date system, nonfinite, history budget",
+    "unknown relationship not waived by policy",
+    "current candidate payload corruption and retained history corruption preserve state/policy",
+    "actual partial write/sync/publication/late-contender failures retain policy/state/source/prioroutput",
+    "wrong actual temporary bytes never reach publication",
+    "source external change and existing exclusive-locked output refuse without session/oldoutput change"
+  ],
+  "limitations": [
+    "Only explicitly reviewed controlled-owned independent leafXML; no automatic unknown-source admission or namespace/payload whitelist",
+    "Saved content can be read and compared via ordinary strict session; editable reopening with samepolicy needs a saved-frame receipt and is not implemented",
+    "No CLI enrollment, no native typed/date Excel or rendering comparison; C3 NOT_RUN; prior033FAIL retained unchanged",
+    "Initial runner self-pin textual insertion first did not match formatted source; reviewed marker absence, inserted at verified anchor and reran6tests; no frozen or source identity lock changed",
+    "History budget counts encoded archives; descriptor has explicit16KiBpayload bound, no total heap or untrusted filesystem CAS guarantee"
+  ],
+  "source_sha256": {
+    "Cargo.lock": "15f1db09ddff1b9a356bdc2bb35932dd4744710989007faa0c189a8565da5fe0",
+    "crates/zen-opc/src/opaque_xml.rs": "587af8b2be9e943df6c23ebed36bb944b211914d36dee59d9019bc98d8974d83",
+    "crates/zen-opc/src/preserve.rs": "e6667f78f90a6645172723c045fe050d3d25dd4e11c6609385dd00e02380e957",
+    "crates/zen-formats/src/spreadsheet/mod.rs": "583fe4c688d962b1f3b6108cfadd4f3d58711560111dac16b59909b56b950c86",
+    "crates/zen-formats/src/spreadsheet/edit.rs": "024fc4d316597d4e054796be4380ef60a3e94bd4cce4402a3920a68bb43d49fe",
+    "crates/zen-session/Cargo.toml": "eef04da6b9a1b912684b498689ef9b5df57eba92fa9900736c2fecf612e3ad6f",
+    "crates/zen-session/src/lib.rs": "7fe6523a269644903dd7e23c8ac4d2c929664993dcdba5e3b334fecc51cfa52b",
+    "crates/zen-session/src/persistence.rs": "b27abf463660ad11590fe7e2d9d3ea524aeb79ef6df859d93be02bc6958fe864",
+    "crates/zen-session/tests/opaque_policy_session.rs": "1dd6fe47db93f716f3f11d23882001fd91c5dfd7863430f0cb0c8f7f0facaf87",
+    ".github/workflows/core.yml": "d1030a96d9731941b2f07a1ea1426b53083383334e5e15b37b68a0669d24b6e6",
+    "crates/zen-session/tests/typed_business_admission.rs": "5de946e47fadf3aeadcf93ceca1e4cef7543350544a1dd41f5267c95b2afac83"
+  },
+  "log_sha256": {
+    "target/quota_guard/command-d1e95b29d3ee4beda919a8bb115d9bc0.log": "5b7fdbbb12c65ddc23d4a601ad3468eb11ebbf5cb97c7cb41784d667486366fd",
+    "target/quota_guard/command-163a6fcfbe21468cb48f559cdd527949.log": "f92419a97ba195a95effbe95f3331a4c686dc041e0e49f191afdbbd31609d206",
+    "target/quota_guard/command-eddb685b713449b8a41d6ba1657d2ae2.log": "91fbff4e5dacee84ddc21fbc057ba1a8666ba763a689372acafafb7aefa6444e",
+    "target/quota_guard/command-56cb434e853f4b5194710b831203c285.log": "1b7a7aeb37627cdbdceb4394a344da3a42e2aa26c461314ec8804f7581514283",
+    "target/quota_guard/command-447ebaed266e4e5686ca24cbbad1d785.log": "db7afcd610de4387625d7451ac997163bbeb03f61309749b25f31a07656350a2"
+  }
+}

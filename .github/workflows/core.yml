@@ -44,3 +44,13 @@ jobs:
         with:
           name: business-acceptance-evidence
           path: target/eng004
+      - name: Save explicit-policy typed API evidence (no new native Office run)
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: typed-policy-api-evidence
+          if-no-files-found: error
+          path: |
+            target/typed-business/**/receipt.json
+            target/typed-business/**/saved-*.xlsx
+            target/typed-business/**/state-*.xlsx

@@ -1,5 +1,5 @@
-//! Records a real current admission blocker. These are negative tests, not the
-//! business-v2 eight-step acceptance runner (which is blocked on custom XML).
+//! Ordinary entry remains strict for unknown custom XML. These negative
+//! regressions are separate from the explicit-policy eight-step business runner.
 use zen_engine::workbook::{CellAddress, TypedValue};
 use zen_formats::spreadsheet::WorkbookReadLimits;
 use zen_session::{HistoryBudget, WorkbookSession};
