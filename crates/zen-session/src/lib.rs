@@ -4,7 +4,7 @@
 //! immutable frame with the original limits before changing any session state.
 use std::sync::Arc;
 mod persistence;
-pub use persistence::SaveError;
+pub use persistence::{SaveError, SavedWorkbookReceipt};
 use zen_engine::workbook::{CellAddress, DateSystem, TypedValue, Workbook};
 use zen_formats::spreadsheet::{
     ReadDiagnostic, ReadError, ReadWorkbook, WorkbookReadLimits, edit::EditError,

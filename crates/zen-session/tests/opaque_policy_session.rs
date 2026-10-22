@@ -325,7 +325,7 @@ fn run(id: &str) {
         write_new(&dir.join(format!("state-{}.xlsx", index + 1)), s.bytes());
         if [3, 4, 7].contains(&index) {
             let output = dir.join(format!("saved-{}.xlsx", index + 1));
-            s.save_as_new(&output).unwrap();
+            let saved_receipt = s.save_as_new_with_receipt(&output).unwrap();
             saved = s.bytes().to_vec();
             assert!(!s.is_dirty());
             assert_eq!(fs::read(&output).unwrap(), saved);
@@ -336,6 +336,50 @@ fn run(id: &str) {
             )
             .unwrap();
             assertions += check(&reopened, &wanted, source, spec);
+            let mut resumed = saved_receipt.reopen().unwrap();
+            assert_eq!(saved_receipt.frame_sha256(), sha256(&saved));
+            assert_eq!(saved_receipt.policy_identity(), policy_id);
+            assert!(saved_receipt.retained_policy_descriptor_bytes() <= 16 * 1024);
+            assert_eq!(resumed.opaque_xml_policy_identity(), policy_id);
+            assert_eq!(resumed.history_frames(), 1);
+            assert_eq!(resumed.revision(), 0);
+            assert!(!resumed.is_dirty() && !resumed.can_undo() && !resumed.can_redo());
+            assertions += check(&resumed, &wanted, source, spec);
+            let type_cell = spec["type_cell"].as_str().unwrap();
+            let value = TypedValue::Text("Continued after saved receipt".into());
+            assert_eq!(
+                resumed
+                    .set_value(sheet, address(type_cell), Some(value))
+                    .unwrap(),
+                EditOutcome::Changed
+            );
+            let mut continued_wanted = wanted.clone();
+            continued_wanted.insert(
+                key(sheet, type_cell),
+                Want {
+                    value: Value::String("Continued after saved receipt".into()),
+                    formula: None,
+                },
+            );
+            assertions += check(&resumed, &continued_wanted, source, spec);
+            let continued = resumed.bytes().to_vec();
+            resumed.undo().unwrap();
+            assert_eq!(resumed.bytes(), saved);
+            assert!(!resumed.is_dirty());
+            resumed.redo().unwrap();
+            assert_eq!(resumed.bytes(), continued);
+            assert!(resumed.is_dirty());
+            let continued_output = dir.join(format!("continued-{}.xlsx", index + 1));
+            let continued_receipt = resumed.save_as_new_with_receipt(&continued_output).unwrap();
+            assert!(!resumed.is_dirty());
+            let chained = continued_receipt.reopen().unwrap();
+            assert_eq!(chained.opaque_xml_policy_identity(), policy_id);
+            assert_eq!(continued_receipt.policy_identity(), policy_id);
+            assert_eq!(continued_receipt.frame_sha256(), sha256(&continued));
+            assertions += check(&chained, &continued_wanted, source, spec);
+            assert_eq!(fs::read(&output).unwrap(), saved);
+            assert_eq!(policy.initial_source_sha256(), sha256(source));
+
             policy
                 .validate_candidate(&fs::read(&output).unwrap())
                 .unwrap();
@@ -399,7 +443,7 @@ fn run(id: &str) {
         );
         records.push(json!({"operation":op["id"],"step":index+1,"revision":s.revision(),"history_frames":s.history_frames(),"retained_archive_bytes":s.retained_archive_bytes()}));
     }
-    let receipt = json!({"case":id,"status":"PASS","manifest_sha256":PIN,"policy_sha256":policy.identity().iter().map(|b|format!("{b:02x}")).collect::<String>(),"saved_reopen_mode":"ordinary strict readonly projection; editable policy reopen NOT_IMPLEMENTED","forward_operations":records,"cell_snapshot_assertions":assertions,"undo_redo_pairs":11,"saved_reopened_states":3,"existing_output_refusals":3,"native_runs":0});
+    let receipt = json!({"case":id,"status":"PASS","manifest_sha256":PIN,"policy_sha256":policy.identity().iter().map(|b|format!("{b:02x}")).collect::<String>(),"saved_reopen_mode":"bound successful-save receipt; same policy preserved; ordinary reopen remains strict","receipt_reopens":6,"continued_edits":3,"continued_undo_redo_pairs":3,"continued_saves":3,"forward_operations":records,"cell_snapshot_assertions":assertions,"undo_redo_pairs":11,"saved_reopened_states":3,"existing_output_refusals":3,"native_runs":0});
     write_new(
         &dir.join("receipt.json"),
         serde_json::to_string_pretty(&receipt).unwrap().as_bytes(),
@@ -579,4 +623,155 @@ fn policy_source_change_and_locked_output_preserve_all_session_state() {
     ));
     assert_eq!(state(&s), before);
     assert!(!target.exists());
+}
+
+#[test]
+fn saved_receipt_refuses_changed_frame_even_when_preservation_policy_matches() {
+    let dir = tempfile::tempdir().unwrap();
+    let input = dir.path().join("source.xlsx");
+    let source = budget_source();
+    write_new(&input, source);
+    let policy = owned_policy(source, "saved receipt exact-frame fault");
+    let mut s = WorkbookSession::open_with_opaque_xml_policy(
+        &input,
+        &WorkbookReadLimits::default(),
+        HistoryBudget::default(),
+        Arc::clone(&policy),
+    )
+    .unwrap();
+    s.set_value(
+        "Budget",
+        address("B12"),
+        Some(TypedValue::Text("Reviewed".into())),
+    )
+    .unwrap();
+    let output = dir.path().join("saved.xlsx");
+    let receipt = s.save_as_new_with_receipt(&output).unwrap();
+    let saved = fs::read(&output).unwrap();
+    let identity = receipt.policy_identity();
+    let before = state(&s);
+    let archive = zen_opc::ZipArchive::read(&saved).unwrap();
+    let sheet = std::str::from_utf8(archive.get("xl/worksheets/sheet1.xml").unwrap()).unwrap();
+    let modified = sheet.replace(
+        "budget — independent typed/date fixture",
+        "Owned changed budget title",
+    );
+    assert_ne!(modified, sheet);
+    let patches = BTreeMap::from([("/xl/worksheets/sheet1.xml".into(), modified.into_bytes())]);
+    let changed = zen_opc::preserve::rewrite_parts(&saved, &patches).unwrap();
+    policy.validate_candidate(&changed).unwrap(); // preservation alone is insufficient
+    fs::write(&output, &changed).unwrap();
+    assert!(matches!(
+        receipt.reopen(),
+        Err(zen_session::SaveError::Session(
+            zen_session::SessionError::Read(zen_formats::spreadsheet::ReadError::FrameIdentity)
+        ))
+    ));
+    assert_eq!(fs::read(&output).unwrap(), changed);
+    assert_eq!(state(&s), before);
+    assert_eq!(receipt.policy_identity(), identity);
+    assert_eq!(receipt.frame_sha256(), sha256(&saved));
+    fs::write(&output, &saved).unwrap(); // owned independent fault cleanup only
+    let reopened = receipt.reopen().unwrap();
+    assert_eq!(reopened.bytes(), saved);
+    assert_eq!(reopened.opaque_xml_policy_identity(), identity);
+    assert_eq!(fs::read(&input).unwrap(), source);
+}
+#[test]
+fn saved_receipt_stays_bound_to_published_path_and_honors_exclusive_lock() {
+    use std::os::windows::fs::OpenOptionsExt;
+    let dir = tempfile::tempdir().unwrap();
+    let input = dir.path().join("source.xlsx");
+    let source = budget_source();
+    write_new(&input, source);
+    let mut s = WorkbookSession::open_with_opaque_xml_policy(
+        &input,
+        &WorkbookReadLimits::default(),
+        HistoryBudget::default(),
+        owned_policy(source, "receipt path and lock faults"),
+    )
+    .unwrap();
+    s.set_value("Budget", address("B12"), Some(TypedValue::Boolean(true)))
+        .unwrap();
+    let output = dir.path().join("saved.xlsx");
+    let receipt = s.save_as_new_with_receipt(&output).unwrap();
+    let before = state(&s);
+    let saved = fs::read(&output).unwrap();
+    let lock = fs::OpenOptions::new()
+        .read(true)
+        .share_mode(0)
+        .open(&output)
+        .unwrap();
+    assert!(receipt.reopen().is_err());
+    assert_eq!(state(&s), before);
+    drop(lock);
+    let moved = dir.path().join("moved.xlsx");
+    fs::rename(&output, &moved).unwrap();
+    assert!(receipt.reopen().is_err()); // no search/retarget to identical copied bytes
+    assert_eq!(fs::read(&moved).unwrap(), saved);
+    assert!(!output.exists());
+    fs::rename(&moved, &output).unwrap();
+    assert_eq!(receipt.reopen().unwrap().bytes(), saved);
+    assert_eq!(state(&s), before);
+    assert_eq!(fs::read(&input).unwrap(), source);
+}
+#[test]
+fn saved_receipt_retains_limits_and_budget_after_parent_session_drops() {
+    let dir = tempfile::tempdir().unwrap();
+    let input = dir.path().join("source.xlsx");
+    let source = budget_source();
+    write_new(&input, source);
+    let limits = WorkbookReadLimits {
+        max_text_bytes: 4096,
+        max_cells: 1000,
+        ..WorkbookReadLimits::default()
+    };
+    let budget = HistoryBudget {
+        max_frames: 2,
+        max_retained_archive_bytes: 1024 * 1024,
+    };
+    let policy = owned_policy(source, "receipt budget inheritance");
+    let identity = Some(policy.identity());
+    let mut s =
+        WorkbookSession::open_with_opaque_xml_policy(&input, &limits, budget, policy).unwrap();
+    s.set_value(
+        "Budget",
+        address("B12"),
+        Some(TypedValue::Text("Reviewed".into())),
+    )
+    .unwrap();
+    let output = dir.path().join("saved.xlsx");
+    let receipt = s.save_as_new_with_receipt(&output).unwrap();
+    let saved = fs::read(&output).unwrap();
+    drop(s);
+    let mut resumed = receipt.reopen().unwrap();
+    assert_eq!(resumed.bytes(), saved);
+    assert_eq!(resumed.opaque_xml_policy_identity(), identity);
+    let before = state(&resumed);
+    assert!(
+        resumed
+            .set_value(
+                "Budget",
+                address("B12"),
+                Some(TypedValue::Text("x".repeat(8192)))
+            )
+            .is_err()
+    );
+    assert_eq!(state(&resumed), before);
+    resumed
+        .set_value(
+            "Budget",
+            address("B12"),
+            Some(TypedValue::Text("Continued".into())),
+        )
+        .unwrap();
+    let before = state(&resumed);
+    assert!(matches!(
+        resumed.set_value("Budget", address("B12"), Some(TypedValue::Boolean(false))),
+        Err(zen_session::SessionError::HistoryBudget)
+    ));
+    assert_eq!(state(&resumed), before);
+    assert_eq!(resumed.opaque_xml_policy_identity(), identity);
+    assert_eq!(fs::read(&output).unwrap(), saved);
+    assert_eq!(fs::read(&input).unwrap(), source);
 }

@@ -2,7 +2,7 @@
 //! It never overwrites an existing target or claims namespace compare-and-swap.
 use crate::{HistoryBudget, SessionError, WorkbookSession};
 use std::{fs::{self, File, OpenOptions}, io::{Read, Write, Seek, SeekFrom}, path::{Component, Path, PathBuf}, sync::Arc};
-use zen_formats::spreadsheet::WorkbookReadLimits;
+use zen_formats::spreadsheet::{WorkbookReadLimits, WorkbookFrameContext};
 
 // Private I/O boundary: tests inject actual partial temporary writes or errors
 // at sync/publication. No environment flag or public bypass changes admission.
@@ -112,6 +112,46 @@ fn read_source(path: &Path, limit: u64) -> Result<(File, Vec<u8>), SaveError> {
     Ok((file, bytes))
 }
 
+/// Issued only after successful create-new publication. The bound path, exact
+/// frame digest, original policy and original limits/budget cannot be replaced.
+/// In-memory only; no Deserialize/new/import API or model/archives retained.
+#[derive(Debug)]
+pub struct SavedWorkbookReceipt {
+    target: PathBuf,
+    context: WorkbookFrameContext,
+    budget: HistoryBudget,
+}
+impl SavedWorkbookReceipt {
+    pub fn frame_sha256(&self) -> [u8; 32] { self.context.frame_sha256() }
+    pub fn policy_identity(&self) -> Option<[u8; 32]> { self.context.policy_identity() }
+    pub fn retained_policy_descriptor_bytes(&self) -> usize {
+        self.context.retained_policy_descriptor_bytes()
+    }
+    /// Reopen only the successfully published filename. A moved, changed,
+    /// locked or reparse path refuses; no alternate search or policy reseal.
+    /// New history starts at revision0/clean with the saved frame as file source.
+    pub fn reopen(&self) -> Result<WorkbookSession, SaveError> {
+        let limits = self.context.limits();
+        let (_guard, bytes) = read_source(&self.target, limits.package.max_archive_bytes)?;
+        let projection = self.context.read(&bytes).map_err(SessionError::from)?;
+        // The ordinary constructor applies the original history budget. The
+        // validated context attaches the SAME immutable policy without calling
+        // initial-source admission or changing its source SHA.
+        let mut session = WorkbookSession::from_bytes(&bytes, limits, self.budget)?;
+        session.projection = projection;
+        session.source = Some(self.target.clone());
+        Ok(session)
+    }
+}
+
+fn destination_path(target: &Path) -> Result<PathBuf, SaveError> {
+    let target = local_path(target)?;
+    let filename = target.file_name().ok_or(SaveError::UnsupportedPath)?;
+    let parent = target.parent().ok_or(SaveError::UnsupportedPath)?;
+    check_chain(parent)?;
+    Ok(fs::canonicalize(parent)?.join(filename))
+}
+
 impl WorkbookSession {
     pub fn open(path: &Path, limits: &WorkbookReadLimits, budget: HistoryBudget) -> Result<Self, SaveError> {
         let path = local_path(path)?;
@@ -122,9 +162,8 @@ impl WorkbookSession {
         Ok(session)
     }
 
-    /// File-backed controlled-source policy. Modified saved output is not
-    /// adopted as an initial source; its editable reopening needs a separate
-    /// saved-frame identity API, which is not exposed by this slice.
+    /// File-backed original controlled source. Saved output is not adopted as
+    /// an initial source; editable saved reopening requires a SavedWorkbookReceipt.
     pub fn open_with_opaque_xml_policy(
         path: &Path, limits: &WorkbookReadLimits, budget: HistoryBudget,
         policy: Arc<zen_opc::opaque_xml::OpaqueXmlPolicy>,
@@ -143,15 +182,32 @@ impl WorkbookSession {
         self.save_as_new_with(target, &mut FileSaveIo)
     }
 
+    /// Prepare the immutable frame context before I/O; expose it as a saved
+    /// receipt only after the same safe publication path succeeds.
+    pub fn save_as_new_with_receipt(&mut self, target: &Path) -> Result<SavedWorkbookReceipt, SaveError> {
+        self.save_as_new_with_receipt_with(target, &mut FileSaveIo)
+    }
+    fn save_as_new_with_receipt_with(
+        &mut self, target: &Path, io: &mut impl SaveIo,
+    ) -> Result<SavedWorkbookReceipt, SaveError> {
+        let published_target = destination_path(target)?;
+        let context = self.projection.prepare_frame_reopen(self.bytes(), &self.limits)
+            .map_err(SessionError::from)?;
+        let receipt = SavedWorkbookReceipt { target: published_target, context, budget: self.budget };
+        self.save_as_new_impl(target, io, true)?;
+        Ok(receipt)
+    }
+
     fn save_as_new_with(&mut self, target: &Path, io: &mut impl SaveIo) -> Result<(), SaveError> {
+        self.save_as_new_impl(target, io, false)
+    }
+    fn save_as_new_impl(
+        &mut self, target: &Path, io: &mut impl SaveIo, verify_temporary: bool,
+    ) -> Result<(), SaveError> {
         if !cfg!(windows) { return Err(SaveError::UnsupportedPlatform); }
         let source = self.source.as_ref().ok_or(SaveError::NoFileSource)?;
-        let target = local_path(target)?;
-        let filename = target.file_name().ok_or(SaveError::UnsupportedPath)?;
+        let target = destination_path(target)?;
         let parent = target.parent().ok_or(SaveError::UnsupportedPath)?;
-        check_chain(parent)?;
-        let parent = fs::canonicalize(parent)?;
-        let target = parent.join(filename);
         match fs::symlink_metadata(&target) {
             Ok(_) => return Err(SaveError::DestinationExists),
             Err(error) if error.kind() == std::io::ErrorKind::NotFound => (),
@@ -164,7 +220,7 @@ impl WorkbookSession {
         let mut temporary = tempfile::NamedTempFile::new_in(parent)?;
         io.write(&mut temporary, &saved)?;
         io.sync(&temporary)?;
-        if self.opaque_xml_policy_identity().is_some() {
+        if verify_temporary || self.opaque_xml_policy_identity().is_some() {
             // Verify the actual owned temporary handle before publication.
             // No namespace CAS or post-publication rollback is claimed.
             temporary.as_file_mut().seek(SeekFrom::Start(0))?;
@@ -316,7 +372,7 @@ mod failure_tests {
             s.set_value("Budget",a,None).unwrap();s.undo().unwrap();
             let before=state(&s);let target=directory.path().join("attempt.xlsx");
             let mut io=FailingIo{fault,reached:vec![]};
-            assert!(matches!(s.save_as_new_with(&target,&mut io),Err(SaveError::Io(_))));
+            assert!(matches!(s.save_as_new_with_receipt_with(&target,&mut io),Err(SaveError::Io(_))));
             assert_eq!(state(&s),before);assert_eq!(s.opaque_xml_policy_identity(),identity);
             assert_eq!(fs::read(&source).unwrap(),original);assert_eq!(fs::read(&prior).unwrap(),prior_bytes);
             if fault==Fault::Contender {assert_eq!(fs::read(&target).unwrap(),b"late competing output");}
@@ -345,7 +401,7 @@ mod failure_tests {
         s.set_value("Budget",CellAddress::new(11,1).unwrap(),Some(TypedValue::Text("Reviewed".into()))).unwrap();
         let before=state(&s);let identity=s.opaque_xml_policy_identity();
         let target=directory.path().join("attempt.xlsx");
-        assert!(matches!(s.save_as_new_with(&target,&mut CorruptingTemporary),Err(SaveError::TemporaryChanged)));
+        assert!(matches!(s.save_as_new_with_receipt_with(&target,&mut CorruptingTemporary),Err(SaveError::TemporaryChanged)));
         assert_eq!(state(&s),before);assert_eq!(s.opaque_xml_policy_identity(),identity);
         assert!(!target.exists());assert_eq!(fs::read(&source).unwrap(),original);
         assert_eq!(fs::read_dir(directory.path()).unwrap().count(),1);

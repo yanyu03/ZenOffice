@@ -198,7 +198,7 @@
     "crates/zen-formats/src/opc/zip_layout.rs": "b41a44ba80a58288dcde5389a9c65390d92c210e2a45165bb4eb4191cbd5cd9a",
     "crates/zen-formats/src/spreadsheet/cells.rs": "968e307e02391afafe8995f429fa39115593cc78d62bd1ae914e642dfe70dff6",
     "crates/zen-formats/src/spreadsheet/edit.rs": "024fc4d316597d4e054796be4380ef60a3e94bd4cce4402a3920a68bb43d49fe",
-    "crates/zen-formats/src/spreadsheet/mod.rs": "583fe4c688d962b1f3b6108cfadd4f3d58711560111dac16b59909b56b950c86",
+    "crates/zen-formats/src/spreadsheet/mod.rs": "e5bf10b53d1b274543ac2de1d2aa6c28ccc5b821c6772ff7b6fc0403ba1ff2cb",
     "crates/zen-formats/src/spreadsheet/xml.rs": "2dd43733e5a32bd739117e825ab53d7d0eeb2c93ae28c7d9d4e051cd7e3d4430",
     "crates/zen-formats/src/xlsx.rs": "ca760f13f2ebe3a1c58c89983e397d64a61051967725914c470d6d78e30e78f1",
     "crates/zen-formats/tests/formula_page.rs": "53f235ab8eaa027c088c8ca650799f2cb46b51d1427d3a603c96f94cde4ed9af",
@@ -495,6 +495,20 @@
       "validation": {
         "local": "336 passed6ignored workspace; release zen-deliver PASS; pinned6test rerun PASS",
         "evidence": "docs/research/ENG-005-EXPLICIT-POLICY-SESSION-2026-10-23.json"
+      }
+    },
+    {
+      "date": "2026-10-23",
+      "task": "ENG-005",
+      "reason": "Export immutable exact-frame reopening context and distinct identity error; session issues receipt only after create-new publication. Original import hashes and frozen taskbook unchanged.",
+      "files": {
+        "crates/zen-formats/src/spreadsheet/mod.rs": {
+          "before": "583fe4c688d962b1f3b6108cfadd4f3d58711560111dac16b59909b56b950c86",
+          "after": "e5bf10b53d1b274543ac2de1d2aa6c28ccc5b821c6772ff7b6fc0403ba1ff2cb"
+        }
+      },
+      "validation": {
+        "evidence": "docs/research/ENG-005-SAVED-FRAME-RECEIPT-2026-10-23.json"
       }
     }
   ]

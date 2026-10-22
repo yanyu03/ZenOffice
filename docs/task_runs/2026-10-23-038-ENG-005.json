@@ -1,0 +1,72 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-005",
+  "started_at": "2026-10-22T21:34:40.389591+00:00",
+  "ended_at": "2026-10-22T21:42:58.923Z",
+  "status": "PARTIAL",
+  "actual_commit": "f4000a5a6bd50431c5188badcdec7dcd4b971cfb",
+  "actual_scope": "Saved-frame receipt issued after successful safe publication, exact bytes/path and same immutable policy/original limits/budget retained; continued editing and next-generation saving on original sealed three business cases.",
+  "commands": [
+    "Official quota88%remaining/local READY; frozen15PASS; continuity prior cycle COMPLETE with both f4000a5 CI PASS; worker ordinal18 mark only, no interface/key access",
+    "DSHA owned Python/Cargo/Rustc and MSVC SDK probes PASS; targeted9unit+9policy+3default PASS after documented fixes",
+    "cargo test --locked --offline --workspace --all-targets:339PASS6ignored; cargo build --locked --offline --release -p zen-harness --bin zen-deliver PASS",
+    "Baseline106 current imported identities PASS; original imported hashes preserved; report/frozen/diff and exact commit/remote/CI captured in continuity"
+  ],
+  "deviations": [
+    "First unit run7PASS2FAIL: canonical Windows path revalidated as external unsupported prefix; fixed wrapper to validate caller target once through publication path",
+    "Second targeted run8PASS1FAIL: independent negative sample searched nonexistent title; changed exact known literal without changing sealed input or expectation",
+    "Full workspace339PASS6ignored; following release command selected nonexistent package zen-deliver and failed before build; corrected to AGENTS zen-harness --bin zen-deliver, PASS",
+    "Original033C2FAIL untouched; no change to sealed source/plan or frozen acceptance",
+    "Only memory receipt, no CLI or durable receipt import; parent actual_commit denotes tested change base, final commit and CI in continuity"
+  ],
+  "untested": [
+    "In-memory receipt only, not durable across process shutdown; no serialized import or CLI enrollment",
+    "Exact digest/length/path and unchanged policy are checked; trusted parent path scope, no namespace CAS guarantee",
+    "Semantic independence remains explicit caller premise, no unknown package auto admission",
+    "No new native Excel or date rendering comparison; ENG-005 remains PARTIAL"
+  ],
+  "next_step": "Complete C1 admission table review; native Excel same-plan typed/date/formula comparison three files with independent observations. Preserve strict default, no reseal or automatic unknown-source admission.",
+  "criteria": {
+    "ENG-005-C1": {
+      "requirement": "建立TypedValue和编辑准入表，覆盖空白、文本、布尔、数字、日期及普通公式；日期体系和错误值单列。",
+      "result": "NOT_RUN",
+      "observation": "Complete admission table/date-error review not closed this round.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C2": {
+      "requirement": "实现支持的类型/公式写回和跨表动态依赖更新；缓存与calc配置有独立预期；未知名称、数组、外链明确拒绝或只读。",
+      "result": "PASS",
+      "observation": "Original3sealed files ×8typed/date/formula/clear operations and old/new cross-sheet dependencies retain literal expected snapshots/calcPr/styles.18receipt reopens,9continued edits and9secondgeneration saves; samepolicy. Unknownname/array/external refusals rerun; ordinarydefaultstrict.",
+      "sample_count": 3,
+      "evidence": [
+        "docs/research/ENG-005-SAVED-FRAME-RECEIPT-2026-10-23.json",
+        "crates/zen-session/tests/opaque_policy_session.rs",
+        "target/quota_guard/command-d7acecd9aa29406e8de2d8e10c3e1062.log"
+      ]
+    },
+    "ENG-005-C3": {
+      "requirement": "3份业务XLSX分别包含类型切换、清空和公式替换；保存重开并与Excel同等修改对照。",
+      "result": "NOT_RUN",
+      "observation": "Zen three files save/reopen/continued edits PASS; nativeExcel same-operation comparison0, entire C3 NOT_RUN.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-005-C4": {
+      "requirement": "失败不改变会话/原包/旧输出，撤销恢复数据和计算状态；相关Rust回归按提交记录。",
+      "result": "PASS",
+      "observation": "339PASS6ignored.2516tracked-cell snapshots,33original +9continued undo/redo pairs; tampered exactframe despite matchingpreservation,locked/movedpath,retainedlimits/historybudget and actualwrite/sync/publication/contender/temporary faults preserve state/source/prioroutputs. Windows trusted/create-new scope.",
+      "sample_count": 3,
+      "evidence": [
+        "docs/research/ENG-005-SAVED-FRAME-RECEIPT-2026-10-23.json",
+        "crates/zen-session/tests/opaque_policy_session.rs",
+        "target/quota_guard/command-d7acecd9aa29406e8de2d8e10c3e1062.log"
+      ]
+    }
+  },
+  "slice_evidence": "docs/research/ENG-005-SAVED-FRAME-RECEIPT-2026-10-23.json"
+}

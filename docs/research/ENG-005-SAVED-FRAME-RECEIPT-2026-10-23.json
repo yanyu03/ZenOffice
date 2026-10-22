@@ -1,0 +1,105 @@
+{
+  "task": "ENG-005",
+  "scope": "Windows trusted local/create-new; explicit owned opaque XML policy saved-frame continuation; in-memory receipt only",
+  "parent_commit": "f4000a5a6bd50431c5188badcdec7dcd4b971cfb",
+  "manifest_sha256": "bc82f786f0db1c842188dbdb891b4b6ef3c2f0af5f4c026fe4ae19bf428aaad4",
+  "cases": [
+    {
+      "case": "budget",
+      "receipt": "target/typed-business/budget-NoIbXZ/receipt.json",
+      "sha256": "5829d7b5de8e2d712556570447915ade828faeee96d5869ea3a39a94dd3b4af0",
+      "snapshots": 925,
+      "receipt_reopens": 6,
+      "continued_edits": 3,
+      "continued_saves": 3
+    },
+    {
+      "case": "attendance",
+      "receipt": "target/typed-business/attendance-HaIJVG/receipt.json",
+      "sha256": "2ffbd92b3f92a24539a0ff499b6dbed99efaed07ceae2db632297d661740c2a0",
+      "snapshots": 851,
+      "receipt_reopens": 6,
+      "continued_edits": 3,
+      "continued_saves": 3
+    },
+    {
+      "case": "orders",
+      "receipt": "target/typed-business/orders-7z4v0u/receipt.json",
+      "sha256": "72481018fff720b738ff7e90305e50c771acbfed967d231c714c8fe28070ce25",
+      "snapshots": 740,
+      "receipt_reopens": 6,
+      "continued_edits": 3,
+      "continued_saves": 3
+    }
+  ],
+  "totals": {
+    "original_forward": 24,
+    "original_undo_redo_pairs": 33,
+    "cell_snapshot_assertions": 2516,
+    "receipt_reopens": 18,
+    "continued_edits": 9,
+    "continued_undo_redo_pairs": 9,
+    "continued_saves": 9,
+    "workspace_passed": 339,
+    "workspace_ignored": 6,
+    "native_runs": 0
+  },
+  "logs": [
+    {
+      "path": "target/quota_guard/command-55388a410ec543178d4f6d7a4601aaf1.log",
+      "sha256": "4c3b2b21df0a89d9b6d6650e63c42ef005845705c64a35756219937ba1c05d28",
+      "tail": "::opaque_policy_is_retained_across_each_actual_save_io_failure\n\ntest result: FAILED. 7 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.14s\n\nerror: test failed, to rerun pass `-p zen-session --lib`\n"
+    },
+    {
+      "path": "target/quota_guard/command-86a08ba8986f42b8b08a9d5e4c221a99.log",
+      "sha256": "0512e03c6b8e90bd94133102002defb4595ba0dc301162aaf626df1c68c56201",
+      "tail": "_still_succeeds ... ok\ntest persistence::failure_tests::opaque_policy_is_retained_across_each_actual_save_io_failure ... ok\n\ntest result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.30s\n\n"
+    },
+    {
+      "path": "target/quota_guard/command-56a633535b654c35ba4c89df80df5491.log",
+      "sha256": "5f9cbc43bd360ca2199bb588fbc35667d87bbd64ccbd14f6705bb1c3e7f61eb8",
+      "tail": "e_even_when_preservation_policy_matches\n\ntest result: FAILED. 8 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.39s\n\nerror: test failed, to rerun pass `-p zen-session --test opaque_policy_session`\n"
+    },
+    {
+      "path": "target/quota_guard/command-50b90c748ac44a728f3d2e98a36395d1.log",
+      "sha256": "430eff3dbca458a885d22dacab2773c7267e20abcac4a609168e2098ebe4574b",
+      "tail": "int_and_outputs ... ok\ntest persistence::failure_tests::opaque_policy_is_retained_across_each_actual_save_io_failure ... ok\n\ntest result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.26s\n\n"
+    },
+    {
+      "path": "target/quota_guard/command-5709d8da64c54400a1e602870db7d638.log",
+      "sha256": "af641c697439f615f1fdf2b09c62043d329ce2de57caccf24840dafbb0c9f02d",
+      "tail": "s: C:\\Users\\admin\\Desktop\\MYSQL\\MTK8400\\ZenOffice\\target/typed-business\\orders-SWBtwi\ntest orders_typed_business_api ... ok\n\ntest result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.39s\n\n"
+    },
+    {
+      "path": "target/quota_guard/command-6d340b74e1c142ac8c54096f37782097.log",
+      "sha256": "df28a9ec515f155e1727f95c84864fc1be37b07294fd9966476be413abe17382",
+      "tail": ".. ok\ntest attendance_unknown_custom_xml_refuses_atomically ... ok\ntest budget_unknown_custom_xml_refuses_atomically ... ok\n\ntest result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s\n\n"
+    },
+    {
+      "path": "target/quota_guard/command-d7acecd9aa29406e8de2d8e10c3e1062.log",
+      "sha256": "0cd07c3e0e7f936fde5e95add4089aed420cdb209389fb127ae539bd958966a6",
+      "tail": "dual_geometry_and_numbering ... ok\ntest default_numbering_and_unknown_styles_cannot_replace_default_paragraph_style ... ok\n\ntest result: ok. 15 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.01s\n\n"
+    },
+    {
+      "path": "target/quota_guard/command-954c1acd71f84870ac2b397408bad022.log",
+      "sha256": "415253a9fb0d64e3c627ebb3f3be2c979af68f98ca43bef556a17cc0dfb7f5cc",
+      "tail": "error: package ID specification `zen-deliver` did not match any packages\n"
+    },
+    {
+      "path": "target/quota_guard/command-4d7bb2688bfd4c3a8a4e870fc697ff93.log",
+      "sha256": "4fed9a3a9e533e1edbfc4ab2a4e0db2ed5388a81dbf6da0958d87fa7d1068249",
+      "tail": "admin\\Desktop\\MYSQL\\MTK8400\\ZenOffice\\crates\\zen-formats)\n   Compiling zen-harness v0.1.0 (C:\\Users\\admin\\Desktop\\MYSQL\\MTK8400\\ZenOffice\\crates\\zen-harness)\n    Finished `release` profile [optimized] target(s) in 9.64s\n"
+    }
+  ],
+  "failures_preserved": [
+    "First unit run7PASS2FAIL: canonical Windows path revalidated as external unsupported prefix; fixed wrapper to validate caller target once through publication path",
+    "Second targeted run8PASS1FAIL: independent negative sample searched nonexistent title; changed exact known literal without changing sealed input or expectation",
+    "Full workspace339PASS6ignored; following release command selected nonexistent package zen-deliver and failed before build; corrected to AGENTS zen-harness --bin zen-deliver, PASS"
+  ],
+  "limitations": [
+    "In-memory receipt only, not durable across process shutdown; no serialized import or CLI enrollment",
+    "Exact digest/length/path and unchanged policy are checked; trusted parent path scope, no namespace CAS guarantee",
+    "Semantic independence remains explicit caller premise, no unknown package auto admission",
+    "No new native Excel or date rendering comparison; ENG-005 remains PARTIAL"
+  ]
+}

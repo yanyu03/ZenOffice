@@ -2,6 +2,8 @@
 //! Original parts stay owned here. This API provides no editable round-trip save.
 mod cells;
 mod dates;
+mod frame;
+pub use frame::WorkbookFrameContext;
 mod xml;
 pub mod edit;
 
@@ -25,6 +27,8 @@ const STRINGS_TYPE: &str =
 
 #[derive(Debug, thiserror::Error)]
 pub enum ReadError {
+    #[error("checkpoint frame identity does not match the recorded bytes")]
+    FrameIdentity,
     #[error(transparent)]
     Preservation(#[from] zen_opc::OpcError),
     #[error(transparent)]

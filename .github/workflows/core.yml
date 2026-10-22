@@ -53,4 +53,5 @@ jobs:
           path: |
             target/typed-business/**/receipt.json
             target/typed-business/**/saved-*.xlsx
+            target/typed-business/**/continued-*.xlsx
             target/typed-business/**/state-*.xlsx
