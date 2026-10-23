@@ -50,5 +50,18 @@
     }
   ],
   "root_cause": "UNPROVEN; no local reproduction of historical hostedWindows failure",
-  "next": "Inspect new CI startup time and unchanged five original tests; preserve failure even if passes, require repeated independent host observations before claiming stable mitigation."
+  "next": "Inspect new CI startup time and unchanged five original tests; preserve failure even if passes, require repeated independent host observations before claiming stable mitigation.",
+  "ci_observation": {
+    "commit": "e846bcf477faa7ccffd1e3c404279e436b29ab45",
+    "run": 39947923681,
+    "job": 120395038798,
+    "status": "SUCCESS",
+    "node_version": "v22.23.4",
+    "minimal_process_seconds": 10.755382,
+    "observer_tests": 6,
+    "original_tests": 5,
+    "original_tests_seconds": 1.528,
+    "inference": "Minimal Node alone exceeded historical10s whole-process budget; supports startup-overhead hypothesis, not proof of exact historical cause or system subsystem.",
+    "retry_count": 0
+  }
 }
