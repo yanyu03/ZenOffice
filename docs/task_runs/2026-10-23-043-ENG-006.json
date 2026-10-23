@@ -1,0 +1,64 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-006",
+  "started_at": "2026-10-23T08:36:11.162505+00:00",
+  "ended_at": "2026-10-23T08:42:59.106Z",
+  "status": "PARTIAL",
+  "actual_commit": "9cfa54e2f32b62ac277a66ee0dcbcfc8581f7901",
+  "actual_scope": "pure decoded point-anchor coordinate planning; not formula/package/session structure editing",
+  "commands": [
+    "Official47%then46%remaining/localREADY; frozen15PASS; continuitypreviousCOMPLETE/no unfinishedcommands; dependencyENG005042DONE/exact9cfa54eCIverified; workerordinal29mark only",
+    "Readable source audit found fixedmarker/span loss in calculator AST; predeclared pure coordinate policy before implementation",
+    "DSHA Python3.12.14/CargoRustc1.99.1/ownedhealth and MSVC SDK PASS; new7coordinate methodsPASS",
+    "cargo test --locked --offline --workspace --all-targets349PASS6ignored; releasezen-deliverPASS; sourcebaseline106currentidentitiesPASS",
+    "Original import hashes preserved, export currentfingerprint updated withreason; endingrecord/frozen/diff and finalcommit/remote/CI in continuity"
+  ],
+  "deviations": [
+    "New puremodule accepts decoded explicit sheet pointanchors only; no formula/package/session operations wired. No claim wholeENG006condition satisfied",
+    "Publicmethod may describe fullaxis pointdeletion, but doesnot authorize wholeworksheetdelete or #REF!output; futurewriter mustrefuseunhandleddeletedreferences",
+    "CurrentSUMIF supportsbounded equal-shaped ranges; other functions/structuralmetadata require own actual businessrequirements and tests"
+  ],
+  "untested": [
+    "No formula token/span parsing, ranges, names, external/3D or structured references admitted",
+    "Deleted outcome is not #REF!serialization; no error/calc/write permission",
+    "No sheet creation/rename, row/column package insertion/deletion, copyfill or new numericformat implementation",
+    "Budget counts anchors, not total heap; allocation failure not injected",
+    "Structural/copy coordinate policies are predeclared internal semantics, no new Excel structural observations"
+  ],
+  "next_step": "Implement narrow lossless formula reference lexer/span model retaining fixedmarkers/quoted sheet names/string literals and explicit binding; predeclare grammar/admission/independent expectations, then ranges and packageowners. No structural write until full plan/recalc/atomic candidate validation.",
+  "criteria": {
+    "ENG-006-C1": {
+      "requirement": "实现新建/重命名表、行列插删、复制填充与基础数值格式，变更引用通过专门编辑计划统一处理。",
+      "result": "NOT_RUN",
+      "observation": "Whole frozen criterion NOT_RUN. This round only source audit/structural contract and pure point-coordinate planning tests;0XLSX structure edits/0native observations.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-006-C2": {
+      "requirement": "支持范围内跨表/固定行列/相对引用随结构变化正确；未支持的名称、数组、外链在变更前拒绝。",
+      "result": "NOT_RUN",
+      "observation": "Whole frozen criterion NOT_RUN. This round only source audit/structural contract and pure point-coordinate planning tests;0XLSX structure edits/0native observations.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-006-C3": {
+      "requirement": "按3份业务任务需要扩展条件统计、查找和日期文本函数；不以函数名数量替代任务完成。",
+      "result": "NOT_RUN",
+      "observation": "Whole frozen criterion NOT_RUN. This round only source audit/structural contract and pure point-coordinate planning tests;0XLSX structure edits/0native observations.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-006-C4": {
+      "requirement": "3份业务XLSX覆盖上述结构动作，Excel对照、保存重开、撤销和部件保持均留证据。",
+      "result": "NOT_RUN",
+      "observation": "Whole frozen criterion NOT_RUN. This round only source audit/structural contract and pure point-coordinate planning tests;0XLSX structure edits/0native observations.",
+      "sample_count": 0,
+      "evidence": []
+    }
+  },
+  "slice_evidence": "docs/research/ENG-006-REFERENCE-PLAN-2026-10-23.json"
+}

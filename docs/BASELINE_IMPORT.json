@@ -171,7 +171,7 @@
     "crates/zen-engine/src/calc.rs": "d90855a8845e75f83270d9a30c0e1ec51a2657f0afd8c14b7e71c2e0fb0757a7",
     "crates/zen-engine/src/csv_io.rs": "2a1c6313981cc0438de070d2e2fcc91223a1387868aceb49793334af5501155c",
     "crates/zen-engine/src/doc.rs": "d5941d0b51421b9e9adc10e4f09030908cbb8a1e81d7cb6473c4ebe4971d110c",
-    "crates/zen-engine/src/lib.rs": "5b79e2f16d0deb20a9b4aa962788257e8e86465c023c49ac5c76ffd481e3eb3a",
+    "crates/zen-engine/src/lib.rs": "ab1187dbbda8f100a0f18b4d74e4eac7b8d8cc4dde73d2a9f887863e40686d6f",
     "crates/zen-engine/src/mutation.rs": "515e863da6791039e379b7381ab8bb77327e2a73442e06fe91c57d5983aa797b",
     "crates/zen-engine/src/recalc.rs": "8f541b139f777aa401ef8a92bd0134bc2136f7f4c36ed1cda569fbcd29c5e5c3",
     "crates/zen-engine/src/sheet.rs": "44bdd8b1f6c94ae9a16ee56e82c4e82340932da706ec9a120fc28605255f461d",
@@ -509,6 +509,20 @@
       },
       "validation": {
         "evidence": "docs/research/ENG-005-SAVED-FRAME-RECEIPT-2026-10-23.json"
+      }
+    },
+    {
+      "date": "2026-10-23",
+      "task": "ENG-006",
+      "reason": "Export pure decoded point-anchor reference planner; no formula/parser/package/session integration. Original imported hashes unchanged.",
+      "files": {
+        "crates/zen-engine/src/lib.rs": {
+          "before": "5b79e2f16d0deb20a9b4aa962788257e8e86465c023c49ac5c76ffd481e3eb3a",
+          "after": "ab1187dbbda8f100a0f18b4d74e4eac7b8d8cc4dde73d2a9f887863e40686d6f"
+        }
+      },
+      "validation": {
+        "evidence": "docs/research/ENG-006-REFERENCE-PLAN-2026-10-23.json"
       }
     }
   ]

@@ -1,0 +1,17 @@
+{
+  "task": "ENG-006",
+  "kind": "predeclared pure coordinate-plan slice, not frozen taskbook or Excel behavior evidence",
+  "base": "9cfa54e2f32b62ac277a66ee0dcbcfc8581f7901",
+  "implemented_scope": "decoded/resolved point anchors only; stableSheetId+validatedCellAddress+fixedrow/fixedcolumn flags",
+  "expectations": [
+    "insertbeforepoint on referenced sheet shifts coordinate even when fixed; otherSheetId unchanged",
+    "deletecontainingpoint returns Deleted outcome without serializing #REF!; points below interval shift; before unchanged",
+    "copy offset changes relative dimensions only and retains flags/sheet identity; caller must resolve implicit sheet binding separately",
+    "zero count/outside axis/endoverflow refuse before mapping; coordinate overflow refuses; never saturate/clamp",
+    "list budget and later failing anchor returnErr, input list unchanged; no partial returned plan",
+    "range endpoint semantics, names, 3D/external/array/structured refs and formula text must not be inferred from point mapping"
+  ],
+  "next_integration": "token/span parser retaining quotes/$/source text plus whole workbook dependency/admission scan; candidate plan and recalc before atomic session commit",
+  "native_runs": 0,
+  "product_edits": 0
+}

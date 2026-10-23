@@ -1,0 +1,84 @@
+{
+  "task": "ENG-006",
+  "date": "2026-10-23",
+  "code_base": "9cfa54e2f32b62ac277a66ee0dcbcfc8581f7901",
+  "scope": "pure decoded point-anchor coordinate planning; not formula/package/session structure editing",
+  "device": "Windowsx86_64 runtime; firmware not examined",
+  "tools": {
+    "python": "3.12.14",
+    "cargo": "1.99.1",
+    "rustc": "1.99.1",
+    "owned_health": "PASS",
+    "msvc_sdk": "PASS"
+  },
+  "source_findings": [
+    {
+      "file": "crates/zen-engine/src/calc.rs",
+      "fact": "CellReference fields retain only sheet/col/row, no fixed markers or source spans"
+    },
+    {
+      "file": "crates/zen-engine/src/recalc.rs",
+      "fact": "reference_or_name converts CellCoord into CellReference; calculation AST is not a lossless formula edit AST"
+    },
+    {
+      "file": "crates/zen-formats/src/spreadsheet/edit.rs",
+      "fact": "Existing edits patch existing cells/caches, no row/column package edit plan"
+    }
+  ],
+  "new_test_methods": 7,
+  "fixture_families": "handwritten coordinate vectors only;0newXLSX",
+  "full_workspace": {
+    "passed": 349,
+    "failed": 0,
+    "ignored": 6
+  },
+  "release": "PASS",
+  "new_native_runs": 0,
+  "new_product_structure_edits": 0,
+  "logs": [
+    {
+      "path": "target/quota_guard/command-762d760d162d4ea786dbd43953f109e4.log",
+      "sha256": "6ae3990cfbed32127c4aacc8f008ad66069640d015d7f9bb0ceeac4043ba91b9",
+      "counts": [
+        0,
+        0,
+        0
+      ],
+      "tail": "zen-harness v0.1.0 (C:\\Users\\admin\\Desktop\\MYSQL\\MTK8400\\ZenOffice\\crates\\zen-harness)\n    Finished `release` profile [optimized] target(s) in 20.93s\n"
+    },
+    {
+      "path": "target/quota_guard/command-c364cea522074c3f978893240cfc0586.log",
+      "sha256": "207eaafccd78edf5d9efd1a261525b35db800944606b4a62a92dec15567b6698",
+      "counts": [
+        349,
+        0,
+        6
+      ],
+      "tail": "styles_cannot_replace_default_paragraph_style ... ok\n\ntest result: ok. 15 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.02s\n\n"
+    },
+    {
+      "path": "target/quota_guard/command-9e6bf9dd42134ec382d06821b5fd26fb.log",
+      "sha256": "1042aa63fcae1437c48288b701db0cb50f01af3d861b8f2c0b37e6f6efe3fc67",
+      "counts": [
+        7,
+        0,
+        0
+      ],
+      "tail": "_intervals_refuse_without_clamping_or_wrapping ... ok\n\ntest result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n"
+    }
+  ],
+  "limitations": [
+    "No formula token/span parsing, ranges, names, external/3D or structured references admitted",
+    "Deleted outcome is not #REF!serialization; no error/calc/write permission",
+    "No sheet creation/rename, row/column package insertion/deletion, copyfill or new numericformat implementation",
+    "Budget counts anchors, not total heap; allocation failure not injected",
+    "Structural/copy coordinate policies are predeclared internal semantics, no new Excel structural observations"
+  ],
+  "reproduce": "DSHA envfeel --require python --require cargo; cargo test --locked --offline -p zen-engine --test reference_plan; cargo test --locked --offline --workspace --all-targets; cargo build --locked --offline --release -p zen-harness --bin zen-deliver",
+  "rollback": "Review later dependencies then revert newmodule/export/tests/currentfingerprint adjustment only; original importedhashes/taskbook unchanged",
+  "source_sha256": {
+    "crates/zen-engine/src/reference_plan.rs": "3e2885b418d209fdbfecf9524d95654786ab94755e0da08e8dd4568d97e5bdce",
+    "crates/zen-engine/tests/reference_plan.rs": "7c443a61eba2a9c31e9548a20d22e2da53a39bc6bcc2d83e82989dd358240892",
+    "docs/engine_specs/ENG-006-reference-plan-v1.json": "cdd7a684c9aea09e5b7fccee172da0944371d496ebe0eb4717f5484b6fc1a90c"
+  }
+}
