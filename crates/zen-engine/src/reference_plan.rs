@@ -156,3 +156,6 @@ pub fn copy_anchor(
         ..anchor
     })
 }
+
+/// Lexical observations only; not formula or edit admission.
+pub mod syntax;

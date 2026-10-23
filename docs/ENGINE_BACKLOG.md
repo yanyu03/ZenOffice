@@ -1,3 +1,5 @@
+2026-10-23／实况044／ENG006 PARTIAL：新增保留原文跨度/$/引号转义的窄单点引用词法扫描，7方法PASS、全Rust356PASS6ignored、ReleasePASS。词法成功不等于公式语法/函数/SheetId绑定或结构编辑准入；范围等明确拒绝，XLSX结构写入/原生对照0。下一步语法与稳定表绑定、范围/所有者计划。见operations/2026-10-23-REFERENCE-SYNTAX.md。
+
 2026-10-23／实况043／ENG006 PARTIAL：计算AST不保留$固定标记/源跨度，已建立STRUCTURAL_EDIT_CONTRACT。新增只读单点坐标计划器和7独立例子，全Rust349PASS6ignored、ReleasePASS；0XLSX结构改写/0新原生对照，冻结C1–C4均NOT_RUN。下一步lossless引用span解析与范围/全拥有者准入，不能把坐标映射当作结构编辑已支持。见operations/2026-10-23-STRUCTURAL-REFERENCE-PLAN.md。
 
 2026-10-23／实况042：ENG005冻结C1–C4有界PASS/DONE。三原业务各3次独立Excel成功运行，108阶段/27保存重开，原字面预期/Zen帧/类型/公式/缓存/日期体系格式一致；55Rust专项与5比较器PASS。原生丢弃customXML探针的包规范化单列，Zen保留门禁不放宽。2观测器pilot失败保留、实例均已退出。下一步ENG006结构设计，M2/E2–E3尚未整体放行。见operations/2026-10-23-NATIVE-TYPED-ACCEPTANCE.md。

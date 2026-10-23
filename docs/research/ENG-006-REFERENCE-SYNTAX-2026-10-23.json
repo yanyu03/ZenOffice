@@ -1,0 +1,67 @@
+{
+  "task": "ENG-006",
+  "scope": "read-only narrow point-reference lexical spans; no grammar validation, SheetId binding, formula rewrite or workbook structure admission",
+  "base": "6d0a25eb8a4500cc324a7a64c8177a1a061f9fac",
+  "source": {
+    "crates/zen-engine/src/reference_plan/syntax.rs": "40efd067f1cc295c255369b90a0f775ba389fda7d2a0cd8a561c37d05ffcea14",
+    "crates/zen-engine/tests/reference_syntax.rs": "a369038a68629ed581b6f5a1bc5d804f46d5a471bff790eba5a2b52450e9f947"
+  },
+  "tests": {
+    "focused": {
+      "passed": 7,
+      "failed": 0,
+      "log": "target/quota_guard/command-6f8d5467eecc47dbbb8d1b92ebd97bbd.log"
+    },
+    "workspace": {
+      "passed": 356,
+      "failed": 0,
+      "ignored": 6
+    },
+    "release": "PASS",
+    "baseline_imported_identities": 106,
+    "logs": [
+      {
+        "path": "target/quota_guard/command-9319bbf4096d46af89fb94709e280b47.log",
+        "sha256": "5ae3090c901ca7e2499a767506bf3fed0b5b0d2a0c5f936ffbc4954a9822a0be",
+        "totals": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "path": "target/quota_guard/command-e7fe3bfff97a483880420db0d3ff3700.log",
+        "sha256": "eb47901ec144075015c1f5e1dbac2411185bde364a088a1afccd0950f0a75fa4",
+        "totals": [
+          356,
+          0,
+          6
+        ]
+      }
+    ]
+  },
+  "failure_retained": {
+    "first_focused": {
+      "passed": 6,
+      "failed": 1,
+      "log": "target/quota_guard/command-5457b31a14a84ca2ba9324d26868a682.log",
+      "reason": "Negative quoted-string specimen was actually valid; corrected explicit unterminated string expectation, scanner unchanged"
+    },
+    "formatting": "cargo fmt --all produced unrelated formatting; patch kept privately, restored HEAD source bytes; git diff confirms only intended changes"
+  },
+  "native_runs": 0,
+  "xlsx_structure_edits": 0,
+  "limits": {
+    "formula_bytes": 8192,
+    "reference_count": "explicit caller budget",
+    "allocation_failure": "NOT_INJECTED"
+  },
+  "not_admitted": [
+    "ranges",
+    "names",
+    "external",
+    "3D",
+    "structured/array/dynamic/error reference syntax"
+  ],
+  "next": "grammar and stable sheet binding before range semantics and full owner scan; no writer permission"
+}

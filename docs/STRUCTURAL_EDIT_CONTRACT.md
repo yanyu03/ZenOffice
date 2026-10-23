@@ -48,3 +48,7 @@ Deleted不是写出#REF!的授权；范围不能通过独立映射两端点来�
 通过本地quota及DSHA Python/Cargo/Rustc/SDK后，cargo test --locked --offline -p zen-engine --test reference_plan；本轮另跑workspace/all-targets及Release。原始日志留target/office_research/ENG-006-reference-043。回滚须先核对后续依赖，再revert新模块/导出/测试/可变指纹登记；原始迁入哈希和只读任务书不改。
 
 最可能推翻点：坐标点不能代表范围/隐式绑定；现有依赖图遗漏未建模元数据；数学规则尚未同Excel结构行为对照。当前无文件写路径，以上均列为后续准入阻断，不把未测假设升级为产品支持。ENG006 PARTIAL，M2仍未整体完成。
+
+## 实况044：窄词法跨度已实现
+
+reference_plan::syntax::scan_points保留原文引用/地址字节跨度、大小写、$标记和显式表名转义，跳过双引号字符串；8192字节/调用方引用数预算，整体扫描失败无部分结果。7方法和全Rust356PASS6ignored/ReleasePASS。它不是完整公式解析器：不校验表达式语法、函数支持、稳定SheetId绑定或结构操作准入。范围/名称/外部/3D/数组/结构化引用仍拒绝。源码审查与运行证据见operations/2026-10-23-REFERENCE-SYNTAX.md和research/ENG-006-REFERENCE-SYNTAX-2026-10-23.json。上述043历史结果保留；当前整体仍PARTIAL，后续语法/绑定必须在任何写入之前。
