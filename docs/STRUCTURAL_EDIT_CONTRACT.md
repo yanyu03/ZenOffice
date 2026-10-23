@@ -56,3 +56,7 @@ reference_plan::syntax::scan_points保留原文引用/地址字节跨度、大�
 ## 实况045：稳定身份绑定切片
 
 reference_plan::binding借用原公式与原Workbook，私有结果字段和自身原文getter防止文本替换；隐式引用使用显式owner，显式引用按现有Workbook小写名称规则绑定SheetId，非表下标。拒绝未知/非Worksheet、所有定义名称和预算超限。7专项/全Rust363PASS6ignored、ReleasePASS。尚不校验完整语法/函数，不携带包帧/revision许可，也不证明Excel Unicode等价。下一步语法与范围/拥有者准入。见operations/2026-10-23-REFERENCE-BINDING.md。
+
+## 实况047：算术语法顺序检查
+
+新增BoundFormula上只读validate_arithmetic，支持点/数字/括号/一元+-/二元+-*/^，拒绝相邻表达式及缺操作数；迭代4096token/64层，不计算或建立优先级AST。函数、范围、字符串等仍拒绝。7专项和全Rust370PASS6ignored、ReleasePASS；无结构写入/原生对照，ENG006PARTIAL。见operations/2026-10-23-ARITHMETIC-SYNTAX.md。

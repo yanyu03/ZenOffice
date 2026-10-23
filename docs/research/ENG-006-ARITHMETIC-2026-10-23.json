@@ -1,0 +1,55 @@
+{
+  "task": "ENG-006",
+  "base": "94f3c2c63b31e0fffc2f03ab7736b2e5449689e4",
+  "scope": "bound point-reference arithmetic sequencing only; no evaluation/precedence AST, functions, ranges or write grant",
+  "grammar": "optionalleading=; number or boundpoint or parenthesizedexpression; unary+-; binary+-*/^; no implicit multiplication; reject empty/unbalanced/adjacent expressions",
+  "limits": {
+    "tokens": 4096,
+    "parentheses": 64,
+    "source": "upstream8192bytes"
+  },
+  "tests": {
+    "focused": 7,
+    "workspace": {
+      "pass": 370,
+      "fail": 0,
+      "ignored": 6
+    },
+    "release": "PASS",
+    "baseline": 106,
+    "logs": [
+      {
+        "path": "target/quota_guard/command-54d9a397367346f3958badbe1a6ad26f.log",
+        "sha256": "4172e90fb69c9fb4795f12e2bd6209af917f8bb9cda27c2c44de98f3bae898d0",
+        "totals": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "path": "target/quota_guard/command-c8e21d4686334582a437155ffa44188b.log",
+        "sha256": "441950eeff459c20b8346c0f103ac04d7dd76e6afc1998f336639447acabfdcc",
+        "totals": [
+          370,
+          0,
+          6
+        ]
+      }
+    ]
+  },
+  "first_failure": {
+    "log": "target/quota_guard/command-ada9ec7eeaba42bf975aa6356f866178.log",
+    "passed": 6,
+    "failed": 1,
+    "cause": "Test helper unwrapped binder for1.2.3 already rejected lexically; split assertion into lexical refusal; implementation unchanged"
+  },
+  "corrected_log": "target/quota_guard/command-5d87686a196b4088a276f0657024fa4f.log",
+  "native_runs": 0,
+  "structure_edits": 0,
+  "source": {
+    "crates/zen-engine/src/reference_plan/arithmetic.rs": "298369b5313bc781ace05a9c074ec95e0d27645ec1b4a026d9f9f4d2e08ada92",
+    "crates/zen-engine/tests/reference_arithmetic.rs": "6a34f3ee1aaa67d1eda7dbe4f7b5ba15571b56bddc26475298930e6e83f1a59b"
+  },
+  "next": "range semantics and bounded formula function/argument grammar need independent policy; all owners/frame/revision/atomic candidate required before writer"
+}

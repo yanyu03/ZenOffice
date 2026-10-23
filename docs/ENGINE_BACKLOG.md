@@ -1,3 +1,5 @@
+2026-10-23／实况047／ENG006 PARTIAL：新增有界点引用算术语法顺序检查，7方法PASS、全Rust370PASS6ignored/ReleasePASS。无计算/优先级AST或结构写入权限，函数/范围/字符串等暂拒绝。首次负样本已被词法拒绝却unwrap的测试失败保留，分层断言修正。下一步范围与窄函数参数/全拥有者，CI同时复核启动观测。见operations/2026-10-23-ARITHMETIC-SYNTAX.md。
+
 实况046 CI实测补充：e846bcf首次CI39947923681成功，最小Node启动10.755382秒>旧10秒整进程预算；预热后原5项1.528秒PASS、6新增PASS，未重试。支持启动耗时假设但具体原因/长期稳定未证实，ENG-FIX仍PARTIAL；下一正常任务CI继续核对。
 
 2026-10-23／实况046／ENG-FIX PARTIAL：上轮最终文档CI39941046014也重复Node assess10秒超时，保留未复跑。本轮新增独立30秒最小Node启动观测/no-retry及6项故障样本PASS；原5项/10秒预算源码未改、本机PASS，未本机复现根因。新CI应记录启动耗时并保持原验收；不宣称稳定修复。Rust/Office未重跑，ENG006仍PARTIAL，下一步核对新CI独立宿主证据。见operations/2026-10-23-CI-NODE-STARTUP.md。

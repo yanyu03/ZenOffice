@@ -162,3 +162,6 @@ pub mod syntax;
 
 /// Source/model-bound point observations; not structural-edit admission.
 pub mod binding;
+
+/// Bounded arithmetic sequencing only, not evaluation or edit permission.
+pub mod arithmetic;
