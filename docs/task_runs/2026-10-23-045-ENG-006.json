@@ -6,19 +6,22 @@
   },
   "task_id": "ENG-006",
   "started_at": "2026-10-23T10:34:11.191952+00:00",
-  "ended_at": "2026-10-23T10:38:12.698Z",
+  "ended_at": "2026-10-23T10:42:19.004Z",
   "status": "PARTIAL",
-  "actual_commit": "ad5e84df474cd1434dab9bf0e79a33f0832c6908",
+  "actual_commit": "44658a227989921a58a91aa2038bdf9f4a8749d4",
   "actual_scope": "immutable borrowed formula/workbook point binding; no grammar, frame/revision, package or write authority",
   "commands": [
     "Officialremaining26then25%/guardREADY; frozenPASS; continuityCOMPLETE/no unfinishedcommands; cleanworktree; actualheartbeatworkerordinal31mark only",
     "DSHA Python3.12.14/CargoRustc1.99.1/health/MSVC SDK PASS; rustfmt newtwofiles; sevenbindingmethodsPASS",
     "cargo test --locked --offline --workspace --all-targets363PASS6ignored; cargo build --locked --offline --release -p zen-harness --bin zen-deliver PASS",
-    "check_baseline.py106PASS; report/frozen/diff; finalcommit/remote/exactCI logged to continuity"
+    "check_baseline.py106PASS; report/frozen/diff; finalcommit/remote/exactCI logged to continuity",
+    "Code44658a2 frozenCI39940574567 firstjob120370705257 Nodeassess TimeoutExpired10s; inspected unchanged bounded assess path then one identicalrerun job120371320087 SUCCESS5tests2.520s; originalfailure retained/rootcauseunproven",
+    "Code44658a2 coreCI39940574560/job120370705705SUCCESS363PASS6ignored/Release/historicalnumericcomparison; subsequent commit only CI records, no new Rust run"
   ],
   "deviations": [
     "Bounded identity binding implemented before complete formula grammar; lexical successes are not edit admission",
-    "Existing Workbook lowercase name policy reused, not proof of full Excel naming equivalence"
+    "Existing Workbook lowercase name policy reused, not proof of full Excel naming equivalence",
+    "CI first-attempt timeout preserved separately from successful unchanged rerun; no relaxed timeout or changed test expectation"
   ],
   "untested": [
     "complete formula grammar/function semantics",

@@ -46,7 +46,23 @@
   },
   "native_runs": 0,
   "structure_edits": 0,
-  "failures": [],
+  "failures": [
+    {
+      "kind": "CI Node assess timeout",
+      "run": 39940574567,
+      "first_job": 120370705257,
+      "seconds": 10,
+      "root_cause": "UNPROVEN",
+      "unchanged_rerun": {
+        "job": 120371320087,
+        "result": "SUCCESS",
+        "preflight_tests": 5,
+        "seconds": 2.52
+      },
+      "changes": "none to source/timeouts/expected results/standards",
+      "logs": "private target/office_research/ENG-006-binding-045/ci-frozen-attempt1.log and attempt2.log"
+    }
+  ],
   "untested": [
     "complete formula grammar/function semantics",
     "Excel Unicode name equivalence",
@@ -54,5 +70,22 @@
     "package frame/revision authority",
     "allocation-failure injection/full heap budget"
   ],
-  "next": "narrow formula grammar acceptance over original source/spans; then range and owner semantics before writer"
+  "next": "narrow formula grammar acceptance over original source/spans; then range and owner semantics before writer",
+  "code_commit": "44658a227989921a58a91aa2038bdf9f4a8749d4",
+  "code_ci": {
+    "core": {
+      "run": 39940574560,
+      "job": 120370705705,
+      "result": "SUCCESS",
+      "passed": 363,
+      "failed": 0,
+      "ignored": 6,
+      "release": "PASS"
+    },
+    "frozen": {
+      "run": 39940574567,
+      "attempt1": "TIMEOUT",
+      "attempt2": "SUCCESS"
+    }
+  }
 }

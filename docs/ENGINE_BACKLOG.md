@@ -1,3 +1,5 @@
+实况045 CI补记：44658a2冻结前置检查首次Node assess10秒超时，原日志保留；一次原样复跑成功（5项2.520秒），未改超时/预期，具体宿主原因未证实。详见本轮operations/循环，不把复跑成功说成未曾失败。
+
 2026-10-23／实况045／ENG006 PARTIAL：只读公式/Workbook借用绑定已实现，保留显式/隐式表区别，按SheetId而非表序定位；未知/非Worksheet/定义名称/超限拒绝。7方法PASS，全Rust363PASS6ignored、ReleasePASS。无完整语法、包帧/revision许可、结构写入或新原生对照；下一步窄语法和范围/拥有者计划。见operations/2026-10-23-REFERENCE-BINDING.md。
 
 2026-10-23／实况044／ENG006 PARTIAL：新增保留原文跨度/$/引号转义的窄单点引用词法扫描，7方法PASS、全Rust356PASS6ignored、ReleasePASS。词法成功不等于公式语法/函数/SheetId绑定或结构编辑准入；范围等明确拒绝，XLSX结构写入/原生对照0。下一步语法与稳定表绑定、范围/所有者计划。见operations/2026-10-23-REFERENCE-SYNTAX.md。
