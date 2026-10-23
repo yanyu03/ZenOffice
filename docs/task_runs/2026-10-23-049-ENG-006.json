@@ -1,0 +1,56 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-006",
+  "started_at": "2026-10-23T14:36:34.698320+00:00",
+  "ended_at": "2026-10-23T14:38:02.610Z",
+  "status": "PARTIAL",
+  "actual_commit": "61035218885d72eb4344591397809e96abdca5f7",
+  "actual_scope": "predeclared narrow bare-range lexeme and qualifier inheritance design only",
+  "commands": [
+    "Official/localremaining15%READY; frozenPASS; priorCOMPLETE/no unfinished/clean; workeractualordinal35mark only",
+    "Declared5positive10negative independent literal specimens; manual zero-based coordinates/$ review only, not executable acceptance",
+    "No implementation/Rust/Office run; report/frozen/sourcebaseline; exactsync/CI in continuity"
+  ],
+  "deviations": [
+    "Design-only finite cycle at quota15%; not product implementation or acceptance"
+  ],
+  "untested": [
+    "All new parser/binding samples NOT_RUN; no range-text implementation",
+    "No new Rust, native Office or structure writing"
+  ],
+  "next_step": "Implement predeclared bare-range tests then source/model-bound parser; quota first; do not broaden right qualifiers without explicit design and evidence",
+  "criteria": {
+    "ENG-006-C1": {
+      "requirement": "实现新建/重命名表、行列插删、复制填充与基础数值格式，变更引用通过专门编辑计划统一处理。",
+      "result": "NOT_RUN",
+      "observation": "Whole criterion NOT_RUN; predeclared design only, no executable/parser/native evidence.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-006-C2": {
+      "requirement": "支持范围内跨表/固定行列/相对引用随结构变化正确；未支持的名称、数组、外链在变更前拒绝。",
+      "result": "NOT_RUN",
+      "observation": "Whole criterion NOT_RUN; predeclared design only, no executable/parser/native evidence.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-006-C3": {
+      "requirement": "按3份业务任务需要扩展条件统计、查找和日期文本函数；不以函数名数量替代任务完成。",
+      "result": "NOT_RUN",
+      "observation": "Whole criterion NOT_RUN; predeclared design only, no executable/parser/native evidence.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-006-C4": {
+      "requirement": "3份业务XLSX覆盖上述结构动作，Excel对照、保存重开、撤销和部件保持均留证据。",
+      "result": "NOT_RUN",
+      "observation": "Whole criterion NOT_RUN; predeclared design only, no executable/parser/native evidence.",
+      "sample_count": 0,
+      "evidence": []
+    }
+  }
+}

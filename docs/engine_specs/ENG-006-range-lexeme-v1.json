@@ -1,0 +1,168 @@
+{
+  "id": "ENG-006-range-lexeme-v1",
+  "kind": "predeclared implementation slice; not frozen taskbook, native evidence or implemented capability",
+  "base": "61035218885d72eb4344591397809e96abdca5f7",
+  "scope": "one bare rectangular A1 range lexeme only; source-borrowed result plus Workbook/explicit owner; no leading=, function parsing, full formula scan or writing",
+  "catalog": [
+    {
+      "id": 7,
+      "name": "Owner"
+    },
+    {
+      "id": 42,
+      "name": "O'Brien 表"
+    },
+    {
+      "id": 99,
+      "name": "Data"
+    }
+  ],
+  "owner": 7,
+  "grammar": "[leftSheet!]startAddress : endAddress; ASCII whitespace around token/colon may be retained; right qualifier always unsupported in initial slice",
+  "binding": "No left qualifier: both endpoints bind owner. Explicit left qualifier: both endpoints inherit resolved left sheet. Preserve left explicitness and both dollar flags. Workbook lowercase lookup as existing binding; no new Excel Unicode equivalence claim.",
+  "shape": "sameSheet and ascending row/column corners required; never silently reorder endpoints",
+  "budgets": {
+    "lexeme_utf8_bytes": 8192,
+    "endpoints": 2,
+    "ranges": 1,
+    "workbook_sheets": 1024,
+    "sheet_name_bytes": 128
+  },
+  "positive": [
+    {
+      "text": "A1:B2",
+      "sheet": 7,
+      "start": [
+        0,
+        0,
+        false,
+        false
+      ],
+      "end": [
+        1,
+        1,
+        false,
+        false
+      ]
+    },
+    {
+      "text": "$A1:B$3",
+      "sheet": 7,
+      "start": [
+        0,
+        0,
+        true,
+        false
+      ],
+      "end": [
+        2,
+        1,
+        false,
+        true
+      ]
+    },
+    {
+      "text": "Data!A1:$B$2",
+      "sheet": 99,
+      "start": [
+        0,
+        0,
+        false,
+        false
+      ],
+      "end": [
+        1,
+        1,
+        true,
+        true
+      ]
+    },
+    {
+      "text": "'O''Brien 表'!$A$1:C3",
+      "sheet": 42,
+      "start": [
+        0,
+        0,
+        true,
+        true
+      ],
+      "end": [
+        2,
+        2,
+        false,
+        false
+      ]
+    },
+    {
+      "text": "A1:A1",
+      "sheet": 7,
+      "start": [
+        0,
+        0,
+        false,
+        false
+      ],
+      "end": [
+        0,
+        0,
+        false,
+        false
+      ]
+    }
+  ],
+  "coordinate_array": "zero-based [row,column,column_fixed,row_fixed]",
+  "negative": [
+    {
+      "text": "A1:Data!B2",
+      "reason": "right qualified unsupported even if it resolves to owner"
+    },
+    {
+      "text": "Data!A1:Data!B2",
+      "reason": "right qualifier unsupported, no broadened fallback"
+    },
+    {
+      "text": "Sheet1:Sheet2!A1",
+      "reason": "3D unsupported"
+    },
+    {
+      "text": "A1:B2:C3",
+      "reason": "multiple separators"
+    },
+    {
+      "text": "C3:A1",
+      "reason": "reversed corners"
+    },
+    {
+      "text": "A0:B2",
+      "reason": "invalid address"
+    },
+    {
+      "text": "A1:XFE2",
+      "reason": "out of grid"
+    },
+    {
+      "text": "Missing!A1:B2",
+      "reason": "unknown left sheet"
+    },
+    {
+      "text": "SUM(A1:B2)",
+      "reason": "not a bare lexeme"
+    },
+    {
+      "text": "=\"A1:B2\"",
+      "reason": "formula/string not a range lexeme"
+    }
+  ],
+  "must_verify": [
+    "UTF8 spans and quoted apostrophe escaping retained without modifying source",
+    "right endpoint inherits left resolved SheetId; never binds owner independently after explicit left",
+    "unique colon outside quotes only; no split/global replace inside quoted names",
+    "function/string contexts must be recognized by future full grammar, not regex matched into ranges",
+    "unknown names/external/arrays/structuredrefs and right qualifiers refuse no partial result",
+    "grid, byte/catalog/count limits, trailing data and reversed corners refuse",
+    "compose with normalized range planner only after binding validation; Deleted not error serialization"
+  ],
+  "status": "NOT_IMPLEMENTED",
+  "native_runs": 0,
+  "structure_edits": 0
+}

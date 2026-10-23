@@ -1,3 +1,5 @@
+2026-10-23／实况049／ENG006 PARTIAL：预声明窄裸范围文本/绑定合同，5正向10拒绝独立样例；左限定向右继承SheetId，初始统一拒绝右限定/反向/3D等。未实现/未新测Rust或Office，人工坐标核对不算测试PASS。下一步按engine_specs/ENG-006-range-lexeme-v1.json实施测试与只读解析绑定，检查额度优先。见operations/2026-10-23-RANGE-LEXEME-SPEC.md。
+
 2026-10-23／实况048／ENG006 PARTIAL：纯归一矩形插入扩张/删除裁剪/全失效政策已实现，7方法/24双轴字面矩阵PASS，全Rust377PASS6ignored/ReleasePASS。范围文本/限定继承/绑定和错误序列化未接，无结构写入/原生Office。下一步窄范围文本与绑定，再做函数/全拥有者和原子准入。见operations/2026-10-23-RANGE-PLAN.md。
 
 2026-10-23／实况047／ENG006 PARTIAL：新增有界点引用算术语法顺序检查，7方法PASS、全Rust370PASS6ignored/ReleasePASS。无计算/优先级AST或结构写入权限，函数/范围/字符串等暂拒绝。首次负样本已被词法拒绝却unwrap的测试失败保留，分层断言修正。下一步范围与窄函数参数/全拥有者，CI同时复核启动观测。见operations/2026-10-23-ARITHMETIC-SYNTAX.md。
