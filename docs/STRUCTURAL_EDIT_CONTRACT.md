@@ -52,3 +52,7 @@ Deleted不是写出#REF!的授权；范围不能通过独立映射两端点来�
 ## 实况044：窄词法跨度已实现
 
 reference_plan::syntax::scan_points保留原文引用/地址字节跨度、大小写、$标记和显式表名转义，跳过双引号字符串；8192字节/调用方引用数预算，整体扫描失败无部分结果。7方法和全Rust356PASS6ignored/ReleasePASS。它不是完整公式解析器：不校验表达式语法、函数支持、稳定SheetId绑定或结构操作准入。范围/名称/外部/3D/数组/结构化引用仍拒绝。源码审查与运行证据见operations/2026-10-23-REFERENCE-SYNTAX.md和research/ENG-006-REFERENCE-SYNTAX-2026-10-23.json。上述043历史结果保留；当前整体仍PARTIAL，后续语法/绑定必须在任何写入之前。
+
+## 实况045：稳定身份绑定切片
+
+reference_plan::binding借用原公式与原Workbook，私有结果字段和自身原文getter防止文本替换；隐式引用使用显式owner，显式引用按现有Workbook小写名称规则绑定SheetId，非表下标。拒绝未知/非Worksheet、所有定义名称和预算超限。7专项/全Rust363PASS6ignored、ReleasePASS。尚不校验完整语法/函数，不携带包帧/revision许可，也不证明Excel Unicode等价。下一步语法与范围/拥有者准入。见operations/2026-10-23-REFERENCE-BINDING.md。

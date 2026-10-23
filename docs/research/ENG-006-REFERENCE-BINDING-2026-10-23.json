@@ -1,0 +1,58 @@
+{
+  "task": "ENG-006",
+  "base": "ad5e84df474cd1434dab9bf0e79a33f0832c6908",
+  "scope": "immutable borrowed formula/workbook point binding; no grammar, frame/revision, package or write authority",
+  "model_policy": "Workbook::new guarantees unique SheetId and String::to_lowercase names; binder follows same lookup, not Excel Unicode equivalence",
+  "limits": {
+    "sheet_count": "caller budget capped at1024",
+    "sheet_name_bytes": 128,
+    "formula_bytes": 8192,
+    "refs": "caller budget"
+  },
+  "tests": {
+    "focused_pass": 7,
+    "focused_log": "target/quota_guard/command-d3184acc31214024a1642c7905085a05.log",
+    "workspace": {
+      "pass": 363,
+      "fail": 0,
+      "ignored": 6
+    },
+    "release": "PASS",
+    "baseline": 106,
+    "logs": [
+      {
+        "path": "target/quota_guard/command-f619edffcf524fe2bdbdd6cb5dab1408.log",
+        "sha256": "87f3bd18f520eca2380771b66e431da43749f2a6c96ae57be775709d881f5963",
+        "totals": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "path": "target/quota_guard/command-de6a49cd407f4e019fc409f07f8da8e5.log",
+        "sha256": "ea33eaa18be84b5c9ff59adc1cf5a5da00ce392b473d6e6cb441d5affef8cf17",
+        "totals": [
+          363,
+          0,
+          6
+        ]
+      }
+    ]
+  },
+  "source": {
+    "crates/zen-engine/src/reference_plan/binding.rs": "f7f91b686d4b0759c37d8f2f9bacd4c0efa39ba230d5f708d27c85e1786815e8",
+    "crates/zen-engine/tests/reference_binding.rs": "af4bd73f39dee7072b8c4420763bdceea4ab0237147baf2e1f6886e23a6efd64"
+  },
+  "native_runs": 0,
+  "structure_edits": 0,
+  "failures": [],
+  "untested": [
+    "complete formula grammar/function semantics",
+    "Excel Unicode name equivalence",
+    "range and full reference owner admission",
+    "package frame/revision authority",
+    "allocation-failure injection/full heap budget"
+  ],
+  "next": "narrow formula grammar acceptance over original source/spans; then range and owner semantics before writer"
+}

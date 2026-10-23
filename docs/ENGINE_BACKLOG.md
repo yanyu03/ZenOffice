@@ -1,3 +1,5 @@
+2026-10-23／实况045／ENG006 PARTIAL：只读公式/Workbook借用绑定已实现，保留显式/隐式表区别，按SheetId而非表序定位；未知/非Worksheet/定义名称/超限拒绝。7方法PASS，全Rust363PASS6ignored、ReleasePASS。无完整语法、包帧/revision许可、结构写入或新原生对照；下一步窄语法和范围/拥有者计划。见operations/2026-10-23-REFERENCE-BINDING.md。
+
 2026-10-23／实况044／ENG006 PARTIAL：新增保留原文跨度/$/引号转义的窄单点引用词法扫描，7方法PASS、全Rust356PASS6ignored、ReleasePASS。词法成功不等于公式语法/函数/SheetId绑定或结构编辑准入；范围等明确拒绝，XLSX结构写入/原生对照0。下一步语法与稳定表绑定、范围/所有者计划。见operations/2026-10-23-REFERENCE-SYNTAX.md。
 
 2026-10-23／实况043／ENG006 PARTIAL：计算AST不保留$固定标记/源跨度，已建立STRUCTURAL_EDIT_CONTRACT。新增只读单点坐标计划器和7独立例子，全Rust349PASS6ignored、ReleasePASS；0XLSX结构改写/0新原生对照，冻结C1–C4均NOT_RUN。下一步lossless引用span解析与范围/全拥有者准入，不能把坐标映射当作结构编辑已支持。见operations/2026-10-23-STRUCTURAL-REFERENCE-PLAN.md。

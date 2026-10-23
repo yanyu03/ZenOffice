@@ -159,3 +159,6 @@ pub fn copy_anchor(
 
 /// Lexical observations only; not formula or edit admission.
 pub mod syntax;
+
+/// Source/model-bound point observations; not structural-edit admission.
+pub mod binding;
