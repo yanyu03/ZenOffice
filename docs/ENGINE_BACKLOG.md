@@ -1,3 +1,5 @@
+2026-10-23／实况046／ENG-FIX PARTIAL：上轮最终文档CI39941046014也重复Node assess10秒超时，保留未复跑。本轮新增独立30秒最小Node启动观测/no-retry及6项故障样本PASS；原5项/10秒预算源码未改、本机PASS，未本机复现根因。新CI应记录启动耗时并保持原验收；不宣称稳定修复。Rust/Office未重跑，ENG006仍PARTIAL，下一步核对新CI独立宿主证据。见operations/2026-10-23-CI-NODE-STARTUP.md。
+
 实况045 CI补记：44658a2冻结前置检查首次Node assess10秒超时，原日志保留；一次原样复跑成功（5项2.520秒），未改超时/预期，具体宿主原因未证实。详见本轮operations/循环，不把复跑成功说成未曾失败。
 
 2026-10-23／实况045／ENG006 PARTIAL：只读公式/Workbook借用绑定已实现，保留显式/隐式表区别，按SheetId而非表序定位；未知/非Worksheet/定义名称/超限拒绝。7方法PASS，全Rust363PASS6ignored、ReleasePASS。无完整语法、包帧/revision许可、结构写入或新原生对照；下一步窄语法和范围/拥有者计划。见operations/2026-10-23-REFERENCE-BINDING.md。

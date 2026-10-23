@@ -1,0 +1,56 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-FIX",
+  "started_at": "2026-10-23T11:39:05.990496+00:00",
+  "ended_at": "2026-10-23T11:41:38.616Z",
+  "status": "PARTIAL",
+  "actual_commit": "9609f0ff286e50a0d95a938c4bfe6fa17a80b93e",
+  "actual_scope": "CI startup observation and mitigation candidate; original authoring10s tests unchanged; historical failure not reproduced locally",
+  "commands": [
+    "Officialremaining20%/guardREADY; frozenPASS; priorcomplete/no ownedrunning; workeractualeventordinal32mark only",
+    "Reviewed two existing exact CI timeout logs and prior unchangedrerun result; no repeat old commands",
+    "DSHA Python3.12.14 Node24.14.1/healthPASS;6newownedfault methodsPASS; minimalNode0.038758s(afterDSHAhealth); original5testsPASS0.371s",
+    "baseline106PASS; report/frozen/diff; no Rust or Office runs; finalsync/CI in continuity"
+  ],
+  "deviations": [
+    "Startup observer may warm runtime; explicit diagnostic/mitigation candidate, not proven exact cause or stable repair"
+  ],
+  "untested": [
+    "No local reproduction of hosted10s timeout",
+    "No new Rust/Office result",
+    "No proof of stable fix across repeated independent hosted runs"
+  ],
+  "next_step": "Inspect new CI startup time and unchanged five original tests; preserve failure even if passes, require repeated independent host observations before claiming stable mitigation.",
+  "criteria": {
+    "ENG-FIX-C1": {
+      "requirement": "记录具体原任务ID、失败输入哈希、固定提交和最小复现；保留实际失败而不改变原验收条件。",
+      "result": "PASS",
+      "observation": "Original task045, exact failing commits/jobs/unchanged command and planSHA retained in research report; no assertion/10s threshold changes.",
+      "sample_count": 1,
+      "evidence": [
+        "docs/research/CI-NODE-STARTUP-2026-10-23.json"
+      ]
+    },
+    "ENG-FIX-C2": {
+      "requirement": "独立预期复现失败，修复后同例通过，并运行受影响回归；报告原件与旧输出保护结果。",
+      "result": "NOT_RUN",
+      "observation": "Full failure/fix criterion NOT_RUN: no local reproduction or stable hosted repair proof;6newobserver+5original tests recorded as slice evidence only.",
+      "sample_count": 0,
+      "evidence": []
+    },
+    "ENG-FIX-C3": {
+      "requirement": "另写修复与偏差记录，回归原任务重新校准；不因修复任务DONE而把原阶段自动判为完成。",
+      "result": "PASS",
+      "observation": "Separate diagnostic/deviation report, originalENG006045 remainsPARTIAL; no product phase completion claim.",
+      "sample_count": 1,
+      "evidence": [
+        "docs/operations/2026-10-23-CI-NODE-STARTUP.md",
+        "docs/task_runs/2026-10-23-045-ENG-006.json"
+      ]
+    }
+  }
+}

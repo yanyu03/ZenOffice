@@ -1,0 +1,54 @@
+{
+  "task": "ENG-FIX",
+  "original_task": "ENG-006/045 CI followup",
+  "base": "9609f0ff286e50a0d95a938c4bfe6fa17a80b93e",
+  "input": {
+    "plan": "docs/engine_specs/ENG-005-business-v2.json",
+    "sha256": "ebd6c6dd390a4a1890eb2b1ec78f54d18d828ab8a1201d65676849bded820dba",
+    "preflight_source_sha256": "4c8f5ee35eeaac5a477a2cc380f00ea50d4777c70e6f8d1e256ac3ba63189ed7"
+  },
+  "observed_failures": [
+    {
+      "commit": "44658a227989921a58a91aa2038bdf9f4a8749d4",
+      "run": 39940574567,
+      "job": 120370705257,
+      "status": "Node --assess TimeoutExpired10s",
+      "same_job_rerun": 120371320087,
+      "rerun": "PASS5tests2.520s"
+    },
+    {
+      "commit": "9609f0ff286e50a0d95a938c4bfe6fa17a80b93e",
+      "run": 39941046014,
+      "job": 120372262136,
+      "status": "same TimeoutExpired10s",
+      "rerun": "NONE"
+    }
+  ],
+  "change": "Separate owned minimal Node readiness observation with30s startup cap/no retries; original authoring5tests/10s assertions unchanged. CI runs observer before authoring checks, also establishes warm runtime. Observation/mitigation candidate not proof of rootcause.",
+  "local": {
+    "DSHA": "Python3.12.14 Node24.14.1 healthPASS",
+    "new_tests": 6,
+    "original_tests": 5,
+    "probe_seconds": 0.038758,
+    "probe_scope": "after DSHA owned Node health, not cold startup",
+    "baseline": 106,
+    "Rust": "NOT_RUN unchanged",
+    "Office": "NOT_RUN"
+  },
+  "logs": [
+    {
+      "path": "target/quota_guard/command-1d181029714a49228f41c46b384f0dc1.log",
+      "sha256": "165c11cbbf81073c88f21a32b6f282d0258a0676da8bb5779294e34fc5909c24"
+    },
+    {
+      "path": "target/quota_guard/command-3342a3305abf44e1bf85860cadc54962.log",
+      "sha256": "d30a937687719ebdfac5c4e17d5ab9e86cdf824694946e7bf327a14dcbfb15be"
+    },
+    {
+      "path": "target/quota_guard/command-0c407a9ffd3c4723867fb2e18ba0477f.log",
+      "sha256": "f0c4599d64eef62ed75defaea3443aa6ac8fdb618d88e2833681a9901591cad7"
+    }
+  ],
+  "root_cause": "UNPROVEN; no local reproduction of historical hostedWindows failure",
+  "next": "Inspect new CI startup time and unchanged five original tests; preserve failure even if passes, require repeated independent host observations before claiming stable mitigation."
+}
