@@ -1,3 +1,7 @@
+2026-10-23／用户“先打开门禁”／实况041：同一Excel当前16.0.17932.21056、微软签名Valid、SHAc689d889…复核通过；独立新宿主参照research/EXCEL-HOST-2026-10-23.json已批准，原历史manifest/冻结锁不改。身份阻断解除，后续隔离对照仍须逐次精确复查；本轮原生0。三本地observer/comparator源文件待运行验收，尚未同步。下一周期可按新profile显式参数执行新隔离目录，不重放旧失败命令。见operations/2026-10-23-EXCEL-IDENTITY-REOPEN.md。
+
+2026-10-23／实况040：原生类型observer/comparator已准备，5比较器方法及3Zen业务重跑PASS；预算pilot于COM启动前因既有Excel批准SHA不一致拒绝，原生0。按DSHA停止，不更新身份/重试。本轮工具与记录未提交推送，待人工核对Office身份及明确新授权；ENG005PARTIAL、本轮BLOCKED。见operations/2026-10-23-NATIVE-TYPED-IDENTITY-STOP.md。
+
 2026-10-23／实况039：八项当前类型准入表已按c5c6dbc源码复核，C1设计PASS。修正可变契约日期待实现/未知错误标签歧义；3新增错误方法、46专项PASS（28会话/6日期/9policy/3默认）。未知标签仅原始读取、直接写错/变化错误拒绝，算法未放宽。C3新Excel0，ENG005仍PARTIAL；下一步三原业务×3次原生同操作对照。见operations/2026-10-23-ADMISSION-REVIEW.md。
 
 2026-10-23／实况038：内存保存帧凭据已实现，成功发布后绑定完整字节/路径、原policy/limits/预算。三原业务24步骤继续通过，18凭据重开、9继续编辑及第二代保存、2516快照核对，篡改/锁/移动/预算与IO故障PASS。Rust339PASS6ignored、ReleasePASS；首轮路径/负样本与构建目标错误已记录修正。无新原生Excel，ENG005仍PARTIAL；下一步C1准入表与三业务原生对照。见operations/2026-10-23-SAVED-FRAME-RECEIPT.md。

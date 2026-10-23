@@ -1,0 +1,37 @@
+{
+  "id": "ZEN-EXCEL-HOST-2026-10-23",
+  "kind": "explicit-user-authorized host identity revision; not frozen taskbook or business acceptance",
+  "authorized_request": "先打开门禁",
+  "authorized_date": "2026-10-23",
+  "status": "APPROVED_FOR_ISOLATED_TYPED_COMPARISON",
+  "executable": {
+    "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE",
+    "parameter": "ExpectedExcelExecutable",
+    "configuration_mode": "explicit parameter; no inferred environment fallback"
+  },
+  "identity": {
+    "sha256": "c689d889d65140b5d3fe549f2d6bfae22f7084202f749418f1739b5cb6e31ba5",
+    "size": 69756656,
+    "file_version": "16.0.17932.21056",
+    "product_version": "16.0.17932.21056",
+    "company": "Microsoft Corporation",
+    "original_filename": "Excel.exe",
+    "signature_status": "Valid",
+    "signer_subject": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "signer_thumbprint": "1D6C5C2964313A6FD555B53BB6FFE077A4FA82F2",
+    "observed_utc": "2026-10-23T07:25:21.7849635Z"
+  },
+  "supersedes_for_new_runs": {
+    "reference": "RCD/engine-acceptance/res-002-v1/manifest.json",
+    "sha256": "c71c7ca0faf896fd52e66924f7ec43ab8b7b110fa3b179097c1f0e3c6c036369",
+    "file_version": "16.0.17932.21000",
+    "historical_record": "unchanged; original results retain original host identity"
+  },
+  "constraints": [
+    "Exact hash must match again immediately before native launch and against actual owned COM process",
+    "No automatic hash refresh, signature bypass, alternative executable or frozen-lock edits",
+    "Only isolated self-owned process/copies, same sealed business input/plan and original acceptance",
+    "This approval authorizes new host identity parameters, not claims of compatibility or existing native success; native launch NOT_RUN in this request"
+  ],
+  "private_evidence": "target/office_research/ENG-005-identity-041/excel-identity.json"
+}
