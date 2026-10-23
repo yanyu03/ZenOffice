@@ -1,0 +1,130 @@
+{
+  "task": "ENG-006",
+  "base": "64f5235cad6b21c599aac3f8a0248fcc8447bf91",
+  "scope": "pure normalized sameSheet rectangle interval policy; no formula parsing or package admission",
+  "policy": {
+    "scope": "pure normalized sameSheet rectangle policy; no formula parser/writer/native claim",
+    "insert": [
+      [
+        5,
+        12,
+        22
+      ],
+      [
+        10,
+        12,
+        22
+      ],
+      [
+        15,
+        10,
+        22
+      ],
+      [
+        20,
+        10,
+        22
+      ],
+      [
+        21,
+        10,
+        20
+      ]
+    ],
+    "delete": [
+      [
+        5,
+        7,
+        17
+      ],
+      [
+        8,
+        8,
+        17
+      ],
+      [
+        10,
+        10,
+        17
+      ],
+      [
+        15,
+        10,
+        17
+      ],
+      [
+        19,
+        10,
+        18
+      ],
+      [
+        20,
+        10,
+        19
+      ],
+      [
+        21,
+        10,
+        20
+      ]
+    ],
+    "base_range": [
+      10,
+      20
+    ],
+    "insert_count": 2,
+    "delete_count": 3,
+    "other": [
+      "full deletion outcome only",
+      "mixedflags retained",
+      "overflow refuse",
+      "singletons agree point mapping"
+    ]
+  },
+  "local": {
+    "focused_methods": 7,
+    "literal_matrix_cases": 24,
+    "singleton_consistency_checks": 12,
+    "workspace": {
+      "pass": 377,
+      "fail": 0,
+      "ignored": 6
+    },
+    "release": "PASS",
+    "baseline": 106,
+    "logs": [
+      {
+        "path": "target/quota_guard/command-c474acc13c3b47fc957c9d500b21f6f5.log",
+        "sha256": "4cf38babe864ef448bb39476aa7ce404c8d08d4ebf40135b49e873619461e8a2",
+        "totals": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "path": "target/quota_guard/command-e266b146b8f54b188c3a1cf909d0e29a.log",
+        "sha256": "82d85264c643cab0a7f70e7a77e6ee14e0bba552665fc70670e985a757eedc01",
+        "totals": [
+          377,
+          0,
+          6
+        ]
+      }
+    ],
+    "focused_log": "target/quota_guard/command-04ba770fec6c4e2e836c0916a23e6368.log"
+  },
+  "source": {
+    "crates/zen-engine/src/reference_plan/range.rs": "2907b4a71fda5d7b4ee2c8bcaa9b1b17b80af651a2950800947957c75ca4b87c",
+    "crates/zen-engine/tests/reference_range.rs": "0cdcaf1df73ee56428eab32d18bafcf876ea20201cdbda7613d55e7b0416edcc"
+  },
+  "native_runs": 0,
+  "structure_writes": 0,
+  "unverified": [
+    "Excel native range behavior",
+    "range syntax/binding/qualifier inheritance",
+    "function grammar and deleted-reference serialization",
+    "all owner/frame/revision/candidate atomic admission"
+  ],
+  "next": "Add narrow range syntax/source binding with explicit endpoint qualifier inheritance; retain range policy as standalone until full owner and atomic write admission"
+}

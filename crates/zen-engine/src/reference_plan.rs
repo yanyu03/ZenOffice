@@ -165,3 +165,6 @@ pub mod binding;
 
 /// Bounded arithmetic sequencing only, not evaluation or edit permission.
 pub mod arithmetic;
+
+/// Pure normalized rectangle interval policies, not formula rewriting.
+pub mod range;

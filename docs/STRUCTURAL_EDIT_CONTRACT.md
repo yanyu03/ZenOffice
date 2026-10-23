@@ -60,3 +60,7 @@ reference_plan::binding借用原公式与原Workbook，私有结果字段和自�
 ## 实况047：算术语法顺序检查
 
 新增BoundFormula上只读validate_arithmetic，支持点/数字/括号/一元+-/二元+-*/^，拒绝相邻表达式及缺操作数；迭代4096token/64层，不计算或建立优先级AST。函数、范围、字符串等仍拒绝。7专项和全Rust370PASS6ignored、ReleasePASS；无结构写入/原生对照，ENG006PARTIAL。见operations/2026-10-23-ARITHMETIC-SYNTAX.md。
+
+## 实况048：独立范围政策
+
+已新增已解码同表归一矩形的插入扩张/删除裁剪/全失效纯计划器，7方法及24字面矩阵PASS，全Rust377PASS6ignored/ReleasePASS。固定标记保留，越界拒绝；Deleted不授权错误串/包写入。未接范围词法/绑定/函数或全拥有者，不是原生Excel证据。见operations/2026-10-23-RANGE-PLAN.md。
