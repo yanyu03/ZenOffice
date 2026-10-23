@@ -1,0 +1,77 @@
+{
+  "baseline_id": "ZEN-ENGINE-v1.0",
+  "baseline_files": {
+    "ZEN-ENGINE-v1.0.md": "c3365cbad66808eb14ca03663cc1df5790ca576b2d601cb54513cfa4b710598a",
+    "ZEN-ENGINE-v1.0.tasks.json": "90082fcd0f7a95d41da7c43761cd9418c5ebffd62aad564d446ce3df45fddc28"
+  },
+  "task_id": "ENG-005",
+  "started_at": "2026-10-23T07:32:27.116903+00:00",
+  "ended_at": "2026-10-23T07:44:05.915Z",
+  "status": "DONE",
+  "actual_commit": "6d177021625ce66e9047707770bf91119625533c",
+  "actual_scope": "Close ENG-005 bounded existing-cell typed/formula/date acceptance: original3sealed business files×3independent Excel runs, exact independent expected semantic snapshots and Zen states, selected saves/reopens,55related Rust regressions. Explicit owned leafXML policy, Windows trusted/create-new scope only.",
+  "commands": [
+    "Official59%then57%remaining/localREADY/frozenPASS; prior6d17702 user-approved host profile/frozenCI verified; workerordinal28 mark only",
+    "Original pinned3inputs/plan unchanged; initial5comparator methodsPASS; two observer failures actualownedinstances preserved (RCW alias, openSaveAs hashlock), eachactualprocess gone confirmed",
+    "Fixed observer lifetime and postclose hashes, then budget03/04/05+orders01/02/03+attendance01/02/03 eachobserved/cleanup/exacthostverified;9successfulinstances/108stages/72forwardoperations/27savedreopens",
+    "Independent compare2448COMcells+612nativecachecells to originalliteralexpectations;2244Zencomparisons repeat same3Zenframe sets (748uniquechecks), no fake independent sample multiplication. Date systems and builtin14/nativeformat preservationPASS; nativeTextdiagnostic only",
+    "DSHA Python/Cargo/Rustc/SDK PASS; related9lib+28session+6date+9policy+3defaultRust=55PASS; comparator5PASS; no new productionRust or unrelated fullworkspace/release repeat",
+    "Final report/frozen/baseline/diff and exactcommit sync/CI in continuity; prior342fullworkspace belongs310c35a, not this tool-only round"
+  ],
+  "deviations": [
+    "Native normalizes packages and removes self-owned customXML probe in27outputs. Originalplan separates native normalization from Zen bytepreservation; native content/type/formula/cache/date expectations stillPASS. Zen probe/relations/styles/calcPr preserved through55Rust regressions",
+    "Two failed observer pilot instances are excluded from9successful runs; initial700ms postquit observation on budget02 true, later actual absent confirmed and separate receipt retained; no process killed",
+    "Original040identityrefusal and033businessFAIL unchanged; newexplicit user approval allowedcurrenthost. No frozen taskbook/input/plan/hash refresh",
+    "actual_commit denotes unchanged productioncode/testbase before current tool/docs commit; final source/CI identity captured in continuity"
+  ],
+  "untested": [
+    "Bounded existing-cell input/formula/date APIs and explicitly declared owned independent leafXML policy; ordinary unknowncustomXML remains strict",
+    "Date serial/style/system compared; native Text diagnostic only, no universal locale/rendering equivalence",
+    "No native Undo; all Zen undo/redo verified separately in Rust",
+    "Saved receipt in-memory only, trusted local Windows/create-new persistence; no untrusted namespace CAS",
+    "Exact independent numeric expectations from original sealed plan, zero tolerance; no changed plan/input/hash lock",
+    "Two failed observer pilots and prior040identity refusal remain historical failures, excluded from9successful runs"
+  ],
+  "next_step": "ENG-005 bounded frozen conditionsPASS; proceed to ENG-006 structural-edit design/admission and independent expectations. Do not infer arbitrary Office compatibility, native Undo, durable saved receipts or complete E2/E3 milestone.",
+  "criteria": {
+    "ENG-005-C1": {
+      "requirement": "建立TypedValue和编辑准入表，覆盖空白、文本、布尔、数字、日期及普通公式；日期体系和错误值单列。",
+      "result": "PASS",
+      "observation": "Source-reviewed current8rowTypedValue/Option/DateSystem admissiontable coversblank,text,bool,finite number,date1900,date1904,normalformula,errorread/unchangedcache/direct-errorrefusal separately. Existingcontract and regression boundaries retained; nativeplan tests date1900/1904 values/style/system.",
+      "sample_count": 1,
+      "evidence": [
+        "docs/TYPED_EDIT_CONTRACT.md",
+        "docs/engine_specs/ENG-005-admission.json",
+        "docs/research/ENG-005-NATIVE-TYPED-2026-10-23.json"
+      ]
+    },
+    "ENG-005-C2": {
+      "requirement": "实现支持的类型/公式写回和跨表动态依赖更新；缓存与calc配置有独立预期；未知名称、数组、外链明确拒绝或只读。",
+      "result": "PASS",
+      "observation": "Three sealed explicit-policy business workbooks each8operations; typed/clear/formulareplace and old/new crosssheet dependency changes match original literal snapshots, caches and rawcalcPr. Related55Rust regressions include unknownname/array/externalrefusals. Newhost9runs independentlymatch sameplan. Ordinary unknowncustomXML remainsstrict.",
+      "sample_count": 3,
+      "evidence": [
+        "docs/research/ENG-005-NATIVE-TYPED-2026-10-23.json"
+      ]
+    },
+    "ENG-005-C3": {
+      "requirement": "3份业务XLSX分别包含类型切换、清空和公式替换；保存重开并与Excel同等修改对照。",
+      "result": "PASS",
+      "observation": "3independent business files×3successful isolated Excel16.0.17932.21056 instances:72forwardtyped/date/formula/clear operations,108observedstages,27selectedsavedreopens. Exactvalues/types/formulas/date-system and builtin14 matches;2448COM+612nativecache comparisons; same3Zen state/saved sets checked independently. HostTextdiagnostic only; package normalization separatelyrecorded;2failedpilots excluded.",
+      "sample_count": 3,
+      "evidence": [
+        "docs/research/ENG-005-NATIVE-TYPED-2026-10-23.json"
+      ]
+    },
+    "ENG-005-C4": {
+      "requirement": "失败不改变会话/原包/旧输出，撤销恢复数据和计算状态；相关Rust回归按提交记录。",
+      "result": "PASS",
+      "observation": "55relatedRust methodsPASS including partialwrite/sync/publish/contender/wrongtemporary/sourcechange/lock/path/exactframe/budget and candidate/history failures preserving session/policy/source/prioroutput; exactundo/redo/data/calculation and savepoint tests. Sealed originals unchanged;9successfulnative ownedinstances quit/absent verified. No use of nativeUndo asZen history evidence.",
+      "sample_count": 3,
+      "evidence": [
+        "docs/research/ENG-005-NATIVE-TYPED-2026-10-23.json"
+      ]
+    }
+  },
+  "slice_evidence": "docs/research/ENG-005-NATIVE-TYPED-2026-10-23.json"
+}

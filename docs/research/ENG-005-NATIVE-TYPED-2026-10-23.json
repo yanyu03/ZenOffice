@@ -1,0 +1,633 @@
+{
+  "task": "ENG-005",
+  "date": "2026-10-23",
+  "code_base_commit": "6d177021625ce66e9047707770bf91119625533c",
+  "production_rust_unchanged_from": "310c35a2bd0f033242a2b2f03d10654f52c393ff",
+  "tools": {
+    "python": "3.12.14",
+    "cargo": "1.99.1",
+    "rustc": "1.99.1",
+    "host_profile": "docs/research/EXCEL-HOST-2026-10-23.json",
+    "excel_file_version": "16.0.17932.21056"
+  },
+  "samples": {
+    "independent_business_files": 3,
+    "successful_independent_runs_per_file": 3,
+    "successful_native_instances": 9,
+    "failed_observer_pilot_instances": 2,
+    "stages_per_success": 12,
+    "total_success_stages": 108,
+    "forward_native_operations": 72,
+    "native_saved_reopens": 27
+  },
+  "checks": {
+    "com_cells": 2448,
+    "native_saved_cache_cells": 612,
+    "zen_cell_comparisons_repeated_per_native_run": 2244,
+    "zen_unique_frame_set_cell_comparisons": 748,
+    "related_rust_methods": 55,
+    "comparator_unit_methods": 5,
+    "new_full_workspace_run": "NOT_RUN; unchanged production Rust; prior342/6ignored belongs310c35a",
+    "new_release_build": "NOT_RUN; unchanged production Rust"
+  },
+  "manifest_sha256": "bc82f786f0db1c842188dbdb891b4b6ef3c2f0af5f4c026fe4ae19bf428aaad4",
+  "runs": [
+    {
+      "name": "budget-03",
+      "case": "budget",
+      "receipt_path": "target/office_research/ENG-005-native-042/budget-03/receipt-019.json",
+      "receipt_sha256": "db5f0e5d0e10826830181abb350cb2d6a07136e173a11238470e8444c90436b3",
+      "host_sha256": "c689d889d65140b5d3fe549f2d6bfae22f7084202f749418f1739b5cb6e31ba5",
+      "owned_process_terminated": true,
+      "outputs": [
+        {
+          "step": 4,
+          "name": "saved-4.xlsx",
+          "sha256": "82d618f645f1500e57474cf94e9568e3d04f702c06dd27a298fd7c8666564f96"
+        },
+        {
+          "step": 5,
+          "name": "saved-5.xlsx",
+          "sha256": "5d2469272349bfb78a4f182ae4a597eb9687b9d2a8ee69d718259a8286d32721"
+        },
+        {
+          "step": 8,
+          "name": "saved-8.xlsx",
+          "sha256": "e4210ea70591c23d74112e9b179de7d82a4390088aede71caf912f8c36edb2a9"
+        }
+      ],
+      "counts": {
+        "com_cells": 300,
+        "native_cache_cells": 75,
+        "zen_cells": 275
+      },
+      "date_format": "yyyy/m/d"
+    },
+    {
+      "name": "budget-04",
+      "case": "budget",
+      "receipt_path": "target/office_research/ENG-005-native-042/budget-04/receipt-019.json",
+      "receipt_sha256": "c84d125b1eb1201acfc77e3729a08ec9f0ff66f2aecd8faca201816d06cd3a65",
+      "host_sha256": "c689d889d65140b5d3fe549f2d6bfae22f7084202f749418f1739b5cb6e31ba5",
+      "owned_process_terminated": true,
+      "outputs": [
+        {
+          "step": 4,
+          "name": "saved-4.xlsx",
+          "sha256": "1d2a546a7eb4623ef89a98f0d0d49cf00d22c3329012c71078ffe0d18e7033c4"
+        },
+        {
+          "step": 5,
+          "name": "saved-5.xlsx",
+          "sha256": "610d2eb232d617f4067f9a09c2d3a99e45aaca3d4506397508f37826b9fef0f3"
+        },
+        {
+          "step": 8,
+          "name": "saved-8.xlsx",
+          "sha256": "0bd646533ec799b1c42a31df4a656b7c054ed2e017681a22ac0a78b03417ae15"
+        }
+      ],
+      "counts": {
+        "com_cells": 300,
+        "native_cache_cells": 75,
+        "zen_cells": 275
+      },
+      "date_format": "yyyy/m/d"
+    },
+    {
+      "name": "budget-05",
+      "case": "budget",
+      "receipt_path": "target/office_research/ENG-005-native-042/budget-05/receipt-019.json",
+      "receipt_sha256": "32b08df88e3478386a627944dd8ca23f19e93a868858bf030df668a9a9c4fcec",
+      "host_sha256": "c689d889d65140b5d3fe549f2d6bfae22f7084202f749418f1739b5cb6e31ba5",
+      "owned_process_terminated": true,
+      "outputs": [
+        {
+          "step": 4,
+          "name": "saved-4.xlsx",
+          "sha256": "f2c38c50ac152222865ea3d612c5a10c07073d9e5bb81c7dfef9b920f35c51d3"
+        },
+        {
+          "step": 5,
+          "name": "saved-5.xlsx",
+          "sha256": "46637040fa7e58854b53ef9de0c3b9c10f585b6ba8bc1c528d3d7c8015a8a915"
+        },
+        {
+          "step": 8,
+          "name": "saved-8.xlsx",
+          "sha256": "c5b586f9b14c79bb75da97375862cc825a9ce5bb0b780a57759e87d01826e299"
+        }
+      ],
+      "counts": {
+        "com_cells": 300,
+        "native_cache_cells": 75,
+        "zen_cells": 275
+      },
+      "date_format": "yyyy/m/d"
+    },
+    {
+      "name": "orders-01",
+      "case": "orders",
+      "receipt_path": "target/office_research/ENG-005-native-042/orders-01/receipt-019.json",
+      "receipt_sha256": "96f4926011a808259cf6eefea0e30d8213a1435171e37421331c9b1a1a872739",
+      "host_sha256": "c689d889d65140b5d3fe549f2d6bfae22f7084202f749418f1739b5cb6e31ba5",
+      "owned_process_terminated": true,
+      "outputs": [
+        {
+          "step": 4,
+          "name": "saved-4.xlsx",
+          "sha256": "95f028cb3e6aace6c8db1229328034c4202f3e320bbce0671e244929ba371588"
+        },
+        {
+          "step": 5,
+          "name": "saved-5.xlsx",
+          "sha256": "e4ee6781207f212e27c8d295673281fb834f70ab7349299e74717e36cc8efd43"
+        },
+        {
+          "step": 8,
+          "name": "saved-8.xlsx",
+          "sha256": "1b3064fe4f4fc21fd8ff7cf1d92012c53cfe4489760619c5f8ce5c0b0da73d8a"
+        }
+      ],
+      "counts": {
+        "com_cells": 240,
+        "native_cache_cells": 60,
+        "zen_cells": 220
+      },
+      "date_format": "yyyy/m/d"
+    },
+    {
+      "name": "orders-02",
+      "case": "orders",
+      "receipt_path": "target/office_research/ENG-005-native-042/orders-02/receipt-019.json",
+      "receipt_sha256": "5a9151539ef50c0f28a692b33d0b662a5d29db164be6fe097154d98ba7d352bc",
+      "host_sha256": "c689d889d65140b5d3fe549f2d6bfae22f7084202f749418f1739b5cb6e31ba5",
+      "owned_process_terminated": true,
+      "outputs": [
+        {
+          "step": 4,
+          "name": "saved-4.xlsx",
+          "sha256": "4dfcf311075c97405124e1acf7dde42e144a82924a1bb1f98a3ac4cd6d11c2c7"
+        },
+        {
+          "step": 5,
+          "name": "saved-5.xlsx",
+          "sha256": "abb91f315f6590508f0a732a1022a46dccfb05e15686e9e7e6edfd2f90da3be0"
+        },
+        {
+          "step": 8,
+          "name": "saved-8.xlsx",
+          "sha256": "20ca152527810b0ac57e737a7d480d8ffebcf6f596947b610effe6641be117af"
+        }
+      ],
+      "counts": {
+        "com_cells": 240,
+        "native_cache_cells": 60,
+        "zen_cells": 220
+      },
+      "date_format": "yyyy/m/d"
+    },
+    {
+      "name": "orders-03",
+      "case": "orders",
+      "receipt_path": "target/office_research/ENG-005-native-042/orders-03/receipt-019.json",
+      "receipt_sha256": "c44f61470c1b8a30a8cf4031d4ecd46bd346feb24481a0b2c4b5f26c32539bd3",
+      "host_sha256": "c689d889d65140b5d3fe549f2d6bfae22f7084202f749418f1739b5cb6e31ba5",
+      "owned_process_terminated": true,
+      "outputs": [
+        {
+          "step": 4,
+          "name": "saved-4.xlsx",
+          "sha256": "3b87a7fc229a3a98e98979ed50be842d53c25c111d90d3d1ac731bf83220a4d7"
+        },
+        {
+          "step": 5,
+          "name": "saved-5.xlsx",
+          "sha256": "036f499e6773922d7c43c9c63a3d1cfa9c7ec0199f99779ea7c61bf508f30478"
+        },
+        {
+          "step": 8,
+          "name": "saved-8.xlsx",
+          "sha256": "f1d71dc2ed98a9cb09176f7531139b3de4184e83095492fd86fb24a577d25ad5"
+        }
+      ],
+      "counts": {
+        "com_cells": 240,
+        "native_cache_cells": 60,
+        "zen_cells": 220
+      },
+      "date_format": "yyyy/m/d"
+    },
+    {
+      "name": "attendance-01",
+      "case": "attendance",
+      "receipt_path": "target/office_research/ENG-005-native-042/attendance-01/receipt-019.json",
+      "receipt_sha256": "71555b7db28f4319c43557b161aacbf6b8ba260e8d428db06f3c308972631cd3",
+      "host_sha256": "c689d889d65140b5d3fe549f2d6bfae22f7084202f749418f1739b5cb6e31ba5",
+      "owned_process_terminated": true,
+      "outputs": [
+        {
+          "step": 4,
+          "name": "saved-4.xlsx",
+          "sha256": "6bccafaf9f591174d346758870d3a8b39db8f9d57f29e861e225da5d9277c439"
+        },
+        {
+          "step": 5,
+          "name": "saved-5.xlsx",
+          "sha256": "03891257418451d9ea5944611763781bb12777654589059e5fc9621305664b12"
+        },
+        {
+          "step": 8,
+          "name": "saved-8.xlsx",
+          "sha256": "6e68c1f83ae4d92d0c6b35d5181899743790b269229adf7b4d68e17aef2fff08"
+        }
+      ],
+      "counts": {
+        "com_cells": 276,
+        "native_cache_cells": 69,
+        "zen_cells": 253
+      },
+      "date_format": "yyyy/m/d"
+    },
+    {
+      "name": "attendance-02",
+      "case": "attendance",
+      "receipt_path": "target/office_research/ENG-005-native-042/attendance-02/receipt-019.json",
+      "receipt_sha256": "23e6103878e98ccd8aa4b376622f3b607a5bc1fe3f25d171878a1fb6bdc76a7b",
+      "host_sha256": "c689d889d65140b5d3fe549f2d6bfae22f7084202f749418f1739b5cb6e31ba5",
+      "owned_process_terminated": true,
+      "outputs": [
+        {
+          "step": 4,
+          "name": "saved-4.xlsx",
+          "sha256": "88872bfe62370fc8b9d88219f73ce512e2c6ba89faa517a3d5b6e5fafebd5d1c"
+        },
+        {
+          "step": 5,
+          "name": "saved-5.xlsx",
+          "sha256": "3240744307e7354cfd0ec7ffe349f2f9ecf06f883b931825568af669942361f7"
+        },
+        {
+          "step": 8,
+          "name": "saved-8.xlsx",
+          "sha256": "6a827d3c0c85e4f8be36efa650b7ed140bc39667e83409255575f8cf658ec1b4"
+        }
+      ],
+      "counts": {
+        "com_cells": 276,
+        "native_cache_cells": 69,
+        "zen_cells": 253
+      },
+      "date_format": "yyyy/m/d"
+    },
+    {
+      "name": "attendance-03",
+      "case": "attendance",
+      "receipt_path": "target/office_research/ENG-005-native-042/attendance-03/receipt-019.json",
+      "receipt_sha256": "51d9d81136ab32c40322226aff0e086597da1b9bab46d338a22a8d2c159249bb",
+      "host_sha256": "c689d889d65140b5d3fe549f2d6bfae22f7084202f749418f1739b5cb6e31ba5",
+      "owned_process_terminated": true,
+      "outputs": [
+        {
+          "step": 4,
+          "name": "saved-4.xlsx",
+          "sha256": "ed6675ee77467dc44ad36797fae6ee1c6a27cb18b8f987957f4410ef243d0ac6"
+        },
+        {
+          "step": 5,
+          "name": "saved-5.xlsx",
+          "sha256": "636a1d0d8d7d314f5102e828b102dcf8400939e21893aadf03dc9968a56698c2"
+        },
+        {
+          "step": 8,
+          "name": "saved-8.xlsx",
+          "sha256": "d867a1b217511749c7f86af158dc757751b10f5e752210be221dd521f9062274"
+        }
+      ],
+      "counts": {
+        "com_cells": 276,
+        "native_cache_cells": 69,
+        "zen_cells": 253
+      },
+      "date_format": "yyyy/m/d"
+    }
+  ],
+  "native_package_normalization": {
+    "probe_absent_in_all_native_outputs": 27,
+    "counts_as_zen_preservation_failure": false,
+    "explanation": "Native package normalization is recorded separately as required by original plan. Zen snapshots retain original probe/relationships/styles/calcPr byte-exact; no native package byte equality claim.",
+    "representative_changes": [
+      {
+        "case": "budget",
+        "outputs": [
+          {
+            "step": 4,
+            "removed": [
+              "customXml/zen-probe.xml"
+            ],
+            "added": [
+              "customXml/_rels/item1.xml.rels",
+              "customXml/item1.xml",
+              "customXml/itemProps1.xml",
+              "docProps/app.xml",
+              "docProps/core.xml",
+              "xl/calcChain.xml",
+              "xl/sharedStrings.xml",
+              "xl/theme/theme1.xml"
+            ],
+            "changed": [
+              "[Content_Types].xml",
+              "_rels/.rels",
+              "xl/_rels/workbook.xml.rels",
+              "xl/styles.xml",
+              "xl/workbook.xml",
+              "xl/worksheets/sheet1.xml",
+              "xl/worksheets/sheet2.xml"
+            ],
+            "probe_preserved": false
+          },
+          {
+            "step": 5,
+            "removed": [
+              "customXml/zen-probe.xml"
+            ],
+            "added": [
+              "customXml/_rels/item1.xml.rels",
+              "customXml/item1.xml",
+              "customXml/itemProps1.xml",
+              "docProps/app.xml",
+              "docProps/core.xml",
+              "xl/calcChain.xml",
+              "xl/sharedStrings.xml",
+              "xl/theme/theme1.xml"
+            ],
+            "changed": [
+              "[Content_Types].xml",
+              "_rels/.rels",
+              "xl/_rels/workbook.xml.rels",
+              "xl/styles.xml",
+              "xl/workbook.xml",
+              "xl/worksheets/sheet1.xml",
+              "xl/worksheets/sheet2.xml"
+            ],
+            "probe_preserved": false
+          },
+          {
+            "step": 8,
+            "removed": [
+              "customXml/zen-probe.xml"
+            ],
+            "added": [
+              "customXml/_rels/item1.xml.rels",
+              "customXml/item1.xml",
+              "customXml/itemProps1.xml",
+              "docProps/app.xml",
+              "docProps/core.xml",
+              "xl/calcChain.xml",
+              "xl/sharedStrings.xml",
+              "xl/theme/theme1.xml"
+            ],
+            "changed": [
+              "[Content_Types].xml",
+              "_rels/.rels",
+              "xl/_rels/workbook.xml.rels",
+              "xl/styles.xml",
+              "xl/workbook.xml",
+              "xl/worksheets/sheet1.xml",
+              "xl/worksheets/sheet2.xml"
+            ],
+            "probe_preserved": false
+          }
+        ]
+      },
+      {
+        "case": "orders",
+        "outputs": [
+          {
+            "step": 4,
+            "removed": [
+              "customXml/zen-probe.xml"
+            ],
+            "added": [
+              "customXml/_rels/item1.xml.rels",
+              "customXml/item1.xml",
+              "customXml/itemProps1.xml",
+              "docProps/app.xml",
+              "docProps/core.xml",
+              "xl/calcChain.xml",
+              "xl/sharedStrings.xml",
+              "xl/theme/theme1.xml"
+            ],
+            "changed": [
+              "[Content_Types].xml",
+              "_rels/.rels",
+              "xl/_rels/workbook.xml.rels",
+              "xl/styles.xml",
+              "xl/workbook.xml",
+              "xl/worksheets/sheet1.xml",
+              "xl/worksheets/sheet2.xml"
+            ],
+            "probe_preserved": false
+          },
+          {
+            "step": 5,
+            "removed": [
+              "customXml/zen-probe.xml"
+            ],
+            "added": [
+              "customXml/_rels/item1.xml.rels",
+              "customXml/item1.xml",
+              "customXml/itemProps1.xml",
+              "docProps/app.xml",
+              "docProps/core.xml",
+              "xl/calcChain.xml",
+              "xl/sharedStrings.xml",
+              "xl/theme/theme1.xml"
+            ],
+            "changed": [
+              "[Content_Types].xml",
+              "_rels/.rels",
+              "xl/_rels/workbook.xml.rels",
+              "xl/styles.xml",
+              "xl/workbook.xml",
+              "xl/worksheets/sheet1.xml",
+              "xl/worksheets/sheet2.xml"
+            ],
+            "probe_preserved": false
+          },
+          {
+            "step": 8,
+            "removed": [
+              "customXml/zen-probe.xml"
+            ],
+            "added": [
+              "customXml/_rels/item1.xml.rels",
+              "customXml/item1.xml",
+              "customXml/itemProps1.xml",
+              "docProps/app.xml",
+              "docProps/core.xml",
+              "xl/calcChain.xml",
+              "xl/sharedStrings.xml",
+              "xl/theme/theme1.xml"
+            ],
+            "changed": [
+              "[Content_Types].xml",
+              "_rels/.rels",
+              "xl/_rels/workbook.xml.rels",
+              "xl/styles.xml",
+              "xl/workbook.xml",
+              "xl/worksheets/sheet1.xml",
+              "xl/worksheets/sheet2.xml"
+            ],
+            "probe_preserved": false
+          }
+        ]
+      },
+      {
+        "case": "attendance",
+        "outputs": [
+          {
+            "step": 4,
+            "removed": [
+              "customXml/zen-probe.xml"
+            ],
+            "added": [
+              "customXml/_rels/item1.xml.rels",
+              "customXml/item1.xml",
+              "customXml/itemProps1.xml",
+              "docProps/app.xml",
+              "docProps/core.xml",
+              "xl/calcChain.xml",
+              "xl/sharedStrings.xml",
+              "xl/theme/theme1.xml"
+            ],
+            "changed": [
+              "[Content_Types].xml",
+              "_rels/.rels",
+              "xl/_rels/workbook.xml.rels",
+              "xl/styles.xml",
+              "xl/workbook.xml",
+              "xl/worksheets/sheet1.xml",
+              "xl/worksheets/sheet2.xml"
+            ],
+            "probe_preserved": false
+          },
+          {
+            "step": 5,
+            "removed": [
+              "customXml/zen-probe.xml"
+            ],
+            "added": [
+              "customXml/_rels/item1.xml.rels",
+              "customXml/item1.xml",
+              "customXml/itemProps1.xml",
+              "docProps/app.xml",
+              "docProps/core.xml",
+              "xl/calcChain.xml",
+              "xl/sharedStrings.xml",
+              "xl/theme/theme1.xml"
+            ],
+            "changed": [
+              "[Content_Types].xml",
+              "_rels/.rels",
+              "xl/_rels/workbook.xml.rels",
+              "xl/styles.xml",
+              "xl/workbook.xml",
+              "xl/worksheets/sheet1.xml",
+              "xl/worksheets/sheet2.xml"
+            ],
+            "probe_preserved": false
+          },
+          {
+            "step": 8,
+            "removed": [
+              "customXml/zen-probe.xml"
+            ],
+            "added": [
+              "customXml/_rels/item1.xml.rels",
+              "customXml/item1.xml",
+              "customXml/itemProps1.xml",
+              "docProps/app.xml",
+              "docProps/core.xml",
+              "xl/calcChain.xml",
+              "xl/sharedStrings.xml",
+              "xl/theme/theme1.xml"
+            ],
+            "changed": [
+              "[Content_Types].xml",
+              "_rels/.rels",
+              "xl/_rels/workbook.xml.rels",
+              "xl/styles.xml",
+              "xl/workbook.xml",
+              "xl/worksheets/sheet1.xml",
+              "xl/worksheets/sheet2.xml"
+            ],
+            "probe_preserved": false
+          }
+        ]
+      }
+    ]
+  },
+  "regression_logs": [
+    {
+      "path": "target/quota_guard/command-0bfbcf7d8a1640da99d63a00f85c0fcc.log",
+      "sha256": "ea8920ead11c25cb025967cbfa251996b4fd270601eeb9adec4fcf4a3a0c5d6e",
+      "result": [
+        "test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s"
+      ]
+    },
+    {
+      "path": "target/quota_guard/command-00e61b8d9f4049938999d41b27d0ecb2.log",
+      "sha256": "5b7b471da0d66939a6279df2c69db145aac686cf24218b4aff9679d8c9d89167",
+      "result": [
+        "test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.93s"
+      ]
+    },
+    {
+      "path": "target/quota_guard/command-a6d22411515549deaf0f4ca30c961e1d.log",
+      "sha256": "362977b704576eb2d16dc1e1373ba88277de41281b0173b367682227d78ef0d2",
+      "result": [
+        "test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.31s"
+      ]
+    },
+    {
+      "path": "target/quota_guard/command-ec6f5f2f56384384adfc6e67b9426ef0.log",
+      "sha256": "b27215ef3b9697653aa631e1d2aefa01daf7e9133ef80ddac98e4590d3e62c9b",
+      "result": [
+        "test result: ok. 28 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.50s"
+      ]
+    },
+    {
+      "path": "target/quota_guard/command-526e1b6132ec4db6a66901a92e340321.log",
+      "sha256": "84d93791c0ae281b264f61ef6db8b78fb6bcecb80505a7b9c36159227f724602",
+      "result": [
+        "test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.74s"
+      ]
+    }
+  ],
+  "preserved_failures": [
+    {
+      "run": "budget-01",
+      "status": "FAILED",
+      "stage": "initial only",
+      "cause": "observer retained worksheet COM alias invalidated by FinalRelease during snapshot",
+      "cleanup": "QUIT_REQUESTED; actual process absent"
+    },
+    {
+      "run": "budget-02",
+      "status": "FAILED",
+      "stage": "initial+8forward; no successful saved-reopens",
+      "cause": "observer hashed final SaveAs while own workbook still open",
+      "cleanup": "initial700ms check showed remaining; later actual process absent, separate post-check retained, no process killed"
+    }
+  ],
+  "limitations": [
+    "Bounded existing-cell input/formula/date APIs and explicitly declared owned independent leafXML policy; ordinary unknowncustomXML remains strict",
+    "Date serial/style/system compared; native Text diagnostic only, no universal locale/rendering equivalence",
+    "No native Undo; all Zen undo/redo verified separately in Rust",
+    "Saved receipt in-memory only, trusted local Windows/create-new persistence; no untrusted namespace CAS",
+    "Exact independent numeric expectations from original sealed plan, zero tolerance; no changed plan/input/hash lock",
+    "Two failed observer pilots and prior040identity refusal remain historical failures, excluded from9successful runs"
+  ],
+  "rollback": "Review then revert new observation/comparator/CI+current summary commit; preserve all original frozen inputs and historical records"
+}

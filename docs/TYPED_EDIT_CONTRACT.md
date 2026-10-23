@@ -39,12 +39,16 @@
 
 源码：crates/zen-engine/src/workbook.rs、recalc.rs；crates/zen-formats/src/spreadsheet/{cells,dates,edit,frame}.rs；crates/zen-session/src/{lib,persistence}.rs。对应八行可变机器表在engine_specs/ENG-005-admission.json。
 
-本轮预先约定engine_specs/ENG-005-admission-review-v1.json；新增3项错误方法使用一个独立手写微型家族及其缓存/标签变体，不是3份业务文件。当前定向46方法PASS：workbook_session28、date_serial6、opaque_policy_session9、typed_business_admission3。其中三封存业务与字面预期、保存帧续编辑重跑通过；具体日志和哈希见research/ENG-005-ADMISSION-REVIEW-2026-10-23.json。本机Windows、Python3.12.14/Cargo及Rustc1.99.1，MSVC SDK子环境自检通过。未在本地重复无关全套/Release，提交CI结局另记continuity。
+实况039预先约定engine_specs/ENG-005-admission-review-v1.json；新增3项错误方法使用一个独立手写微型家族及其缓存/标签变体，不是3份业务文件。当前定向46方法PASS：workbook_session28、date_serial6、opaque_policy_session9、typed_business_admission3。其中三封存业务与字面预期、保存帧续编辑重跑通过；具体日志和哈希见research/ENG-005-ADMISSION-REVIEW-2026-10-23.json。本机Windows、Python3.12.14/Cargo及Rustc1.99.1，MSVC SDK子环境自检通过。未在本地重复无关全套/Release，提交CI结局另记continuity。
 
 撤回：本文件旧版“SetDateSerial仍是待实现能力”及“目前没有样式格式解析”作为当前现况的描述（2026-10-19设计段）。实际4f82fd7已实现有界日期样式/序号准入；它仍没有日期显示/完整样式验收。旧切片当时的记录保留在Git及research，不重写冻结任务书或原失败实况。
 
-C1的模型/八项准入表复核已完成；这只关闭设计条件，不等于整个ENG-005完成。C3原生Excel三业务同操作对照尚未执行，本轮新Office运行0。既有9次纯数字宿主观察和CI中的历史比对不是新类型/日期宿主结果。
+C1的模型/八项准入表复核已完成；这只关闭设计条件，不等于整个ENG-005完成。C3后续已由实况042完成三业务×3次独立原生对照；实况039当时新Office运行0。既有9次纯数字宿主观察和CI中的历史比对不是新类型/日期宿主结果。
 
 最可能推翻本结论的三点：有限表格不能穷尽未知包依赖；读取未知错误标签不能证明计算语义；合成及Zen业务通过不能推出原生日期显示/格式等价。以上分别按严格门禁、原始标签保持和未测宿主边界处理，不削弱原验收条件。
 
 复现：通过DSHA envfeel声明python/cargo后运行cargo test --locked --offline -p zen-session --test workbook_session、date_serial、opaque_policy_session、typed_business_admission（每个目标单独--test）。运行命令经本项目quota_guard，原输入清单验证保持；具体执行日志在本轮证据中。回滚：仅按本轮提交revert测试/可变设计更新，先复查后续提交；不回改封存输入、冻结任务书或历史结果。
+
+## 原生类型闭环（实况042，2026-10-23）
+
+固定原三业务输入/8步计划，9个独立Excel16.0.17932.21056成功实例，108阶段/27保存重开均与字面预期及Zen帧相符；55相关Rust方法及5比较器方法PASS。详见research/ENG-005-NATIVE-TYPED-2026-10-23.json和operations/2026-10-23-NATIVE-TYPED-ACCEPTANCE.md。两次观测器pilot失败保留，宿主包规范化移除探针与Zen严格保留分别记录。ENG005冻结条件有界DONE，非任意Office/区域排版/结构编辑兼容；ENG006及M2整体仍待实施。

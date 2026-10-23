@@ -1,3 +1,5 @@
+2026-10-23／实况042：ENG005冻结C1–C4有界PASS/DONE。三原业务各3次独立Excel成功运行，108阶段/27保存重开，原字面预期/Zen帧/类型/公式/缓存/日期体系格式一致；55Rust专项与5比较器PASS。原生丢弃customXML探针的包规范化单列，Zen保留门禁不放宽。2观测器pilot失败保留、实例均已退出。下一步ENG006结构设计，M2/E2–E3尚未整体放行。见operations/2026-10-23-NATIVE-TYPED-ACCEPTANCE.md。
+
 2026-10-23／用户“先打开门禁”／实况041：同一Excel当前16.0.17932.21056、微软签名Valid、SHAc689d889…复核通过；独立新宿主参照research/EXCEL-HOST-2026-10-23.json已批准，原历史manifest/冻结锁不改。身份阻断解除，后续隔离对照仍须逐次精确复查；本轮原生0。三本地observer/comparator源文件待运行验收，尚未同步。下一周期可按新profile显式参数执行新隔离目录，不重放旧失败命令。见operations/2026-10-23-EXCEL-IDENTITY-REOPEN.md。
 
 2026-10-23／实况040：原生类型observer/comparator已准备，5比较器方法及3Zen业务重跑PASS；预算pilot于COM启动前因既有Excel批准SHA不一致拒绝，原生0。按DSHA停止，不更新身份/重试。本轮工具与记录未提交推送，待人工核对Office身份及明确新授权；ENG005PARTIAL、本轮BLOCKED。见operations/2026-10-23-NATIVE-TYPED-IDENTITY-STOP.md。
@@ -50,7 +52,7 @@
 | ENG-002 | DONE / 内存范围 | 4dd773d：zen-session数字编辑、不可变字节帧、undo/redo、分支/无变化与失败不变；9项新测试，2份独立工作簿；实况2026-10-18-004-ENG-002.json |
 | ENG-003 | DONE / 限定保存范围 | 745545d：CLI、安全新目标保存、保存点与故障原子性；新增4项实际junction/大小写/点路径验收；C1–C4 PASS。仅可信父目录/create-new，不承诺目录命名空间CAS；见2026-10-19-008-ENG-003.json |
 | ENG-004 | DONE / E1限定范围 | 08bc566：3份CLI业务、390值/缓存/部件保持/锁定拒绝通过；相同错误缓存门禁遗漏已修正，失败记录保留。见2026-10-19-011-ENG-004.json |
-| ENG-005 | PARTIAL / 有界日期序号切片通过 | 4f82fd7：显式1900/1904与既有日期样式，6项新函数，300总通过/6忽略，3旧数字业务回归。仅序号、窄样式准入；三新类型/日期业务宿主待办。见2026-10-19-018-ENG-005.json |
+| ENG-005 | DONE / 既有格类型、公式与有界日期 | 实况042：3封存业务×3独立Excel成功对照，108阶段/27保存重开及55Rust专项PASS；显式owned-policy、严格默认、Windows可信create-new。见operations/2026-10-23-NATIVE-TYPED-ACCEPTANCE.md；ENG006结构编辑待开始，非M2整体DONE |
 | W-001 | OPEN / 后续专项 | 横向字宽与兼容设置未修复，不阻塞表格会话主线 |
 | RES-001 | DONE / 静态范围 | OFFICE_RESEARCH_BASELINE_2026-10-18.md：8模块身份/资源、3类型库、3小模块Ghidra；未开展Office运行对照；定稿后的回溯校准见task_runs/2026-10-18-002-RES-001.json |
 | RES-002 | DONE / 限定宿主用例 | 97806b8：3份输入×3次独立Excel运行、36阶段及保存缓存通过；未见预设范围差异。C4按条件性差异分诊PASS，算法未定位/0函数会话；后续Zen差异再触发专项。见2026-10-19-010-RES-002.json |

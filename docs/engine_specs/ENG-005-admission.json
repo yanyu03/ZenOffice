@@ -2,14 +2,14 @@
   "task": "ENG-005",
   "kind": "mutable implementation design, not frozen taskbook or runtime evidence",
   "contract": "docs/TYPED_EDIT_CONTRACT.md",
-  "reviewed_commit": "c5c6dbce62d7e020a91c7d943b2c086e087429fe",
+  "reviewed_commit": "6d177021625ce66e9047707770bf91119625533c",
   "read_model": "zen_engine::workbook::TypedValue and Option<TypedValue>; reuse DateSystem",
-  "current_writer": "Bounded typed/formula/clear/date APIs and successful-save memory receipt continuation; current46targeted tests PASS; no new native typed/date host observations",
+  "current_writer": "Bounded existing-cell typed/formula/clear/date and memory saved receipt; original3business×3independent nativeExcel successes compared to sealed literal plan; ENG005 boundedDONE, no arbitraryOffice/structure compatibility",
   "intents": [
     {
       "id": "blank",
       "representation": "set_value(None) for literal inputs; clear_formula for existing normal formula",
-      "current_edit": "BOUNDED_SYNTHETIC_AND_THREE_SEALED_ZEN_BUSINESS_PASS_NO_NEW_NATIVE_HOST",
+      "current_edit": "BOUNDED_RUST_AND_ORIGINAL_THREE_BUSINESS_NATIVE_PLAN_PASS",
       "planned_encoding": "retain existing c position/style, remove f/v/is and stale type",
       "must_distinguish": "blank versus empty text, zero, false",
       "rejections": [
@@ -25,7 +25,7 @@
     {
       "id": "text",
       "representation": "SetValue(Some(TypedValue::Text))",
-      "current_edit": "BOUNDED_SYNTHETIC_AND_THREE_SEALED_ZEN_BUSINESS_PASS_NO_NEW_NATIVE_HOST",
+      "current_edit": "BOUNDED_RUST_AND_ORIGINAL_THREE_BUSINESS_NATIVE_PLAN_PASS",
       "planned_encoding": "inlineStr/is/t; escape XML and preserve significant whitespace",
       "must_distinguish": "literal text beginning with = versus formula",
       "rejections": [
@@ -38,7 +38,7 @@
     {
       "id": "boolean",
       "representation": "SetValue(Some(TypedValue::Boolean))",
-      "current_edit": "BOUNDED_SYNTHETIC_AND_THREE_SEALED_ZEN_BUSINESS_PASS_NO_NEW_NATIVE_HOST",
+      "current_edit": "BOUNDED_RUST_AND_ORIGINAL_THREE_BUSINESS_NATIVE_PLAN_PASS",
       "planned_encoding": "b/v with 0 or 1",
       "must_distinguish": "false versus numeric zero versus text FALSE",
       "rejections": [
@@ -50,7 +50,7 @@
     {
       "id": "number",
       "representation": "SetValue(Some(TypedValue::Number)); existing set_number remains compatible",
-      "current_edit": "BOUNDED_SYNTHETIC_AND_THREE_SEALED_ZEN_BUSINESS_PASS_NO_NEW_NATIVE_HOST",
+      "current_edit": "BOUNDED_RUST_AND_ORIGINAL_THREE_BUSINESS_NATIVE_PLAN_PASS",
       "planned_encoding": "n/v, new lexical generated from finite value; no-op keeps source lexical",
       "must_distinguish": "value versus caller-supplied lexical spelling",
       "rejections": [
@@ -64,7 +64,7 @@
     {
       "id": "date_1900",
       "representation": "set_date_serial(sheet,address,serial,DateSystem)",
-      "current_edit": "BOUNDED_DATE_SERIAL_BOTH_SYSTEMS_TARGETED_PASS_NO_NATIVE_HOST",
+      "current_edit": "BOUNDED_RUST_AND_ORIGINAL_THREE_BUSINESS_NATIVE_PLAN_PASS",
       "planned_encoding": "numeric serial plus explicitly validated date style; workbook date system unchanged",
       "must_distinguish": "date serial versus absolute Gregorian date",
       "boundary_plan": [
@@ -85,7 +85,7 @@
     {
       "id": "date_1904",
       "representation": "set_date_serial(sheet,address,serial,DateSystem)",
-      "current_edit": "BOUNDED_DATE_SERIAL_BOTH_SYSTEMS_TARGETED_PASS_NO_NATIVE_HOST",
+      "current_edit": "BOUNDED_RUST_AND_ORIGINAL_THREE_BUSINESS_NATIVE_PLAN_PASS",
       "planned_encoding": "numeric serial plus explicitly validated date style; no implicit system conversion",
       "must_distinguish": "1904 serial versus same number in 1900 system",
       "boundary_plan": [
@@ -104,7 +104,7 @@
     {
       "id": "formula",
       "representation": "SetFormula(String)",
-      "current_edit": "BOUNDED_SYNTHETIC_AND_THREE_SEALED_ZEN_BUSINESS_PASS_NO_NEW_NATIVE_HOST",
+      "current_edit": "BOUNDED_RUST_AND_ORIGINAL_THREE_BUSINESS_NATIVE_PLAN_PASS",
       "planned_encoding": "qualified f plus typed recalculated cache; one optional leading = on request",
       "must_distinguish": "formula definition versus typed input versus cache versus display",
       "rejections": [
@@ -121,7 +121,7 @@
     {
       "id": "error_input",
       "representation": "TypedValue::Error retains raw source tag; all direct Error edits refuse",
-      "current_edit": "RAW_TAG_READ_AND_UNCHANGED_FORMULA_ERROR_CACHE_PRESERVATION_ONLY",
+      "current_edit": "RAW_TAG_READ_AND_UNCHANGED_ERROR_PRESERVATION_ONLY; direct/changed error writes refuse",
       "planned_encoding": "No direct e/v writing policy. Existing unchanged computed error cache keeps its original subtree bytes.",
       "must_distinguish": "direct error input, unchanged error, changed error, error-to-number and number-to-error",
       "rejections": [
@@ -148,9 +148,9 @@
     "normal formula replacement and cross-sheet dynamic dependencies",
     "explicit date/style boundaries and three independent business host comparisons"
   ],
-  "new_runtime_tests_in_this_cycle": 3,
-  "new_office_runs_in_this_cycle": 0,
-  "runtime_evidence": "docs/research/ENG-005-ADMISSION-REVIEW-2026-10-23.json",
+  "new_runtime_tests_in_this_cycle": 0,
+  "new_office_runs_in_this_cycle": 9,
+  "runtime_evidence": "docs/research/ENG-005-NATIVE-TYPED-2026-10-23.json",
   "formula_slice_evidence": "docs/research/ENG-005-FORMULA-2026-10-19.json",
   "typed_slice_evidence": "docs/research/ENG-005-TYPED-2026-10-19.json",
   "formula_clear_slice_evidence": "docs/research/ENG-005-CLEAR-2026-10-19.json",
@@ -176,5 +176,16 @@
     "scope": "model/admission-table review only, not whole product acceptance",
     "no_op": "Unchanged input/formula intent does not authorize package editing; date system/style checked even on no-op",
     "error_specimens": "docs/engine_specs/ENG-005-admission-review-v1.json"
+  },
+  "native_slice_evidence": "docs/research/ENG-005-NATIVE-TYPED-2026-10-23.json",
+  "latest_native_scope": {
+    "files": 3,
+    "runs_per_file": 3,
+    "successful_runs": 9,
+    "failed_observer_pilots": 2,
+    "typed_date_formula_stages": 108,
+    "saved_reopens": 27,
+    "date_display": "diagnostic only; serial/style/system checked",
+    "default_unknown_custom_xml": "strict refusal; explicit controlled-owned policy only"
   }
 }
